@@ -7,7 +7,7 @@ class TodoController {
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date
-        }
+        };
         Todo.create(toAdd)
         .then(() => {
             res.status(201).json(toAdd);
@@ -38,7 +38,7 @@ class TodoController {
             if (data) {
                 res.status(200).json(data);
             } else {
-                res.status(404).json(data);
+                res.status(404).json({ error: 'record not found!' });
             }
         })
         .catch(err => {
@@ -81,7 +81,7 @@ class TodoController {
             } else {
                 res.status(404).json({ error: 'record not found!' });
             }
-            return Todo.destroy({ where: dropId })
+            return Todo.destroy({ where: dropId });
         })
         .then(() => {
             res.status(200).json(dropBody);
