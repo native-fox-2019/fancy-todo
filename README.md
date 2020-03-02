@@ -25,7 +25,6 @@ Response :
 
 ```bash
 {
-{
     "id": 1,
     "title": "Learning REST API",
     "description": "Learning REST API at Hacktiv8",
@@ -35,3 +34,5 @@ Response :
     "updatedAt": "2020-03-02T08:03:49.056Z"
 }
 ```
+
+

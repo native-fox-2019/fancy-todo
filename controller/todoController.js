@@ -25,10 +25,15 @@ class TodoController{
             res.status(201).json(result)
         })
         .catch(err=>{
-            if(req.body.title === "" || req.body.description === "" || req.body.title === "" && req.body.description === ""){
-               res.status(400).json(err) 
-            }
-            else{
+            if(err){
+               let totalError = {}
+            for(let i = 0; i < err.errors.length; i++){
+                totalError[err.errors[i].path] = {
+                    msg : err.errors[i].message
+                }
+            } 
+            res.status(400).json(totalError) 
+            } else{
             res.status(500).json('Internal server error!')
             }
         })
