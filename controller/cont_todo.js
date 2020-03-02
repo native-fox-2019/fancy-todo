@@ -10,14 +10,13 @@ class Controller {
     })
     .catch(err=>{
         if(err){
-        
             let obj={
                 error:[]
             }
             for (let i = 0; i < err.errors.length ; i++){
                 obj.error.push(err.errors[i].message)
             }
-            response.status(400).json(obj)
+            response.status(400).json(err)
         }else{
             response.status(500).json(err)
         }
