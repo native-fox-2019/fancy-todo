@@ -72,9 +72,9 @@ class TodoController{
             let status=result[0];
             if(status===1){
                 let curr=await Todo.findOne({where:{id}});
-                res.status(200).json({data:curr,status:404});
+                res.status(200).json({data:curr,status:200});
             }else{
-                res.status(404).json({message:'Data tidak ditemukan',status:200});
+                res.status(404).json({message:'Data tidak ditemukan',status:404});
             }
 
         })();
@@ -93,9 +93,9 @@ class TodoController{
             }
 
             if(result===1)
-                res.status(200).json({status:200,message:'Data berhasil dihapus'});
+                res.status(200).json({status:200,message:'Data berhasil dihapus',result});
             else
-                res.status(404).json({status:404,message:'Data tidak ditemukan'});
+                res.status(404).json({status:404,message:'Data tidak ditemukan',result});
 
         })();
     }
