@@ -6,13 +6,13 @@ class TodoController {
       .then(() => {
         res
           .status(201)
-          .send({ Message: "Todo Has Been Created.", Data: req.body });
+          .json({ Message: "Todo Has Been Created.", Data: req.body });
       })
       .catch(err => {
         if (err.name === "SequelizeValidationError") {
-          res.status(400).send(err.errors);
+          res.status(400).json(err.errors);
         } else {
-          res.status(500).send(err);
+          res.status(500).json(err);
         }
       });
   }
@@ -20,10 +20,10 @@ class TodoController {
   static get(req, res) {
     Todo.findAll()
       .then(data => {
-        res.status(200).send(data);
+        res.status(200).json(data);
       })
       .catch(err => {
-        res.status(500).send(err);
+        res.status(500).json(err);
       });
   }
 
@@ -38,11 +38,11 @@ class TodoController {
         if (!data) {
           throw new Error();
         } else {
-          res.status(200).send(data);
+          res.status(200).json(data);
         }
       })
       .catch(err => {
-        res.status(404).send({ Msg: "Error Not Found" });
+        res.status(404).json({ Msg: "Error Not Found" });
       });
   }
 
@@ -59,16 +59,16 @@ class TodoController {
         } else {
           res
             .status(200)
-            .send({ Message: "Data Has Been Updated", Data: req.body });
+            .json({ Message: "Data Has Been Updated", Data: req.body });
         }
       })
       .catch(err => {
         if (err.name === "SequelizeValidationError") {
-          res.status(400).send(err.errors);
+          res.status(400).json(err.errors);
         } else if (err.message === "data not found") {
-          res.status(404).send({ Msg: "Error Not Found" });
+          res.status(404).json({ Msg: "Error Not Found" });
         } else {
-          res.status(500).send(err);
+          res.status(500).json(err);
         }
       });
   }
@@ -92,13 +92,13 @@ class TodoController {
       .then(() => {
         res
           .status(200)
-          .send({ Message: "Data Has Been Deleted", Data: deletedData });
+          .json({ Message: "Data Has Been Deleted", Data: deletedData });
       })
       .catch(err => {
         if (err.message === "data not found") {
-          res.status(404).send({ Msg: "error not found" });
+          res.status(404).json({ Msg: "error not found" });
         } else {
-          res.status(500).send(err);
+          res.status(500).json(err);
         }
       });
   }
