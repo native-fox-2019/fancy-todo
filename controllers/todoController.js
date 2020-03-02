@@ -57,7 +57,8 @@ class TodoController {
         Todo.update(updateTodo,{where:{id:todoId}})
         .then(data => {
             if (data[0] == 0) {
-                throw new Error (`error not found (id not found)`)
+                let error = {msg:`id not found`}
+                res.status(404).json(error.msg)
             } else {
                 res.status(200).json(updateTodo)
             }
