@@ -28,6 +28,7 @@ class TodoController {
     }
 
     static addTodo = (req, res) => {
+
         let obj = {
             title: req.body.title,
             description: req.body.description,
@@ -39,7 +40,17 @@ class TodoController {
                 res.status(201).json(data)
             })
             .catch(err => {
-                res.status(404).json(err)
+                if (err) {
+                    let obj = {
+                        error: []
+                    }
+                    for (let i = 0; i < err.errors.length; i++) {
+                        obj.error.push(err.errors[i].message)
+                    }
+                    res.status(400).json(obj)
+                } else {
+                    res.status(500).json(err)
+                }
             })
     }
 
@@ -57,36 +68,43 @@ class TodoController {
         }
         todo.update(obj, id)
             .then(data => {
-                return todo.findAll()
+                if (data[0] == 1) {
+                    res.status(200).json(obj)
+                } else if (data[0] == 0) {
+                    res.status(404).json(`id tidak ditemukan`)
+                }
             })
-            .then(data2 => {
-                res.status(200).json(data2)
+            .catch(err => {
+                if (err) {
+                    res.status(400).json(err.errors[0].message)
+                } else {
+                    res.status(500).json(err)
+                }
+            })
+    }
+
+    static deleteTodo = (req, res) => {
+        let id = Number(req.params.id)
+        let temp = null
+        todo.findByPk(id)
+            .then(data => {
+                temp = data
+                if (data) {
+                    return todo.destroy({
+                        where: {
+                            id: id
+                        }
+                    })
+                } else {
+                    res.status(404).json(`data not found`)
+                }
+            })
+            .then(data => {
+                res.status(200).json(temp)
             })
             .catch(err => {
                 res.status(500).json(err)
             })
-    }
-
-
-
-    static deleteTodo = (req, res) => {
-    let id = Number(req.params.id)
-    let temp = null
-    todo.findByPk(id)
-        .then(data => {
-            temp = data
-            return todo.destroy({
-                where: {
-                    id: id
-                }
-            })
-        })
-        .then(data => {
-            res.status(200).json(temp)
-        })
-        .catch(err => {
-            res.status(500).json(err)
-        })
     }
 }
 
