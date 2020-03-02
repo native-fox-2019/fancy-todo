@@ -4,9 +4,9 @@ const { Todo } = require('../models')
 
 class ControllerTodos {
     static postTask(req, res, next) {
-        const { title, description, status, due_date } = req.body
+        const { title, description, status, due_date, UserId } = req.body
         Todo
-            .create({ title, description, status, due_date })
+            .create({ title, description, status, due_date,UserId })
             .then(data => {
                 res.status(201).json(data)
             })
