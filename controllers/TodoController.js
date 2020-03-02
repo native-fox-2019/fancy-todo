@@ -35,10 +35,13 @@ class TodoController {
         let id = req.params.id
         Todo.findByPk(id)
             .then(todo => {
+                if (!todo) {
+                    res.status(404).json({ msg: 'Todo not found' })
+                }
                 res.status(200).json(todo)
             })
             .then(err => {
-                res.status(404).json(err)
+                res.status(500).json(err)
             })
     }
 
@@ -54,8 +57,14 @@ class TodoController {
         if (!title || !description || !due_date) {
             res.status(400).json({ msg: "Validation error" })
         }
-        Todo.update(editedTodo, { where: { id } })
-            .then(() => {
+        Todo.findByPk(id)
+            .then(todo => {
+                if (!todo) {
+                    res.status(404).json({ msg: "Todo not found" })
+                }
+                return Todo.update(editedTodo, { where: { id } })
+            })
+            .then(updated => {
                 res.status(200).json({ msg: "Todo has been edited", editedTodo })
             })
             .catch(err => {
@@ -65,8 +74,16 @@ class TodoController {
 
     static delete = (req, res) => {
         let id = req.params.id
-        Todo.destroy({ where: { id } })
-            .then(deleted => {
+        let deleted
+        Todo.findByPk(id)
+            .then(todo => {
+                if (!todo) {
+                    res.status(404).json({ msg: "Todo not found" })
+                }
+                deleted = todo
+                return Todo.destroy({ where: { id } })
+            })
+            .then(() => {
                 res.status(200).json(deleted)
             })
             .catch(err => {
