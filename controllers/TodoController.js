@@ -25,11 +25,15 @@ class TodoController {
                 res.status(201).json({ msg: "New Todo has been created", newTodo })
             })
             .catch(err => {
-                let msg = []
-                err.errors.forEach(error => {
-                    msg.push(error.message)
-                })
-                res.status(500).json(msg)
+                if (err.errors) {
+                    let msg = []
+                    err.errors.forEach(error => {
+                        msg.push(error.message)
+                    })
+                    res.status(400).json(msg)
+                } else {
+                    res.status(500).json(err)
+                }
             })
     } 
 
@@ -38,12 +42,16 @@ class TodoController {
         Todo.findByPk(id)
             .then(todo => {
                 if (!todo) {
-                    res.status(404).json({ msg: 'Todo not found' })
+                    throw new Error("Todo not found")
                 }
                 res.status(200).json(todo)
             })
-            .then(err => {
-                res.status(500).json(err)
+            .catch(err => {
+                if (err.message) {
+                    res.status(404).json(err.message)
+                } else {
+                    res.status(500).json(err)
+                }
             })
     }
 
@@ -57,22 +65,27 @@ class TodoController {
         }
         let id = req.params.id
         
-        Todo.findByPk(id)
-            .then(todo => {
-                if (!todo) {
-                    res.status(404).json({ msg: "Todo not found" })
-                }
-                return Todo.update(editedTodo, { where: { id } })
-            })
+        Todo.update(editedTodo, { where: { id } })
             .then(updated => {
+                if (!updated[0]) {
+                    throw new Error("Todo not found")
+                }
                 res.status(200).json({ msg: "Todo has been edited", editedTodo })
             })
             .catch(err => {
-                let msg = []
-                err.errors.forEach(error => {
-                    msg.push(error.message)
-                })
-                res.status(500).json(msg)
+                if (err.errors) {
+                    let msg = []
+                    err.errors.forEach(error => {
+                        msg.push(error.message)
+                    })
+                    res.status(400).json(msg)
+                } else {
+                    if (err.message) {
+                        res.status(404).json(err.message)
+                    } else {
+                        res.status(500).json(err)
+                    }
+                }
             })
     }
 
