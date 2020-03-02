@@ -5,10 +5,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:false,
       validate:{
-        customValidator(value) {
-          if (value == "" || null){
-            throw new Error (`Title cannot be empty`)
-          }
+        notEmpty: {
+          args: true,
+          msg: `title cannot be empty`
         }
       }
     },
@@ -16,10 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:false,
       validate:{
-        customValidator(value) {
-          if (value == "" || null){
-            throw new Error (`Description cannot be empty`)
-          }
+        notEmpty: {
+          args: true,
+          msg: `description cannot be empty`
         }
       }
     },
@@ -28,10 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:false,
       validate:{
-        customValidator(value) {
-          if (value == "" || null){
-            throw new Error (`Due date cannot be empty`)
-          }
+        notEmpty: {
+          args: true,
+          msg: `due date cannot be empty`
         }
       }
     }

@@ -2,17 +2,17 @@ const { Todo } = require(`../models`)
 
 class TodoController {
 
-    static getAll (req, res) {
+    static getAll (req, res, next) {
         Todo.findAll()
         .then(data => {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static create (req, res) {
+    static create (req, res, next) {
         let newTodo = {
             title: req.body.title,
             description: req.body.description,
@@ -25,27 +25,27 @@ class TodoController {
             res.status(201).json(newTodo)
         })
         .catch(err => {
-            if (err.errors) {
-                res.status(400).json(err.errors) //will go here if there is validation error
-            } else {
-                res.status(500).json(err) //will go here if there is server error
-            }
+            next(err)
         })
     
     }
 
-    static find (req, res) {
+    static find (req, res, next) {
         let todoId = req.params.id
         Todo.findOne({where:{id:todoId}})
         .then(data => {
-            res.status(200).json(data)
+            if(data != null) {
+                res.status(200).json(data)
+            } else {
+                throw new Error (`ID cannot be found`)
+            }
         })
         .catch(err => {
-            res.status(404).json(err)
+            next(err)
         })
     }
 
-    static update (req, res) {
+    static update (req, res, next) {
         let todoId = req.params.id
         let updateTodo = {
             title: req.body.title,
@@ -57,42 +57,34 @@ class TodoController {
         Todo.update(updateTodo,{where:{id:todoId}})
         .then(data => {
             if (data[0] == 0) {
-                let error = {msg:`id not found`}
-                res.status(404).json(error.msg)
+                throw new Error (`ID cannot be found`)
             } else {
                 res.status(200).json(updateTodo)
             }
         })
         .catch(err => {
-            if (err.message) {
-                res.status(400).json(err.message)
-            } else {
-                res.status(500).json(err)
-            }
+            next(err)
         })
     }
 
-    static delete (req, res) {
+    static delete (req, res, next) {
         let todoId = req.params.id
         let deletedTodo = null
-        Todo.findOne({where:{id:todoId}}) //putting the data of deleted todo-list
+        Todo.findByPk(todoId)
         .then(data => {
-            if (data != null) {
-                deletedTodo = data
-                Todo.destroy({where:{id:todoId}})
-                .then(data => {
-                    res.status(200).json(deletedTodo)   
-                })
-                .catch(err => {
-                    res.status(500).send(err)
-                })
+            // console.log(data)
+            if(data == null) {
+                throw new Error (`ID cannot be found`)
             } else {
-                let errors = {msg:`error not found (id not found)`} //will send this if there's no ID found
-                res.status(404).json(errors)
-            }   
+                deletedTodo = data
+                return Todo.destroy({where:{id:todoId}})
+            }
+        })
+        .then(data => {
+            res.status(200).json(deletedTodo)
         })
         .catch(err => {
-            res.status(500).send(err)
+            next(err)
         })
     }
 }
