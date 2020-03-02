@@ -1,4 +1,5 @@
 const { Todo } = require('../models/index');
+const createError = require('../helpers/createError');
 
 class TodosController {
     static createTodos(req, res, next) {
@@ -28,10 +29,7 @@ class TodosController {
         Todo.findOne({ where: { id } })
             .then(data => {
                 if (!data) {
-                    next({
-                        code: 404,
-                        msg: 'Id not found'
-                    }); // https-error
+                    throw createError(404, 'Id Not Found');
                 } else {
                     res.status(200).json(data);
                 }
@@ -39,36 +37,32 @@ class TodosController {
                 next(err);
             });
     }
-    static updateTodos(req, res) {
+    static updateTodos(req, res, next) {
         let id = Number(req.params.id);
-        if(!req.body.title || !req.body.description || req.body.status === undefined || !req.body.due_date) {
-            res.status(400).json({ msg: 'Validation errors' });
-        } else {
-            let obj = {
-                title: req.body.title,
-                description: req.body.description,
-                status: req.body.status,
-                due_date: req.body.due_date
-            }
-            Todo.update(obj, { where: { id } })
-                .then(data => {
-                    if (data[0] === 0) {
-                        res.status(404).json({ msg: 'Error Not Found' });
-                    } else {
-                        res.status(200).json(obj);
-                    }
-                }).catch(err => {
-                    res.status(500).json(err);
-                });
+        let obj = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            due_date: req.body.due_date
         }
+        Todo.update(obj, { where: { id } })
+            .then(data => {
+                if (data[0] === 0) {
+                    throw createError(404, 'Error Not Found');
+                } else {
+                    res.status(200).json(obj);
+                }
+            }).catch(err => {
+                next(err);
+            });
     }
-    static deleteTodos(req, res) {
+    static deleteTodos(req, res, next) {
         let id = Number(req.params.id);
         let todos = null;
         Todo.findOne({ where: { id } })
             .then(data => {
                 if (!data) {
-                    res.status(404).json({ msg: 'Error Not Found' });
+                    throw createError(404, 'Error Not Found');
                 } else {
                     todos = data;
                     return Todo.destroy({ where: { id } });
@@ -76,7 +70,7 @@ class TodosController {
             }).then(() => {
                 res.status(200).json(todos);
             }).catch(err => {
-                res.status(500).json(err);
+                next(err);
             });
     }
 }

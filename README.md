@@ -1,6 +1,7 @@
 # fancy-todo
 
 POST /todos
+url: localhost:3000/todos
 -- request header: 
 {
     "Content-Type": "application/json"
@@ -24,6 +25,7 @@ POST /todos
 }
 
 GET /todos
+url: localhost:3000/todos
 -- request header: 
 
 -- request body:
@@ -42,6 +44,7 @@ GET /todos
 ]
 
 GET /todos/:id
+url: localhost:3000/todos/:id
 -- request header: 
 
 -- request body:
@@ -58,12 +61,12 @@ GET /todos/:id
 }
 
 PUT /todos/:id
+url: localhost:3000/todos/:id
 -- request header: 
 {
     "Content-Type": "application/json"
 }
 -- request body:
-id as req.params,
 {
     "title": "Learn API",
     "description": "Explore how to make API documentation",
@@ -82,6 +85,7 @@ id as req.params,
 }
 
 DELETE /todos/:id
+url: localhost:3000/todos/:id
 -- request header: 
 
 -- request body:
