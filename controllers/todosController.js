@@ -8,7 +8,13 @@ class TodosController {
                 res.status(201).json(data)
             })
             .catch(err => {
-                res.status(400).json(err)
+                var errMsg = []
+
+                err.errors.forEach(i => {
+                    errMsg.push(i.message)
+                })
+
+                res.status(400).json(errMsg)
             })
     }
 
