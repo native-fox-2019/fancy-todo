@@ -56,10 +56,8 @@ class TodosController {
                     if (data[0] === 0) {
                         res.status(404).json({ msg: 'Error Not Found' });
                     } else {
-                        return Todo.findOne({ where: { id } })
+                        res.status(200).json(obj);
                     }
-                }).then(todo => {
-                    res.status(200).json(todo);
                 }).catch(err => {
                     res.status(500).json(err);
                 });
