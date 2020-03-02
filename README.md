@@ -5,7 +5,10 @@ Request Header:
     "Content-Type":"application/json"
 }
 
-============================ [POST / Create new Todos ] ===========================
+ [POST / Create new Todos ]
+
+
+
 request Body : 
 {
     "title": "buat gitIgnore",
@@ -34,7 +37,9 @@ Response because of validation error e.g  title:""
 }
 
 
-===============================[  GET TODOS / showing all todos ]==============================================
+[  GET TODOS / showing all todos ]
+
+
 
 Response
 
@@ -77,7 +82,14 @@ Response
     }
 ]
 
-======================= [GET TODOS by ID]================================
+
+
+ [GET TODOS by ID]
+
+
+
+
+
 REQUEST BODY :
 Http://localhost:3000/todos/23
 
@@ -97,7 +109,12 @@ RESPONSE IF ERROR
     "msg": "data tidak ditemukan"
 }
 
-================= [ PUT TODOS/ UPDATE TODOS] =========================================
+
+
+ [ PUT TODOS/ UPDATE TODOS]
+
+
+
 
 REQUEST BODY :
 {
@@ -126,7 +143,11 @@ RESPONSE IF VIOLATE VALIDATION
     ]
 }
 
-=====================[DELETE TODOS ID // DELETE TODO(S) BY ID] =============================
+
+
+[DELETE TODOS ID // DELETE TODO(S) BY ID]
+
+
 
 RESPONSE
 
