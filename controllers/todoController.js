@@ -89,18 +89,6 @@ class TodoController {
         .catch(err => {
             res.status(500).json(err);
         })
-
-        // Todo.destroy({ where: dropId })
-        // .then(data => {
-        //     if (data[0] === 1) {
-        //         res.status(200).json(dropBody);
-        //     } else {
-        //         res.status(404).json();
-        //     }
-        // })
-        // .catch(err => {
-        //     res.status(500).json(err)
-        // })
     }
     
 }

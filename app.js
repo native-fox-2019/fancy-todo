@@ -8,5 +8,3 @@ app.use(express.json());
 app.use(route);
 
 app.listen(port, console.log('Localhost :', port));
-
-module.exports = app;
