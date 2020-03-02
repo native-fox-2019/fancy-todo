@@ -20,7 +20,7 @@ class TodoController {
                 })
                 response.status(400).json({status_code:400, type:"Validation Error", message: err_msg})
             }else{
-                response.status(500).json({status_code:500, type:"Server Error"})
+                response.status(500).json({status_code:500, type:"Server Error", err})
             }
         } )
     }
@@ -35,7 +35,7 @@ class TodoController {
             response.status(200).json(result)
         } )
         .catch( err => {
-            response.status(500).json({status_code:500, type:"Server Error"})
+            response.status(500).json({status_code:500, type:"Server Error", err})
         } )
     }
 
@@ -60,7 +60,7 @@ class TodoController {
             if(err.status_code == 404){
                 response.status(404).json(err)
             }else{
-                response.status(500).json({status_code:500, type:"Server Error"})
+                response.status(500).json({status_code:500, type:"Server Error", err})
             }
         } )
     }
@@ -103,7 +103,7 @@ class TodoController {
                 })
                 response.status(400).json({status_code:400, type:"Validation Error", message: err_msg})
             }else{
-                response.status(500).json({status_code:500, message:"Server Error"})
+                response.status(500).json({status_code:500, type:"Server Error", err})
             }
         } )
     }
@@ -134,7 +134,7 @@ class TodoController {
             if(err.status_code == 404){
                 response.status(404).json(err)
             }else{
-                response.status(500).json({status_code: 500, type:"Server Error"})
+                response.status(500).json({status_code: 500, type:"Server Error", err})
             }
         } )
     }
