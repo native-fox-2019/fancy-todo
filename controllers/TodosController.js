@@ -19,9 +19,14 @@ class TodosController {
                 });
         }
     }
-    // static getTodos(req, res) {
-
-    // }
+    static getTodos(req, res) {
+        Todo.findAll()
+            .then(data => {
+                res.status(200).json(data);
+            }).catch(err => {
+                res.status(500).json(err);
+            });
+    }
 }
 
 module.exports = TodosController;
