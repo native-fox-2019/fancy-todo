@@ -57,32 +57,37 @@ class TodoController {
         }
         todo.update(obj, id)
             .then(data => {
-                res.status(200).json(obj)
+                return todo.findAll()
+            })
+            .then(data2 => {
+                res.status(200).json(data2)
             })
             .catch(err => {
                 res.status(500).json(err)
             })
     }
 
+
+
     static deleteTodo = (req, res) => {
-        let id = Number(req.params.id)
-        let temp = null
-        todo.findByPk(id)
-            .then(data => {
-                temp = data
-                return todo.destroy({
-                    where: {
-                        id: id
-                    }
-                })
+    let id = Number(req.params.id)
+    let temp = null
+    todo.findByPk(id)
+        .then(data => {
+            temp = data
+            return todo.destroy({
+                where: {
+                    id: id
+                }
             })
-            .then(data => {
-                res.status(200).json(temp)
-            })
-            .catch(err => {
-                res.status(500).json(err)
-            })
-        }
+        })
+        .then(data => {
+            res.status(200).json(temp)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+    }
 }
 
 module.exports = TodoController
