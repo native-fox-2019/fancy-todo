@@ -3,11 +3,36 @@ module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model
   class Todo extends Model {}
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: "Validation errors (title can not be empty)" }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: "Validation errors (description can not be empty)" }
+      }
+    },
     status: DataTypes.STRING,
-    due_date: DataTypes.STRING
-  }, { sequelize })
+    due_date: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: "Validation errors (due_date can not be empty)" }
+      }
+    }
+  }, {
+    hooks: {
+      beforeCreate: (instances, options) => {
+        instances.status = "Not Started"
+      }
+    }, 
+    sequelize 
+  })
   Todo.associate = function(models) {
     // associations can be defined here
   };

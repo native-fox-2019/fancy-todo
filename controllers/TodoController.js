@@ -19,15 +19,17 @@ class TodoController {
             status,
             due_date
         }
-        if (!title || !description || !due_date) {
-            res.status(400).json({ msg: "Validation error" })
-        }
+        
         Todo.create(newTodo)
             .then(() => {
                 res.status(201).json({ msg: "New Todo has been created", newTodo })
             })
             .catch(err => {
-                res.status(500).json(err)
+                let msg = []
+                err.errors.forEach(error => {
+                    msg.push(error.message)
+                })
+                res.status(500).json(msg)
             })
     } 
 
@@ -54,9 +56,7 @@ class TodoController {
             due_date
         }
         let id = req.params.id
-        if (!title || !description || !due_date) {
-            res.status(400).json({ msg: "Validation error" })
-        }
+        
         Todo.findByPk(id)
             .then(todo => {
                 if (!todo) {
@@ -68,7 +68,11 @@ class TodoController {
                 res.status(200).json({ msg: "Todo has been edited", editedTodo })
             })
             .catch(err => {
-                res.status(500).json(err)
+                let msg = []
+                err.errors.forEach(error => {
+                    msg.push(error.message)
+                })
+                res.status(500).json(msg)
             })
     }
 
