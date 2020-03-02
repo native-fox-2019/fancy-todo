@@ -21,11 +21,15 @@ class TodoController{
         (async function(){
 
             let body=req.body;
+            res.send(body);
             let result;
             try{
                 result=await Todo.create(body);
             }catch(err){
-                res.status(500).json(err);
+                if(err.name==='SequelizeValidationError')
+                    res.status(400).json(err.errors);
+                else
+                    res.status(500).json(err);
                 return;
             }
 
@@ -65,7 +69,10 @@ class TodoController{
             try{
                 result=await Todo.update(body,{where:{id}});
             }catch(err){
-                res.send(500).json(err);
+                if(err.name==='SequelizeValidationError')
+                    res.status(400).json(err.errors);
+                else
+                    res.status(500).json(err);
                 return;
             }
 
