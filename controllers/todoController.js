@@ -54,25 +54,21 @@ class TodoController {
             due_date: req.body.due_date
         }
 
-        Todo.findByPk(todoId) //find first if the id is exist
+        Todo.update(updateTodo,{where:{id:todoId}})
         .then(data => {
-            if (data != null){ //if there is a data specifici to the params id
-                Todo.update(updateTodo,{where:{id:todoId}})
-                .then(data => {
-                    res.status(200).json(updateTodo)
-                })
-                .catch(err => {
-                    res.status(400).json(err.errors)
-                })
+            if (data[0] == 0) {
+                throw new Error (`error not found (id not found)`)
             } else {
-                let error = {msg:`error not found`}
-                res.status(404).json(error)
+                res.status(200).json(updateTodo)
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            if (err.message) {
+                res.status(400).json(err.message)
+            } else {
+                res.status(500).json(err)
+            }
         })
-
     }
 
     static delete (req, res) {

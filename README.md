@@ -100,6 +100,11 @@ title, description, and due_date cannot be empty / null
 
 DELETE  /todos/:id  --> delete specific todo-list based on the id
 
+#REQUEST HEADER
+{
+  "Content-Type": "application/json"
+}
+
 #REQ.PARAMS
 ID got from req.params.id
 
@@ -117,3 +122,9 @@ will return 'error not found (id not found)' if the specific ID that need to be 
     "createdAt": "2020-03-02T07:41:27.420Z",
     "updatedAt": "2020-03-02T07:50:22.817Z"
 }
+
+
+
+
+
+FOR POSTMAN LINK DOCUMENTATION GO HERE: https://documenter.getpostman.com/view/10570983/SzKbKuTL?version=latest
