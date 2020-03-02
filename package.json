@@ -1,0 +1,25 @@
+{
+  "name": "fancy-todo",
+  "version": "1.0.0",
+  "description": "fancy-todo-list-by-gusti",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustiPutraJarmana/fancy-todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GustiPutraJarmana/fancy-todo/issues"
+  },
+  "homepage": "https://github.com/GustiPutraJarmana/fancy-todo#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.5"
+  }
+}
