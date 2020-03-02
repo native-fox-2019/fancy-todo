@@ -4,7 +4,9 @@ class TodoController {
   static post(req, res) {
     Todo.create(req.body)
       .then(() => {
-        res.status(201).send(req.body);
+        res
+          .status(201)
+          .send({ Message: "Todo Has Been Created.", Data: req.body });
       })
       .catch(err => {
         if (err.name === "SequelizeValidationError") {
@@ -55,7 +57,9 @@ class TodoController {
         if (!data[0]) {
           throw new Error("data not found");
         } else {
-          res.status(200).send(req.body);
+          res
+            .status(200)
+            .send({ Message: "Data Has Been Updated", Data: req.body });
         }
       })
       .catch(err => {
@@ -86,7 +90,9 @@ class TodoController {
         }
       })
       .then(() => {
-        res.status(200).send(deletedData);
+        res
+          .status(200)
+          .send({ Message: "Data Has Been Deleted", Data: deletedData });
       })
       .catch(err => {
         if (err.message === "data not found") {
