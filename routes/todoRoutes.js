@@ -1,5 +1,8 @@
 const router = require('express').Router()
 const TodoController = require('../controllers/TodoController')
+const cors = require('cors')
+
+
 
 router.get('/', TodoController.findAll)
 router.post('/', TodoController.create)
