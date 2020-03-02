@@ -11,11 +11,13 @@ class Controller {
     .catch(err=>{
         if(err){
         
-            let arrays = []
-            for (let i = 0; i < err.errors.length ; i++){
-                arrays.push(err.errors[i].message)
+            let obj={
+                error:[]
             }
-            response.status(400).json(arrays)
+            for (let i = 0; i < err.errors.length ; i++){
+                obj.error.push(err.errors[i].message)
+            }
+            response.status(400).json(obj)
         }else{
             response.status(500).json(err)
         }
@@ -66,11 +68,14 @@ class Controller {
         })
         .catch(err=>{
             if (err){
-                let arrays = []
-                for (let i = 0; i < err.errors.length ; i++){
-                    arrays.push(err.errors[i].message)
+                let obj={
+                    error:[]
                 }
-                response.status(400).json(arrays)
+                for (let i = 0; i < err.errors.length ; i++){
+                    obj.error.push(err.errors[i].message)
+                }
+
+                response.status(400).json(obj)
             }
             else{
                 response.status(500).json(err)
