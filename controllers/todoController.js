@@ -53,7 +53,6 @@ class TodoController {
         }
         Todo.update(todo, {where: {id}})
         .then(data => {
-            console.log(data)
             if(data[0]){
                 res.status(200).json(todo)
             }else{

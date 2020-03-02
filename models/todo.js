@@ -16,7 +16,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    description: DataTypes.STRING,
+    description: {
+      type: DataTypes.STRING,
+      validate: 
+      {
+        notEmpty: {
+          msg: 'Please input the description'
+        }
+      }
+    },
     status: DataTypes.STRING,
     due_date: DataTypes.DATE
   }, { sequelize })
