@@ -20,14 +20,16 @@ class TodoController {
             due_date: req.body.due_date
         }
 
-        let errors = {}
-
         Todo.create(newTodo)
         .then(data => {
             res.status(201).json(newTodo)
         })
         .catch(err => {
-            res.status(500).json(err)
+            if (err.errors) {
+                res.status(400).json(err.errors) //will go here if there is validation error
+            } else {
+                res.status(500).json(err) //will go here if there is server error
+            }
         })
     
     }
@@ -52,8 +54,6 @@ class TodoController {
             due_date: req.body.due_date
         }
 
-        let errors = {}
-
         Todo.findByPk(todoId) //find first if the id is exist
         .then(data => {
             if (data != null){ //if there is a data specifici to the params id
@@ -62,15 +62,15 @@ class TodoController {
                     res.status(200).json(updateTodo)
                 })
                 .catch(err => {
-                    res.status(404).json(err.errors)
+                    res.status(400).json(err.errors)
                 })
             } else {
-                let error = {msg:`error not found`} //if the id is not found in the database
+                let error = {msg:`error not found`}
                 res.status(404).json(error)
             }
         })
         .catch(err => {
-            res.status(404).json(err)
+            res.status(500).json(err)
         })
 
     }
