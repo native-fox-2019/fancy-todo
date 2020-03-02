@@ -68,6 +68,7 @@ class TodoController {
         }
       });
   }
+
   static delete(req, res) {
     let condition = {
       where: {
