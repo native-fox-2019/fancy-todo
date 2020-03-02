@@ -1,7 +1,7 @@
 const { todo } = require('../models')
 
 class TodoController {
-    static getTodo = (req, res, next) => {
+    static getTodo = (req, res) => {
         todo.findAll()
             .then((data) => {
                 res.status(200).json(data)
@@ -19,7 +19,11 @@ class TodoController {
             }
         })
             .then((data) => {
-                res.status(200).json(data)
+                if (data.length == 0) {
+                    res.status(404).json({message: `id not found`})
+                } else {
+                    res.status(200).json(data)
+                }
             })
             .catch(err => {
                 res.status(404).json(err)
