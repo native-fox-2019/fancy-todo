@@ -61,10 +61,13 @@ class Controller {
         Todo.update(obj,{where:{id:id}})
         .then(result=>{
             if(result[0]){
-                response.status(200).json(obj)
+                return Todo.findByPk(id)
             }else{
                 response.status(404).json("not found")
             }
+        })
+        .then(res=>{
+            response.status(200).json(res)
         })
         .catch(err=>{
             if (err){
