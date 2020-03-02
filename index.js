@@ -5,7 +5,7 @@ const routes = require('./routes/todoRouter')
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-app.use(routes)
+app.use('/todos' , routes)
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
