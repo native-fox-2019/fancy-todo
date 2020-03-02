@@ -42,7 +42,8 @@ class TodoController {
         }
       })
       .catch(err => {
-        res.status(404).json({ Msg: "Error Not Found" });
+        err.Message = "Error Not Found";
+        res.status(404).json(err);
       });
   }
 
@@ -66,7 +67,8 @@ class TodoController {
         if (err.errors) {
           res.status(400).json(err.errors);
         } else if (err.message === "data not found") {
-          res.status(404).json({ Msg: "Error Not Found" });
+          err.Message = "Error Not Found";
+          res.status(404).json(err);
         } else {
           res.status(500).json(err);
         }
@@ -96,7 +98,8 @@ class TodoController {
       })
       .catch(err => {
         if (err.message === "data not found") {
-          res.status(404).json({ Msg: "error not found" });
+          err.Message = "Error Not Found";
+          res.status(404).json(err);
         } else {
           res.status(500).json(err);
         }
