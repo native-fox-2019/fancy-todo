@@ -22,10 +22,10 @@ GET     /todos      --> get all the todo-list
 POST    /todos      --> adding new todo to the todo-list
 #REQ.BODY
 {
-    title: req.body.title,
-    description: req.body.description,
-    status: req.body.status,
-    due_date: req.body.due_date
+    title: "Learning session on API",
+    description: "learning new topic",
+    status: false,
+    due_date: "02-03-2021"
 }
 
 #VALIDATION
@@ -44,18 +44,14 @@ title, description, and due_date cannot be empty / null
 
 GET     /todos/:id  --> get the todo ID based on specific id
 
-#REQ.BODY
-{
-    title: req.body.title,
-    description: req.body.description,
-    status: req.body.status,
-    due_date: req.body.due_date
-}
+#REQ.PARAMS
+ID got from req.params.id
 
 #VALIDATION
-title, description, and due_date cannot be empty / null
+will return 'error not found' if the edited ID is not found
 
 #RESPONSE
+
 {
     "id": 1,
     "title": "Learning API",
@@ -70,10 +66,14 @@ title, description, and due_date cannot be empty / null
 
 DELETE  /todos/:id  --> delete specific todo-list based on the id
 
+#REQ.PARAMS
+ID got from req.params.id
+
 #VALIDATIONS
 will return 'error not found (id not found)' if the specific ID that need to be deleted not found
 
 #RESPONSE
+
 {
     "id": 1,
     "title": "Learning API",
