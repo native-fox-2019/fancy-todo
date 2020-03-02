@@ -1,19 +1,22 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-
-  const Sequelize = sequelize.Sequelize
-  const Model = Sequelize.Model
-  class Todo extends Model { }
-
-  Todo.init ({
-    title: DataTypes.STRING,
+  const todo = sequelize.define('todo', {
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        customValidator(value) {
+          if (value === null || value === '') {
+            throw new Error("title tidak boleh kosong")
+          }
+        }
+      }
+    },
     description: DataTypes.STRING,
     status: DataTypes.STRING,
     due_date: DataTypes.DATE
-  }, {sequelize});
-
-  todo.associate = function(models) {
+  }, {});
+  todo.associate = function (models) {
     // associations can be defined here
   };
-  return Todo;
+  return todo;
 };

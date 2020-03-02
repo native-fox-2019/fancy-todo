@@ -1,10 +1,11 @@
 const express = require('express')
 const app = express()
 const port = process.env.port || 3000
+const routes = require('./routes/todoRouter')
 
 app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 app.use(routes)
 
-app.get('/', (req, res) => res.render('home.ejs'))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
