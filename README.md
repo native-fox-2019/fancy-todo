@@ -1,5 +1,7 @@
 # fancy-todo
 
+postman docs: https://documenter.getpostman.com/view/10571131/SzKbKuJS
+
 POST /todos
 
 Request Header: 
@@ -25,10 +27,6 @@ Response:
                 "status": false,
                 "due_date": "2020-03-17"
             }
-        }
-    400:
-        {
-            "msg": "Validation error"
         }
 
 
@@ -77,10 +75,6 @@ Response:
             "createdAt": "2020-03-02T06:06:16.769Z",
             "updatedAt": "2020-03-02T06:06:16.769Z"
         }
-    404:
-        {
-            "msg": "Todo not found"
-        }
 
 PUT /todos/:id
 Request Header: 
@@ -107,14 +101,6 @@ Response:
                 "due_date": "2020-03-09"
             }
         }
-    400:
-        {
-            "msg": "Validation error"
-        }
-    404:
-        {
-            "msg": "Todo not found"
-        }
 
 DELETE /todos/:id
 Response:
@@ -127,9 +113,5 @@ Response:
             "due_date": "2020-03-17",
             "createdAt": "2020-03-02T07:17:59.369Z",
             "updatedAt": "2020-03-02T07:17:59.369Z"
-        }
-    404:
-        {
-            "msg": "Todo not found"
         }
 
