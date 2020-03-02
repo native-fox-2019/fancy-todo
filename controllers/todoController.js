@@ -37,7 +37,8 @@ class TodoController {
             if(data != null) {
                 res.status(200).json(data)
             } else {
-                throw new Error (`ID cannot be found`)
+                let error = `ID cannot be found`
+                throw error
             }
         })
         .catch(err => {
@@ -57,7 +58,8 @@ class TodoController {
         Todo.update(updateTodo,{where:{id:todoId}})
         .then(data => {
             if (data[0] == 0) {
-                throw new Error (`ID cannot be found`)
+                let error = `ID cannot be found`
+                throw error
             } else {
                 res.status(200).json(updateTodo)
             }
@@ -74,7 +76,8 @@ class TodoController {
         .then(data => {
             // console.log(data)
             if(data == null) {
-                throw new Error (`ID cannot be found`)
+                let error = `ID cannot be found`
+                throw error
             } else {
                 deletedTodo = data
                 return Todo.destroy({where:{id:todoId}})
