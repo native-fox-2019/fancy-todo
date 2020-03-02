@@ -1,43 +1,42 @@
 const { Todo } = require('../models/index');
 
 class TodosController {
-    static createTodos(req, res) {
-        if(!req.body.title || !req.body.description || req.body.status === undefined || !req.body.due_date) {
-            res.status(400).json({ msg: 'Validation errors' });
-        } else {
-            let obj = {
-                title: req.body.title,
-                description: req.body.description,
-                status: req.body.status,
-                due_date: req.body.due_date
-            }
-            Todo.create(obj)
-                .then(data => {
-                    res.status(201).json(data);
-                }).catch(err => {
-                    res.status(500).json(err);
-                });
+    static createTodos(req, res, next) {
+        let obj = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            due_date: req.body.due_date
         }
+        Todo.create(obj)
+            .then(data => {
+                res.status(201).json(data);
+            }).catch(err => {
+                next(err);
+            });
     }
     static getTodos(req, res) {
         Todo.findAll()
             .then(data => {
                 res.status(200).json(data);
             }).catch(err => {
-                res.status(500).json(err);
+                next(err);
             });
     }
-    static getTodosId(req, res) {
+    static getTodosId(req, res, next) {
         let id = Number(req.params.id);
         Todo.findOne({ where: { id } })
             .then(data => {
                 if (!data) {
-                    res.status(404).json({ msg: 'Error Not Found' });
+                    next({
+                        code: 404,
+                        msg: 'Id not found'
+                    }); // https-error
                 } else {
                     res.status(200).json(data);
                 }
             }).catch(err => {
-                res.status(404).json(err);
+                next(err);
             });
     }
     static updateTodos(req, res) {
