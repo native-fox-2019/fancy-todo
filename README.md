@@ -20,6 +20,12 @@ GET     /todos      --> get all the todo-list
 ------------------------------------------------------------------------------------------------------
 
 POST    /todos      --> adding new todo to the todo-list
+
+#REQUEST HEADER
+{
+  "Content-Type": "application/json"
+}
+
 #REQ.BODY
 {
     title: "Learning session on API",
@@ -60,6 +66,34 @@ will return 'error not found' if the edited ID is not found
     "due_date": "02-03-2020",
     "createdAt": "2020-03-02T07:41:27.420Z",
     "updatedAt": "2020-03-02T07:50:22.817Z"
+}
+
+------------------------------------------------------------------------------------------------------
+
+PUT     /todos/:id  --> updating todo-list based on id given
+
+#REQUEST HEADER
+{
+  "Content-Type": "application/json"
+}
+
+#REQ.BODY
+{
+    title: "Learning session on API",
+    description: "learning new topic",
+    status: false,
+    due_date: "02-03-2021"
+}
+
+#VALIDATION
+title, description, and due_date cannot be empty / null
+
+#RESPONSE
+{
+    "title": "coba diganti",
+    "description": "adalah",
+    "status": false,
+    "due_date": "02-03-2020"
 }
 
 ------------------------------------------------------------------------------------------------------
