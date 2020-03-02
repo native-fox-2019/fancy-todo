@@ -14,9 +14,6 @@ class UserController {
             .then(user => {
                 res.status(201).json(user)
             })
-            .catch(err => {
-                res.status(500).json(err)
-            })
     }
 
     static signIn = (req, res) => {
@@ -27,6 +24,7 @@ class UserController {
                 password
             }
         })
+            .then()
     }
 }
 
