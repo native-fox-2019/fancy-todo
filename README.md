@@ -25,9 +25,7 @@ POST /todos
 
 GET /todos
 -- request header: 
-{
-    "Content-Type": "application/json"
-}
+
 -- request body:
 
 -- response:
@@ -45,13 +43,9 @@ GET /todos
 
 GET /todos/:id
 -- request header: 
-{
-    "Content-Type": "application/json"
-}
+
 -- request body:
-{
-    "id": req.params.id
-}
+
 -- response:
 {
     "id": 1,
@@ -89,13 +83,9 @@ id as req.params,
 
 DELETE /todos/:id
 -- request header: 
-{
-    "Content-Type": "application/json"
-}
+
 -- request body:
-{
-    "id": req.params.id
-}
+
 -- response:
 {
     "id": 1,
