@@ -1,0 +1,101 @@
+POST /todos
+
+Header:
+{
+    Content-type: application/json
+}
+
+Request body:
+{
+    title: Learn REST API
+    description: Learn how to create RESTful API with express and sequelize
+    status: Not Complete
+    due_date: 2020-03-02
+}
+
+Response:
+{
+    id: 1
+    title: Learn REST API
+    description: Learn how to create RESTful API with express and sequelize
+    status: Not Complete
+    due_date: 2020-03-02
+}
+
+
+GET /todos
+
+Header:
+{
+    Content-type: application/json
+}
+
+Response:
+[
+    {
+        id: 1
+        title: Learn REST API
+        description: Learn how to create RESTful API with express and sequelize
+        status: Not Complete
+        due_date: 2020-03-02
+    }
+]
+
+
+GET /todos/:id
+
+Header:
+{
+    Content-type: application/json
+}
+
+Response:
+{
+    id: 1
+    title: Learn REST API
+    description: Learn how to create RESTful API with express and sequelize
+    status: Not Complete
+    due_date: 2020-03-02
+}
+
+
+PUT /todos/:id
+
+Header:
+{
+    Content-type: application/json
+}
+
+Request body:
+{
+    title: Learn REST API by this week
+    description: Learn how to create RESTful API with express and sequelize
+    status: Not Complete
+    due_date: 2020-03-07
+}
+
+Response:
+{
+    id: 1
+    title: Learn REST API by this week
+    description: Learn how to create RESTful API with express and sequelize
+    status: Not Complete
+    due_date: 2020-03-02
+}
+
+
+DELETE /todos/:id
+
+Header:
+{
+    Content-type: application/json
+}
+
+Response:
+{
+    id: 1
+    title: Learn REST API by this week
+    description: Learn how to create RESTful API with express and sequelize
+    status: Not Complete
+    due_date: 2020-03-02
+}
