@@ -1,0 +1,30 @@
+{
+  "name": "fancy-todo",
+  "version": "1.0.0",
+  "description": "hacktiv8-phase_2-week_1-monday",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ram-a-dhan/fancy-todo.git"
+  },
+  "keywords": [
+    "express",
+    "pg",
+    "sequelize"
+  ],
+  "author": "muhammad_ramadhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ram-a-dhan/fancy-todo/issues"
+  },
+  "homepage": "https://github.com/ram-a-dhan/fancy-todo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^7.18.2",
+    "postgres": "^1.0.2",
+    "sequelize": "^5.21.5"
+  }
+}
