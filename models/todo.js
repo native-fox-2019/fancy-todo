@@ -5,20 +5,21 @@ module.exports = (sequelize, DataTypes) => {
   class Todo extends Model{}
   Todo.init({
     title: {
-      type: DataTypes.STRING,
-      notEmpty: true
+      type: Sequelize.STRING,
+      //notEmpty: true,
+      validate: {notEmpty: true}
     }, 
     description: {
-      type: DataTypes.STRING,
-      notEmpty : true
+      type: Sequelize.STRING,
+      validate: {notEmpty: true}
     },
     status: {
-      type : DataTypes.STRING,
-      notEmpty: true 
+      type : Sequelize.STRING,
+      validate: {notEmpty: true}
     },
     due_date: {
-      type: DataTypes.STRING,
-      notEmpty: true 
+      type: Sequelize.STRING,
+      validate: {notEmpty: true}
     } 
   }, {sequelize})
   Todo.associate = function(models) {
@@ -26,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Todo;
 }
+
   /*
   const Todo = sequelize.define('Todo', {
     title: DataTypes.STRING,
