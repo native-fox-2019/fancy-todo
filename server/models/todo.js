@@ -8,9 +8,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
+          args: true,
           msg: 'title can not be empty!'
         },
-        notEmty: {
+        notEmpty: {
+          args: true,
           msg: 'title can not be empty!'
         }
       }
@@ -22,9 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'description can not be empty!'
         },
-        notEmty: {
+        notEmpty: {
+          args: true,
           msg: 'description can not be empty!'
         }
       }
@@ -34,16 +39,28 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
           msg: 'status can not be empty!'
         },
-        notEmty: {
+        notEmpty: {
+          args: true,
           msg: 'status can not be empty!'
         }
       }
     },
     due_date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'due date can not be empty!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'due date can not be empty!'
+        }
+      }
     }
   }, { sequelize });
   Todo.associate = function (models) {

@@ -1,5 +1,6 @@
 "use strict"
 const serverRouter = require('./routers/todoRouter')
+const handlingError = require('./middleware/errorHendling')
 const express = require('express')
 const cors = require('cors')
 const app = express()
@@ -10,6 +11,7 @@ app
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
     .use('/', serverRouter)
+    .use(handlingError)
 
 
 
