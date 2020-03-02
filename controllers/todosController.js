@@ -9,7 +9,7 @@ class TodoController {
           .json({ Message: "Todo Has Been Created.", Data: req.body });
       })
       .catch(err => {
-        if (err.name === "SequelizeValidationError") {
+        if (err.errors) {
           res.status(400).json(err.errors);
         } else {
           res.status(500).json(err);
@@ -63,7 +63,7 @@ class TodoController {
         }
       })
       .catch(err => {
-        if (err.name === "SequelizeValidationError") {
+        if (err.errors) {
           res.status(400).json(err.errors);
         } else if (err.message === "data not found") {
           res.status(404).json({ Msg: "Error Not Found" });
