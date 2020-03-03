@@ -1,6 +1,8 @@
 const { User, Todo } = require('../models')
 const tokenization = require('../helpers/tokenization')
 const bcrypt = require('bcryptjs')
+const axios = require('axios')
+require('dotenv').config()
 
 class UserController {
     static read(request, response, next){
@@ -101,6 +103,27 @@ class UserController {
 
     static logout(request, response){
 
+    }
+
+    static holidays(request, response, next){
+        axios({
+            method: 'get',
+            url: `https://calendarific.com/api/v2/holidays?&api_key=${process.env.API_KEY}&country=ID&year=2020`,
+        })
+        .then(result => {
+            let data_holiday = []
+            result.data.response.holidays.forEach(element => {
+                data_holiday.push({
+                    name: element.name,
+                    description: element.description,
+                    date: element.date.iso
+                })
+            });
+            response.status(200).json(data_holiday)
+        })
+        .catch(err => {
+            next(err)
+        })
     }
 
 }

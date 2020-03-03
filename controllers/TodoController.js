@@ -1,5 +1,6 @@
 const { Todo } = require('../models')
 const Op = require('sequelize').Sequelize.Op
+const sgMail = require('@sendgrid/mail')
 
 class TodoController {
     static create(request, response, next) {
@@ -10,9 +11,10 @@ class TodoController {
             due_date: new Date(request.body.due_date),
             user_id: request.userData.id
         }
+        let data_create
         Todo.create(newData)
         .then( result => {
-            response.status(201).json(result)
+            response.status(201).json(data_create)
         } )
         .catch( err => {
             // next(err)
