@@ -1,12 +1,18 @@
 "use strict"
 const todoController = require('../controllers/todoController')
+const authentication = require('../middleware/authentication')
+const authorization = require('../middleware/authorization')
+
 const Router = require('express').Router()
 
-Router.post('/todos', todoController.addTodo)
-Router.get('/todos', todoController.findAll)
-Router.get('/todos/:id', todoController.findOne)
-Router.put('/todos/:id', todoController.updateData)
-Router.delete('/todos/:id', todoController.deleteData)
+Router
+    .use(authentication)
+Router
+    .post('/', todoController.addTodo)
+    .get('/', authorization, todoController.findAll)
+    .get('/:id', todoController.findOne)
+    .put('/:id', authorization, todoController.updateData)
+    .delete('/:id', authorization, todoController.deleteData)
 
 
 

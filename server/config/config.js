@@ -1,7 +1,7 @@
-{
+module.exports = {
   "development": {
-    "username": "postgres",
-    "password": "postgres",
+    "username": process.env.CONFIG_USER,
+    "password": process.env.CONFIG_PASS,
     "database": "Todo_list",
     "host": "127.0.0.1",
     "dialect": "postgres"
@@ -9,7 +9,6 @@
   "test": {
     "username": "root",
     "password": null,
-    "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false

@@ -3,7 +3,7 @@ module.exports = (err, req, res, next) => {
         const errMsg = err.errors.map(msg => {
             return msg.message
         })
-        res.status(401).json({ message: errMsg })
+        res.status(400).json({ message: errMsg })
     } else if (err.status === 404) {
         res.status(err.status).json({ message: err.msg })
     } else {

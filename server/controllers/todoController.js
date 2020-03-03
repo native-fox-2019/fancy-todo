@@ -3,8 +3,9 @@ const { Todo } = require('../models')
 
 class todoController {
     static addTodo(req, res, next) {
-        const { title, description, status, due_date } = req.body
-        Todo.create({ title, description, status, due_date })
+        const UserId = req.user.id
+        const { title, description, status, due_date, } = req.body
+        Todo.create({ title, description, status, due_date, UserId })
             .then(data => {
                 res.status(201).json(data)
             })
@@ -14,11 +15,14 @@ class todoController {
     }
 
     static findAll(req, res, next) {
-        Todo.findAll()
+        const UserId = +req.user.id
+        Todo.findAll({ where: { UserId } })
             .then(data => {
+                console.log(data)
                 res.status(200).json(data)
             })
             .catch(err => {
+                console.log(err)
                 next(err)
             })
     }
@@ -40,9 +44,10 @@ class todoController {
     }
 
     static updateData(req, res, next) {
+        const UserId = req.user.id
         const id = +req.params.id
         const { title, description, status, due_date } = req.body
-        Todo.update({ title, description, status, due_date }, { where: { id }, returning: true })
+        Todo.update({ title, description, status, due_date }, { where: { id, UserId }, returning: true })
             .then(data => {
                 const error = {
                     msg: 'Data not found!',
@@ -57,9 +62,11 @@ class todoController {
     }
 
     static deleteData(req, res, next) {
+        const UserId = +req.user.id
         const id = +req.params.id
         Promise.all([Todo.findOne({ where: { id } }), Todo.destroy({ where: { id } })])
             .then(data => {
+                console.log(data)
                 const error = {
                     msg: 'Data not found!',
                     status: 404
