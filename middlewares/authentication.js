@@ -1,12 +1,22 @@
-require('dotenv').config();
-let jwt = require('../helpers/jwt');
+const { verifyToken } = require('../helpers/jwt');
+const { User } = require('../models');
+const createError = require('../helpers/createError');
 
 function authentication (req, res, next) {
     let { token } = req.headers;
     try {
-        let decoded = jwt.verify(token, process.env.SECRET);
+        let decoded = verifyToken(token);
         req.userData = decoded;
-        next();
+        User.findOne({ where: { id: req.userData.id } })
+            .then(data => {
+                if (!data) {
+                    next(createError(404, 'Error Not Found'));
+                } else {
+                    next();
+                }
+            }).catch(err => {
+                next(err);
+            });
     } catch (err) {
         next(err);
     }

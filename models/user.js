@@ -1,15 +1,16 @@
 'use strict';
+const { bcrypt } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Username cannot be empty'
-        }
-      }
+      type: DataTypes.STRING
+      // allowNull: false,
+      // validate: {
+      //   notEmpty: {
+      //     args: true,
+      //     msg: 'Username cannot be empty'
+      //   }
+      // }
     },
     email: {
       type: DataTypes.STRING,
@@ -35,7 +36,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance, option) => {
-        const { bcrypt } = require('../helpers/bcrypt');
         return bcrypt(instance.password)
           .then(hash => {
             instance.password = hash;

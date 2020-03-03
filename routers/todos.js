@@ -5,9 +5,10 @@ const authorization = require('../middlewares/authorization');
 
 router.post('/', TodosController.createTodos);
 router.get('/', TodosController.getTodos);
-router.get('/:id', authorization, TodosController.getTodosId);
-router.put('/:id', authorization, TodosController.updateTodos);
-router.delete('/:id', authorization, TodosController.deleteTodos);
+router.use('/:id', authorization);
+router.get('/:id', TodosController.getTodosId);
+router.put('/:id', TodosController.updateTodos);
+router.delete('/:id', TodosController.deleteTodos);
 
 
 module.exports = router;

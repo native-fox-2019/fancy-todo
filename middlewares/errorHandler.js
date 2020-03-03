@@ -5,7 +5,7 @@ module.exports = (err, req, res, next) => {
             error.push(x.message);
         });
         res.status(400).json(error);
-    } else if (err.name === 'SequelizeDatabaseError') { // cari not null constraint
+    } else if (err.name === 'SequelizeDatabaseError') {
         res.status(500).json({
             msg: 'Server Error'
         })
@@ -16,11 +16,11 @@ module.exports = (err, req, res, next) => {
     } else if(err.name === 'BadRequestError'){
         res.status(400).json(err.message);
     } else if(err.name === 'JsonWebTokenError') {
-        res.status(400).json(err.message);
+        res.status(401).json(err.message);
     } else if(err.name === 'TokenExpiredError') {
-        res.status(400).json(err.message);
+        res.status(401).json(err.message);
     } else if(err.name === 'NotBeforeError') {
-        res.status(400).json(err.message);
+        res.status(401).json(err.message);
     } else if(err.name === 'ForbiddenError'){
         res.status(403).json(err.message);
     } else {

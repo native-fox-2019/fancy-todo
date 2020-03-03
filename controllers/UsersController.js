@@ -1,8 +1,7 @@
-require('dotenv').config();
 const { User } = require('../models');
 const createError = require('../helpers/createError');
 const { compare } = require('../helpers/bcrypt');
-const jwt = require('../helpers/jwt');
+const { generateToken } = require('../helpers/jwt');
 
 class UsersController {
     static register(req, res, next) {
@@ -25,7 +24,8 @@ class UsersController {
                     return compare(password, data.password)
                         .then(result => {
                             if (result) {
-                                let token = jwt.sign({ id: data.id, email: data.email }, process.env.SECRET);
+                                let payload = { id: data.id };
+                                let token = generateToken(payload);
                                 res.status(200).json({ token });
                             } else {
                                 throw createError(400, 'Wrong username / password');
@@ -37,7 +37,7 @@ class UsersController {
             });
     }
     static find(req, res, next) {
-        
+
     }
 
 }
