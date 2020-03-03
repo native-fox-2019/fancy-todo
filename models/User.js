@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, { sequelize })
   User.associate = function(models) {
-    // User.hasMany(models.Todo, { foreignKey: 'UserId' })
+    User.hasMany(models.Todo, { foreignKey: 'UserId' })
   };
   return User;
 };

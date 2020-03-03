@@ -1,8 +1,8 @@
 const { Todo } = require('../models')
 
 class TodoController {
-    static findAll = (req, res) => {
-        Todo.findAll()
+    static findAll = (req, res, next) => {
+        Todo.findAll({ where: { UserId: req.userData.id } })
             .then(todo => {
                 res.status(200).json(todo)
             })
@@ -11,13 +11,14 @@ class TodoController {
             })
     }
 
-    static create = (req, res) => {
+    static create = (req, res, next) => {
         let { title, description, status, due_date } = req.body
         let newTodo = {
             title,
             description,
             status,
-            due_date
+            due_date,
+            UserId: req.userData.id
         }
         
         Todo.create(newTodo)
@@ -37,7 +38,7 @@ class TodoController {
             })
     } 
 
-    static findById = (req, res) => {
+    static findById = (req, res, next) => {
         let id = req.params.id
         Todo.findByPk(id)
             .then(todo => {
@@ -55,7 +56,7 @@ class TodoController {
             })
     }
 
-    static update = (req, res) => {
+    static update = (req, res, next) => {
         let { title, description, status, due_date } = req.body
         let editedTodo = {
             title,
@@ -89,7 +90,7 @@ class TodoController {
             })
     }
 
-    static delete = (req, res) => {
+    static delete = (req, res, next) => {
         let id = req.params.id
         let deleted
         Todo.findByPk(id)
