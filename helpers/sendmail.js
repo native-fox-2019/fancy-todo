@@ -5,7 +5,7 @@ function sendmail(title) {
     const msg = {
       to: 'akbarajo1234@gmail.com',
       from: 'akbarajo1234@gmail.com',
-      subject: 'Your Todo has been added',
+      subject: `${title} has been added to your Todos`,
       text: `Your Todo with title ${title} successfully added`
     };
     sgMail.send(msg);
