@@ -6,7 +6,7 @@ class AuthController{
     static login(req,res,next){
         (async function(){
             let body=req.body;
-            let secret=process.env.JWT_SECRET || 'hehehe';
+            let secret=process.env.JWT_SECRET || 'hehehe'
 
             try{
                 let user=await User.findOne({where:{
