@@ -1,12 +1,16 @@
 const express = require('express')
-const route = express.Router()
+const router = express.Router()
 const TodosController = require('../controllers/TodosController')
+const authentication = require('../middlewares/authentication')
+const authorization = require('../middlewares/authorization')
 
-route.post('/', TodosController.add)
-route.get('/', TodosController.getAll)
-route.get('/:id', TodosController.getOne)
-route.put('/:id', TodosController.edit)
-route.delete('/:id', TodosController.delete)
+router.use(authentication)
+router.post('/', TodosController.add)
+router.get('/', TodosController.getAll)
+
+router.get('/:id',authorization,TodosController.getOne)
+router.put('/:id',authorization, TodosController.edit)
+router.delete('/:id',authorization, TodosController.delete)
 
 
-module.exports = route
+module.exports = router

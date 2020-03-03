@@ -8,7 +8,8 @@ class TodosController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.userData.id
         }
         Todo.create(obj)
             .then(data => {
@@ -20,8 +21,8 @@ class TodosController {
     }
 
     static getAll(req, res, next) {
-        Todo.findAll()
-            .then(data => {
+        Todo.findAll({where : {UserId : req.userData.id}})
+        .then(data => {
                 res.status(200).json(data)
             })
             .catch(err => {
@@ -31,13 +32,16 @@ class TodosController {
 
     static getOne(req, res, next) {
         let id = req.params.id
-        Todo.findOne({ where: { id: id } })
+        Todo.findOne({
+                where: { id: id, UserId : req.userData.id }
+            })
             .then(data => {
                 if (data !== null) {
                     res.status(200).json(data)
                 } else {
                     next({
-                        msg: "id not found !"
+                        status : 404,
+                        resource : 'todo'
                     })
                 }
             })
@@ -55,13 +59,14 @@ class TodosController {
             due_date: req.body.due_date
         }
 
-        Todo.update(obj, { where: { id: id } })
+        Todo.update(obj, { where: { id: id, UserId : req.userData.id } })
             .then(data => {
                 if (data[0] !== 0) {
                     res.status(200).json(obj)
                 } else {
                     next({
-                        msg: "id not found !"
+                        status : 404,
+                        resource: "todo"
                     })
                 }
             })
@@ -73,15 +78,16 @@ class TodosController {
     static delete(req, res, next) {
         let id = req.params.id
         let dataDelete = null
-        Todo.findOne({ where: { id: id } })
+        Todo.findOne({ where: { id: id, UserId : req.userData.id } })
             .then(data => {
-                    dataDelete = data
-                    return Todo.destroy({ where: { id: id } })
+                dataDelete = data
+                return Todo.destroy({ where: { id: id } })
             })
             .then(() => {
                 if (dataDelete === null) {
                     next({
-                        msg: "id not found !"
+                        status : 404,
+                        resource: "todo"
                     })
                 } else {
                     res.status(200).json(dataDelete)
