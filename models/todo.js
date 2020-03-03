@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    status: DataTypes.BOOLEAN,
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     due_date: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -32,15 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }
-  }, {
-    hooks: {
-      beforeCreate: (instance, option) => {
-        instance.status = false;
-      }
-    }
-  });
+  }, {});
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User);
   };
   return Todo;
 };

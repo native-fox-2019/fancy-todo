@@ -1,44 +1,41 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Todos', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      username: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Title cannot be empty'
+            msg: 'Username cannot be empty'
           }
         }
       },
-      description: {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Description cannot be empty'
+            msg: 'Email cannot be empty'
           }
         }
       },
-      status: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-      },
-      due_date: {
+      password: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Due Date cannot be empty'
+            msg: 'Password cannot be empty'
           }
         }
       },
@@ -53,6 +50,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Todos');
+    return queryInterface.dropTable('Users');
   }
 };

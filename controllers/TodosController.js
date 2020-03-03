@@ -7,7 +7,8 @@ class TodosController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.userData.id
         }
         Todo.create(obj)
             .then(data => {
@@ -17,7 +18,7 @@ class TodosController {
             });
     }
     static getTodos(req, res) {
-        Todo.findAll()
+        Todo.findAll( { where: { UserId: req.userData.id } } )
             .then(data => {
                 res.status(200).json(data);
             }).catch(err => {
@@ -26,7 +27,7 @@ class TodosController {
     }
     static getTodosId(req, res, next) {
         let id = Number(req.params.id);
-        Todo.findOne({ where: { id } })
+        Todo.findOne({ where: { id, UserId: req.userData.id } })
             .then(data => {
                 if (!data) {
                     throw createError(404, 'Id Not Found');
