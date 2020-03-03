@@ -1,4 +1,5 @@
 const { Todo } = require('../models')
+const Op = require('sequelize').Sequelize.Op
 
 class TodoController {
     static create(request, response, next) {
@@ -31,7 +32,11 @@ class TodoController {
     }
 
     static read(request, response) {
+        console.log(request.userData)
         Todo.findAll({
+            where:{
+                user_id: request.userData.id
+            },
             order:[
                 ['id', 'ASC']
             ]
@@ -46,10 +51,13 @@ class TodoController {
     }
 
     static readById(request, response, next) {
-        let find_id = request.params.id
-        Todo.findAll({
+        let find_id = request.params.task_id
+        Todo.findOne({
             where:{
-                user_id: find_id
+                [Op.and]:[
+                    {id: find_id},
+                    {user_id: request.userData.id}
+                ]
             }
         })
         .then( result => {
@@ -74,7 +82,7 @@ class TodoController {
     }
 
     static update(request, response, next) {
-        let update_id = request.params.id
+        let update_id = request.params.task_id
         let newData = {
             title: request.body.title,
             description: request.body.description,
@@ -88,7 +96,10 @@ class TodoController {
             if(result){
                 return Todo.update(newData, {
                     where: {
-                        id: update_id
+                        [Op.and]:[
+                            {id: update_id},
+                            {user_id: request.userData.id}
+                        ]
                     }
                 })
             }else{
@@ -99,7 +110,7 @@ class TodoController {
             }
         } )
         .then( result => {
-            response.status(200).json(updated_data)
+            response.status(200).json(result)
         } )
         .catch( err => {
             if(err.status_code == 404){
@@ -120,7 +131,7 @@ class TodoController {
     }
 
     static delete(request, response, next) {
-        let delete_id = request.params.id
+        let delete_id = request.params.task_id
         let delete_data
         Todo.findByPk(delete_id)
         .then( result => {
@@ -128,7 +139,10 @@ class TodoController {
                 delete_data = result
                 return Todo.destroy({
                     where:{
-                        id: delete_id
+                        [Op.and]:[
+                            {id: delete_id},
+                            {user_id: request.userData.id}
+                        ]
                     }
                 })
             }else{

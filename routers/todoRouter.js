@@ -6,11 +6,11 @@ const authorization = require('../middlewares/authorization')
 
 todoRouter.post('/', authentification, TodoController.create)
 
-todoRouter.get('/', TodoController.read)
-todoRouter.get('/:id', authentification, authorization, TodoController.readById)
+todoRouter.get('/', authentification, TodoController.read)
+todoRouter.get('/:task_id', authentification, authorization, TodoController.readById)
 
-todoRouter.put('/:id', authentification, authorization, TodoController.update)
+todoRouter.put('/:task_id', authentification, authorization, TodoController.update)
 
-todoRouter.delete('/:id', authentification, authorization, TodoController.delete)
+todoRouter.delete('/:task_id', authentification, authorization, TodoController.delete)
 
 module.exports = todoRouter
