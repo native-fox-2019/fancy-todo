@@ -36,10 +36,12 @@ module.exports = (sequelize, DataTypes) => {
           msg:"date must be filled"
         }
     }
-  }
+  },
+    UserId:DataTypes.INTEGER
   }, {});
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User, {foreignKey:"UserId"})
   };
   return Todo;
 };

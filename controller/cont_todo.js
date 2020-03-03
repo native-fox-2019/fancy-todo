@@ -2,23 +2,35 @@ const { Todo } = require('../models')
 
 
 class Controller {
-    static post_todos(request, response){
-        
-    Todo.create(request.body)
+    static post_todos(request, response,next){
+        // console.log(request.userData.id,'==============ini controller')
+    let obj = {
+        title:request.body.title,
+        description:request.body.description,
+        status:request.body.status,
+        due_date:request.body.due_date,
+        UserId:Number(request.userData.id)
+    }
+    Todo.create(obj)
     .then(result=>{
         response.status(201).json(result)
     })
     .catch(err=>{
         if(err){
             let obj={
-                error:[]
+                status:400,
+                msg:[]
             }
             for (let i = 0; i < err.errors.length ; i++){
-                obj.error.push(err.errors[i].message)
+                obj.msg.push(err.errors[i].message)
             }
-            response.status(400).json(err)
+            next(obj)
         }else{
-            response.status(500).json(err)
+            let errObj={
+                status:500,
+                msg:"internal server error"
+            }
+            next(errObj)
         }
     })
     
@@ -30,31 +42,24 @@ class Controller {
             response.status(200).json(result)
         })
         .catch(err =>{
-            response.status(500).json(err)
+            next(err)
         })
     }
 
-    static getTodosById (request,response){
+    static getTodosById (request,response,next){
         let Pk = Number(request.params.id)
         console.log(Pk,'ini primary key')
         Todo.findByPk(Pk)
         .then(result=>{
-            if (!result){
-                let obh={
-                    msg:"data tidak ditemukan"
-                }
-            response.status(404).json(obh)
-            }            
+            console.log(result,"ini dari getbyID")            
             response.status(200).json(result)
-
         })
         .catch(err=>{
-           
-            response.status(404).json(err)
+            next(err)
         })
     }
 
-    static putTodos (request,response){
+    static putTodos (request,response,next){
         let id = request.params.id
         let obj = request.body
         Todo.update(obj,{where:{id:id}})
@@ -71,21 +76,22 @@ class Controller {
         .catch(err=>{
             if (err){
                 let obj={
-                    error:[]
+                    status:400,
+                    msg:[]
                 }
                 for (let i = 0; i < err.errors.length ; i++){
-                    obj.error.push(err.errors[i].message)
+                    obj.msg.push(err.errors[i].message)
                 }
-
-                response.status(400).json(obj)
+                next (obj)
             }
             else{
-                response.status(500).json(err)
+                next(err)
+                
             }
         })
     }
 
-    static deleteTodos (request,response){
+    static deleteTodos (request,response,next){
         let id = request.params.id
         let data = null
         Todo.findByPk(id)
@@ -93,8 +99,6 @@ class Controller {
             data=result
             if (result){
                 return Todo.destroy({where:{id}})    
-            }else{
-                response.status(404).json('data not found')
             }
         })
         .then(res=>{
@@ -105,7 +109,7 @@ class Controller {
                 response.status(200).json(send)
         })
         .catch(err=>{
-            response.status(500).json(err)
+            next(err)
         })
     }
 
