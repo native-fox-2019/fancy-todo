@@ -35,6 +35,30 @@ Status 201
     updatedAt: 2020-03-03T15:01:27.405Z
 }
 ```
+Status 400
+```
+[
+   error message
+]
+```
+Status 401
+```
+{
+   error message
+}
+```
+Status 403
+```
+{
+   error message
+}
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}
+```
 
 # GET /todos
 ## Endpoint
@@ -63,6 +87,25 @@ Status 200
     }
 ]
 ```
+Status 401
+```
+{
+   error message
+}
+```
+Status 403
+```
+{
+   error message
+}
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}
+```
+
 
 # GET /todos/:id
 ## Endpoint
@@ -89,6 +132,32 @@ Status 200
     updatedAt: 2020-03-03T15:01:27.405Z
 }
 ```
+Status 401
+```
+{
+   error message
+}
+```
+Status 403
+```
+{
+   error message
+}
+```
+Status 404
+```
+{
+   msg: "Error Not Found"
+}
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}
+```
+
+
 # PUT /todos/:id
 ## Endpoint
 > localhost:3000/todos/:id
@@ -123,6 +192,37 @@ Status 200
     updatedAt: 2020-03-03T15:01:27.405Z
 }
 ```
+Status 400
+```
+[
+   error message
+]
+```
+Status 401
+```
+{
+   error message
+}
+```
+Status 403
+```
+{
+   error message
+}
+```
+Status 404
+```
+{
+   msg: "Error Not Found"
+}
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}
+```
+
 
 # DELETE /todos/:id
 ## Endpoint
@@ -148,6 +248,31 @@ Status 200
     updatedAt: 2020-03-03T15:01:27.405Z
 }
 ```
+Status 401
+```
+{
+   error message
+}
+```
+Status 403
+```
+{
+   error message
+}
+```
+Status 404
+```
+{
+   msg: "Error Not Found"
+}
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}
+```
+
 
 # POST /users/register
 ## Endpoint
@@ -180,6 +305,19 @@ Status 201
     updatedAt: 2020-03-03T15:01:27.405Z
 }
 ```
+Status 400
+```
+[
+   error message
+]
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}
+```
+
 
 # POST /users/login
 ## Endpoint
@@ -202,5 +340,18 @@ All req.body is **required**
 ## Response
 Status 200
 ```
-token: "YOUR_TOKEN"
+{
+   token: "YOUR_TOKEN"
+}
 ```
+Status 400
+```
+[
+   error message
+]
+```
+Status 500
+```
+{
+   msg: "Internal Server Error"
+}

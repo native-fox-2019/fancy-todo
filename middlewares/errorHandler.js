@@ -12,7 +12,7 @@ module.exports = (err, req, res, next) => {
             })
         } else {
             res.status(500).json({
-                msg: 'Server Error'
+                msg: 'Internal Server Error'
             })
         }
     } else if (err.name === 'NotFoundError'){
