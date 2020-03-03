@@ -1,8 +1,8 @@
-{
+module.exports = {
   "development": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "testTodos",
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
+    "database": "fancy-todo",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
