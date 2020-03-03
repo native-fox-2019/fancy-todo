@@ -1,7 +1,8 @@
-const controllerTodos = require('../controllers/controllerTodo')
 const router = require('express').Router()
-//autoheris
+const controllerTodos = require('../controllers/controllerTodo')
+const authoriz = require('../middleware/authoris')
 
+// router.use(authoriz)
 router.get('/', controllerTodos.getAllTodo)
 router.post('/', controllerTodos.createTodo)
 router.get('/:id', controllerTodos.getOneTodo)

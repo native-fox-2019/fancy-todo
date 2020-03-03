@@ -1,25 +1,16 @@
 const bcrypt = require('bcrypt')
-const saltRounds = 10
+const salt = bcrypt.genSaltSync(10)
 
-class Password {
-  static hash(textplaint) {
-    return new Promise((resolve, reject) => {
-      bcrypt.genSalt(saltRounds, function (err, salt) {
-        bcrypt.hash(textplaint, salt, function (err, hash) {
-          resolve(hash)
-        });
-      });
-    })
-  }
+const hashPassword = password => {
+  return bcrypt.hashSync(password, salt)
+}
 
-  static compare(textplaint, hashed) {
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(textplaint, hashed, function (err, res) {
-        resolve(res)
-      });
-    })
-  }
+const verifyPassword = (password, hash) => {
+  return bcrypt.compareSync(password, hash)
 }
 
 
-module.exports = Password
+module.exports = {
+  hashPassword,
+  verifyPassword
+}

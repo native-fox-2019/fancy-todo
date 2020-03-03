@@ -1,5 +1,6 @@
 'use strict';
-const bcyrpt = require('bcrypt')
+// const bcyrpt = require('bcrypt')
+const { hashPassword } = require('../helper/bcrypt')
 const createError = require('../helper/http-errors')
 module.exports = (sequelize, DataTypes) => {
   const { Model } = sequelize.Sequelize
@@ -47,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks:
     {
       beforeCreate: (user, options) => {
-        user.password = bcyrpt.hashSync(user.password, 10)
+        user.password = hashPassword(user.password)
       }
     }
     , sequelize

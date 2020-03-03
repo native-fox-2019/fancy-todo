@@ -1,12 +1,12 @@
 
-const { Todo } = require('../models')
-const { User } = require('../models')
+const { Todo, User } = require('../models')
 const createError = require('../helper/http-errors')
 
 class ControllerTodo {
 
   static getAllTodo(req, res, next) {
-    Todo.findAll()
+    Todo
+      .findAll()
       .then(result => {
         res.status(200).json(result)
       })
@@ -17,10 +17,9 @@ class ControllerTodo {
 
   static createTodo(req, res, next) {
     let { title, description, due_date } = req.body
-
-
+    let id = req.user.id
     Todo
-      .create({ title, description, due_date })
+      .create({ title, description, due_date, UserId: id })
       .then(result => {
         res.status(201).json(result)
       })
@@ -74,8 +73,7 @@ class ControllerTodo {
         if (resultDestroy) {
           res.status(200).json(value)
         } else {
-          let err = createError(404, 'NotFound')
-          next(err)
+          throw createError(404, 'not found')
         }
       })
       .catch(err => {

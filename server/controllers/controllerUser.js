@@ -1,6 +1,8 @@
 const { User } = require('../models')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+// const jwt = require('jsonwebtoken')
+// const bcrypt = require('bcrypt')
+const { verifyPassword } = require('../helper/bcrypt')
+const { generateJwt, verifyJwt } = require('../helper/jwt')
 const createError = require('../helper/http-errors')
 class ControllerUser {
 
@@ -8,8 +10,9 @@ class ControllerUser {
     let { username, email, password } = req.body
     User
       .create({ username, email, password })
-      .then(userRegister => {
-        const token = jwt.sign({ id: userRegister.id, username: userRegister.username, email: userRegister.email }, process.env.JWT)
+      .then(user => {
+        let payload = { id: user.id, username: user.username, email: user.email }
+        const token = generateJwt(payload)
         res.status(201).json(token)
       })
       .catch(err => {
@@ -23,20 +26,20 @@ class ControllerUser {
       .findOne({ where: { email } })
       .then(userLogin => {
         if (!userLogin) {
-          throw createError(401, 'Unauthorized')
+          throw createError(400, 'email/password wrong')
         } else {
-          if (bcrypt.compareSync(password, userLogin.password)) {
-            const token = jwt.sign({ id: userLogin.id, email: userLogin.email }, process.env.JWT)
+          if (verifyPassword(password, userLogin.password)) {
+            let payload = { id: userLogin.id, email: userLogin.email }
+            const token = generateJwt(payload)
             res.status(200).json(token)
           } else {
-            throw createError(401, 'Unauthorized')
+            throw createError(400, 'email/password wrong')
           }
         }
       })
       .catch(err => {
         next(err)
       })
-
   }
 
 }
