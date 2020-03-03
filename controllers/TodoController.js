@@ -1,15 +1,17 @@
-const {Todo}=require('../models');
+const {Todo,User}=require('../models');
+const jwt=require('jsonwebtoken');
 
 class TodoController{
 
-    static index(req,res){
+    static index(req,res,next){
         (async function(){
             let result;
-
+            let {token}=req.headers;
+            let decoded =User.validateToken(token);
             try{
-                result=await Todo.findAll();
+                result=await Todo.findAll({where:{userId:decoded.id} ,include:User});
             }catch(err){
-                res.send(500).json(err);
+                next(err);
                 return;
             }
             res.status(200).json(result);
@@ -17,19 +19,19 @@ class TodoController{
         })();
     }
 
-    static create(req,res){
+    static create(req,res,next){
         (async function(){
 
             let body=req.body;
-            res.send(body);
             let result;
+            let {token}=req.headers;
+
             try{
+                let decoded =User.validateToken(token);
+                body.userId=decoded.id;
                 result=await Todo.create(body);
             }catch(err){
-                if(err.name==='SequelizeValidationError')
-                    res.status(400).json(err.errors);
-                else
-                    res.status(500).json(err);
+                next(err);
                 return;
             }
 
@@ -38,16 +40,22 @@ class TodoController{
         })();
     }
 
-    static fetchById(req,res){
+    static fetchById(req,res,next){
         (async function(){
 
             let id=req.params.id;
             let result;
+            let {token}=req.headers;
+            let decoded =User.validateToken(token);
 
             try{
-                result=await Todo.findOne({where:{id}});
+                result=await Todo.findOne({where:{id},include:User});
+                if(decoded.id!==result.userId){
+                    res.status(401).json({status:401,message:'Unauthenticated'});
+                    return;
+                }
             }catch(err){
-                res.status(500).json(err);
+                next(err);
                 return;
             }
 
@@ -59,20 +67,27 @@ class TodoController{
         })();
     }
 
-    static update(req,res){
+    static update(req,res,next){
         (async function(){
             
             let id=req.params.id;
             let result;
             let body=req.body;
+            let curr;
+            let {token}=req.headers;
+            let decoded =User.validateToken(token);
+            // body.userId=decoded.id;
 
             try{
+                curr=await Todo.findOne({where:{id}});
+                if(curr.userId !==decoded.id ){
+                    res.send(401).json({status:401,message:'Unaunthenticated'});
+                    return;
+                }
+
                 result=await Todo.update(body,{where:{id}});
             }catch(err){
-                if(err.name==='SequelizeValidationError')
-                    res.status(400).json(err.errors);
-                else
-                    res.status(500).json(err);
+                next(err);
                 return;
             }
 
@@ -90,19 +105,23 @@ class TodoController{
     static delete(req,res){
         (async function(){
             let id=req.params.id;
-            let result;
+            let result,curr;
+            let {token}=req.headers;
+            let decoded =User.validateToken(token);
 
             try{
+                curr=await Todo.findOne({where:{id}});
+                if(curr.userId !==decoded.id ){
+                    res.send(401).json({status:401,message:'Unaunthenticated'});
+                    return;
+                }
                 result=await Todo.destroy({where:{id}});
             }catch(err){
-                res.status(500).json(err);
+                res.status(404).json({status:404,message:'Data tidak ditemukan',result});
                 return;
             }
-
-            if(result===1)
                 res.status(200).json({status:200,message:'Data berhasil dihapus',result});
-            else
-                res.status(404).json({status:404,message:'Data tidak ditemukan',result});
+          
 
         })();
     }
