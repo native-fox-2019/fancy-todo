@@ -38,8 +38,10 @@ class TodoController {
             if(data != null) {
                 res.status(200).json(data)
             } else {
-                let error = `ID cannot be found`
-                throw error
+                next({
+                    status:404,
+                    msg:`Cannot be found`
+                })
             }
         })
         .catch(err => {
@@ -58,13 +60,7 @@ class TodoController {
 
         Todo.update(updateTodo,{where:{id:todoId}})
         .then(data => {
-            console.log(data)
-            if (data[0] == 0) {
-                next({
-                    status:404,
-                    msg:`Cannot be found`
-                })
-            } else {
+            if (data[0] != 0) {
                 res.status(200).json(updateTodo)
             }
         })
@@ -74,15 +70,15 @@ class TodoController {
     }
 
     static delete (req, res, next) {
-        console.log(`masuk delete controller`)
         let todoId = req.params.id
         let deletedTodo = null
         Todo.findByPk(todoId)
         .then(data => {
-            // console.log(data)
             if(data == null) {
-                let error = `ID cannot be found`
-                throw error
+                next({
+                    status:404,
+                    msg:`Cannot be found`
+                })
             } else {
                 deletedTodo = data
                 return Todo.destroy({where:{id:todoId}})

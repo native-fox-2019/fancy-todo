@@ -5,13 +5,20 @@ function authorization (req, res, next) {
     let todoId = req.params.id
     Todo.findOne({where:{id:todoId}})
     .then(data => {
-        if (data.user_id == req.userData.id) {
-            next()
-        } else {
+        if (data == null) {
             next({
-                status:400,
-                msg:`You are not authorized`
+                status:404,
+                msg:`Cannot be found`
             })
+        } else {
+            if (data.user_id == req.userData.id) {
+                next()
+            } else {
+                next({
+                    status:400,
+                    msg:`You are not authorized`
+                })
+            }
         }
     })
     .catch(err => {
