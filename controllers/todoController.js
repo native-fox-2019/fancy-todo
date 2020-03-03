@@ -35,6 +35,7 @@ class Controller {
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
+            UserId: req.userData.id
         }
         Todo.create(obj)
         .then(data => res.status(201).json(data))
@@ -49,6 +50,7 @@ class Controller {
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
+            UserId: req.userData.id
         }
 
         Todo.update(obj, option)

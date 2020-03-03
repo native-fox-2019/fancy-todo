@@ -23,9 +23,17 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     due_date: DataTypes.DATE,
+    UserId: {
+      type: DataTypes.INTEGER,
+      reference: {
+        model: 'Users',
+        key: 'id'
+      },
+    },
   }, {sequelize});
 
   Todo.associate = function(models) {
+    Todo.belongsTo(models.User)
     // associations can be defined here
   };
   return Todo;
