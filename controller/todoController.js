@@ -1,25 +1,27 @@
 const { Todo } = require('../models/index.js')
+const axios = require('axios')
 
 
 class TodoController{
-    static view(req,res){
-        Todo.findAll()
+    static view(req,res,next){
+        Todo.findAll({where:{userId : req.userData.id}})
         .then(result=>{
             res.status(200).json(result)
         })
         .catch(err=>{
-            res.status(500).json(err)
+            next({status: 500, msg: 'Internal server error!'})
         })
     }
 
-    static add(req,res){
+    static add(req,res,next){
         let obj = {
             title : req.body.title,
             description : req.body.description,
             status : req.body.status,
-            due_date : req.body.due_date
+            due_date : req.body.due_date,
+            userId : req.userData.id
         }
-
+        console.log(req.userData.id)
         Todo.create(obj)
         .then(result=>{
             res.status(201).json(result)
@@ -32,30 +34,31 @@ class TodoController{
                     msg : err.errors[i].message
                 }
             } 
-            res.status(400).json(totalError) 
+            next({status: 400, msg: totalError})
             } else{
-            res.status(500).json('Internal server error!')
+            next({status: 500, msg: 'Internal server error!'})
             }
         })
     }
 
-    static getTodo(req,res){
+    static getTodo(req,res,next){
         let params = req.params.id
+        console.log(req.params.id)
         Todo.findOne({where:{id:params}})
         .then(result=>{
             if(result){
               res.status(200).json(result)  
             } else{
-                res.status(404).json('data not found!')
+                 next({status: 404, msg: 'Data not found!'})
             }
             
         })
         .catch(err=>{
-            res.status(500).json(err)
+            next({status: 500, msg: 'Internal server error!'})
         })
     }
 
-    static update(req,res){
+    static update(req,res,next){
         let params = Number(req.params.id)
         let obj = {
             title : req.body.title,
@@ -67,10 +70,10 @@ class TodoController{
         Todo.update(obj,{where:{id:params}})
         .then(result=>{
             if(result[0]){
-              res.status(200).json(result)  
+              res.status(200).json(obj)  
             }
             else{
-              res.status(404).json('not found')  
+             next({status: 404, msg: 'Data not found!'})  
             }
         })
         .catch(err=>{
@@ -78,19 +81,49 @@ class TodoController{
         })
     }
 
-    static delete(req,res){
+    static delete(req,res,next){
         let params = req.params.id
-        Todo.destroy({where:{id:params}})
+        let todo = null
+        Todo.findByPk(params)
         .then(result=>{
-            if(result[0]){
-             res.status(200).json(result)   
+            if(result){
+            todo = result;
+            return Todo.destroy({where:{id:params}})
             } else{
-             res.status(404).json('not found')
+                next({status: 404, msg: 'Data not found!'})
             }
-            
+        })
+        .then(data=>{
+             res.status(200).json(todo)  
         })
         .catch(err=>{
-            res.status(500).json(err)
+            next({status: 500, msg: 'Internal server error!'})
+        })
+    }
+
+    static getQuotes(req,res){
+        axios({
+            method: 'get',
+            url : 'http://quotes.stormconsultancy.co.uk/random.json'
+        })
+        .then((response) =>{
+            res.status(200).json({"quotes" : response.data.quote})
+        })
+        .catch(err=>{
+            res.status(500).json('error!')
+        })
+    }
+
+    static getWeather(req,res){
+        axios({
+            method: 'get',
+            url : 'http://api.airvisual.com/v2/nearest_city?key=971d601f-a933-433f-a8fe-cfa789dbd7de'
+        })
+        .then((response) =>{
+            res.status(200).json({"quotes" : response.data})
+        })
+        .catch(err=>{
+            res.status(500).json('error!')
         })
     }
 
