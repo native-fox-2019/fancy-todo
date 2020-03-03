@@ -30,13 +30,10 @@ class ControllerUser {
                 }
             })
             .then(data => {
-                console.log(data)
-                res.send(data)
-                req.UserId = data.id
                 const test = bcrypt.compareSync(req.body.password, data.password)
                 if(test){
-                    const token = jwt.sign({ id: data.id }, process.env.secretCode)
-                    res.status(200).json({ 'token': token })
+                    const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET)
+                    res.status(200).json({ token })
                 }
             })
             .catch(err => {

@@ -4,8 +4,10 @@ function errorHandler(err,req,res,next) {
         res.status(400).json({message})
     } else if (err.status === 404 ) {
         res.status(404).json({err:err.msg})
+    } else if (err.status) {
+        res.status(err.status).json({errMessage: err.msg || "no error message"})
     } else {
-        // console.log(err)
+        console.log(err)
         res.status(500).json({errMessage:'internal server error'})
     }
 }
