@@ -21,6 +21,8 @@ module.exports = (err, req, res, next) => {
         res.status(400).json(err.message);
     } else if(err.name === 'NotBeforeError') {
         res.status(400).json(err.message);
+    } else if(err.name === 'ForbiddenError'){
+        res.status(403).json(err.message);
     } else {
         console.log(err)
         res.status(500).json({
