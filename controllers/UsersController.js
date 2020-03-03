@@ -24,7 +24,7 @@ class UsersController {
                     return compare(password, data.password)
                         .then(result => {
                             if (result) {
-                                let payload = { id: data.id };
+                                let payload = { id: data.id, email: data.email };
                                 let token = generateToken(payload);
                                 res.status(200).json({ token });
                             } else {

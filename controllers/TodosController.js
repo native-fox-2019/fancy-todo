@@ -13,7 +13,7 @@ class TodosController {
         }
         Todo.create(obj)
             .then(data => {
-                sendmail(req.body.title);
+                sendmail(req.userData.email, req.body.title);
                 res.status(201).json(data);
             }).catch(err => {
                 next(err);
