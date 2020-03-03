@@ -6,7 +6,8 @@ class TodoController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.userData.id
         };
         Todo.create(toAdd)
         .then(() => {
@@ -22,7 +23,8 @@ class TodoController {
     }
 
     static getTodo = (req, res) => {
-        Todo.findAll()
+        let UserId = req.userData.id;
+        Todo.findAll({ where: { UserId } })
         .then(data => {
             res.status(200).json(data);
         })
@@ -32,7 +34,10 @@ class TodoController {
     }
 
     static findTodo = (req, res) => {
-        let findId = { id: req.params.id };
+        let findId = {
+            id: req.params.id,
+            UserId: req.userData.id
+        }
         Todo.findOne({ where: findId })
         .then(data => {
             if (data) {
@@ -47,7 +52,10 @@ class TodoController {
     }
 
     static editTodo = (req, res) => {
-        let editId = { id: req.params.id };
+        let editId = {
+            id: req.params.id,
+            UserId: req.userData.id
+        };
         let editBody = {
             title: req.body.title,
             description: req.body.description,
@@ -72,7 +80,10 @@ class TodoController {
     }
 
     static dropTodo = (req, res) => {
-        let dropId = { id: req.params.id };
+        let dropId = {
+            id: req.params.id,
+            UserId: req.userData.id
+        };
         let dropBody = {};
         Todo.findOne({ where: dropId })
         .then(data => {
