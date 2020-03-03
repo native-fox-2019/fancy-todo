@@ -21,7 +21,7 @@ function authenticate(){
                 authenticate.auth=auth;
                 resolve(calendar)
             },function(authUrl){
-              reject({message:'Please click this url to continue',authUrl});
+              reject({name:'reAuth', message:'Please click this url to continue',authUrl});
             });
         });
     })
@@ -57,24 +57,7 @@ function getAccessToken(oAuth2Client, callback) {
     scope: SCOPES,
   });
   callback(authUrl);
-  //console.log('Authorize this app by visiting this url:', authUrl);
-  // const rl = readline.createInterface({
-  //   input: process.stdin,
-  //   output: process.stdout,
-  // });
-  // rl.question('Enter the code from that page here: ', (code) => {
-  //   rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error('Error retrieving access token', err);
-      oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err);
-        console.log('Token stored to', TOKEN_PATH);
-      });
-      callback(oAuth2Client);
-    });
-  // });
+
 }
 
 /**
@@ -89,61 +72,15 @@ authenticate.getOAuth2=function(credentials){
   return oAuth2Client;
 }
 
+authenticate.errorHandler=function(e,res){
+  if(e.name==='reAuth'){
+    res.status(301).json(e);
+  }
+  else{
+    res.status(500).json({status:500,message:'Ada error',e})
+  }
+}
+
 authenticate.TOKEN_PATH=TOKEN_PATH;
 
 module.exports=authenticate;
-
-
-function listEvents(auth) {
-    
-    // const start=new Date();
-    // const end=new Date();
-    // end.setHours(start.getHours()+1);
-    // var event = {
-    //     summary: 'Testing aja hehehhe',
-    //     location: 'HAHAHAHA HEHEHEHEH',
-    //     description: "A chance to hear more.",
-    //     start: {
-    //       dateTime: start.toISOString()
-    //     },
-    //     end: {
-    //       dateTime: end.toISOString()
-    //     },
-    //     reminders: {
-    //       useDefault: false,
-    //       overrides: [
-    //         { method: 'email', minutes: 24 * 60 },
-    //         { method: 'popup', minutes: 10 }
-    //       ]
-    //     }
-    //   };
-    // calendar.events.insert({
-    //     calendarId:'lj5fpqc0ge03cviig9kcbhio0s@group.calendar.google.com',
-    //     auth:auth,
-    //     resource:event
-    // },(err,res)=>{
-    //    if(err) return console.log('Ada error ',err);
-       
-    //    console.log('Berhasil',res);
-    // })
-
-//   calendar.events.list({
-//     calendarId: 'lj5fpqc0ge03cviig9kcbhio0s@group.calendar.google.com',
-//     timeMin: (new Date()).toISOString(),
-//     maxResults: 10,
-//     singleEvents: true,
-//     orderBy: 'startTime',
-//   }, (err, res) => {
-//     if (err) return console.log('The API returned an error: ' + err);
-//     const events = res.data.items;
-//     if (events.length) {
-//       events.map((event, i) => {
-//         const start = event.start.dateTime || event.start.date;
-//         console.log(`${start} - ${event.summary}`);
-//       });
-//     } else {
-//       console.log('No upcoming events found.');
-//     }
-//   });
-
-}
