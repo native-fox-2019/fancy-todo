@@ -33,7 +33,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }
-  }, {});
+  }, {
+    hooks:{
+      beforeCreate:(instance, option) => {
+        if (instance.status == null) {
+          instance.status = false
+        }
+      }
+    }
+  });
   Todo.associate = function(models) {
     // associations can be defined here
     Todo.belongsTo(models.User, { foreignKey:`user_id` })
