@@ -1,7 +1,8 @@
 const { Todo } = require('../models');
+const createError = require('http-errors');
 
 class TodoController {
-    static addTodo = (req, res) => {
+    static addTodo = (req, res, next) => {
         let toAdd = {
             title: req.body.title,
             description: req.body.description,
@@ -14,26 +15,22 @@ class TodoController {
             res.status(201).json(toAdd);
         })
         .catch(err => {
-            if (err.errors) {
-                res.status(400).json(err.errors[0]);
-            } else {
-                res.status(500).json(err);
-            }
+            next(err);
         })
     }
 
-    static getTodo = (req, res) => {
+    static getTodo = (req, res, next) => {
         let UserId = req.userData.id;
         Todo.findAll({ where: { UserId } })
         .then(data => {
             res.status(200).json(data);
         })
         .catch(err => {
-            res.status(500).json(err);
+            next(err);
         })
     }
 
-    static findTodo = (req, res) => {
+    static findTodo = (req, res, next) => {
         let findId = {
             id: req.params.id,
             UserId: req.userData.id
@@ -43,15 +40,15 @@ class TodoController {
             if (data) {
                 res.status(200).json(data);
             } else {
-                res.status(404).json({ error: 'record not found!' });
+                throw createError(404, 'ItemNotFound');
             }
         })
         .catch(err => {
-            res.status(500).json(err);
+            next(err);
         })
     }
 
-    static editTodo = (req, res) => {
+    static editTodo = (req, res, next) => {
         let editId = {
             id: req.params.id,
             UserId: req.userData.id
@@ -67,19 +64,15 @@ class TodoController {
             if (data[0] === 1) {
                 res.status(200).json(editBody);
             } else {
-                res.status(404).json({ error: 'record not found!' });
+                throw createError(404, 'ItemNotFound');
             }
         })
         .catch(err => {
-            if (err.errors) {
-                res.status(400).json(err.errors[0]);
-            } else {
-                res.status(500).json(err);
-            }
+            next(err);
         })
     }
 
-    static dropTodo = (req, res) => {
+    static dropTodo = (req, res, next) => {
         let dropId = {
             id: req.params.id,
             UserId: req.userData.id
@@ -90,7 +83,7 @@ class TodoController {
             if (data) {
                 dropBody = data;
             } else {
-                res.status(404).json({ error: 'record not found!' });
+                throw createError(404, 'ItemNotFound');
             }
             return Todo.destroy({ where: dropId });
         })
@@ -98,7 +91,7 @@ class TodoController {
             res.status(200).json(dropBody);
         })
         .catch(err => {
-            res.status(500).json(err);
+            next(err);
         })
     }
     

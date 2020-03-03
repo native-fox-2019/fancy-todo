@@ -1,9 +1,9 @@
 const { User } = require('../models');
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
 
 class UserController {
-    static register = (req, res) => {
+    static register = (req, res, next) => {
         let newUser = {
             email: req.body.email,
             password: req.body.password
@@ -18,25 +18,14 @@ class UserController {
             });
         })
         .then(data => {
-            res.status(201).json({
-                status: 201,
-                result: {
-                    id: data.id,
-                    email: data.email,
-                    password: data.password
-                }
-            });
+            res.status(201).json(data);
         })
         .catch(err => {
-            if (err.errors) {
-                res.status(400).json(err.errors[0]);
-            } else {
-                res.status(500).json(err);
-            }
+            next(err)
         })
     }
 
-    static login = (req, res) => {
+    static login = (req, res, next) => {
         let loginData = {
             email: req.body.email,
             password: req.body.password
@@ -47,11 +36,11 @@ class UserController {
                 let token = jwt.sign({ id: data.id, email: data.email }, process.env.AUTH_SECRET);
                 res.status(200).json({ token });
             } else {
-                res.status(400).json({ status: 400, message: 'wrong email / password!' });
+                throw createError(400,'InvalidLogin');
             }
         })
         .catch(err => {
-            res.status(500).json(err);
+            next(err);
         });
     }
 }

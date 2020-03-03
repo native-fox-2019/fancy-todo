@@ -1,4 +1,5 @@
 const { Todo } = require('../models');
+const createError = require('http-errors');
 
 function authorization(req, res, next) {
     let todoId = { id: req.params.id };
@@ -9,14 +10,10 @@ function authorization(req, res, next) {
                 if (req.userData.id === data.UserId) {
                     next();
                 } else {
-                    res.status(403).json({ status: 403, message: 'specified record belongs to someone else!' });
+                    throw createError(403, 'ItemNotOwned');
                 }
             } else {
-                //// ERROR HANDLING NEEDED
-                // next(err)
-                // if err.name ==
-                // err.messa
-                res.status(404).json({ status: 404, message: 'specified record not found!' });
+                throw createError(404, 'ItemNotFound');
             }
             console.log(data)
         })

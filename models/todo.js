@@ -42,14 +42,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     UserId: {
-      type: DataTypes.INTEGER
-      // allowNull: false,
-      // validate: {
-      //   notEmpty: { args: true, msg: 'due_date cannot be empty!' },
-      //   notNull: {
-      //     msg: 'due_date cannot be empty!'
-      //   }
-      // }
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { args: true, msg: 'UserId cannot be empty!' },
+        notNull: {
+          msg: 'UserId cannot be empty!'
+        }
+      }
     }
   }, {});
   Todo.associate = function(models) {
