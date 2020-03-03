@@ -6,6 +6,8 @@ const port = process.env.port || 3000
 const morganChalk = require('./morganChalk');
 const router = require('./routers');
 const ErrorHandler = require('./middleware/ErrorHandler');
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.use(morganChalk);
 app.use(express.urlencoded({extended:true}))
