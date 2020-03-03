@@ -1,5 +1,6 @@
 const { Todo } = require('../models')
-
+const axios = require('axios').default
+require('dotenv').config()
 
 class Controller {
     static post_todos(request, response,next){
@@ -111,6 +112,25 @@ class Controller {
         .catch(err=>{
             next(err)
         })
+    }
+
+    static Holidays (request,response,next){
+        axios({
+            method: 'get',
+            url: `https://calendarific.com/api/v2/holidays?&api_key=${process.env.KEYHOLIDAY}&country=ID&year=2020`,
+          })
+          .then(res=>{
+              let arr =[]
+              for(let i = 0 ; i <res.data.response.holidays.length;i++ ){
+                  arr.push({
+                      name:res.data.response.holidays[i].name,
+                      date:res.data.response.holidays[i].date.iso
+                  })
+              }
+              console.log(arr)
+              response.status(201).json(arr)
+          })
+        
     }
 
 
