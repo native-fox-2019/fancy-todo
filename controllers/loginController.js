@@ -1,24 +1,39 @@
 const { User } = require(`../models`)
-const token = require(`../middleware/token`)
+const token = require(`../helper/token`)
+const { decodePassword } = require(`../helper/bcrypt`)
 
 class LoginController {
 
     static doLogin (req, res, next) {
-        let { email, password } = req.body
-        User.findOne({where:{email, password}})
+        let userData = null
+        User.findOne({where:{email:req.body.email}})
         .then(data => {
             if (data != null) {
-                let userData = {
+                let hashed = data.password
+                let password = req.body.password
+                userData = {
                     id:data.id,
-                    email
+                    email:data.email
                 }
+                return decodePassword(password, hashed)
+            } else {
+                next({
+                    status:404,
+                    msg:`cannot be found`
+                })
+            }
+        })
+        .then(result => {
+            if (result) {
                 let gotToken = token(userData)
                 req.header = gotToken
                 req.userData = userData
                 res.status(200).json(req.header)
-                
             } else {
-                next({name:`username / password invalid`, status:400})
+                next({
+                    status:400,
+                    msg:`invalid email / password`
+                })
             }
         })
         .catch(err => {

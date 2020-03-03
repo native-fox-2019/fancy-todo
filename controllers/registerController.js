@@ -1,4 +1,5 @@
 const { User } = require(`../models`)
+const { hashPassword } = require(`../helper/bcrypt`)
 
 class RegisterController {
     static register (req, res, next) {
