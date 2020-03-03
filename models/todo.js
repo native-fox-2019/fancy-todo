@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: {
       type: Sequelize.STRING,
-      //notEmpty: true,
       validate: {notEmpty: true}
     }, 
     description: {
@@ -20,10 +19,14 @@ module.exports = (sequelize, DataTypes) => {
     due_date: {
       type: Sequelize.STRING,
       validate: {notEmpty: true}
+    },
+    userId: {
+      type: Sequelize.INTEGER
     } 
   }, {sequelize})
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User, {foreignKey: 'userId'})
   };
   return Todo;
 }
