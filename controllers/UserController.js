@@ -3,17 +3,18 @@ const tokenization = require('../helpers/tokenization')
 const bcrypt = require('bcryptjs')
 
 class UserController {
-    static read(request, response){
+    static read(request, response, next){
         User.findAll()
         .then( result => {
             response.status(200).json(result)
         } )
         .catch( err => {
-            response.status(500).json({
-                status_code: 500,
-                message: 'System error',
-                err
-            })
+            next(err)
+            // response.status(500).json({
+            //     status_code: 500,
+            //     message: 'System error',
+            //     err
+            // })
         } )
     }
 
@@ -54,7 +55,8 @@ class UserController {
             response.status(201).json(result)
         } )
         .catch( err => {
-            response.status(err.status_code).json(err)
+            next(err)
+            // response.status(err.status_code).json(err)
         } )
     }
 
@@ -92,7 +94,8 @@ class UserController {
             }
         } )
         .catch( err => {
-            response.status(err.status_code).json(err)
+            next(err)
+            // response.status(err.status_code).json(err)
         } )
     }
 

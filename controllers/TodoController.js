@@ -1,7 +1,7 @@
 const { Todo } = require('../models')
 
 class TodoController {
-    static create(request, response) {
+    static create(request, response, next) {
         let newData = {
             title: request.body.title,
             description: request.body.description,
@@ -14,14 +14,18 @@ class TodoController {
             response.status(201).json(result)
         } )
         .catch( err => {
+            // next(err)
             if(err.name == "SequelizeValidationError"){
                 let err_msg = []
                 err.errors.forEach(element => {
                     err_msg.push(element.message)
                 })
-                response.status(400).json({status_code:400, type:"Validation Error", message: err_msg})
+                let error = {status_code:400, type:"Validation Error", message: err_msg}
+                next(error)
+                // response.status(400).json({status_code:400, type:"Validation Error", message: err_msg})
             }else{
-                response.status(500).json({status_code:500, type:"Server Error", err})
+                next(err)
+                // response.status(500).json({status_code:500, type:"Server Error", err})
             }
         } )
     }
@@ -36,15 +40,16 @@ class TodoController {
             response.status(200).json(result)
         } )
         .catch( err => {
-            response.status(500).json({status_code:500, type:"Server Error", err})
+            next(err)
+            // response.status(500).json({status_code:500, type:"Server Error", err})
         } )
     }
 
-    static readById(request,response) {
+    static readById(request, response, next) {
         let find_id = request.params.id
-        Todo.findOne({
+        Todo.findAll({
             where:{
-                id: find_id
+                user_id: find_id
             }
         })
         .then( result => {
@@ -59,14 +64,16 @@ class TodoController {
         } )
         .catch( err => {
             if(err.status_code == 404){
-                response.status(404).json(err)
+                next(err)
+                // response.status(404).json(err)
             }else{
-                response.status(500).json({status_code:500, type:"Server Error", err})
+                next(err)
+                // response.status(500).json({status_code:500, type:"Server Error", err})
             }
         } )
     }
 
-    static update(request, response) {
+    static update(request, response, next) {
         let update_id = request.params.id
         let newData = {
             title: request.body.title,
@@ -96,20 +103,23 @@ class TodoController {
         } )
         .catch( err => {
             if(err.status_code == 404){
-                response.status(404).json({status_code:404, err})
+                next({status_code:404, err})
+                // response.status(404).json({status_code:404, err})
             }else if(err.name == "SequelizeValidationError"){
                 let err_msg = []
                 err.errors.forEach(element => {
                     err_msg.push(element.message)
                 })
-                response.status(400).json({status_code:400, type:"Validation Error", message: err_msg})
+                next({status_code:400, type:"Validation Error", message: err_msg})
+                // response.status(400).json({status_code:400, type:"Validation Error", message: err_msg})
             }else{
-                response.status(500).json({status_code:500, type:"Server Error", err})
+                next(err)
+                // response.status(500).json({status_code:500, type:"Server Error", err})
             }
         } )
     }
 
-    static delete(request, response) {
+    static delete(request, response, next) {
         let delete_id = request.params.id
         let delete_data
         Todo.findByPk(delete_id)
@@ -132,11 +142,13 @@ class TodoController {
             response.status(200).json(delete_data)
         } )
         .catch( err => {
-            if(err.status_code == 404){
-                response.status(404).json(err)
-            }else{
-                response.status(500).json({status_code: 500, type:"Server Error", err})
-            }
+            next(err)
+            // if(err.status_code == 404){
+            //     // next(err)
+            //     response.status(404).json(err)
+            // }else{
+            //     response.status(500).json({status_code: 500, type:"Server Error", err})
+            // }
         } )
     }
 

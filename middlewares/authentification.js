@@ -17,6 +17,13 @@ module.exports = (request, response, next) => {
         }
       } )
     } catch(err) {
-      next(err)
+      if(err.status_code == 404){
+        next(err)
+      }else{
+        next({
+          status_code: 400,
+          message: 'not authentificated'
+        })
+      }
     }
 }
