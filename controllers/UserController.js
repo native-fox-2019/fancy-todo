@@ -20,7 +20,7 @@ class UserController {
     static readTodoById(request, response, next){
         Todo.findAll({
             where:{
-                id: request.userData
+                user_id: request.userData.id
             }
         })
         .then( result => {
@@ -63,6 +63,7 @@ class UserController {
             email: request.body.email,
             password: request.body.password
         }
+        let userData
         User.findOne({
             where: {
                 email: login_data.email
@@ -75,12 +76,13 @@ class UserController {
                     message: 'email not found'
                 }
             }else{
+                userData = result
                 return bcrypt.compare(login_data.password, result.password)
             }
         } )
         .then( result => {
             if(result){
-                let token = tokenization(result)
+                let token = tokenization(userData)
                 response.status(200).json({"token":token})
             }else{
                 throw {
