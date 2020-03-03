@@ -4,6 +4,7 @@ const router = require('express').Router()
 
 router.get('/', controllerTodos.getAllTodo)
 router.post('/', controllerTodos.createTodo)
+router.get('/:id', controllerTodos.getOneTodo)
 router.put('/:id', controllerTodos.putTodo)
 router.delete('/:id', controllerTodos.deleteTodo)
 

@@ -1,4 +1,6 @@
 'use strict';
+const bcyrpt = require('bcrypt')
+const createError = require('../helper/http-errors')
 module.exports = (sequelize, DataTypes) => {
   const { Model } = sequelize.Sequelize
   class User extends Model { }
@@ -17,7 +19,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: { msg: 'Please fill in all fields' },
-        notEmpty: { msg: 'Please fill in all fields' }
+        notEmpty: { msg: 'Please fill in all fields' },
+        isEmailUniq(value) {
+          return User.findOne({ where: { email: value } })
+            .then(resultEmail => {
+              if (resultEmail) {
+                throw createError('406', 'Not Acceptable')
+              }
+            })
+        }
       }
     },
     password: {
@@ -27,13 +37,21 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: 'Please fill in all fields' },
         notEmpty: { msg: 'Please fill in all fields' },
         len: {
-          args: 5,
+          args: 6,
           msg: 'Password must be at least 6 characters'
         }
       }
 
     }
-  }, { sequelize })
+  }, {
+    hooks:
+    {
+      beforeCreate: (user, options) => {
+        user.password = bcyrpt.hashSync(user.password, 10)
+      }
+    }
+    , sequelize
+  })
 
   // const User = sequelize.define('User', {
   //   username: DataTypes.STRING,
