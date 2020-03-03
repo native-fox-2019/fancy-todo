@@ -10,7 +10,7 @@ module.exports = (err, req, res, next) => {
         res.status(400).json(errMsg)
     } else if (err.name === `NotFoundError`) {
         res.status(404).json(err)
-    } else if (err.name === `BadRequestError`) {
+    } else if (err.name === `BadRequestError` || err.name === `JsonWebTokenError`) {
         res.status(400).json(err)
     } else {
         console.log(err.stack)
