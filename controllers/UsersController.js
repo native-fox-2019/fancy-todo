@@ -8,7 +8,7 @@ class UsersController {
         let { username, email, password } = req.body;
         User.create({ username, email, password })
             .then(data => {
-                res.send(data);
+                res.status(201).json(data);
             }).catch(err => {
                 next(err);
             });

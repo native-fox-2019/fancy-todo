@@ -20,16 +20,17 @@ due_date: string
 ```
 Default value for **status** is false
 ## Response
+Status 201
 ```
 id: 1,
 title: "Learn API",
 description: "Explore how to make API documentation",
 status: false,
 due_date: "2020-01-02",
+UserId: 1,
 createdAt: 2020-03-03T15:01:27.405Z,
 updatedAt: 2020-03-03T15:01:27.405Z
 ```
-
 
 # GET /todos
 ## Endpoint
@@ -44,6 +45,7 @@ Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
 ## Response:
+Status 200
 ```
 [
     {
@@ -71,6 +73,7 @@ Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
 ## Response:
+Status 200
 ```
 {
     id: 1,
@@ -104,6 +107,7 @@ token: YOUR_TOKEN
 }
 ```
 ## Response:
+Status 200
 ```
 {
     id": 1,
@@ -128,6 +132,7 @@ Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
 ## Response:
+Status 200
 ```
 {
     id: 1,
@@ -138,4 +143,54 @@ token: YOUR_TOKEN
     createdAt: 2020-03-03T15:01:27.405Z,
     updatedAt: 2020-03-03T15:01:27.405Z
 }
+```
+
+# POST /users/register
+## Endpoint
+> localhost:3000/users/register
+
+## Request header: 
+```
+Content-Type: "application/json"
+```
+
+## Request body:
+```
+username: string,
+email: string,
+password: string
+```
+All req.body is **required**
+
+## Response
+Status 201
+```
+id: 1,
+username: "Username example",
+email: "test@mail.com",
+password: "hashedPassword",
+createdAt: 2020-03-03T15:01:27.405Z,
+updatedAt: 2020-03-03T15:01:27.405Z
+```
+
+# POST /users/login
+## Endpoint
+> localhost:3000/users/login
+
+## Request header: 
+```
+Content-Type: "application/json"
+```
+
+## Request body:
+```
+email: string,
+password: string
+```
+All req.body is **required**
+
+## Response
+Status 200
+```
+token: "YOUR_TOKEN"
 ```
