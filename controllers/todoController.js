@@ -1,4 +1,5 @@
 const {Todo} = require('../models')
+const axios = require('axios')
 
 class Controller {
 
@@ -86,6 +87,18 @@ class Controller {
         .catch(err => {
             res.status(500).json(err)
         })
+    }
+
+    static qotd(req, res) {
+        // Generate random quote //
+        axios({
+           method: 'get',
+           url: 'https://quote-garden.herokuapp.com/quotes/random',
+        })
+        .then((response) => {
+            res.status(200).json(response.data.quoteText)
+        })
+        .catch(err => next(err))
     }
 }
 

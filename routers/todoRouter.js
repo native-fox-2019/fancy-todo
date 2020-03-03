@@ -16,11 +16,14 @@ const authorization = require('../middlewares/authorization.js')
 
 //////////
 
+router.get('/qotd', Controller.qotd)
+
 router.post('/', authentication, Controller.add)
 router.get('/', authentication, Controller.viewAll)
 
 router.get('/:id', authentication, authorization, Controller.viewOne)
 router.put('/:id', authentication, authorization, Controller.edit)
 router.delete('/:id', authentication, authorization, Controller.delete)
+
 
 module.exports = router
