@@ -1,73 +1,89 @@
 const { Todo } = require('../models')
 
 class TodoController {
-    static list(req, res) {
-        Todo.findAll()
+    static list(req, res, next) {
+        Todo.findAll({where: {UserId: req.userData.id}})
         .then(data => {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next({status: 500, msg: 'Server Error'})
         })
     }
-    static add (req, res) {
+    static add (req, res, next) {
         let todo = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId : req.userData.id
         }
         Todo.create(todo)
         .then(data => {
             res.status(201).json(data)
         })
         .catch(err => {
-            if(err){
-                res.status(400).json(err)
+            if(err.errors){
+                let error = []
+                err.errors.forEach((item) => {
+                    error.push({
+                        type: item.type,
+                        msg: item.message
+                    })
+                })
+                next({status: 400, error: error})
             }else{
-                res.status(500)
+                next({status: 500, msg: 'Server Error'})
             }
         })
     }
-    static getOne(req, res){
+    static getOne(req, res, next){
         let id = Number(req.params.id);
         Todo.findOne({where: {id}})
         .then(data=> {
             if(data){
                 res.status(200).json(data)
             }else{
-                throw '404 Not Found'
+                next({status: 404, msg: '404 not found'})
             }
         })
         .catch(err => { 
-            res.status(404).json(err)
+            next({status: 500, msg: 'Server Error'})
         })
     }
-    static edit(req, res){
+    static edit(req, res, next){
         let id = Number(req.params.id)
         let todo = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId : req.userData.id
         }
         Todo.update(todo, {where: {id}})
         .then(data => {
             if(data[0]){
                 res.status(200).json(todo)
             }else{
-                res.status(404).json('404 Not Found')
+                next({status: 404, msg: '404 not found'})
             }
         })
         .catch(err => {
-            if(err){
-                res.status(400).json(err)
+            if(err.errors){
+                let error = []
+                err.errors.forEach((item) => {
+                    error.push({
+                        type: item.type,
+                        msg: item.message
+                    })
+                })
+                next({status: 400, error: error})
             }else{
-                res.status(500)
+                next({status: 500, msg: 'Server Error'})
             }
         })
     }
-    static delete(req, res){
+    static delete(req, res, next){
         let id = Number(req.params.id);
         let dataDeleted = null
         Todo.findOne({where: {id}})
@@ -76,7 +92,7 @@ class TodoController {
                 dataDeleted = data
                 return Todo.destroy({where: {id}})
             }else{
-                throw '404 Not Found'
+                next({status: 404, msg: '404 not found'})
             }
         })
         .then(data2 => {
@@ -84,9 +100,9 @@ class TodoController {
         })
         .catch(err => {
             if(err){
-                res.status(404).json(err)
+                next({status: 404, msg: '404 not found'})
             }else{
-                res.status(500)
+                next({status: 500, msg: 'Server Error'})
             }
         })
     }
