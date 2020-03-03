@@ -1,12 +1,16 @@
 const { Todo } = require('../models');
+const jwt = require('jsonwebtoken');
 
 class Controller{
-    static addData(req, res){
+    
+    static addData(req, res, next){
+        
         let dataAdd = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            userId: req.userData.id
         }
         
         Todo.create(dataAdd)
@@ -15,26 +19,22 @@ class Controller{
                 
             })
             .catch(err=>{
-                if(err.name === 'SequelizeValidationError'){
-                    res.status(400).json(err.message);
-                }else{
-                    res.status(400).json(err);
-                }
+                next(err);
             })
         
     }
 
-    static showData(req,res){
+    static showData(req, res, next){
         Todo.findAll()
             .then(data=>{
                 res.status(200).json(data);
             })
             .catch(err=>{
-                res.status(500).json(err);
+                next(err);
             })
     }
 
-    static showDataById(req, res){
+    static showDataById(req, res, next){
         Todo.findOne({
             where: {
                 id: req.params.id
@@ -42,7 +42,9 @@ class Controller{
         })
             .then(data=>{
                 if(!data){
-                    throw new Error('error not found');
+                    next({
+                        msg: 'error not found'
+                    })
                 }else{
                     res.status(200).json(data);
                 }
@@ -52,7 +54,7 @@ class Controller{
             })
     }
 
-    static edit(req, res){
+    static edit(req, res, next){
         let dataEdit = {
             title: req.body.title,
             description: req.body.description,
@@ -62,29 +64,26 @@ class Controller{
 
         Todo.update(dataEdit, {
             where: {
-                id: req.params.id
+                userId: req.userData.id,
+                id: Number(req.params.id)
             }
         })
             .then(data=>{
                 if(data[0] === 0){
-                    throw new Error('error not found')
+                    next({
+                        msg: 'error not found'
+                    })
                 }else{
                     res.status(200).json(dataEdit);
                 }
                 
             })
             .catch(err=>{
-                if(err.message === 'error not found'){
-                    res.status(404).json(err.message);
-                }else if(err.name === 'SequelizeValidationError'){
-                    res.status(400).json(err.message);
-                }else{
-                    res.status(500).json(err.message);
-                }
+                next(err);
             })
     }
 
-    static deleteData(req, res){
+    static deleteData(req, res, next){
         let dataDelete;
         
         Todo.findOne({
@@ -92,28 +91,27 @@ class Controller{
                 id: req.params.id
             }
         })
-            .then(data=>{
-                if(!data){
-                    throw new Error('error not found');
-                }else{
-                    dataDelete = data; 
+            .then(data=>{  
+                dataDelete = data; 
 
-                    return Todo.destroy({
-                        where: {
-                            id: req.params.id
-                        }
-                    })
-                }
+                return Todo.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                
             })
             .then(data=>{
-                res.status(200).json(dataDelete);
+                if(data === 0){
+                    next({
+                        msg: 'error not found'
+                    })
+                }else{
+                    res.status(200).json(dataDelete);
+                }
             })
             .catch(err=>{
-                if(err.message === 'error not found'){
-                    res.status(404).json(err.message);
-                }else{
-                    res.status(500).json(err);
-                }
+                next(err);
             })
     }
 }
