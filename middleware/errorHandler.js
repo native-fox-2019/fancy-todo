@@ -3,10 +3,10 @@ module.exports = (err, req, res, next) => {
         var errMsg = {
             message: []
         }
-
-                err.errors.forEach(i => {
-                    errMsg.message.push(i.message)
-                })
+        err.errors.forEach(i => {
+            errMsg.message.push(i.message)
+        })
+        
         res.status(400).json(errMsg)
     } else if (err.code) {
         res.status(404).json(err.msg)

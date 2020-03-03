@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 
 const router = require(`./routes`)
-const errorHandling = require(`./errorHandler/errorHandler`)
+const errorHandling = require(`./middleware/errorHandler`)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

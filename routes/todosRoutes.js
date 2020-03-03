@@ -3,6 +3,9 @@ var router = express.Router()
 
 const { todos } = require(`../controllers`)
 
-router.post(``, todos.create)
+router.post(`/`, todos.create)
+
+router.get(`/`, todos.showAll)
+
 
 module.exports = router
