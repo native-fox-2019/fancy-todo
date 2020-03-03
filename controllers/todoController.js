@@ -1,5 +1,6 @@
 const { Todo } = require('../models');
 const createError = require('http-errors');
+const holidayIdn = require('../helpers/holidayAPI');
 
 class TodoController {
     static addTodo = (req, res, next) => {
@@ -10,6 +11,10 @@ class TodoController {
             due_date: req.body.due_date,
             UserId: req.userData.id
         };
+        // holidayIdn(req, res, next)
+        // .then(() => {
+        //     console.log(res.holiday);
+        // })
         Todo.create(toAdd)
         .then(() => {
             res.status(201).json(toAdd);
