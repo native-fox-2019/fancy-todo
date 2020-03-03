@@ -1,5 +1,6 @@
 const { User } = require('../models/index')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 class UserControl {
 
@@ -14,12 +15,12 @@ class UserControl {
         console.log(req.body)
         let { email, password } = req.body
         User.findOne({
-            where: { email: email}
+            where: { email }
         })
         .then(user=>{
             if(user){
-                if (password === user.password){
-                    let token = jwt.sign({id: user.id, email: user.email}, 'aaa')
+                if (bcrypt.compareSync(password, user.password)){
+                    let token = jwt.sign({id: user.id, email: user.email}, process.env.JWT_SECRET)
                     res.status(200).json({token})
                 } else {
                     res.status(400).json({"status":400, "response": 'password wrong'})

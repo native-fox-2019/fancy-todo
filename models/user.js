@@ -1,4 +1,6 @@
 'use strict';
+
+let bcrypt = require('bcrypt')
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
@@ -12,9 +14,18 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.STRING,
       validate: {notEmpty: true}
     }
-  }, {sequelize})
+  }, {
+    hooks: {
+      beforeCreate: (instance, option) => {
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(instance.password, salt);
+        instance.password = hash
+      }
+    },
+    sequelize})
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Todo, {foreignKey: 'userId'})
   };
   return User;
 }

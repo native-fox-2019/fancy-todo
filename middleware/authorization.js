@@ -9,8 +9,11 @@ function authorization (req, res, next){
     .then(todo=>{
         if(todo.userId === req.userdata.id)
         next()
+        else {
+            res.send('not authorized')
+        }
     })
-    .catch(e => res.send(e))
+    .catch(e => res.status(404).json({"status": 404, "response": "data not found"}))
 }
 
 module.exports = authorization

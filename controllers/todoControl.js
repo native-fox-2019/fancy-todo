@@ -35,8 +35,14 @@ class TodoControl {
             userId: req.userdata.id
         }
         Todo.create(newData)
-        .then(data=>res.status(200).json({"status": 201, "response": `new data ${data.title} has been saved`}))//{
-        .catch(e=>res.status(500).json({"status": 500, "response": e.message}))
+        .then(data=>res.status(201).json({"status": 201, "response": `new data : ${data.title} has been saved`}))//{
+        .catch(e=>{
+            if(e.name ="SequelizeValidationError"){
+                res.status(400).json({"status": 400, "response": e.message})
+            } else {
+                res.status(500).json({"status": 500, "response": e})
+            }
+        })
     }
 
     static edit(req, res){
@@ -47,8 +53,21 @@ class TodoControl {
         Todo.update(req.body, {
             where: {id: searchId}
         })
-        .then(data=>res.status(200).json({"status": 200, "response": `${data} data has been updated`}))
-        .catch(e=>res.status(500).json({"status": 500, "response": e.message}))
+        .then(data=>{
+            console.log(data)
+            //if(data){
+                res.status(200).json({"status": 200, "response": `data with id : ${searchId} has been updated`})
+            // } else {
+            //     res.status(404).json({"status": 404, "response": "data not found"})
+            // }
+        })  
+        .catch(e=>{
+            if(e.name ="SequelizeValidationError"){
+                res.status(400).json({"status": 400, "response": e.message})
+            } else {
+                res.status(500).json({"status": 500, "response": e})
+            }
+        })
     }
 
     static delete(req, res){
