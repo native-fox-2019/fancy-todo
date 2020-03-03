@@ -19,13 +19,16 @@ class UserControl {
         .then(user=>{
             if(user){
                 if (password === user.password){
-                    let token = jwt.sign({email: user.email}, 'aaa')
+                    let token = jwt.sign({id: user.id, email: user.email}, 'aaa')
                     res.status(200).json({token})
                 } else {
-                    res.status(400).json({"status":400, "response": 'email/password wrong'})
+                    res.status(400).json({"status":400, "response": 'password wrong'})
                 }
+            } else{
+                res.status(400).json({"status":400, "response": 'email wrong'})
             }
         })
+        .catch(e => res.status(500).json({"status": 500, "response": e}))
     }
 
 }

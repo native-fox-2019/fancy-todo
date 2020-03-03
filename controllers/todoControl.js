@@ -25,26 +25,29 @@ class TodoControl {
 
     static create(req, res){
         console.log(req.body)
-        // let {title, description, status, due_date, userId} = req.body
-        // let data = {title, description, status, due_date, userId}
-        // console.log(data)
-        Todo.create(req.body)
-        .then(data=>{
-            if(data){
-                res.status(201).json({"status": 201, "response": `new data ${req.body} has been saved`})
-            } else {
-                res.status(400).json({"status": 400, "response": e.message})
-            }
-        })
+        console.log("====")
+        console.log(req.userdata)
+        let newData = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            due_date: req.body.due_date,
+            userId: req.userdata.id
+        }
+        Todo.create(newData)
+        .then(data=>res.status(200).json({"status": 201, "response": `new data ${data.title} has been saved`}))//{
         .catch(e=>res.status(500).json({"status": 500, "response": e.message}))
     }
 
     static edit(req, res){
         let searchId = req.params.id
+        console.log(req.body)
+        console.log('=====')
+        console.log(req.userdata)
         Todo.update(req.body, {
             where: {id: searchId}
         })
-        .then(data=>res.status(200).json({"status": 200, "response": `edit with new data ${req.body} has been done`}))
+        .then(data=>res.status(200).json({"status": 200, "response": `${data} data has been updated`}))
         .catch(e=>res.status(500).json({"status": 500, "response": e.message}))
     }
 
