@@ -11,10 +11,12 @@ class TodoController {
             due_date: req.body.due_date,
             UserId: req.userData.id
         };
-        // holidayIdn(req, res, next)
-        // .then(() => {
-        //     console.log(res.holiday);
-        // })
+        // // holidayIdn(req, res, next)
+        // // .then(() => {
+        // //     console.log(res.holiday);
+        // // })
+        // console.log(holidayIdn(req.body.due_date),'=================================== Controller');
+        // toAdd.description += ' ' + holidayIdn(req.body.due_date);
         Todo.create(toAdd)
         .then(() => {
             res.status(201).json(toAdd);
