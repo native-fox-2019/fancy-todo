@@ -1,7 +1,6 @@
 const Model = require(`../models`)
-var createError = require('http-errors')
-const bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+var createError = require('../helpers/createErrors')
+var jwt = require(`../helpers/jwt`)
 
 class User {
     static create(req, res, next) {
@@ -33,15 +32,17 @@ class User {
                     bcrypt.compare(password, data.password)
                         .then(function (result) {
                             if (result === false) {
-                                throw createError(400, `Wrong Password`)
+                                throw createError(400, `Wrong Email / Password`)
                             } else {
-                                var token = jwt.sign({ id: data.id }, process.env.JWT_SECRET);
+                                var token = jwt.jwtSign(data.id)
 
                                 res.status(200).json({
                                     token
                                 })
                             }
                         })
+                } else {
+                    throw createError(404, `Wrong Email / Password`)
                 }
             })
             .catch(err => {

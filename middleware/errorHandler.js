@@ -1,21 +1,37 @@
 module.exports = (err, req, res, next) => {
-    if (err.name === `SequelizeValidationError`) {
-        var errMsg = {
-            message: []
-        }
-        err.errors.forEach(i => {
-            errMsg.message.push(i.message)
-        })
-        
-        res.status(400).json(errMsg)
-    } else if (err.name === `NotFoundError`) {
-        res.status(404).json(err)
-    } else if (err.name === `BadRequestError` || err.name === `JsonWebTokenError`) {
-        res.status(400).json(err)
-    } else {
-        console.log(err.stack)
-        res.status(500).json({
-            message: `Internal Server Error`
-        })
+    var status_code = 500
+    var status_message = `Internal Server Error`
+
+    switch (err.name) {
+        case `SequelizeValidationError`:
+            var errMsg = []
+
+            err.errors.forEach(i => {
+                errMsg.push(i.message)
+            })
+
+            status_code = 400
+            status_message = errMsg
+            break;
+
+        case `NotFoundError`:
+            status_code = 404
+            status_message = err
+            break;
+
+        case `BadRequestError`:
+            status_code = 400
+            status_message = err
+            break;
+
+        case `JsonWebTokenError`:
+            status_code = 400
+            status_message = `Invalid Token`
+            break;
     }
+
+    res.status(status_code).json({
+        status_code,
+        status_message
+    })
 }

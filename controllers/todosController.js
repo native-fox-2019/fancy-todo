@@ -1,5 +1,6 @@
 const Model = require(`../models`)
 var createError = require('http-errors')
+var jwt = require(`jsonwebtoken`)
 
 class TodosController {
 
@@ -9,7 +10,8 @@ class TodosController {
             title,
             description,
             status,
-            due_date
+            due_date,
+            UserId: decode.id
         }
 
         Model.Todolist.create(obj)
