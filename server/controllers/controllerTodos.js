@@ -2,6 +2,7 @@
 
 const { Todo } = require('../models')
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
 
 class ControllerTodos {
     static postTask(req, res, next) {
@@ -10,6 +11,11 @@ class ControllerTodos {
         Todo
             .create({ title, description, status, due_date, UserId })
             .then(data => {
+                axios({
+                    url:'',
+                    method:'post',
+                    data:data
+                })
                 res.status(201).json(data)
             })
             .catch(err => {
