@@ -23,11 +23,12 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       }
-    }
+    },
+    user_id: DataTypes.INTEGER
   }, {sequelize})
   
   Todo.associate = function(models) {
-    // associations can be defined here
+    Todo.belongsTo( models.User, {foreignKey: 'user_id'} )
   };
   return Todo;
 };
