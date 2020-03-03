@@ -16,7 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     status: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: `Status must be filled`
+        }
+      }
     },
     due_date: {
       type: DataTypes.DATEONLY,
@@ -24,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isDate: {
           msg: `Invalid Date format`
+        },
+        notNull: {
+          msg: `Date must be filled`
         }
       }
     }
@@ -31,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Todolist.associate = function (models) {
     // associations can be defined here
+    Todolist.belongsTo(models.User)
   };
   return Todolist;
 };
