@@ -13,7 +13,6 @@ class RegisterController {
             res.status(201).json(newRegister)
         })
         .catch(err => {
-            console.log(err)
             next(err)
         })
     }

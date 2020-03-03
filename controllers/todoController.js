@@ -3,7 +3,7 @@ const { Todo } = require(`../models`)
 class TodoController {
 
     static getAll (req, res, next) {
-        Todo.findAll()
+        Todo.findAll({where:{user_id:req.userData.id}})
         .then(data => {
             res.status(200).json(data)
         })
@@ -17,7 +17,8 @@ class TodoController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            user_id: req.userData.id
         }
 
         Todo.create(newTodo)
@@ -57,9 +58,12 @@ class TodoController {
 
         Todo.update(updateTodo,{where:{id:todoId}})
         .then(data => {
+            console.log(data)
             if (data[0] == 0) {
-                let error = `ID cannot be found`
-                throw error
+                next({
+                    status:404,
+                    msg:`Cannot be found`
+                })
             } else {
                 res.status(200).json(updateTodo)
             }
@@ -70,6 +74,7 @@ class TodoController {
     }
 
     static delete (req, res, next) {
+        console.log(`masuk delete controller`)
         let todoId = req.params.id
         let deletedTodo = null
         Todo.findByPk(todoId)
