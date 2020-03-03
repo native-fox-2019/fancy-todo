@@ -1,4 +1,4 @@
-const { Todo } = require("../models");
+const { Todo, User } = require("../models");
 const createError = require("http-errors");
 
 class TodoController {
@@ -46,7 +46,7 @@ class TodoController {
     Todo.findOne(condition)
       .then(data => {
         if (!data) {
-          throw createError(404);
+          throw createError(404, "Data Not Found");
         } else {
           res.status(200).json(data);
         }
@@ -65,7 +65,7 @@ class TodoController {
     Todo.update(req.body, condition)
       .then(data => {
         if (!data[0]) {
-          throw createError(404);
+          throw createError(404, "Data Not Found");
         } else {
           res
             .status(200)
@@ -87,7 +87,7 @@ class TodoController {
     Todo.findOne(condition)
       .then(data => {
         if (!data) {
-          throw createError(404);
+          throw createError(404, "Data Not Found");
         } else {
           deletedData = data;
           return Todo.destroy(condition);
