@@ -10,7 +10,7 @@ function authentication (req, res, next) {
         User.findOne({ where: { id: req.userData.id } })
             .then(data => {
                 if (!data) {
-                    next(createError(404, 'Error Not Found'));
+                    throw createError(404, 'Error Not Found');
                 } else {
                     next();
                 }

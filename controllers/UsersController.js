@@ -19,7 +19,7 @@ class UsersController {
         User.findOne({ where: { email } })
             .then(data => {
                 if (!data) {
-                    throw createError(404, 'Error Not Found');
+                    throw createError(404, 'Wrong username / password');
                 } else {
                     return compare(password, data.password)
                         .then(result => {

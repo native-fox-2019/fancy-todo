@@ -6,9 +6,15 @@ module.exports = (err, req, res, next) => {
         });
         res.status(400).json(error);
     } else if (err.name === 'SequelizeDatabaseError') {
-        res.status(500).json({
-            msg: 'Server Error'
-        })
+        if (err.original.code === '23502') {
+            res.status(400).json({
+                msg: 'Error 23502'
+            })
+        } else {
+            res.status(500).json({
+                msg: 'Server Error'
+            })
+        }
     } else if (err.name === 'NotFoundError'){
         res.status(404).json({ msg: 'Error Not Found' });
     } else if(err.name === 'SequelizeUniqueConstraintError'){
