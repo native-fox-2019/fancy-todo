@@ -1,53 +1,62 @@
 const { Todo } = require("../models");
+const createError = require("http-errors");
 
 class TodoController {
-  static post(req, res) {
-    Todo.create(req.body)
+  static post(req, res, next) {
+    let inputData = {
+      title: req.body.title,
+      description: req.body.description,
+      status: req.body.status,
+      due_date: req.body.due_date,
+      UserId: req.userData.id
+    };
+    Todo.create(inputData)
       .then(() => {
         res
           .status(201)
           .json({ Message: "Todo Has Been Created.", Data: req.body });
       })
       .catch(err => {
-        if (err.errors) {
-          res.status(400).json(err.errors);
-        } else {
-          res.status(500).json(err);
-        }
+        next(err);
       });
   }
 
-  static get(req, res) {
-    Todo.findAll()
+  static get(req, res, next) {
+    let condition = {
+      where: {
+        UserId: req.userData.id
+      }
+    };
+    Todo.findAll(condition)
       .then(data => {
         res.status(200).json(data);
       })
       .catch(err => {
-        res.status(500).json(err);
+        next(err);
       });
   }
 
-  static findOne(req, res) {
+  static findOne(req, res, next) {
     let condition = {
       where: {
-        id: req.params.id
+        id: req.params.id,
+        UserId: req.userData.id
       }
     };
     Todo.findOne(condition)
       .then(data => {
         if (!data) {
-          throw new Error();
+          throw createError(404);
         } else {
           res.status(200).json(data);
         }
       })
       .catch(err => {
-        err.Message = "Error Not Found";
-        res.status(404).json(err);
+        next(err);
       });
   }
 
-  static put(req, res) {
+  static put(req, res, next) {
     let condition = {
       where: {
         id: req.params.id
@@ -56,7 +65,7 @@ class TodoController {
     Todo.update(req.body, condition)
       .then(data => {
         if (!data[0]) {
-          throw new Error("data not found");
+          throw createError(404);
         } else {
           res
             .status(200)
@@ -64,18 +73,11 @@ class TodoController {
         }
       })
       .catch(err => {
-        if (err.errors) {
-          res.status(400).json(err.errors);
-        } else if (err.message === "data not found") {
-          err.Message = "Error Not Found";
-          res.status(404).json(err);
-        } else {
-          res.status(500).json(err);
-        }
+        next(err);
       });
   }
 
-  static delete(req, res) {
+  static delete(req, res, next) {
     let condition = {
       where: {
         id: req.params.id
@@ -85,7 +87,7 @@ class TodoController {
     Todo.findOne(condition)
       .then(data => {
         if (!data) {
-          throw new Error("data not found");
+          throw createError(404);
         } else {
           deletedData = data;
           return Todo.destroy(condition);
@@ -97,12 +99,7 @@ class TodoController {
           .json({ Message: "Data Has Been Deleted", Data: deletedData });
       })
       .catch(err => {
-        if (err.message === "data not found") {
-          err.Message = "Error Not Found";
-          res.status(404).json(err);
-        } else {
-          res.status(500).json(err);
-        }
+        next(err);
       });
   }
 }

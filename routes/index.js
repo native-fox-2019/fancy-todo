@@ -1,10 +1,9 @@
 const routes = require("express").Router();
-const Controller = require("../controllers/todosController");
+const todoRoutes = require("./todo");
+const userRoutes = require("./user");
+const { authentication } = require("../helpers/authentication");
 
-routes.post("/todos", Controller.post);
-routes.get("/todos", Controller.get);
-routes.get("/todos/:id", Controller.findOne);
-routes.put("/todos/:id", Controller.put);
-routes.delete("/todos/:id", Controller.delete);
+routes.use("/todos",authentication, todoRoutes);
+routes.use("/user", userRoutes);
 
 module.exports = routes;

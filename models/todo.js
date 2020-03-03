@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: {
+          notEmpty: {
             msg: "Title Cannot Be Empty"
           }
         }
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: {
+          notEmpty: {
             msg: "Description Cannot Be Empty"
           }
         }
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: {
+          notEmpty: {
             msg: "Status Cannot Be Empty"
           }
         }
@@ -35,23 +35,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: {
+          notEmpty: {
             msg: "Due Date Cannot Be Empty"
           }
         }
       }
     },
-    { hooks : {
-      beforeCreate(instance, options){
-        
-      }
-    },sequelize }
+    { sequelize }
   );
 
   Todo.associate = function(models) {
-    // associations can be defined here
+    Todo.belongsTo(models.User);
   };
   return Todo;
 };
-
-
