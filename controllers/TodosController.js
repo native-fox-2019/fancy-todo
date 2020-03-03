@@ -75,15 +75,8 @@ class TodosController {
         let dataDelete = null
         Todo.findOne({ where: { id: id } })
             .then(data => {
-                if (!data) {
-                    next({
-                        msg: "id not found !"
-                    })
-                } else {
                     dataDelete = data
-                    console.log('MASUK')
                     return Todo.destroy({ where: { id: id } })
-                }
             })
             .then(() => {
                 if (dataDelete === null) {
