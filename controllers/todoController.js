@@ -28,7 +28,6 @@ class TodoController {
             .catch(err => {
                 res.status(404).json(err)
             })
-
     }
 
     static addTodo = (req, res) => {
@@ -37,7 +36,8 @@ class TodoController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            userId : req.userData.id
         }
         todo.create(obj)
             .then(data => {
