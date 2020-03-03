@@ -10,7 +10,7 @@ const authorization = (req, res, next) => {
             } else {
                 next(
                     {
-                        status: 400,
+                        status: 403,
                         msg: 'You are not authorized'
                     }
                 )

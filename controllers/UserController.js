@@ -15,6 +15,9 @@ class UserController {
             .then(user => {
                 res.status(201).json(user)
             })
+            .catch(err => {
+                next(err)
+            })
     }
 
     static login = (req, res, next) => {
@@ -33,7 +36,7 @@ class UserController {
                     } else {
                         next(
                             {
-                                status: 404,
+                                status: 400,
                                 msg: 'Wrong Password'
                             }
                         )
@@ -41,7 +44,7 @@ class UserController {
                 } else {
                     next(
                         {
-                            status:404,
+                            status:400,
                             msg: 'Wrong Email'
                         }
                     )

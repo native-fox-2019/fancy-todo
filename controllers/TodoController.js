@@ -7,7 +7,7 @@ class TodoController {
                 res.status(200).json(todo)
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
             })
     }
 
@@ -31,9 +31,14 @@ class TodoController {
                     err.errors.forEach(error => {
                         msg.push(error.message)
                     })
-                    res.status(400).json(msg)
+                    next(
+                        {
+                            status: 400,
+                            msg: msg
+                        }
+                    )
                 } else {
-                    res.status(500).json(err)
+                    next(err)
                 }
             })
     } 
@@ -48,11 +53,7 @@ class TodoController {
                 res.status(200).json(todo)
             })
             .catch(err => {
-                if (err.message) {
-                    res.status(404).json(err.message)
-                } else {
-                    res.status(500).json(err)
-                }
+                next(err)
             })
     }
 
@@ -79,13 +80,14 @@ class TodoController {
                     err.errors.forEach(error => {
                         msg.push(error.message)
                     })
-                    res.status(400).json(msg)
+                    next(
+                        {
+                            status: 400,
+                            msg:msg
+                        }
+                    )
                 } else {
-                    if (err.message) {
-                        res.status(404).json(err.message)
-                    } else {
-                        res.status(500).json(err)
-                    }
+                    next(err)
                 }
             })
     }
@@ -105,7 +107,7 @@ class TodoController {
                 res.status(200).json(deleted)
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
             })
     }
 
