@@ -10,8 +10,9 @@ module.exports = (err, req, res, next) => {
         res.status(400).json(errMsg)
     } else if (err.name === `NotFoundError`) {
         res.status(404).json(err)
-    }
-    else {
+    } else if (err.name === `BadRequestError`) {
+        res.status(400).json(err)
+    } else {
         console.log(err.stack)
         res.status(500).json({
             message: `Internal Server Error`
