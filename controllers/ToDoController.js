@@ -29,13 +29,22 @@ class ToDoController{
      *          description: Internal Server Error
      */
     static getTodos(req, res, next){
-        ToDo.findAll()
+        const user = req.user;
+        ToDo.findAll({
+            where: { UserId: user.id }
+        })
             .then(data => res.status(200).json(data))
             .catch(err => next(err));
     }
     static getTodo(req, res, next){
         const id = req.params.id;
-        ToDo.findByPk(id)
+        const user = req.user;
+        ToDo.findOne({
+            where: {
+                id: id,
+                UserId: user.id
+            }
+        })
             .then(data=> {
                 if (data !== null) {
                     res.status(200).json(data);
@@ -50,24 +59,27 @@ class ToDoController{
         const description = req.body.description;
         const status = req.body.status;
         const due_date = req.body.due_date;
+        const user = req.user;
         ToDo.create({
             title: title,
             description: description,
             status: status,
-            due_date: due_date
+            due_date: due_date,
+            UserId: user.id
         })
             .then(data => res.status(201).json(data))
             .catch(err => next(err));
     }
     static updateTodo(req, res){
         const id = req.params.id;
+        const user = req.user;
         const newData = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date
         }
-        let option = {where: {id:id}};
+        let option = {where: {id:id, UserId: user.id }};
         ToDo.update(newData, option)
             .then(data => {
                 if (data !== null && data!=false) {
@@ -91,7 +103,8 @@ class ToDoController{
     }
     static deleteTodo(req, res){
         const id = req.params.id;
-        let option = { where: {id:id}};
+        const user = req.user;
+        let option = { where: {id:id, UserId: user.id}};
         ToDo.destroy(option)
             .then(data => {
                 if (data !== null) {

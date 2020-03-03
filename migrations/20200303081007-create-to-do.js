@@ -20,6 +20,15 @@ module.exports = {
       due_date: {
         type: Sequelize.DATE
       },
+      UserId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        foreignKey: true,
+        references: {
+          model: "Users",
+          key: "id"
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -1,9 +1,14 @@
-const JWT = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
-function authenticationUser(req, res, next){
-    const token = req.headers
-    try{
-        let decoded = JWT.verify(token, process.env.JWT_SECRET)
+module.exports = (req, res, next) => {
+    try {
+        const token = req.headers.authorization;
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        req.jwt = decodedToken;
         next();
-    }   
-}
+    } catch {
+        res.status(401).json({
+            error: new Error('Invalid request!')
+        });
+    }
+};

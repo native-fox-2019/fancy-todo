@@ -1,6 +1,7 @@
 const model = require('../models');
 const User = model.User;
 const Bcrypt = require('../helpers/bcrypt.js');
+const jwt = require("jsonwebtoken");
 
 class UserController{
     static register(req, res, next){
@@ -10,7 +11,10 @@ class UserController{
             email: email,
             password: password
         })
-            .then(data => res.status(201).json(data))
+            .then(data => {
+                let token = jwt.sign({email: data.email}, process.env.JWT_SECRET);
+                res.status(200).json({token})
+            })
             .catch(next);
     }
     static login(req, res, next){

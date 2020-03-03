@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     user.password = Bcrypt.hash(user.password);
   })
   User.associate = function(models) {
+    User.hasMany(models.ToDo);
   };
   return User;
 };
