@@ -5,4 +5,6 @@ const { user } = require(`../controllers`)
 
 router.post(`/register`, user.create)
 
+router.post(`/login`, user.login)
+
 module.exports = router

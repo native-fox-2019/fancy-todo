@@ -1,6 +1,7 @@
 const Model = require(`../models`)
 var createError = require('http-errors')
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 
 class User {
     static create(req, res, next) {
@@ -33,6 +34,12 @@ class User {
                         .then(function (result) {
                             if (result === false) {
                                 throw createError(400, `Wrong Password`)
+                            } else {
+                                var token = jwt.sign({ id: data.id }, process.env.JWT_SECRET);
+
+                                res.status(200).json({
+                                    token
+                                })
                             }
                         })
                 }
