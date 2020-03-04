@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1>Register Form</h1>
+<h1>Login Form</h1>
 
 <form id="form-register">
     <label for="email">Email:</label><br>
@@ -26,10 +26,12 @@
           console.log(password)
           $.ajax({
               type: "POST", 
-              url: "http://localhost:3000/user/register", 
+              url: "http://localhost:3000/user/login", 
               data: {email:email, password: password},
               success: function(result){
                 console.log("success")
+                localStorage.setItem('token', result.token)
+                console.log(localStorage.getItem('token'))
               }
           })
         })

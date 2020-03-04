@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+
+<body>
+
+<h1>Table</h1>
+
+<table id="list-todos" class="table">
+    
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Due Date</th>
+            <th>Creator</th>
+          </tr>
+</table>
+
+</body>
+
+<!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script> -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>
+    $.ajax({
+        type: "GET", 
+        url: "http://localhost:3000/todos", 
+        headers: {"token": localStorage.getItem('token')},
+        success: function(result){
+                console.log(result.response)
+                for (let i=0; i<result.response.length; i++){
+                    var data=result.response[i]
+                $('#list-todos').append(`
+                <tr id= "todo-del">
+                    <th id="dataId" hidden>${data.id}</th>
+                    <th>${data.title}</th>
+                    <th>${data.description}</th>
+                    <th>${data.status}</th>
+                    <th>${data.due_date}</th>
+                    <th>${data.userId}</th>
+                    <th>
+                        <button><a href="###">Edit</a></button>
+                        <input type="submit" value="Delete">
+                    </th>
+                </tr>
+                `)
+                }
+         
+        },
+        error: function(err){
+            console.log(err)
+        }
+    })
+
+    $("#todo-del").submit(function(event){
+        var id = $("#dataId").val()
+        console.log(id)
+        $.ajax({
+            type: "DELETE", 
+            url: "http://localhost:3000/todos/"+id, 
+            headers: {"token": localStorage.getItem('token')},
+            success: function(result){
+                console.log("success")
+            }
+        })
+    })
+
+ </script>
+
+</html>
