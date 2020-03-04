@@ -25,7 +25,14 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     name: DataTypes.STRING,
     password: DataTypes.STRING,
-    email: DataTypes.STRING
+    email: {
+      type:DataTypes.STRING,
+      validate:{
+        isEmail:{
+          msg:'Format harus email'
+        }
+      }
+    }
   }, {sequelize,tableName:'Users'})
 
   User.associate = function(models) {

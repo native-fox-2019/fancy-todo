@@ -1,7 +1,15 @@
 const {Todo,User}=require('../models');
-const jwt=require('jsonwebtoken');
 
 class TodoController{
+
+    static test(req,res){
+        (async function(){
+            let result=await User.findByPk('1');
+            await result.set('name','Hitsam Hehe');
+            await result.save();
+            res.send(result);
+        })();
+    }
 
     static index(req,res,next){
         (async function(){
