@@ -11,8 +11,9 @@ $("#login-form").submit(function(e) {
       }
     })
     .done(function(token){
-      alert('Berhasil login')
+      alert('Login Success')
       localStorage.setItem('token', token)
+      $('.container').toggle()
     })
     .fail(function() {
        alert( "Wrong username or password" );
@@ -32,7 +33,8 @@ $("#register-form").submit(function(e) {
       }
     })
     .done(function(data){
-      alert('Berhasil login')
+      alert('Register Success')
+      $('form').toggle()
     })
     .fail(function() {
        alert( "Email already registered" );
@@ -50,9 +52,34 @@ $('button[name = "changeForm"]').click(function(){
 
 
 if(localStorage.getItem('token')){
-  $('.row').toggle()
+  
+  $.ajax({
+    method: 'get',
+    url: 'http://localhost:3000/todos',
+    beforeSend: function(request) {
+      request.setRequestHeader("usertoken", localStorage.getItem('token'));
+    },
+  })
+  .done(function(todos){
+    // $('#showTodos').empty()
+    $('.container').toggle()
+    todos.forEach(todo => {
+      $('#showTodos').append(
+        `<tr>
+          <td>${todo.title}</td>
+          <td>${todo.description}</td>
+          <td>${todo.status}</td>
+          <td>${todo.due_date}</td>
+          <td>
+            <button class="btn btn-warning " id="button-edit" value="${todo.id}">Edit</button> 
+            <button class="btn btn-danger " id="button-edit" value="${todo.id}">Delete</button>
+          </td>
+         <tr>`)
+    })
+  });
 }
 
 $('#button-logout').on("click", function(){
   localStorage.removeItem('token')
+  $('.container').toggle()
 })
