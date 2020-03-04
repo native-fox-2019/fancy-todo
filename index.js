@@ -7,8 +7,10 @@ const morganChalk = require('./morganChalk');
 const router = require('./routers');
 const ErrorHandler = require('./middleware/ErrorHandler');
 const dotenv = require('dotenv');
+const path = require('path');
 dotenv.config();
 
+app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(morganChalk);
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());

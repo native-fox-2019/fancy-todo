@@ -1,14 +1,25 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('../helpers/jwt.js');
+const User = require('../models/user.js');
 
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization;
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedToken = jwt.verify(token);
         req.jwt = decodedToken;
-        next();
+        User.findOne({
+            where: {
+                id: req.jwt.id
+            }
+        })
+            .then(user=>{
+                if(user){next()}
+                else{
+                    throw new Error(res.status)
+                }
+            })
+            .catch(next);
+
     } catch {
-        res.status(401).json({
-            error: new Error('Invalid request!')
-        });
+        next(err);
     }
 };

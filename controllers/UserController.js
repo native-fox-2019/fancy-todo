@@ -1,9 +1,35 @@
 const model = require('../models');
 const User = model.User;
 const Bcrypt = require('../helpers/bcrypt.js');
-const jwt = require("jsonwebtoken");
+const jwt = require("../helpers/jwt.js");
 
+/**
+ * @swagger
+ * tags:
+ *  name: ToDo
+ *  description: ToDo management
+ */
 class UserController{
+        /**
+     * @swagger
+     * path:
+     *  /users/register:
+     *    get:
+     *      summary: Get all todos
+     *      tags: [ToDo]
+     *      responses:
+     *        "200":
+     *          description: Array of ToDo
+     *          content:
+     *            application/json:
+     *              schema:
+     *                type: array
+     *                items:
+     *                  $ref: "#/components/schemas/ToDo"
+     *        "500":
+     *          description: Internal Server Error
+     *    
+     */
     static register(req, res, next){
         const email = req.body.email;
         const password = req.body.password;
@@ -12,7 +38,7 @@ class UserController{
             password: password
         })
             .then(data => {
-                let token = jwt.sign({email: data.email}, process.env.JWT_SECRET);
+                let token = jwt.sign({email: data.email});
                 res.status(200).json({token})
             })
             .catch(next);
@@ -24,7 +50,7 @@ class UserController{
         .then(data=>{
             if(data){
                 if(Bcrypt.compareSync(password, data.password)){
-                    let token = jwt.sign({email: User.email}, process.env.JWT_SECRET);
+                    let token = jwt.sign({email: User.email});
                     res.status(200).json({token})
                 }else{
                     next(err);

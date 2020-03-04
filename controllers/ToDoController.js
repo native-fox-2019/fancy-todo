@@ -27,6 +27,7 @@ class ToDoController{
      *                  $ref: "#/components/schemas/ToDo"
      *        "500":
      *          description: Internal Server Error
+     *    
      */
     static getTodos(req, res, next){
         const user = req.user;
