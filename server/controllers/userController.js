@@ -7,9 +7,7 @@ class Controller {
   static register(req, res, next) {
     User.create(req.body)
       .then(data => {
-        res
-          .status(201)
-          .json({ Message: "User Has Been Created.", Data: req.body });
+        res.status(201).json({ Message: "User Has Been Created." });
       })
       .catch(err => {
         next(err);
@@ -31,7 +29,11 @@ class Controller {
           if (compare(req.body.password, data.password)) {
             // OUTPUT COMPARE TRUE OR FALSE
             let token = jwt.sign(
-              { id: data.id, username: req.body.username },
+              {
+                id: data.id,
+                username: req.body.username,
+                email: req.body.email
+              },
               process.env.SECRET
             ); // GENERATE TOKEN JWT
             res.status(200).json({ token }); // SEND TOKEN JWT

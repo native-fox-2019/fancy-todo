@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./styles/login.css" />
+    <title>App Todo List</title>
+  </head>
+  <body>
+    <!-- LOGIN FORM -->
+    <div id="login">
+      <form class="form-signin" id="form-sign-in">
+        <!-- <img class="mb-4" src="./images/new.png" alt="" width="180" height="180" style="vertical-align: middle;box-sizing: border-box;text-align: center;"> -->
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center;">
+          TODO APP
+        </h1>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input
+          name="username"
+          type="username"
+          class="form-control"
+          placeholder="username"
+          required=""
+          autofocus=""
+          id="username"
+        />
+        <label class="sr-only">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Password"
+          required=""
+          name="password"
+          id="password"
+        />
+
+        <button
+          style="margin-top: 30px;"
+          class="btn btn-lg btn-primary btn-block"
+          type="submit"
+          id="submit"
+        >
+          Sign in
+        </button>
+        <div class="sign-up" style="text-align: center; margin: 30px;">
+          Not a member? <a href="" id="sign-up">Sign Up</a>
+        </div>
+        <p class="mt-5 mb-3 text-muted" style="text-align: center;">
+          © 2020 Hacktiv8
+        </p>
+      </form>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="register">
+      <form class="form-signin" id="form-register">
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center;">
+          REGISTER
+        </h1>
+        <label class="sr-only">Fullname</label>
+        <input
+          id="fullname-register"
+          name="fullname"
+          type="text"
+          class="form-control"
+          placeholder="Fullname"
+          required=""
+          autofocus=""
+        />
+        <label class="sr-only">Username</label>
+        <input
+          id="username-register"
+          name="username"
+          type="username"
+          class="form-control"
+          placeholder="username"
+          required=""
+          autofocus=""
+        />
+        <label class="sr-only">Email</label>
+        <input
+          id="email-register"
+          name="email"
+          type="email"
+          class="form-control"
+          placeholder="E-Mail"
+          required=""
+          autofocus=""
+        />
+        <label class="sr-only">Password</label>
+        <input
+          id="password-register"
+          type="password"
+          class="form-control"
+          placeholder="Password"
+          required=""
+          name="password"
+        />
+
+        <button
+          style="margin-top: 30px;"
+          class="btn btn-lg btn-primary btn-block"
+          type="submit"
+        >
+          Sign Up
+        </button>
+        <div class="sign-up" style="text-align: center; margin: 30px;">
+          Already have an account? <a href="" id="sign-in">login</a>
+        </div>
+        <p class="mt-5 mb-3 text-muted" style="text-align: center;">
+          © 2020 Hacktiv8
+        </p>
+      </form>
+    </div>
+
+    <!-- HOME TABLE EDIT -->
+    <div class="container" id="home">
+      <h1 style="text-align: center; margin-bottom: 50px;">TODO LIST</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Deadline</th>
+            <th scope="col" style="text-align: center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="list-table"></tbody>
+      </table>
+      <button
+        type="button"
+        class="btn btn-warning"
+        style="color: white;"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        Add Todo
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Todo</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="add-todo">
+              <div class="form-group">
+                <label>Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  aria-describedby="emailHelp"
+                  name="title"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="description"
+                  aria-describedby="emailHelp"
+                  name="description"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Status</label>
+                <select class="form-control" id="status" required>
+                  <option hidden>-- SELECT STATUS --</option>
+                  <option value="complete">Complete</option>
+                  <option value="incomplete">Incomplete</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Deadline</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="due_date"
+                  name="due_date"
+                  required
+                />
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Save changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT FORM -->
+    <div id="edit">
+      <form class="form-signin" id="edit-todo">
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center;">
+          EDIT DATA
+        </h1>
+        <label class="sr-only">Title</label>
+        <input
+          id="title-edit"
+          name="fullname"
+          type="text"
+          class="form-control"
+          placeholder="title"
+          required=""
+          autofocus=""
+        />
+        <label class="sr-only">Description</label>
+        <input
+          id="description-edit"
+          name="username"
+          type="username"
+          class="form-control"
+          placeholder="description"
+          required=""
+          autofocus=""
+        />
+        <label class="sr-only">Deadline</label>
+        <input
+          id="date-edit"
+          type="date"
+          class="form-control"
+          placeholder="Deadline"
+          required=""
+          name="password"
+        />
+        <button
+          style="margin-top: 30px;"
+          class="btn btn-lg btn-outline-danger"
+          id="cancel-edit"
+        >
+          CANCEL
+        </button>
+        <button
+          style="margin-top: 30px;"
+          class="btn btn-lg btn-outline-success"
+          type="submit"
+        >
+          SAVE
+        </button>
+      </form>
+    </div>
+
+    
+    <!-- SCRIPT -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
