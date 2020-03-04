@@ -4,9 +4,13 @@ const app = express()
 const port = process.env.PORT || 3000
 const routes = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
+const cors = require('cors')
 
 // const { google } = require('googleapis')
 // const token = require('./token')
+
+// cross-origin-resource-sharing
+app.use(cors())
 
 
 // body parser

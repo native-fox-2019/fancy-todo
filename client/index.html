@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="385899667070-old78euempf7bfveturipfffc4ijvdip.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Todo</title>
+</head>
+<body>
+    <h1 class="text-center">Todos App</h1>
+    <div class="text-center" id="signout-div">
+        <button onclick="signOut();" id="button-signout" class="button-signout">Sign out</button>
+    </div>
+    <div class="container">
+        <form id="form-login">
+            <h3>Sign In</h3>
+            <div class="form-group">
+              <label>Email address</label>
+              <input type="email" class="form-control" id="email-login">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="password-login">
+            </div>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div class="text-center">
+                <button  type="submit" class="btn btn-primary">Sign in</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <form id="form-signup">
+            <h3 class="text-center">Sign Up</h3>
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" class="form-control" id="firstname-signup">
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" class="form-control" id="lastname-signup">
+            </div>
+            <div class="form-group">
+              <label>Email address</label>
+              <input type="email" class="form-control" id="email-signup">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="password-signup">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+        </form>
+    </div>
+    <div class="container mt-5">
+        <form id="form-addTodo">
+            <h5>Add Todo</h5>
+            <div class="form-row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Title" id="todo-title">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Due Date" id="todo-duedate">
+              </div>
+            </div>
+            <div class="form-row mt-3">
+                <div class="col">
+                   <textarea class="form-control" rows="3" placeholder="Description" id="todo-description"></textarea>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+        </form>
+        <div id="todos-container" class="mt-5">
+            <h3 class="text-center">Your Todo List</h3>
+            <table class="table mt-4">
+                <thead>
+                  <tr>
+                    <th scope="col">Status</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">DueDate</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="todos-tbody">
+                  <tr>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="./jquery.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ const { Todo } = require('../models')
 
 class TodoController {
     static findAll = (req, res, next) => {
-        Todo.findAll({ where: { UserId: req.userData.id } })
+        Todo.findAll({ where: { UserId: req.userData.id }, order: [['id', 'ASC']] })
             .then(todo => {
                 res.status(200).json(todo)
             })
