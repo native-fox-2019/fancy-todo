@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+<title>Page Show All/title>
 </head>
 
 <body>
 
 <h1>Table</h1>
+
+<button><a href="create_todos.html">Add Todo</a></button>
 
 <table id="list-todos" class="table">
     
@@ -34,28 +36,40 @@
                 for (let i=0; i<result.response.length; i++){
                     var data=result.response[i]
                 $('#list-todos').append(`
-                <tr id= "todo-del">
+                <tr>
                     <th id="dataId" hidden>${data.id}</th>
-                    <th>${data.title}</th>
-                    <th>${data.description}</th>
-                    <th>${data.status}</th>
-                    <th>${data.due_date}</th>
-                    <th>${data.userId}</th>
+                    <th id="dataTitle_${i}">${data.title}</th>
+                    <th id="dataDescription_${i}">${data.description}</th>
+                    <th id="dataStatus_${i}">${data.status}</th>
+                    <th id="dataDueDate_${i}">${data.due_date}</th>
+                    <th id="dataUserId_${i}">${data.userId}</th>
                     <th>
-                        <button><a href="###">Edit</a></button>
-                        <input type="submit" value="Delete">
+                        <input onClick="window.location.href='edit_todos.html'" id="todo-del" type="button" value="Edit">
+                        <input onClick="window.location.href='table_todos.html'" id="todo-del" type="button" value="Delete">
                     </th>
                 </tr>
                 `)
                 }
-         
         },
         error: function(err){
             console.log(err)
         }
     })
 
-    $("#todo-del").submit(function(event){
+    $(`#todo-del`).click(function(){
+        var id = $("#dataId").val()
+        console.log(id)
+        $.ajax({
+            type: "DELETE", 
+            url: "http://localhost:3000/todos/"+id, 
+            headers: {"token": localStorage.getItem('token')},
+            success: function(result){
+                console.log("success")
+            }
+        })
+    })
+
+    $("#todo-edit").click(function(){
         var id = $("#dataId").val()
         console.log(id)
         $.ajax({
