@@ -11,7 +11,7 @@ module.exports = (err, req, res, next) => {
     });
     res.status(400).json(errors)
   } else if (err.name === 'NotFoundError') {
-    res.status(400).json(err)
+    res.status(404).json(err)
   } else if (err.name === 'SequelizeDatabaseError') {
     res.status(404).json('not found')
   } else if (err.name === 'UnauthorizedError') {
