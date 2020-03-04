@@ -5,6 +5,7 @@ const todos = require(`./todosRoutes`)
 const user = require(`./userroutes`)
 
 router.use(`/todos`, todos)
+
 router.use(`/users`, user)
 
 module.exports = router

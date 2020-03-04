@@ -30,6 +30,8 @@ module.exports = (err, req, res, next) => {
             break;
     }
 
+    status_code === 500 && console.log(err.stack)
+
     res.status(status_code).json({
         status_code,
         status_message

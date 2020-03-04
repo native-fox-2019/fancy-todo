@@ -1,6 +1,7 @@
 const Model = require(`../models`)
-var createError = require('../helpers/createErrors')
-var jwt = require(`../helpers/jwt`)
+const createError = require('../helpers/createErrors')
+const jwt = require(`../helpers/jwt`)
+const bcrypt = require(`../helpers/bcrypt`)
 
 class User {
     static create(req, res, next) {
@@ -14,9 +15,7 @@ class User {
             .then(data => {
                 res.status(201).json(data)
             })
-            .catch(err => {
-                next(err)
-            })
+            .catch(next)
     }
 
     static login(req, res, next) {
@@ -29,18 +28,16 @@ class User {
         })
             .then(data => {
                 if (data) {
-                    bcrypt.compare(password, data.password)
-                        .then(function (result) {
-                            if (result === false) {
-                                throw createError(400, `Wrong Email / Password`)
-                            } else {
-                                var token = jwt.jwtSign(data.id)
+                    var result = bcrypt.compare(password, data.password)
+                    if (result) {
+                        var token = jwt.jwtSign(data.id)
 
-                                res.status(200).json({
-                                    token
-                                })
-                            }
+                        res.status(200).json({
+                            token
                         })
+                    } else {
+                        throw createError(400, `Wrong Email / Password`)
+                    }
                 } else {
                     throw createError(404, `Wrong Email / Password`)
                 }

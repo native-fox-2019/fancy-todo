@@ -4,9 +4,9 @@ module.exports = (req, res, next) => {
     var { token } = req.headers
 
     try {
-        req.userData = jwt.jwtVerify(token)
+        req.userData.id = jwt.jwtVerify(token)
+        next()
     } catch (err) {
         next(err)
     }
-    next()
 }

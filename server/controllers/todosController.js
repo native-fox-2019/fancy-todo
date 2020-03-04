@@ -1,6 +1,5 @@
 const Model = require(`../models`)
-var createError = require('http-errors')
-var jwt = require(`jsonwebtoken`)
+var createError = require('../helpers/createErrors')
 
 class TodosController {
 
@@ -11,7 +10,7 @@ class TodosController {
             description,
             status,
             due_date,
-            UserId: decode.id
+            UserId: req.userData.id
         }
 
         Model.Todolist.create(obj)
@@ -39,7 +38,8 @@ class TodosController {
                 if (data) {
                     res.status(200).json(data)
                 } else {
-                    throw createError(404, `No Data of ID ${req.params.id} exists`)
+                    // throw createError(404, `No Data of ID ${req.params.id} exists`)
+                    
                 }
             })
             .catch(err => {
