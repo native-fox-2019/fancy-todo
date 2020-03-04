@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="divlogin" class="container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="usr">Email:</label>
+                <input type="text" class="form-control" id="emaillogin" name="name">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="passwordlogin" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+            <button id="tombolregister" class="btn btn-success">Register</button>
+
+        </div>
+    </div>
+
+    <div id="divregister" class="container">
+        <h2>Register</h2>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="usr">Name:</label>
+                <input type="text" class="form-control" id="nameregister" name="name">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Email:</label>
+                <input type="text" class="form-control" id="emailregister" name="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="text" class="form-control" id="passwordregister" name="password">
+            </div>
+            <button id="tombolsubmitregister" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+            <button id="tombollogin" class="btn btn-success">Login</button>
+        </div>
+    </div>
+
+    <div id="divtodos" class="container">
+        <table class="table table-striped mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Masak Indomie</td>
+                    <td>Tiriskan air dan tuangkan bumbu</td>
+                    <td>In progress</td>
+                    <td>2019-05-05</td>
+                    <td>
+                        <a class="btn btn-primary" role="button">Edit</a>
+                        <a class="btn btn-primary" role="button">Delete</a>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src=https://code.jquery.com/jquery-3.4.1.min.js></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            if (localStorage.getItem("token")) {
+                $("#divtodos").show();
+            } else {
+                $("#divlogin").show();
+            }
+
+            $("#tombolregister").click(function (event) {
+                event.preventDefault()
+                $("#divlogin").hide();
+                $("#divregister").show()
+            });
+
+            $("#tombollogin").click(function (event) {
+                event.preventDefault()
+                $("#divregister").hide();
+                $("#divlogin").show()
+            });
+
+            $("#register-form").submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: "http://localhost:3000/users/register",
+                    type: "POST",
+                    data: {
+                        name: $("#nameregister").val(),
+                        email: $("#emailregister").val(),
+                        password: $("#passwordregister").val()
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        $("#divregister").hide();
+                        $("#divlogin").show()
+                    }
+                })
+            })
+
+            $("#login-form").submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: "http://localhost:3000/users/login",
+                    type: "POST",
+                    data: {
+                        email: $("#emaillogin").val(),
+                        password: $("#passwordlogin").val()
+                    },
+                    success: function (data) {
+                        localStorage.setItem("token", data)
+                        console.log(data)
+                        $("#divtodos").show()
+                    }
+                })
+            })
+
+
+        });
+    </script>
+</body>
+
+</html>
