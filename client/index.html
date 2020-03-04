@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Todos App</title>
+</head>
+<body>
+  
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <form id="login-form">
+          <h2 class="mb-5 text-center">Login</h2>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email">
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password">
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" class="btn btn-block btn-primary">Login</button>
+            <small class="float-right mt-3">Don't Have an Account?<button type="button" class="btn btn-sm btn-link" name="changeForm">Register</button></small>
+          </div>
+
+        </form>
+
+        <form id="register-form" style="display: none;">
+
+          <h2 class="mb-5 text-center">Register Account</h2>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email">
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password">
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" class="btn btn-block btn-primary">Register</button>
+            <small class="float-right mt-3">Already Have an Account?<button type="button" class="btn btn-sm btn-link" name="changeForm">Login</button></small>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row" style="display: none;">
+      <div class="col">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Status</th>
+              <th scope="col">Due Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>kasnd</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div><button class="btn btn-danger" id="button-logout">Logout</button>  </div>
+    </div>
+  </div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="./js/index.js"></script>
+</body>
+</html>
