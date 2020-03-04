@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="1082216831137-22orq6236lk0qfsren775g8stoscqg6r.apps.googleusercontent.com">
     <title>Fancy Todo</title>
     <style>
         .allPage {
             display: none;
         }
     </style>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
     <div id="logout" class="allPage">
@@ -23,6 +25,7 @@
             <input type="text" id="password-login"><br>
             <button type="submit">Login</button>
         </form>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <hr>
         <button id="register-link">Register</button>
     </div>
@@ -62,6 +65,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Due Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -80,11 +84,13 @@
                 <input type="text" id="edit-todo-description"><br>
                 <label>Due Date:</label>
                 <input type="text" id="edit-todo-due-date"><br>
+                <div id="edit-status">
+
+                </div>
                 <button type="submit" id="submit-edit">Edit</button>
             </form>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./js/page.js"></script>

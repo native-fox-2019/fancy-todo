@@ -59,10 +59,17 @@ $(document).ready(() => {
         let title = $('#edit-todo-title').val();
         let description = $('#edit-todo-description').val();
         let due_date = $('#edit-todo-due-date').val();
+        let status = null;
+        if ($('#edit-todo-status').val() === 'true') {
+            status = true;
+        } else {
+            status = false;
+        }
         let id = $('#submit-edit').val();
         let obj = {
             title,
             description,
+            status,
             due_date
         }
         editTodoData(obj, id);

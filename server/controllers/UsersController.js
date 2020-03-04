@@ -36,6 +36,9 @@ class UsersController {
                 next(err);
             });
     }
+    static googleLogin(req, res, next) {
+        console.log('google neh');
+    }
 }
 
 module.exports = UsersController;

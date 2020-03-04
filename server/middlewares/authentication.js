@@ -16,7 +16,7 @@ function authentication (req, res, next) {
                 next();
             }
         }).catch(err => {
-            next(err);
+            throw err;
         });
     } catch (err) {
         next(err);

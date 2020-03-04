@@ -5,15 +5,14 @@ function loginUser(obj) {
         method: `POST`,
         url: `${endpoint}users/login`,
         data: JSON.stringify(obj),
-        contentType: `application/json`,
-        success: (data) => {
-            localStorage.setItem("token", data.token);
-            setPage('todos');
-        },
-        error: (err) => {
-            console.log(err.responseJSON);
-        }
+        contentType: `application/json`
     })
+    .done(data => {
+        localStorage.setItem("token", data.token);
+        setPage('todos');
+    }).fail(err => {
+        console.log(err.responseJSON);
+    });
 }
 
 function registerUser(obj) {
@@ -21,14 +20,13 @@ function registerUser(obj) {
         method: `POST`,
         url: `${endpoint}users/register`,
         data: JSON.stringify(obj),
-        contentType: `application/json`,
-        success: () => {
-            setPage('login');
-        },
-        error: (err) => {
-            console.log(err.responseJSON);
-        }
+        contentType: `application/json`
     })
+    .done(() => {
+        setPage('login');
+    }).fail(err => {
+        console.log(err.responseJSON);
+    });
 }
 
 function getUserTodos() {
@@ -37,14 +35,13 @@ function getUserTodos() {
         url: `${endpoint}todos`,
         headers: {
             token: `${localStorage.getItem('token')}`
-        },
-        success: (data) => {
-            setAllTodos(data);
-        },
-        error: (err) => {
-            console.log(err.responseJSON);
         }
     })
+    .done(data => {
+        setAllTodos(data);
+    }).fail(err => {
+        console.log(err.responseJSON);
+    });
 }
 
 function deleteTodo(id) {
@@ -58,7 +55,7 @@ function deleteTodo(id) {
     .done(() => {
         showTodos();
     }).fail(err => {
-        console.log(err);
+        console.log(err.responseJSON);
     })
 }
 
@@ -75,7 +72,7 @@ function createNewTodos(obj) {
     .done(() => {
         showTodos();
     }).fail(err => {
-        console.log(err);
+        console.log(err.responseJSON);
     });
 }
 
@@ -90,7 +87,7 @@ function editTodo(id) {
     .done((data) => {
         editForm(data);
     }).fail(err => {
-        console.log(err)
+        console.log(err.responseJSON)
     });
 }
 
@@ -107,6 +104,6 @@ function editTodoData(obj, id) {
     .done(() => {
         setPage('todos');
     }).fail(err => {
-        console.log(err);
+        console.log(err.responseJSON);
     });
 }
