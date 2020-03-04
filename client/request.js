@@ -32,7 +32,6 @@ function login(email, password) {
   })
     .done(data => {
       localStorage.setItem('token', data)
-      // console.log(data, '<<<<< data login')
     })
     .fail(err => {
       console.log(err.responseJSON, '<<<<<<< error')
@@ -46,14 +45,11 @@ function showAllTodos() {
     url: `${server}/todos`,
     headers: {
       token: localStorage.getItem('token')
-      // token: `${localStorage.getItem('token')}`
     }
   })
     .done(data => {
       showTableTodos(data)
-      console.log(data, '<<<<<<<<<<<<<<< show all')
-      // $('#todolistPage').show()
-      // showAllTodos(data)
+
     })
     .fail(err => {
       console.log(err.responseJSON)
@@ -61,25 +57,44 @@ function showAllTodos() {
 }
 
 
-function showTableTodos(data) {
-  // let table = $('#tableTodos')
-  // table.empty()
-  $('#tableTodos').empty()
-  data.forEach(el => {
-    $('#tableTodos').append(`<tr>
-    <td class='title'>${el.title}</td>
-    <td class='description'>${el.descripton}</td>
-    <td class='status'>${el.status}</td>
-    <td class='due_date'>${el.due_date}</td>
-    <td>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-secondary" id="editTodos" onclick="editTodos(${el.id})">Edit</button>
-        <button type="button" class="btn btn-secondary" id="deleteTodos" onclick=deletTodos(${el.id})>Delete</button>
-      </div>
-    </td>
-  </tr>`)
-  });
+// add todos
+function addTodos(titleAdd, descriptionAdd, due_dateAdd) {
+  $.ajax({
+    method: 'POST',
+    url: `${server}/todos`,
+    data: {
+      title: titleAdd,
+      description: descriptionAdd,
+      due_date: due_dateAdd
+    },
+    headers: {
+      token: localStorage.getItem('token')
+    }
 
+  })
+    .done(data => {
+      showAllTodos()
+      // $('#addTodosDiv').show()
+    })
+    .fail(err => {
+      console.log(err.responseJSON)
+    })
 }
 
 
+//delete todos
+function deletTodos(id) {
+  $.ajax({
+    method: 'delete',
+    url: `${server}/todos/${id}`,
+    headers: {
+      token: localStorage.getItem('token')
+    }
+  })
+    .done(data => {
+      showAllTodos()
+    })
+    .fail(err => {
+      console.log(err.responseJSON)
+    })
+}
