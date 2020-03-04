@@ -5,6 +5,7 @@ const createError = require('../helpers/createError');
 function authentication (req, res, next) {
     let { token } = req.headers;
     try {
+        console.log('auth')
         let decoded = verifyToken(token);
         req.userData = decoded;
         User.findOne({ where: { id: req.userData.id } })

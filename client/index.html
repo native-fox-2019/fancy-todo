@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Fancy Todo</title>
+    <style>
+        .allPage {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="logout" style="display: none;">
+    <div id="logout" class="allPage">
         <button id="logout-user">LOG OUT</button>
     </div>
-    <div id="login-form">
+    <div id="login-form" class="allPage">
         <h1>ini login</h1>
         <hr>
         <form id="login-button">
@@ -21,7 +26,8 @@
         <hr>
         <button id="register-link">Register</button>
     </div>
-    <div id="register-form" style="display: none;">
+
+    <div id="register-form" class="allPage">
         <h1>ini register</h1>
         <hr>
         <form id="register-button">
@@ -36,21 +42,54 @@
         <hr>
         <button id="login-link">Login</button>
     </div>
-    <div id="todos-list" style="display: none;">
+
+    <div id="todos-list" class="allPage">
+        <div>
+            <form id="form-create">
+                <label>Title:</label>
+                <input type="text" id="todo-title"><br>
+                <label>Description:</label>
+                <input type="text" id="todo-description"><br>
+                <label>Due Date:</label>
+                <input type="text" id="todo-due-date"><br>
+                <button type="submit">Create</button>
+            </form>
+        </div>
         <h1>ini todos list</h1>
-        <table id="todoList" border="1">
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Due Date</th>
-                <th>Action</th>
-            </tr>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="todoList">
+
+            </tbody>
         </table>
+    </div>
+
+    <div id="edit-form" class="allPage">
+        <div>
+            <form id="form-edit">
+                <label>Title:</label>
+                <input type="text" id="edit-todo-title"><br>
+                <label>Description:</label>
+                <input type="text" id="edit-todo-description"><br>
+                <label>Due Date:</label>
+                <input type="text" id="edit-todo-due-date"><br>
+                <button type="submit" id="submit-edit">Edit</button>
+            </form>
+        </div>
     </div>
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./js/page.js"></script>
+    <script src="./js/request.js"></script>
     <script src="./js/view.js"></script>
-    <script src="./js/index.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
