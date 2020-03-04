@@ -4,7 +4,9 @@ require('dotenv').config()
 
 class TodoController {
     static getTodo = (req, res) => {
-        todo.findAll()
+        todo.findAll({where :{
+            userId : req.userData.id
+        }})
             .then((data) => {
                 res.status(200).json(data)
             })
