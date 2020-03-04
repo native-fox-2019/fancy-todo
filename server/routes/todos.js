@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const controllerTodos = require('../controllers/controllerTodo')
-const authoriz = require('../middleware/authoris')
+// const authoriz = require('../middleware/authoris')
 
 // router.use(authoriz)
 router.get('/', controllerTodos.getAllTodo)

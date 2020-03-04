@@ -4,50 +4,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <title>ToDos</title>
 </head>
 
 <body>
+
   <div id="login">
     <h2> Forms login</h2>
     <form id="actionTologin">
-      <label for="email">email:</label><br>
-      <input type="email" id="emailLogin" name="email"><br>
-      <label for="password">Password:</label><br>
-      <input type="password" id="passwordLogin" name="password" id="myInput"><br><br>
-      <input type="checkbox" onclick="myFunction()">Show Password
-      <br><br>
-
-      <input type="submit" value="Login">
-      <input type="button" value="to-register" id="toRegister">
+      <div class="form-group">
+        <label for="email1">Email address</label>
+        <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input type="password" class="form-control" id="passwordLogin">
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label checkbox " for="exampleCheck1">Show password</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="button" class="btn btn-primary" id="toRegister">Register</button>
     </form>
   </div>
+
+
 
   <div id="register">
-    <h2> Forms register</h2>
+    <h2> Forms Register</h2>
     <form id="actionToRegister">
-      <label for="username">username :</label><br>
-      <input type="text" id="usernameRegister" name="username"><br>
-      <label for="email">email:</label><br>
-      <input type="email" id="emailRegister" name="email"><br><br>
-      <label for="password">Password:</label><br>
-      <input type="password" id="passwordRegister" name="password"><br><br>
-      <input type="checkbox" onclick="myFunction()">Show Password
-      <br><br>
-      <input type="submit" value="Submit">
-      <input type="button" value="to-Login" id="toLogin">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="usernameRegister" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="emailRegister" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input type="password" class="form-control" id="passwordRegister">
+      </div>
+      <!-- <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label checkbox " for="exampleCheck1">Show password</label>
+      </div> -->
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="button" class="btn btn-primary" id="toLogin">Login</button>
     </form>
   </div>
 
 
-  <div id="allTodos">
-    <h1>THIS ALL TODOS</h1>
+
+  <!-- table todos -->
+  <div id="todolistPage" style="margin: 5em 2em;">
+    <!-- <div id="todolistPage"> -->
+    <h1 style="text-align: center; margin-bottom: 1em;color:black;">All To-Do List</h1>
+    <button type="submit" class="btn btn-primary" id='AddTodoList' style="margin-bottom: 2em;">Add</button>
+    <button type="submit" class="btn btn-primary" id='logoutTodoList'
+      style="float: right; margin-bottom: 2em;">Logout</button>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <!-- <th scope="col">Id</th> -->
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">status</th>
+          <th scope="col">due_date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableTodos">
+
+      </tbody>
+    </table>
   </div>
+
+
+  <div id="addTodosDiv" style="margin: 0em 5em; color: black;">
+    <h2 style="text-align: center;">Add To-Do</h2>
+    <form id="todosForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="titleAdd">
+      </div>
+
+      <div class="form-group">
+        <label for="description">description</label>
+        <input type="text" class="form-control" id="descriptionAdd">
+      </div>
+
+      <div class="form-group">
+        <label for="due_date">due_date</label>
+        <input type="date" class="form-control" id="due_dateAdd">
+      </div>
+
+      <button type="submit" class="btn btn-primary" id='addTodosButton'>Add</button>
+    </form>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="./request.js"></script>
   <script src="./main.js"></script>
-  <script>
+  <script src="./view.js"></script>
+  <!-- <script>
     function myFunction() {
       var x = document.getElementById("passwordLogin");
       var y = document.getElementById("passwordRegister");
@@ -59,7 +138,7 @@
         y.type = "password";
       }
     }
-  </script>
+  </script> -->
 </body>
 
 </html>
