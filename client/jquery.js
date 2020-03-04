@@ -6,6 +6,7 @@ let $loginForm = $('#form-login')
 let $signupForm = $('#form-signup')
 let $btnSignout = $('#button-signout')
 let $addTodoForm = $('#form-addTodo')
+let $getUrl = $('#get-url')
 
 if (localStorage.getItem("token") !== null) {
     $(document).ready(() => {
@@ -130,16 +131,19 @@ const checkTodo = (todo, status) => {
         }
     })
 }
-
+let $urlButton
 function onSignIn(googleUser) {
     let id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
         method: 'post',
         url: 'http://localhost:3000/googleLogin',
         data: { "token": id_token },
-        success: token => {
+        success: data => {
             console.log('CIEEEE SIGN IN')
-            localStorage.setItem("token", token)
+            $urlButton = $(`<a href=${data.url} class="btn btn-primary">Integrate with google calendar</a>`)
+            localStorage.setItem("token", data.newToken)
+            $getUrl.empty()
+            $getUrl.append($urlButton)
             $loginForm.hide()
             $todoContainer.show()
             $btnSignout.show()
@@ -162,8 +166,6 @@ function signOut() {
     });
 }
 
-
-
 $loginForm.on('submit', (e) => {
     e.preventDefault()
     let $email = $('#email-login').val()
@@ -183,6 +185,8 @@ $addTodoForm.on('submit', (e) => {
     }
     addTodo(newTodo)
 })
+
+
 
 
 

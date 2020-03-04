@@ -1,7 +1,9 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENT_ID)
+// const client = new OAuth2Client(process.env.CLIENT_ID,'tLWdeJVWz43GxDa6zCYywINU',"urn:ietf:wg:oauth:2.0:oob")
+const { google } = require('googleapis')
+const client = new google.auth.OAuth2(process.env.CLIENT_ID,'tLWdeJVWz43GxDa6zCYywINU',"http://localhost:3000")
 
 class UserController {
     static register = (req, res, next) => {
@@ -89,11 +91,26 @@ class UserController {
                 let id = user.id
                 let email = user.email
                 let newToken = jwt.sign({ id, email }, process.env.JWT_SECRET)
-                res.status(200).json(newToken)
+                const scopes = ['https://www.googleapis.com/auth/calendar']
+                const url = client.generateAuthUrl({
+                    scope: scopes
+                })
+                res.status(200).json({newToken, url})
             })
             .catch(err => {
                 next(err)
             })
+    }
+
+    static getCode = (req, res, next) => {
+        client.getToken(req.query.code)
+            .then(token => {
+                client.setCredentials(token)
+            })
+            .catch(err => {
+                next(err)
+            })
+        res.redirect('http://localhost:8080')
     }
 }
 
