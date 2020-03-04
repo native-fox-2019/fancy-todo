@@ -37,15 +37,33 @@
     </div>
     <div id="todo" style="text-align: center;" class="table"> 
         <h3>Todo List</h3>
-        <table id="table-todo" style="margin: auto; width: 800px;">
+        <button type="button" class="btn-primary" id="add-form">Add</button><br>
+        <table style="margin: auto; width: 800px;">
             <tr>
-                <th>Titile</th>
+                <th>Id</th>
+                <th>Title</th>
                 <th>Description</th>
                 <th>Status</th>
                 <th>Due Date</th>
                 <th>Action</th>
             </tr>
         </table> 
+        <table id="table-todo" style="margin: auto; width: 800px;">
+        </table> 
+    </div>
+    <div id="addTodo" style="text-align: center;" class="form">
+        <h3>Add Todo</h3>
+        <form id="add-button">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title-add" name="title"><br>
+            <label for="description">Description:</label><br>
+            <input type="text" id="description-add" name="description"><br>
+            <label for="status">Status:</label><br>
+            <input type="text" id="status-add" name="status"><br>
+            <label for="due_date">Due Date:</label><br>
+            <input type="text" id="due_date-add" name="due_date"><br><br>
+            <button type="submit" class="btn-primary" > Add </button><br><br><br>
+          </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./index.js"></script>
