@@ -24,13 +24,18 @@ class ControllerTodos {
     }
 
     static getAll(req, res, next) {
+        console.log('qwerqe')
         let id = Number(req.user.id)
         Todo
             .findAll({ where: { UserId: id } })
             .then(data => {
+                console.log(data)
+                console.log('data')
                 res.status(200).json(data)
             })
             .catch(err => {
+                console.log('err')
+                console.log(err)
                 next(err)
             })
     }

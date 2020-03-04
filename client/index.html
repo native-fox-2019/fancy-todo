@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="764486185935-aobe28kkks4b421rio9i94pmf79eh9c2.apps.googleusercontent.com">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="login-page">
+        <div id="form-login">
+            <form id="login">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="login-username">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="login-password">
+                </div>
+                <div>
+                    <button type="submit" onclick="login()">Submit</button> <button id="register-button">register</button>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="register-page">
+        <div id="form-register">
+            <form id="register">
+                <div>
+                    <label for="name">name</label>
+                    <input type="text" name="name" id="register-name">
+                </div>
+                <div>
+                    <label for="email">email</label>
+                    <input type="text" name="email" id="register-email">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="text" name="password" id="register-password">
+                </div>
+                <div>
+                    <button type="submit">Register Now</button>
+                </div>
+                <div>
+                    already have an account?
+                    <button>yes, i alreay have an account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addForm">
+        Launch demo modal
+      </button>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="addForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              asd
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div id="edit-page">
+        <div id="form-edit">
+            <form id="edit">
+                <input type="hidden" id="rahasia">
+                <div>
+                    <label for="title">title</label>
+                    <input type="text" name="title" id="edit-title">
+                </div>
+                <div>
+                    <label for="description">description</label>
+                    <input type="text" name="description" id="edit-description">
+                </div>
+                <div>
+                    <label for="status">status</label>
+                    <select name="status" id="edit-status">
+                        <option value="done">done</option>
+                        <option value="on progress">on progress</option>
+                        <option value="not yet">not yet</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="due_date">due_date</label>
+                    <input type="date" name="due_date" id="edit-due_date">
+                </div>
+                <div>
+                    <button id="update-button" type="submit" >Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="add-page">
+        <div id="form-add">
+            <form id="add">
+                <div>
+                    <label for="title">title</label>
+                    <input type="text" name="title" id="add-title">
+                </div>
+                <div>
+                    <label for="description">description</label>
+                    <input type="text" name="description" id="add-description">
+                </div>
+                <div>
+                    <label for="status">status</label>
+                    <select name="status" id="add-status">
+                        <option value="done">done</option>
+                        <option value="on progress">on progress</option>
+                        <option value="not yet">not yet</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="due_date">due_date</label>
+                    <input type="date" name="due_date" id="add-due_date">
+                </div>
+                <div>
+                    <button id="add-button" type="submit" onclick="addData()">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="main-page">
+        <div id="">
+            <h1>welcome to your todo list</h1>
+        </div>
+        <div id="sign-out">
+            <a href="#" onclick="signOut();"><button> Sign out</button></a>
+        </div>
+        <div id="todos-container">
+            <div id="table-todos">
+                <button id='reload-data' onclick="reload()">reload</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>status</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="todos-data">
+                    </tbody>
+                </table>
+                <button id='add-todos'>Add Todo</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="script/script.js"></script>
+    <script src="script/google.js"></script>
+</body>
+
+</html>

@@ -6,9 +6,28 @@ const bcrypt = require('bcrypt')
 const salt = 10
 const authorization = require('../middlewares/authorization')
 const jwt = require('jsonwebtoken')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 class ControllerUser {
 
+    static verify = (req,res,next) =>{
+        let {token} = req.body
+        let payload
+        client.verifyIdToken({
+            idToken: token,
+            audience: process.env.CLIENT_ID,  
+        })
+        .then(ticket =>{
+            payload = ticket.getPayload()
+            verify().catch(console.error);
+            return User.findOne({where:{}})
+        })
+        .then()
+        .catch(err=>{
+            console.log(err)
+        })
+      }
     static register(req, res, next) {
         const { username, password } = req.body
         User
@@ -33,7 +52,7 @@ class ControllerUser {
                 const test = bcrypt.compareSync(req.body.password, data.password)
                 if(test){
                     const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET)
-                    res.status(200).json({ token })
+                    res.status(200).json(token)
                 }
             })
             .catch(err => {
