@@ -8,7 +8,21 @@ class UserController {
 	static register(req, res, next){
 		let { email, password } = req.body
 
-		User.create( { email, password } )
+		User.findOne({
+			where: {
+				email
+			}
+		})
+		.then(data => {
+			if(data){
+				next({
+					status: 403,
+					message: 'user already exist'
+				})
+			}else{
+				return User.create( { email, password } )
+			}
+		})
 		.then(user => {
 			res.status(201).json(user)
 		})
@@ -47,8 +61,6 @@ class UserController {
 				userToken = jwt.sign(userToken, process.env.SECRET)
 				req.header = userToken
 				req.userToken = userToken
-				// res.set('userToken', userToken)
-				// res.header('userToken',  userToken)
 
 				res.status(200).json(userToken)
 				next()

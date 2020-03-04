@@ -18,10 +18,7 @@ class TodosController {
       res.status(200).json(todo)
     })
     .catch(err => {
-      //error validasi
-
-      //error server
-      res.status(500)
+      next(err)
     })
   } 
 
@@ -40,10 +37,10 @@ class TodosController {
       res.type('application/json')
       res.status(200).json(todos)
     })
-    .catch(err => res.status(500))
+    .catch(err => next(err))
   }
 
-  static getOneTodo(req, res){
+  static getOneTodo(req, res, next){
     let id = Number(req.params.id)
     Todo.findOne({
       where: {
@@ -59,11 +56,13 @@ class TodosController {
       }
     })
     .catch(err => {
-      res.status(500)
+      next(err)
     })
   }
 
   static update(req, res){
+    const userData = decode(req.headers.usertoken)
+
     let id = Number(req.params.id)
     let {title, description, status, due_date} = req.body
 
@@ -77,12 +76,7 @@ class TodosController {
       res.status(200).json(todo)
     })
     .catch(err => {
-      //error validasi
-      
-      //error not found
-
-      //error server
-      res.status(500)
+      next(err)
     })
   }
 
@@ -96,10 +90,7 @@ class TodosController {
       res.status(200).json(todo)
     })
     .catch(err => {
-      //error not found
-
-      //error server
-      res.status(500)
+      next(err)
     })
   }
 }

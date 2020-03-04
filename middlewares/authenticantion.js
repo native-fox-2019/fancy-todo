@@ -7,8 +7,9 @@ module.exports = (req,res,next) => {
       req.user = decoded;
       next();
     } catch(err) {
-      res.status(401).json({
+      next({
+        status:401,
         message: 'Forbidden Access'
-      });
+      })
     }
   }

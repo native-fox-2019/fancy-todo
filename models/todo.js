@@ -7,14 +7,49 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    status: DataTypes.STRING,
-    due_date: DataTypes.DATE    
+    title: {
+      type: DataTypes.STRING,
+      validate : {
+        notEmpty: {
+          msg: 'title cannot be empty'
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate : {
+        notEmpty: {
+          msg: 'description cannot be empty'
+        }
+      }
+    },
+    status: {
+      type: DataTypes.STRING,
+      validate : {
+        notEmpty: {
+          msg: 'title cannot be empty'
+        }
+      }
+    },
+    due_date: {
+      type: DataTypes.DATE,
+      validate : {
+        notEmpty: {
+          msg: 'Date cannot be empty'
+        },
+        isDate : {
+          msg: 'Enter valid date,format: YYYY/MM/DD'
+        }
+      }
+    },   
   },
   {
     hooks: {
-      
+      beforeSave: (Todo, options) =>{
+        if(Todo.status !== 'Compelete'){
+          Todo.status = 'Uncomplete'
+        }
+      }
     },
     sequelize 
   })
