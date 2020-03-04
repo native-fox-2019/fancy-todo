@@ -14,7 +14,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
-      do_date: {
+      due_date: {
         type: Sequelize.DATE
       },
       description: {

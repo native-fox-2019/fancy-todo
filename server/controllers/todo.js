@@ -38,12 +38,12 @@ class Controller {
         })
     }
     static create(req, res, next){
-        const {title, description, do_date} = req.body
+        const {title, description, due_date} = req.body
         Todo.create({
             title,
             description,
             status:false,
-            do_date,
+            due_date,
             UserId : req.user
         })
         .then(data =>{
@@ -54,7 +54,7 @@ class Controller {
         })
     }
     static update(req, res, next){
-        const {title, description, status, do_date} = req.body
+        const {title, description, status, due_date} = req.body
         Todo.findOne({
             where: {
                 id: req.params.id
@@ -69,7 +69,7 @@ class Controller {
                     title,
                     description,
                     status,
-                    do_date,
+                    due_date,
                     },{
                         where:{
                             id:req.params.id

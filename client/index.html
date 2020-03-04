@@ -75,7 +75,7 @@
         </form>
         <div>
           <a href="#" id="btn-register">
-            <small class="form-text text-muted">Have account? please Login</small>
+            <small class="form-text text-muted">Don't have account? please Register</small>
           </a>
         </div>
       </div>
@@ -84,7 +84,7 @@
   <!-- END LOGIN -->
 <!-- ===================================================================================================================================== -->
   <!-- HOME -->
-  <div id="home">
+  <div id="nav">
       <!-- NAV -->
       <nav class="navbar navbar-expand-lg navbar-light bg-info">
         <div class="container">
@@ -120,15 +120,16 @@
       <!-- END NAV -->
 
       <!-- BODY -->
-      <div class="container mt-4">
+      <div id="home" class="container mt-4">
         <div class="row">
           <!-- MENU SILDE -->
           <div class="col-3">
             <div class="list-group">
-              <a href="#" class="list-group-item list-group-item-action">Today</a>
-              <a href="#" class="list-group-item list-group-item-action">Next 7 Days </a>
-              <a href="#" class="list-group-item list-group-item-action">In Month</a>
-              <a href="#" class="list-group-item list-group-item-action">History</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showAllTodo()">Show All</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showTodayTodo()">Today</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showNext7DayTodo()">Next 7 Days </a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showMonthTodo()">In Month</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showHistoryTodo()">History</a>
             </div>
           </div>
           <!-- END MENU SIDE -->
@@ -136,57 +137,41 @@
 
           <!-- CONTENT -->
           <div class="col-9 border rounded">
+            <div class="d-flex align-content-center justify-content-end">
+              <div id="addTodo" class="btn btn-primary my-2">Add Todo</div>
+            </div>
+
             <!-- CARD -->
-            <div class="d-flex align-content-around justify-content-around flex-wrap">
-              <div class="my-4">
-                <div class="card" style="width: 11rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's
-                      content.</p>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </div>
-                </div>
-              </div>
-              <div class="my-4">
-                <div class="card" style="width: 11rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's
-                      content.</p>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </div>
-                </div>
-              </div>
-              <div class="my-4">
-                <div class="card" style="width: 11rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's
-                      content.</p>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </div>
-                </div>
-              </div>
-              <div class="my-4">
-                <div class="card" style="width: 11rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's
-                      content.</p>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </div>
-                </div>
+            <div id="allCard">
+              <div id="showTodo" class="d-flex align-content-between justify-content-between flex-wrap">
+              <!-- CONTENT IN CARD FROM GET ALL TODOS -->
               </div>
             </div>
             <!-- END OF CARD -->
+            <div id="detailTodo" class="m-2 p-2">
+              <!-- CONTENT IN CARD FROM GET ONE TODOS -->
+            </div>
+            <!-- ADD TODO -->
+            <div id="showAddTodo">
+              <form id="formAddTodos">
+                <div class="form-group">
+                  <label for="addTitle">Tittle</label>
+                  <input type="text" class="form-control" id="addTitle">
+                </div>
+                <div class="form-group">
+                  <label for="addDescription">Description</label>
+                  <input type="text" class="form-control" id="addDescription">
+                </div>
+                <div class="form-group">
+                  <label for="addDuedate">Due Date</label>
+                  <input type="date" name="datemin" class="form-control" id="addDuedate">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+            <!-- END OF ADD TODO -->
           </div>
           <!-- END CONTENT -->
-
         </div>
       </div>
       <!-- END BODY -->
@@ -201,14 +186,17 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.min.js">
   </script>
+  <!-- MOMENT JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <!-- Bootsrtap -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js">
   </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
   </script>
   <script src="./main.js"></script>
+  <script>
+  </script>
 </body>
 
 </html>

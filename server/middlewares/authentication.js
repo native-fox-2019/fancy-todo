@@ -19,6 +19,9 @@ module.exports = (req, res, next) =>{
                 throw next(createError(404, 'User Not Found'))
             }
         })
+        .catch(err => {
+            throw next(createError(403, 'Unauthentication'))
+        })
     } catch (error) {
         next(error)
     }
