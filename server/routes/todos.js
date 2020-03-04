@@ -5,8 +5,8 @@ const authentication = require('../middlewares/authentication.js');
 const authorization = require('../middlewares/authorization');
 
 route.post('/', authentication, Controller.addData);
-route.get('/', Controller.showData);
-route.get('/:id', Controller.showDataById);
+route.get('/', authentication, Controller.showData);
+route.get('/:id', authentication, authentication, Controller.showDataById);
 route.put('/:id', authentication, authorization, Controller.edit);
 route.delete('/:id', authentication, authorization, Controller.deleteData);
 

@@ -25,7 +25,11 @@ class Controller{
     }
 
     static showData(req, res, next){
-        Todo.findAll()
+        Todo.findAll({
+            where: {
+                userId: req.userData.id
+            }
+        })
             .then(data=>{
                 res.status(200).json(data);
             })

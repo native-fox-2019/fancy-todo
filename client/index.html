@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div id="Thelogin" class="parts">
+        <form id="login-form" style="text-align: center;">
+            <h1>Login</h1>
+            <input id="email-login" type="email" placeholder="email">
+            <input id="password-login" type="password" placeholder="password">
+            <button class="btn-sucsess" type="submit">Login</button>
+            <button class="btn-register">Register</button>
+        </form>
+    </div>
+
+    <div id="Theregister" class="parts">
+        <form id="register-form" style="text-align: center;">
+            <h1>Register</h1>
+            <input type="email" placeholder="email">
+            <input type="password" placeholder="password">
+            <button type="submit">Register</button>
+            <button class="btn-login">Login</button>
+        </form>
+    </div>
+
+    <div id="todo-list" class="parts" style="text-align: center;">
+        <h1>Todo List</h1>
+        <button class="btn-add">Add</button>
+        <button class="btn-logout">Logout</button>
+        <table id="table-todo" border="1" class="table">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Due date</th>
+                <th>Action</th>
+            </tr>
+        </table>
+    </div>
+
+    <div id="add-list" class="parts" style="text-align: center;">
+        <h1>Add to list</h1>
+        <form id="add-form" style="text-align: center;">
+            <label>Title</label><br>
+            <input type="text" class="add-title"><br>
+            <label>Description</label><br>
+            <input type="text"  class="add-desc"><br>
+            <label>Status</label><br>
+            <input type="text"  class="add-status"><br>
+            <label>Due date</label><br>
+            <input type="text"  class="add-date"><br><br>
+            <button class="submit-add" type="submit">Add</button>
+        </form>
+    </div>
+
+    <div id="edit-list" class="parts" style="text-align: center;">
+        <h1>Edit list</h1>
+        <form id="edit-form" style="text-align: center;">
+            <label>Title</label><br>
+            <input type="text" class="edit-title"><br>
+            <label>Description</label><br>
+            <input type="text" class="edit-desc"><br>
+            <label>Status</label><br>
+            <input type="text" class="edit-status"><br>
+            <label>Due date</label><br>
+            <input type="text" class="edit-date"><br><br>
+            <button type="submit">Edit</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
