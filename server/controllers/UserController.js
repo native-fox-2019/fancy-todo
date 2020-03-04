@@ -22,13 +22,13 @@ class UserController {
         let password = req.body.password
         User.findOne({where : {email : email}})
         .then(user =>{
-            console.log(user)
             if(user.password === password){
                 let token = jwt.sign({id: user.id, email : user.email}, process.env.SECRET)
                 res.status(200).json(token)
             } else if(user === null || user.password !== password){
                 next({
-                    msg : 'wrong username / password'
+                    status : 400,
+                    resource : 'id/password'
                 })
             }
         })

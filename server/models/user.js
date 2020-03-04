@@ -25,17 +25,6 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        UserId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                function(value) {
-                    if (value === null || value === '') {
-                        throw new Error('Password Cannot Be Empty')
-                    }
-                }
-            }
-        }
     }, { sequelize })
 
     User.associate = function(models) {

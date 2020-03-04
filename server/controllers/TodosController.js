@@ -21,6 +21,7 @@ class TodosController {
     }
 
     static getAll(req, res, next) {
+        console.log('masuk getAll')
         Todo.findAll({where : {UserId : req.userData.id}})
         .then(data => {
                 res.status(200).json(data)
