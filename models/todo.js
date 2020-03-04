@@ -11,12 +11,18 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     status: DataTypes.STRING,
     due_date: DataTypes.DATE    
-  }, { sequelize } )
+  },
+  {
+    hooks: {
+      
+    },
+    sequelize 
+  })
 
 
 
   Todo.associate = function(models) {
-    // associations can be defined here
+    Todo.belongsTo(models.User, { foreignKey: 'userId' })
   };
   return Todo;
 };

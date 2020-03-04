@@ -19,31 +19,48 @@ class UserController {
 
 	//Login
 	static login(req, res, next){
+		let userToken = null
 		User.findOne({ where: {
 			 email: req.body.email
 			} 
 		})
 		.then(user => {
-			if(user !== null){
+			if(user){
 				let password = req.body.password
 				let hashed = user.password
 				
-				//lakukan comparing
-				if(user.password === password){
-					const userToken = jwt.sign({
-						id: user.id,
-						email: user.email,
-					},'secret' );
-					
-					res.header('userToken',  userToken)
-					res.status(200).json(userToken)
-					
-				}else{
-					res.status(400).json('Wrong Email or Password!')
+				userToken = {
+					id: user.id,
+					email: user.email
 				}
+				
+				return compare(password, hashed)
 			}else{
-				res.status(400).json('Wrong Email or Password!')
+				next({
+					status: 404,
+					message: 'Wrong email or password'
+				})
 			}
+		})
+		.then(result =>{
+			if(result){
+				userToken = jwt.sign(userToken, process.env.SECRET)
+				req.header = userToken
+				req.userToken = userToken
+				// res.set('userToken', userToken)
+				// res.header('userToken',  userToken)
+
+				res.status(200).json(userToken)
+				next()
+			}else{
+				next({
+					status: 404,
+					message: 'Wrong email or password'
+				})
+			}
+		})
+		.catch(err => {
+			next(err)
 		})
 	}
 }

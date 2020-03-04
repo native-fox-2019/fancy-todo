@@ -1,17 +1,20 @@
 const { Todo } = require('../models')
-
+const decode = require('../helpers/decode')
 class TodosController {
 
   //create todo
-  static create(req, res){
+  static create(req, res, next){
     let {title, description, status, due_date} = req.body
+    const userData = decode(req.headers.usertoken)
     Todo.create( {
       title,
       description,
       status,
-      due_date
+      due_date,
+      userId: userData.id
     })
     .then(todo => {
+      res.type('application/json')
       res.status(200).json(todo)
     })
     .catch(err => {
@@ -24,9 +27,19 @@ class TodosController {
 
 
   //read todo
-  static getTodo(req, res){
-    Todo.findAll()
-    .then(todos => res.status(200).json(todos))
+  static getTodo(req, res, next){
+    const userData = decode(req.headers.usertoken)
+    console.log(userData)
+    
+    Todo.findAll({
+      where: {
+        userId: Number(userData.id)
+      }
+    })
+    .then(todos => {
+      res.type('application/json')
+      res.status(200).json(todos)
+    })
     .catch(err => res.status(500))
   }
 
