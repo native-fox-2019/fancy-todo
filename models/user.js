@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
           msg:'Format harus email'
         }
       }
-    }
+    },
+    google_token:DataTypes.STRING
   }, {sequelize,tableName:'Users'})
 
   User.associate = function(models) {

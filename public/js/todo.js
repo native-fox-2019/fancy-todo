@@ -4,11 +4,13 @@
     var $status=$('#status');
     var $dueDate=$('#due-date');
     var $formTodo=$('#form-todo');
+    var $startDate=$('#start-date')
     
     var $title_m=$('#title_m');
     var $description_m=$('#description_m');
     var $status_m=$('#status_m');
     var $dueDate_m=$('#due-date_m');
+    var $startDate_m=$('#start-date_m');
     
     var $todoContent=$('#todos-content');
     var $btnAddTodo=$('#btn-add-todos');
@@ -20,6 +22,8 @@
     var todosData;
     var willUpdateId=-1;
     var wilDeleteId=-1;
+    const userID=-1;
+    var currEdit;
 
     var headers={
         token:TOKEN,
@@ -39,14 +43,15 @@
     });
 
     $btnAddTodo.on('click',function(){
-        console.log('add todos');
+        //console.log('add todos');
         $btnAddTodo.attr('disabled','disabled');
-        addTodos();
+        addGoogleTodos();
     });
 
     $btnUpdateTodo.on('click',function(){
         $(this).attr('disabled','disabled');
-        updateTodos();
+        //updateTodos();
+        updateGoogleTodos();
     });
 
     $btnDeleteModalTodo.on('click',function(){
@@ -60,7 +65,9 @@
         $description_m.val(curr.description);
         $status_m.val(curr.status);
         $dueDate_m.val(curr.due_date);
+        $startDate_m.val(curr.start_date);
         willUpdateId=id;
+        currEdit=curr;
 
         $editModal.modal({backdrop:'static'})
     }
@@ -108,7 +115,6 @@
         var sentData={
             "title":$title_m.val(),
             "description":$description_m.val(),
-            "status":$status_m.val(),
             "due_date":new Date($dueDate_m.val()).toISOString()
         }
         var url='/todos/'+willUpdateId;
@@ -124,14 +130,40 @@
         });
     }
 
-    function addTodos(){
+    function updateGoogleTodos(){
+        
         var sentData={
-            "title":$title.val(),
-            "description":$description.val(),
-            "status":$status.val(),
-            "due_date":new Date($dueDate.val()).toISOString()
+            "summary":$title_m.val(),
+            "description":$description_m.val(),
+            "startDate":new Date($startDate_m.val()).toISOString(),
+            "endDate":new Date($dueDate_m.val()).toISOString(),
+            "eventId":currEdit.g_id
         }
-        var url='/todos'
+        var url='/calendar/update';
+
+        console.log(sentData);
+        $.ajax({
+            type:'PUT',
+            url:url,
+            headers:headers,
+            data:JSON.stringify(sentData),
+            success:refreshTodos
+        }).fail(onFail).always(function(){
+            $editModal.modal('hide');
+            $btnUpdateTodo.attr('disabled',null)
+        });
+    }
+
+    function addGoogleTodos(){
+        var sentData={
+            "summary":$title.val(),
+            "description":$description.val(),
+            "startDate":new Date($startDate.val()).toISOString(),
+            "endDate":new Date($dueDate.val()).toISOString(),
+            "userID":userID
+        }
+
+        var url='/calendar/add';
         $.ajax({
             type:'POST',
             url:url,
@@ -139,9 +171,8 @@
             data:JSON.stringify(sentData),
             success:refreshTodos
         }).fail(onFail).always(function(){
-            console.log('Done creating');
-            $btnAddTodo.attr('disabled',null);
-        })
+            $btnAddTodo.attr('disabled',null)
+        });;
     }
 
     function deleteTodos(){

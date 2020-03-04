@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Model=sequelize.Sequelize.Model;
+  const authenticate=require('../google-auth');
 
   class Todo extends Model{}
 
@@ -37,8 +38,19 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    start_date: {
+      type:DataTypes.DATE,
+      validate:{
+        notEmpty:{
+          msg:'start_date cannot be empty'
+        }
+      }
+    },
     userId:{
       type:DataTypes.INTEGER
+    },
+    g_id:{
+      type:DataTypes.STRING
     }
   }, {sequelize,modelName:'Todo'});
 

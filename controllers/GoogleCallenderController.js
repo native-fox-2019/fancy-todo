@@ -1,5 +1,7 @@
 const authenticate=require('../google-auth');
 const fs=require('fs');
+const tokenDecoder=require('../helpers/decodeToken');
+const {Todo}=require('../models');
 
 class GoogleCallenderController{
     
@@ -91,18 +93,41 @@ class GoogleCallenderController{
             }
       };
 
+      let token=req.headers.token;
+      let decoded=tokenDecoder(token);
+
       (async function(){
         
         try{
             let calendar =await authenticate();
+            let todo=new Todo({
+                title:summary,
+                description:description,
+                status:"confirmed",
+                due_date:endDate,
+                start_date:startDate,
+                userId:decoded.id
+            });
+
+            await todo.save();
+
             let data=await calendar.events.insert({
                 calendarId:process.env.CALENDAR_ID,
                 auth:authenticate.auth,
                 resource:event
             })
-            res.status(201).json({status:201,message:'Berhasil dibuat',data:data});
+
+            if(data){
+                todo.set('g_id',data.data.id);
+                await todo.save();
+            }
+
+            res.status(201).json({status:201,message:'Berhasil dibuat',data:todo,gdata:data.data.id});
+           
+
+           
         }catch(err){
-            authenticate.errorHandler(e,res);
+            authenticate.errorHandler(err,res);
         }
       })()
 
@@ -128,11 +153,18 @@ class GoogleCallenderController{
             end: {
                 dateTime: endDate
             }
-      };
+        };
 
         (async function(){
         
             try{
+                await Todo.update({
+                    title:summary,
+                    description:description,
+                    due_date:endDate,
+                    start_date:startDate
+                },{where:{g_id:eventId}});
+
                 let calendar =await authenticate();
                 let data=await calendar.events.update({
                     calendarId:process.env.CALENDAR_ID,

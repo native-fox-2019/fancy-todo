@@ -10,12 +10,13 @@
             <input type="text" id="description" class="form-control">
         </div>
         <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status" class="form-control">
-                <option value="done">done</option>
-                <option value="reject">reject</option>
-                <option value="confirmed">confirmed</option>
-            </select>
+            <label for="start-date">Start Date</label>
+            <div class="form-group input-group date" id="start-date-content">
+                <input type='text' class="form-control" id="start-date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
         </div>
         <div class="form-group">
             <label for="due-date">Due Date</label>
@@ -30,6 +31,7 @@
         <script>
             (function(){
                 $('#due-date-content').datetimepicker();
+                $('#start-date-content').datetimepicker();
             })()
         </script>
         
@@ -66,12 +68,13 @@
             <input type="text" id="description_m" class="form-control">
         </div>
         <div class="form-group">
-            <label for="status_m">Status</label>
-            <select id="status_m" class="form-control">
-                <option value="done">done</option>
-                <option value="reject">reject</option>
-                <option value="confirmed">confirmed</option>
-            </select>
+            <label for="start-date_m">Start Date</label>
+            <div class="form-group input-group date" id="start-date-content_m">
+                <input type='text' class="form-control" id="start-date_m" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
         </div>
         <div class="form-group">
             <label for="due-date_m">Due Date</label>
@@ -91,6 +94,7 @@
   <script>
     (function(){
         $('#due-date-content_m').datetimepicker();
+        $('#start-date-content_m').datetimepicker();
     })()
 </script>
   

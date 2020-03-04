@@ -7,7 +7,7 @@ module.exports=(req,res,next)=>{
         let secret=process.env.JWT_SECRET;
 
         try{
-            let decoded =jwt.verify(token,secret);
+            jwt.verify(token,secret);
         }
         catch(err){
             res.status(400).json({status:400,message:'Token invalid'});

@@ -53,7 +53,7 @@ function authorize(credentials, callback,recallback) {
  */
 function getAccessToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'online',
+    access_type: 'offline',
     scope: SCOPES,
   });
   callback(authUrl);

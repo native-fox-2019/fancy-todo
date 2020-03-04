@@ -1,13 +1,27 @@
 const {Todo,User}=require('../models');
+const jwt=require('jsonwebtoken');
 
 class TodoController{
 
     static test(req,res){
         (async function(){
-            let result=await User.findByPk('1');
-            await result.set('name','Hitsam Hehe');
-            await result.save();
-            res.send(result);
+            // let todo=new Todo({
+            //     title:'Test hehehe',
+            //     description:'Hahahahah',
+            //     status:'confirmed',
+            //     due_date:new Date(),
+            //     start_date:new Date(),
+            //     userId:1
+            // });
+            
+            // await todo.save();
+
+            // res.send(todo);
+            let token=req.headers.token;
+            let secret=process.env.JWT_SECRET;
+            let decoded =jwt.decode(token,secret);
+            res.send(decoded);
+           
         })();
     }
 
