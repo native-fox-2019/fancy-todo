@@ -9,29 +9,61 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        .app {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Fancy Todolist</h1>
-    <div>
-        <button class="btn btn-primary" id="btn-login">Login</button>
-        <button class="btn btn-secondary" id="btn-register">Register</button>
-        <button class="btn btn-danger" id="btn-logout" style="display: none;">Logout</button>
-    </div>
-
-    <div>
-        <!-- login / register form -->
-        <form id="RegLogForm" style="display: none;">
+    <div id="login" class="app">
+        <h1>Login</h1>
+        <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email">
+                <input type="email" class="form-control" id="login-email">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password">
+                <input type="password" class="form-control" id="login-password">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <button class="btn btn-warning" id="btn-cancel-form">cancel</button>
+            <button class="btn btn-primary float-right" id="btn-register">Register</button>
+        </form>
+    </div>
+
+    <div id="register" class="app">
+        <h1>Register</h1>
+        <form id="regForm">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="reg-email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="reg-password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary float-right" id="btn-login">Login</button>
+        </form>
+    </div>
+
+    <div id="list" class="app">
+        <h1>Todo List</h1>
+        <form>
+            <div class="form-group">
+                <input type="text" placeholder="Title" id="title" class="form-control mb-2">
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Description" id="description" class="form-control mb-2" cols="30" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="date" id="date" class="form-control mb-2">
+            </div>
+            <button type="submit" class="btn btn-primary">+ Add</button>
+            <button class="btn btn-primary float-right" id="btn-logout">Logout</button>
         </form>
     </div>
 
@@ -42,7 +74,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script src="assets/script/jquery.js"></script>
+
+    <script src="assets/script/data-list.js"></script>
+    <script src="assets/script/view.js"></script>
+    <script src="assets/script/request.js"></script>
+    <script src="assets/script/main.js"></script>
 </body>
 
 </html>

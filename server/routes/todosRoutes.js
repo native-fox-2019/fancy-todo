@@ -6,14 +6,12 @@ const author = require(`../middleware/authorization`)
 
 router.get(`/`, todos.showAll)
 
-router.get(`/:id`, todos.findOne)
-
-router.all(author)
-
 router.post(`/`, todos.create)
 
-router.put(`/:id`, todos.update)
+router.get(`/:id`, author, todos.findOne)
 
-router.delete(`/:id`, todos.delete)
+router.put(`/:id`, author, todos.update)
+
+router.delete(`/:id`, author, todos.delete)
 
 module.exports = router
