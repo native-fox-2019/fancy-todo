@@ -1,0 +1,4 @@
+#todoDiv table thead tr th {
+    width: 200px;
+    border-bottom: 1px solid grey;
+}

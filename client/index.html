@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style/index.css">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <h1>Fancy Todo</h1>
+    
+    <div id="logDiv">
+        <h2>Log In</h2>
+        <form id="logForm">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Email</label></td>
+                        <td><input type="email" id="logEmail"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Password</label></td>
+                        <td><input type="password" id="logPassword"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" id="logSubmit" value="Log In">
+                            <button id="goToRegister">Go to Register</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div id="regDiv" style="display: none;">
+        <h2>Register</h2>
+        <form id="regForm">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Email</label></td>
+                        <td><input type="email" id="regEmail"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Password</label></td>
+                        <td><input type="password" id="regPassword"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" id="regSubmit" value="Register">
+                            <button id="goToLogin">Go to Login</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div id="todoDiv" style="display: none;">
+        <h2>Todo List</h2>
+        <button id="logOut">Log Out</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                    <th>Add/Edit/Delete</th>
+                </tr>
+                <tr>
+                    <form id="addTodoForm">
+                        <td><input type="text" id="titleAdd" placeholder="What to do?"></td>
+                        <td><textarea id="descriptionAdd" cols="30" rows="5" placeholder="Describe your Todo"></textarea></td>
+                        <td>
+                            <select id="statusAdd">
+                                <option value="" hidden></option>
+                                <option value="Not Done Yet">Not Done Yet</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Finished">Finished</option>
+                                <option value="Failed">Failed</option>
+                            </select>
+                        </td>
+                        <td><input type="date" min="2019-01-01" max="2019-12-31" id="due_dateAdd"></td>
+                        <td>
+                            <input type="submit" value="Add New Todo">
+                        </td>
+                    </form>
+                </tr>
+            </thead>
+
+            <tbody id="todoList">
+                
+                <!-- Todo List Here -->
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="script/requests.js"></script>
+    <script src="script/index.js"></script>
+    <!-- END SCRIPTS -->
+</body>
+</html>

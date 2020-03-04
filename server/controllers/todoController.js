@@ -13,7 +13,10 @@ class TodoController {
         };
         return holidayIdn(req.body.due_date)
         .then(holiday => {
-            toAdd.title += ` [${holiday.holidays[0].name}]`;
+            console.log(holiday,'=====================================================');
+            if (holiday.holidays.length) {
+                toAdd.title += ` [${holiday.holidays[0].name}]`;
+            }
             return Todo.create(toAdd);
         })
         .then(() => {
