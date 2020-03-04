@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Fancy Todo List</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- <style>
+    .app {
+      display: none;
+    }
+  </style> -->
+</head>
+
+<body>
+  <!-- login start -->
+  <div class="app" id="login">
+    <h1>Login</h1>
+    <form>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email-login" aria-describedby="emailHelp">
+        <small id="emailHelp" class="form-text text-muted">Please input your email correctly!</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password-login">
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <button class="btn btn-primary" id='btn-register'>Register</button>
+    </form>
+  </div>
+  <!-- login finish -->
+
+  <!-- register start -->
+  <div class="app" id="register">
+    <h1>Register</h1>
+    <form>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email-register" aria-describedby="emailHelp">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password-register">
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+      <button class="btn btn-primary" id='btn-login'>Login</button>
+    </form>
+  </div>
+  <!-- register finish -->
+
+  <!-- add ToDo -->
+  <div class="app" id="add">
+    <h1>Add ToDo</h1>
+    <form>
+      <div class="form-group">
+        <label for="title">ToDo Title</label>
+        <input type="text" class="form-control" id="add-title" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="add-description">
+      </div>
+      <div class="form-group">
+        <label for="Date">Description</label>
+        <input type="text" class="form-control" id="add-date">
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+      <button class="btn btn-primary" id='btn-logout'>Log Out</button>
+      <button class="btn btn-primary" id='btn-list'>Back to List</button>
+    </form>
+  </div>
+  <!-- add ToDo finish -->
+
+  <!-- edit ToDo -->
+  <div class="app" id="edit">
+    <h1>Edit ToDo</h1>
+    <form>
+      <div class="form-group">
+        <label for="title">ToDo Title</label>
+        <input type="text" class="form-control" id="edit-title" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="edit-description">
+      </div>
+      <div class="form-group">
+        <label for="Date">Description</label>
+        <input type="text" class="form-control" id="edit-date">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary" id='btn-logout'>Log Out</button>
+      <button class="btn btn-primary" id='btn-list'>Back to List</button>
+    </form>
+  </div>
+  <!-- edit ToDo finish -->
+
+  <!-- ToDo list -->
+  <div class="app" id="list">
+    <h1>ToDo list</h1>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+          <th scope="col">Due date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
+          <td> <button class="btn btn-primary" id='btn-edit'>Edit</button> <button class="btn btn-primary" id='btn-delete'>Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ToDo list finish -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
+
+    <script src='assets/script/login-checker.js'></script>
+    <script src='assets/script/view.js'></script>
+    <script src='assets/script/request.js'></script>
+    <script src='assets/script/main.js'></script>
+    <script src='assets/script/todo-list.js'></script>
+</body>
+
+</html>
