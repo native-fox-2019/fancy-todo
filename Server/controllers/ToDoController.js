@@ -38,22 +38,22 @@ class ToDoController{
             .catch(err => next(err));
     }
     static getTodo(req, res, next){
-        const id = req.params.id;
-        const user = req.user;
-        ToDo.findOne({
-            where: {
-                id: id,
-                UserId: user.id
-            }
-        })
-            .then(data=> {
-                if (data !== null) {
-                    res.status(200).json(data);
-                } else {
-                    next({ name: "NotFound" });
-                }
-            })
-            .catch(err => next(err));
+        const todo = req.todo;
+        res.status(200).json(todo);
+        // const id = req.params.id;
+        // ToDo.findOne({
+        //     where: {
+        //         id: id
+        //     }
+        // })
+        //     .then(data=> {
+        //         if (data !== null) {
+        //             res.status(200).json(data);
+        //         } else {
+        //             next({ name: "NotFound" });
+        //         }
+        //     })
+        //     .catch(err => next(err));
     }
     static addTodo(req, res, next){
         const title = req.body.title;
@@ -72,24 +72,33 @@ class ToDoController{
             .catch(err => next(err));
     }
     static updateTodo(req, res){
-        const id = req.params.id;
-        const user = req.user;
-        const newData = {
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date
-        }
-        let option = {where: {id:id, UserId: user.id }};
-        ToDo.update(newData, option)
-            .then(data => {
-                if (data !== null && data!=false) {
-                    res.status(200).json(data);
-                } else {
-                    next({ name: "NotFound" });
-                }
-            })
-            .catch(err => next(err));
+        const todo = req.todo;
+        todo.title = req.body.title;
+        todo.description = req.body.description;
+        todo.status = req.body.status;
+        todo.due_date = req.body.due_date;
+        todo.save()
+            .then(data => res.status(200).json(data))
+            .catch(next);
+
+        // const id = req.params.id;
+        // const user = req.user;
+        // const newData = {
+        //     title: req.body.title,
+        //     description: req.body.description,
+        //     status: req.body.status,
+        //     due_date: req.body.due_date
+        // }
+        // let option = {where: {id:id, UserId: user.id }};
+        // ToDo.update(newData, option)
+        //     .then(data => {
+        //         if (data !== null && data!=false) {
+        //             res.status(200).json(data);
+        //         } else {
+        //             next({ name: "NotFound" });
+        //         }
+        //     })
+        //     .catch(err => next(err));
 
         // ToDo.findByPk(id)
         //     .then(data => {
@@ -103,18 +112,23 @@ class ToDoController{
         //     .catch(err => res.status(404).json(err));
     }
     static deleteTodo(req, res){
-        const id = req.params.id;
-        const user = req.user;
-        let option = { where: {id:id, UserId: user.id}};
-        ToDo.destroy(option)
-            .then(data => {
-                if (data !== null) {
-                    res.status(200).json(data);
-                } else {
-                    next({ name: "NotFound" });
-                }
-            })
-            .catch(err => next(err));
+        const todo = req.todo;
+        todo.destroy()
+            .then(data => res.status(200).json(data))
+            .catch(next);
+
+        // const id = req.params.id;
+        // const user = req.user;
+        // let option = { where: {id:id, UserId: user.id}};
+        // ToDo.destroy(option)
+        //     .then(data => {
+        //         if (data !== null) {
+        //             res.status(200).json(data);
+        //         } else {
+        //             next({ name: "NotFound" });
+        //         }
+        //     })
+        //     .catch(err => next(err));
     }
 }
 

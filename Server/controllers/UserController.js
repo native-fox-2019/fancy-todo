@@ -49,11 +49,14 @@ class UserController{
         User.findOne({ where: {email}})
         .then(data=>{
             if(data){
-                if(Bcrypt.compareSync(password, data.password)){
-                    let token = jwt.sign({email: User.email});
+                if(Bcrypt.compare(password, data.password)){
+                    let token = jwt.sign({email: data.email});
                     res.status(200).json({token})
                 }else{
-                    next(err);
+                    next({
+                        status: 401,
+                        message: "Unauthorized"
+                    });
                 }
             }
             else{

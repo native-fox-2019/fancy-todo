@@ -3,16 +3,20 @@ const ToDo = models.ToDo;
 const User = models.User;
 
 module.exports = (req, res, next) => {
-    let UserId = req.jwt.UserId;
+    let user = req.user;
     let TodoId = req.params.id;
 
     ToDo.findByPk(TodoId)
         .then(result=>{
-            if(result.UserId === UserId){
+            if(result.UserId === user.id){
+                req.todo = result;
                 next();
             }
             else{
-                throw new Error(res.status)
+                next({
+                    status: 403,
+                    message: "Forbidden"
+                });
             }
         })
         .catch(next);
