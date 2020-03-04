@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/hitsamtiammar123/fancy-todo#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "googleapis": "^39.2.0",
     "jsonwebtoken": "^8.5.1",

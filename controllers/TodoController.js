@@ -9,7 +9,11 @@ class TodoController{
             let {token}=req.headers;
             let decoded =User.validateToken(token);
             try{
-                result=await Todo.findAll({where:{userId:decoded.id} ,include:User});
+                result=await Todo.findAll({
+                    where:{userId:decoded.id},
+                    include:User,
+                    order:['id']
+                });
             }catch(err){
                 next(err);
                 return;

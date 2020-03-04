@@ -1,0 +1,41 @@
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#login">login</a></li>
+        <li><a data-toggle="tab" href="#register">register</a></li>
+      </ul>
+      
+      <div class="tab-content" style="margin-top: 30px;">
+        <div id="login" class="tab-pane fade in active">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="login_email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="login_password" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="btn-login">Submit</button>
+            </form>
+        </div>
+        <div id="register" class="tab-pane fade">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="register_email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="email">Name</label>
+                    <input type="text" name="email" id="register_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="register_password" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="btn-register">Submit</button>
+            </form>
+        </div>
+      </div>
+</div>
+<script src="/js/login.js"></script>
+
