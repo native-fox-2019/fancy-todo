@@ -10,6 +10,7 @@
 
     var $btnLogin=$('#btn-login');
     var $btnRegister=$('#btn-register');
+    var $errText=$('#error-res');
 
     var loginURL='/api/login';
     var registerURL='/api/register';
@@ -23,7 +24,8 @@
     });
 
     $btnLogin.on('click',function(){
-        $(this).css('disabled','disabled');
+        $(this).attr('disabled','disabled');
+        $errText.html('');
         var sentData={
             "email":$login_email.val(),
             "password":$login_password.val()
@@ -39,7 +41,13 @@
             "password":$register_password.val()
         }
         register(sentData);
-    })
+    });
+
+    function onLoginFail(jqXHR,status,response){
+        if(jqXHR.status===404){
+            $errText.html('Username/password is wrong');
+        }
+    }
 
     function onLoginSuccess(data){
         window.TOKEN=data.token;
@@ -64,7 +72,7 @@
             data:JSON.stringify(sentData),
             success:onRegisterSuccess
         }).fail().always(function(){
-            $btnRegister.css('disabled','');
+            $btnRegister.attr('disabled',null);
         })
     }
 
@@ -75,8 +83,8 @@
             headers:headers,
             data:JSON.stringify(sentData),
             success:onLoginSuccess
-        }).fail().always(function(){
-            $btnLogin.css('disabled','');
+        }).fail(onLoginFail).always(function(){
+            $btnLogin.attr('disabled',null);
         })
     }
 
