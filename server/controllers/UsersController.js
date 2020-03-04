@@ -36,10 +36,6 @@ class UsersController {
                 next(err);
             });
     }
-    static find(req, res, next) {
-
-    }
-
 }
 
 module.exports = UsersController;

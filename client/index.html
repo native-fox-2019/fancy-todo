@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <div id="logout" style="display: none;">
+        <button id="logout-user">LOG OUT</button>
+    </div>
+    <div id="login-form">
+        <h1>ini login</h1>
+        <hr>
+        <form id="login-button">
+            <label>Email:</label>
+            <input type="text" id="email-login"><br>
+            <label>Password:</label>
+            <input type="text" id="password-login"><br>
+            <button type="submit">Login</button>
+        </form>
+        <hr>
+        <button id="register-link">Register</button>
+    </div>
+    <div id="register-form" style="display: none;">
+        <h1>ini register</h1>
+        <hr>
+        <form id="register-button">
+            <label>Username:</label>
+            <input type="text" id="username-register"><br>
+            <label>Email:</label>
+            <input type="text" id="email-register"><br>
+            <label>Password:</label>
+            <input type="text" id="password-register"><br>
+            <button type="submit">Register</button>
+        </form>
+        <hr>
+        <button id="login-link">Login</button>
+    </div>
+    <div id="todos-list" style="display: none;">
+        <h1>ini todos list</h1>
+        <table id="todoList" border="1">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </table>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./js/view.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
   "name": "fancy-todo",
   "version": "1.0.0",
-  "description": "",
+  "description": "> localhost:3000/todos",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon app.js",
@@ -21,6 +21,7 @@
   "dependencies": {
     "@sendgrid/mail": "^6.5.3",
     "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
