@@ -1,0 +1,51 @@
+Users
+	id
+	name
+
+
+Tasks
+	id
+	description
+	UserId
+	ProjectId
+
+Projects
+	id
+	projectName
+	
+
+UserProjects
+	UserId
+	ProjectId
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ProjectsApplicants
+	id
+	UserId
+	ProjectId
+	status
+
