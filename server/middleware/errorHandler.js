@@ -14,14 +14,19 @@ module.exports = (err, req, res, next) => {
             status_message = errMsg
             break;
 
+        case `ForbiddenError`:
+            status_code = 403
+            status_message = err.message
+            break;
+
         case `NotFoundError`:
             status_code = 404
-            status_message = err
+            status_message = err.message
             break;
 
         case `BadRequestError`:
             status_code = 400
-            status_message = err
+            status_message = err.message
             break;
 
         case `JsonWebTokenError`:

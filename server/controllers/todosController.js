@@ -10,7 +10,7 @@ class TodosController {
             description,
             status,
             due_date,
-            UserId: req.userData.id
+            UserId: Number(req.user.id)
         }
 
         Model.Todolist.create(obj)
@@ -23,7 +23,11 @@ class TodosController {
     }
 
     static showAll(req, res, next) {
-        Model.Todolist.findAll()
+        Model.Todolist.findAll({
+            where: {
+                UserId: Number(req.user.id)
+            }
+        })
             .then(data => {
                 res.status(200).json(data)
             })
@@ -38,8 +42,7 @@ class TodosController {
                 if (data) {
                     res.status(200).json(data)
                 } else {
-                    // throw createError(404, `No Data of ID ${req.params.id} exists`)
-                    
+                    throw createError(404, `No Data of ID ${req.params.id} exists`)
                 }
             })
             .catch(err => {
