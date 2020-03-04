@@ -1,23 +1,24 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
+const { compare } = require('../helpers/bcrypt')
 
 class UserController {
 
 	//Register
-	static register(req, res){
+	static register(req, res, next){
 		let { email, password } = req.body
 
 		User.create( { email, password } )
 		.then(user => {
-			res.status(201).json(user, )
+			res.status(201).json(user)
 		})
 		.catch(err => {
-			res.status(400).json(err)
+      next(err)
 		})
 	}
 
 	//Login
-	static login(req, res){
+	static login(req, res, next){
 		User.findOne({ where: {
 			 email: req.body.email
 			} 
@@ -27,6 +28,7 @@ class UserController {
 				let password = req.body.password
 				let hashed = user.password
 				
+				//lakukan comparing
 				if(user.password === password){
 					const userToken = jwt.sign({
 						id: user.id,
