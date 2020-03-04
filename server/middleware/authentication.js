@@ -6,8 +6,8 @@ function authentication(req, res, next){
         let decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.userdata = decoded
         next()
-    } catch (e) {
-        res.send(e)
+    } catch (err) {
+        res.send(err)
     }
 }
 
