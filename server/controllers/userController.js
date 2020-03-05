@@ -6,7 +6,14 @@ const generateToken = require('../helpers/generateToken')
 class UserController {
     static register(req, res, next) {
         const { username, email, password } = req.body
-        User.create({ username, email, password })
+        User.findOne({ where: { username } })
+            .then(data => {
+                if (data === null) {
+                    return User.create({ username, email, password })
+                } else {
+                    res.status(400).json('username has been use by other user!')
+                }
+            })
             .then(data => {
                 res.status(201).json(data)
             })
@@ -16,6 +23,7 @@ class UserController {
     }
 
     static login(req, res, next) {
+        console.log('croooooooottttttt')
         const { username, password } = req.body
         User.findOne({ where: { username: username } })
             .then(data => {
@@ -27,7 +35,7 @@ class UserController {
             })
             .catch(err => {
                 const error = {
-                    msg: 'wrong email / password',
+                    msg: 'wrong username / password',
                     status: 404
                 }
                 if (err) {

@@ -9,9 +9,10 @@ Router
     .use(authentication)
 Router
     .post('/', todoController.addTodo)
-    .get('/', authorization, todoController.findAll)
+    .get('/', todoController.findAll)
     .get('/:id', todoController.findOne)
     .put('/:id', authorization, todoController.updateData)
+    .patch('/:id', authorization, todoController.updateDataStatus)
     .delete('/:id', authorization, todoController.deleteData)
 
 

@@ -3,7 +3,8 @@ const { Todo } = require('../models')
 
 const authorization = (req, res, next) => {
     const UserId = +req.user.id
-    Todo.findOne({ where: { UserId: UserId } })
+    const id = +req.params.id
+    Todo.findOne({ where: { id } })
         .then(data => {
             if (!data) {
                 res.status(404).json({ message: 'Data not found' })

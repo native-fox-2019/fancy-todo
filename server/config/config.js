@@ -1,8 +1,13 @@
+const dotenv = require('dotenv')
+if(process.env.NODE_ENV !== 'production'){
+  dotenv.config()
+}
+
 module.exports = {
   "development": {
     "username": process.env.CONFIG_USER,
     "password": process.env.CONFIG_PASS,
-    "database": "Todo_list",
+    "database": "Todo_list3",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
