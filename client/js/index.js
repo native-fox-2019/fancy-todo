@@ -22,14 +22,27 @@ $("#login-form").submit(function(e) {
 });
 
 //Register action
+$('#password-register').focus(function(){
+  $('#passwordRecomForm').empty()
+  $.ajax({
+    method: 'get',
+    url: 'https://password.markei.nl/human.json?count=3',
+  })
+  .done(function(data){
+    data.passwords.forEach(password => {
+      $('#passwordRecomForm').append(`<small class=""><button type="button" class="btn btn-sm btn-link" onclick="setPassword('${password}')">${password}</button></small>`)
+    });
+    console.log(data)
+  })
+})
 $("#register-form").submit(function(e) {
   e.preventDefault();
     $.ajax({
       method: 'post',
       url: 'http://localhost:3000/register',
       data: {
-        email: $('#email').val(),
-        password: $('#password').val()
+        email: $('#email-register').val(),
+        password: $('#password-register').val()
       }
     })
     .done(function(data){
@@ -77,6 +90,7 @@ if(localStorage.getItem('token')){
          <tr>`)
     })  
   });
+  showTodos()
 }
 
 function showTodos(){
@@ -217,4 +231,9 @@ function deleteTodo(id){
   .fail(function() {
      alert( "delete failed" );
   })
+}
+
+function setPassword(password){
+  $('#password-register').val(password)
+  $('#passwordRecomForm').empty()
 }
