@@ -2,6 +2,11 @@ const { User } = require("../models");
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const { compare } = require("../helpers/hashed");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(
+  "1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com"
+); // JGN LUPA MASUKIN ENV
+const generator = require("generate-password");
 
 class Controller {
   static register(req, res, next) {
@@ -36,11 +41,61 @@ class Controller {
               },
               process.env.SECRET
             ); // GENERATE TOKEN JWT
-            res.status(200).json({ token }); // SEND TOKEN JWT
+            let fullname = data.fullname;
+            res.status(200).json({ token, fullname }); // SEND TOKEN JWT
           } else {
             throw createError(400); // IF WRONG PASSWORD
           }
         }
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+
+  static googleLogin(req, res, next) {
+    let fullname;
+    let username;
+    let email;
+    let password = generator.generate({
+      length: 10,
+      numbers: true
+    });
+    client
+      .verifyIdToken({
+        idToken: req.body.id_token,
+        audience:
+          "1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com"
+      })
+      .then(googleData => {
+        const ticket = googleData.getPayload();
+        let condition = {
+          where: {
+            email: ticket.email
+          }
+        };
+        fullname = ticket.name;
+        username = ticket.given_name;
+        email = ticket.email;
+        return User.findOne(condition);
+      })
+      .then(data => {
+        if (data) {
+          return data;
+        } else {
+          return User.create({ fullname, username, email, password });
+        }
+      })
+      .then(user => {
+        let token = jwt.sign(
+          {
+            id: user.id,
+            username: user.username,
+            email: user.email
+          },
+          process.env.SECRET
+        );
+        res.status(200).json({ token });
       })
       .catch(err => {
         next(err);

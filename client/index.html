@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-signin-client_id" content=1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -48,6 +49,7 @@
         >
           Sign in
         </button>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <div class="sign-up" style="text-align: center; margin: 30px;">
           Not a member? <a href="" id="sign-up">Sign Up</a>
         </div>
@@ -143,6 +145,7 @@
       >
         Add Todo
       </button>
+      <a href="#" onclick="signOut();">Sign out</a>
     </div>
 
     <!-- Modal -->
@@ -283,6 +286,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="./scripts/index.js"></script>
   </body>
 </html>

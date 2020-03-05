@@ -38,7 +38,7 @@ class TodoController {
           </br>
           <strong>TODO APPS BY DARINDRA R</strong>`
         };
-        sgMail.send(msg);
+        // sgMail.send(msg); JANGAN LUPA DI UN COMMENT NANTI PAS EMAIL
         res
           .status(201)
           .json({ Message: "Todo Has Been Created.", Data: req.body });

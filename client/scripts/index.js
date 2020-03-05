@@ -84,14 +84,29 @@ function editStatus(id) {
 }
 
 function todoDelete(id) {
-  $.ajax({
-    type: "DELETE",
-    url: BASE_URL + "/" + id,
-    headers: {
-      token: localStorage.getItem("token")
-    },
-    success: function(response) {
-      todo();
+  swal({
+    title: "Are you sure?",
+    text: "The moment you're ready to quit is usually the moment right before a miracle happens, Don't give up!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true
+  }).then(willDelete => {
+    if (willDelete) {
+      $.ajax({
+        type: "DELETE",
+        url: BASE_URL + "/" + id,
+        headers: {
+          token: localStorage.getItem("token")
+        },
+        success: function(response) {
+          todo();
+          swal("Poof! Your todo has been deleted!", {
+            icon: "success"
+          });
+        }
+      });
+    } else {
+      swal("When life puts you in though situations, Don't say 'WHY ME' say 'TRY ME'.");
     }
   });
 }
@@ -152,13 +167,56 @@ $("#form-sign-in").on("submit", function(e) {
   $.ajax({
     type: "POST",
     url: "http://localhost:3000/user/login",
-    data: userData,
-    success: function(response) {
+    data: userData
+  })
+    .done(response => {
       localStorage.setItem("token", response.token);
+      swal({
+        title: `Welcome ${response.fullname}`,
+        text: "Here is your todo list, don't forget your deadline !",
+        icon: "success"
+      });
       todo();
-    }
-  });
+    })
+    .fail(err => {
+      swal({
+        title: "Invalid Username or Password.",
+        text: "Please input valid data",
+        icon: "error"
+      });
+    });
 });
+
+// GOOGLE SIGN IN
+function onSignIn(googleUser) {
+  var id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:3000/user/google",
+    data: { id_token }
+  })
+    .done(response => {
+      localStorage.setItem("token", response.token);
+      swal({
+        title: "Good job!",
+        text: "You clicked the button!",
+        icon: "success"
+      });
+      todo();
+    })
+    .fail(err => {
+      console.log(err);
+    });
+}
+
+// GOOGLE SIGN OUT
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function() {
+    localStorage.clear();
+    login();
+  });
+}
 
 $("#form-register").on("submit", function(e) {
   e.preventDefault();
@@ -178,6 +236,7 @@ $("#form-register").on("submit", function(e) {
     data: inputData,
     success: function(response) {
       login();
+      $("#form-register")[0].reset();
     }
   });
 });
@@ -199,6 +258,10 @@ $("#add-todo").on("click", function(e) {
     }
   }).done(response => {
     $("#add-todo")[0].reset();
+    $("#exampleModal").modal("toggle");
     todo();
   });
 });
+
+// 1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com
+// 9OWMprgUWdSkfmLWnBjMoBVn
