@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="417245750214-tuclalcrcarlnemdnl4ntbfs13hbpid6.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="style/index.css">
     <title>Fancy Todo</title>
 </head>
@@ -26,7 +27,9 @@
                         <td></td>
                         <td>
                             <input type="submit" id="logSubmit" value="Log In">
-                            <button id="goToRegister">Go to Register</button>
+                            <button id="goToRegister">Go to Register</button><br>
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            <a href="#" onclick="signOut();">Sign out</a>
                         </td>
                     </tr>
                 </tbody>
@@ -51,7 +54,7 @@
                         <td></td>
                         <td>
                             <input type="submit" id="regSubmit" value="Register">
-                            <button id="goToLogin">Go to Login</button>
+                            <button id="goToLogin">Go to Login</button><br>
                         </td>
                     </tr>
                 </tbody>
@@ -101,9 +104,11 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="script/requests.js"></script>
     <script src="script/index.js"></script>
+    <script src="script/google.js"></script>
     <!-- END SCRIPTS -->
 </body>
 </html>
