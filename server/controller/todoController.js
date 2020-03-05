@@ -64,7 +64,7 @@ class TodoController{
             status : req.body.status,
             due_date : req.body.due_date
         }
-        console.log(obj, '>>>>>>>>>>>')
+        
         Todo.update(obj,{where:{id:params}})
         .then(result=>{
             if(result[0]){

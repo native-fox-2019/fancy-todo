@@ -2,7 +2,7 @@ body {
   size: fixed;
   min-width: 1024px;
   min-height: 576px;
-
+  background-color: navajowhite;
 }
 
 .nav {
@@ -56,8 +56,13 @@ h3  {
 
 
 #addTodo {
+  padding : 20px;
   text-align: center;
   font-family: "Lato";
+  width: 40%;
+  margin: 10px auto;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
 }
 
 #editTodo{
@@ -108,16 +113,18 @@ h3  {
 #TodoTable {
   width: 90%;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 30px;
   font-family: "Lato";
   font-weight: 300;
   margin: 10px auto;
   padding-top: 30px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 #TodoList {
   text-align : center;
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 #getQuotes{
@@ -151,3 +158,6 @@ h3  {
   outline: none;
 }
 
+.airWidget{
+  padding-left: 30px;
+}

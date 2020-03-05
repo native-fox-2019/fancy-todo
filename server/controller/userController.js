@@ -1,6 +1,5 @@
 const { User } = require('../models/index.js')
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENT_ID);
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
@@ -49,6 +48,7 @@ class userController{
 
     static googleLogin(req,res,next){
         var token = req.body.token
+        const client = new OAuth2Client(process.env.CLIENT_ID);
         client.verifyIdToken({
             idToken : token,
             audience : process.env.CLIENT_ID
@@ -64,7 +64,8 @@ class userController{
             console.log(user)
             .then(data=>{
                 if(data){
-                    return data
+                    let token = jwt.sign({email:user.email,id:user.id},process.env.JWT_SECRET)
+                    res.status(201).json(token)
                 } else{
                     User.create({
                         firstname : user.name,
@@ -73,7 +74,8 @@ class userController{
                         password : "12345678"
                     })
                     .then(result=>{
-                        res.status(201).json(result)
+                        let token = jwt.sign({email:user.email,id:user.id},process.env.JWT_SECRET)
+                        res.status(201).json(token)
                     })
                 }
             })
