@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.min.css">
+  <meta name="google-signin-client_id" content="831032422222-1vo1hs36kr7vtu6vajsialdf5bb57ms9.apps.googleusercontent.com">
   <link rel="stylesheet" href="./custome.css">
   <title>Fancy Todo</title>
 </head>
@@ -60,6 +61,14 @@
     </div>
     <div class="container d-flex align-content-center justify-content-center">
       <div class="border p-4 rounded">
+        <div class="d-flex justify-content-center">
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
+        <div class="d-flex justify-content-center my-4">
+          <div class="sparator">-------------------</div>
+          <div>or</div>
+          <div class="sparator">-------------------</div>
+        </div>
         <form id="formLogin">
           <div class="form-group">
             <label for="emailLogin">Email address</label>
@@ -143,7 +152,7 @@
 
             <!-- CARD -->
             <div id="allCard">
-              <div id="showTodo" class="d-flex align-content-between justify-content-between flex-wrap">
+              <div id="showTodo" class="row flex-wrap">
               <!-- CONTENT IN CARD FROM GET ALL TODOS -->
               </div>
             </div>
@@ -152,8 +161,9 @@
               <!-- CONTENT IN CARD FROM GET ONE TODOS -->
             </div>
             <!-- ADD TODO -->
-            <div id="showAddTodo">
-              <form id="formAddTodos">
+            <div id="showAddTodo" class="my-2">
+              <h3 class="text-center">Add Todo</h3>
+              <form id="formAddTodo">
                 <div class="form-group">
                   <label for="addTitle">Tittle</label>
                   <input type="text" class="form-control" id="addTitle">
@@ -170,6 +180,14 @@
               </form>
             </div>
             <!-- END OF ADD TODO -->
+
+            <!-- HISTORY -->
+            <div id="allHistory">
+              <div id="showHistory" class="d-flex align-content-between justify-content-between flex-wrap">
+              <!-- CONTENT IN CARD FROM GET ALL TODOS FILTER STATUS TRUE-->
+              </div>
+            </div>
+            <!-- END OF HISTORY -->
           </div>
           <!-- END CONTENT -->
         </div>
@@ -194,6 +212,9 @@
   </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
   </script>
+  <!-- LOGIN GOOGLE -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- QUERRY -->
   <script src="./main.js"></script>
   <script>
   </script>

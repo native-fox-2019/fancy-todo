@@ -1,5 +1,6 @@
 var BASE_URL = 'http://localhost:3000';
 var TOKEN = localStorage.getItem('token');
+var NAME = localStorage.getItem('name');
 // due date is min now
 addDuedate.min = new Date().toISOString().split("T")[0];
 // ERROR HANDLER 
@@ -16,17 +17,73 @@ var errorMsg = (err) => {
 } 
 // END ERROR HANDLER
 
+// LOGIN GOOGLE
+
+// function onSignIn(googleUser) {
+//   var profile = googleUser.getBasicProfile();
+//   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//   console.log('Name: ' + profile.getName());
+//   console.log('Image URL: ' + profile.getImageUrl());
+//   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+// }
+function onSignIn(googleUser) {
+  var id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + "/loginGoogle",
+        data: { id_token },
+      })
+      .done(data => {
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('name', data.name)
+        TOKEN = localStorage.getItem('token')
+        NAME = localStorage.getItem('name')
+        getName()
+        getAllTodos()
+        $('#nav').show();
+        $('#home').show();
+        $('#login').hide();
+        $('#register').hide();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Signed in successfully'
+        })
+      })
+      .fail(err => {
+        Swal.fire({
+          title: 'Error!',
+          html: `${errorMsg(err)}`,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      })
+}
+
+// END LOGIN GOOGLE
+
 // BUTTON
-$('#btn-login').click(function (e) {
-  e.preventDefault();
-  $('#login').show();
-  $('#register').hide();
-});
-$('#btn-register').click(function (e) {
-  e.preventDefault();
-  $('#register').show();
-  $('#login').hide();
-});
+  $('#btn-login').click(function (e) {
+    e.preventDefault();
+    $('#login').show();
+    $('#register').hide();
+  });
+  $('#btn-register').click(function (e) {
+    e.preventDefault();
+    $('#register').show();
+    $('#login').hide();
+  });
 
   // ADD TODO
   $('#addTodo').click(function (e) {
@@ -72,14 +129,232 @@ function showMonthTodo() {
 }
 
 function showHistoryTodo() {
-  const date = new Date()
-  console.log(date)
-  console.log(moment(date).endOf('month').fromNow())
+  getAllHistory()
+  $('#allCard').show();
+  $('#detailTodo').hide();
 }
 // END MENU SIDE
 
 // END BUTTON
 
+// FUNCTION
+
+  // GET ONE TODOS
+  function detailTodo(id) {
+    // alert(id);
+    $.ajax({
+      type: "GET",
+      url: `${BASE_URL}/todos/${id}`,
+      headers: { token: TOKEN },
+    })
+      .done(data => {
+        let alert = 'alert-success'
+        if (data.status == 'false') {
+          alert = 'alert-danger'
+        }
+        $('#showAddTodo').hide();
+        $('#addTodo').hide();
+        $('#allCard').hide();
+        $('#detailTodo').show();
+        $('#detailTodo').html(
+          `
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="">
+                <div class="d-flex align-content-around justify-content-center">
+                  <h5 class="card-title">${data.title}</h5>
+                </div>
+                <div class="alert ${alert} p-0 text-right" role="alert">
+                  <div class="">${data.status}</div>
+                </div>
+              </div>
+              <p class="card-text">${data.description}.</p>
+              <p class="card-text"><small class="text-muted">Due date : ${moment(data.due_date).format('LL')}</small></p>
+            </div>
+          </div>
+          `
+        );
+      })
+      .fail(err => {
+        console.log(err)
+      })
+  }
+  // END GET ONE TODOS
+
+  // GET ALL TODOS
+function getAllTodos() {
+    console.log(localStorage.getItem('token'))
+    $.ajax({
+      type: "GET",
+      url: `${BASE_URL}/todos`,
+      headers: { token: localStorage.getItem('token') },
+    })
+      .done(data => {
+        $('#showTodo').empty()
+        data.forEach((el, index) => {
+          if (el.status == 'false') {
+            $('#showTodo').append(
+              `
+            <div class="mx-2 my-2">
+            <div class="card" style="width: 11rem;">
+              <div class="card-body">
+                <div class="d-flex align-content-around justify-content-around">
+                  <h5 class="card-title">${el.title}</h5>
+                  <div class="alert alert-danger p-0" role="alert">
+                    ${el.status}
+                  </div>
+                </div>
+                <p class="card-text">${moment(el.due_date).format('LL')}.</p>
+                <a href="#" id="todo${el.id}" onClick="detailTodo(${el.id})" class="btn btn-primary">Detail</a>
+                <a href="#" id="todo${el.id}" onClick="updateStatusTodo(${el.id})" class="btn btn-warning">Done</a>
+              </div>
+            </div>
+            </div>
+            `
+            )
+          }
+        });
+        console.log(data)
+      })
+      .fail(err => {
+        Swal.fire({
+          title: 'Error!',
+          html: `${errorMsg(err)}`,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      })
+  }
+  // END GET ALL TODOS
+
+  // GET HISTORY
+
+  function getAllHistory() {
+    $('#addTodo').hide()
+    $.ajax({
+      type: "GET",
+      url: `${BASE_URL}/todos`,
+      headers: { token: TOKEN },
+    })
+      .done(data => {
+        $('#showTodo').empty()
+        data.forEach((el, index) => {
+          if (el.status == 'true') {
+            $('#showTodo').append(
+              `
+            <div class="mx-2 my-2">
+            <div class="card" style="width: 11rem;">
+              <div class="card-body">
+                <div class="d-flex align-content-around justify-content-around">
+                  <h5 class="card-title">${el.title}</h5>
+                  <div class="alert alert-success p-0" role="alert">
+                    ${el.status}
+                  </div>
+                </div>
+                <p class="card-text">${moment(el.due_date).format('LL')}.</p>
+                <a href="#" id="todo${el.id}" onClick="deleteTodo(${el.id})" class="btn btn-danger">Delete</a>
+              </div>
+            </div>
+            </div>
+            `
+            )
+          }
+        });
+        console.log(data)
+      })
+      .fail(err => {
+        Swal.fire({
+          title: 'Error!',
+          html: `${errorMsg(err)}`,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      })
+  }
+
+  // END HISTORY
+
+  // UPDATE STATUS
+  function updateStatusTodo(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You have doing this todo?!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, im done!'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          type: "PATCH",
+          url: `${BASE_URL}/todos/${id}`,
+          headers: { token: TOKEN },
+          data: { status: true }
+        })
+          .done(data => {
+            getAllTodos()
+            Swal.fire(
+              'Updated!',
+              `Your todo ${data.title} has been update.`,
+              'success'
+            )
+          })
+          .fail(err => {
+            Swal.fire({
+              title: 'Error!',
+              html: `${errorMsg(err)}`,
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            })
+          })
+      }
+    })
+  }
+  // UPDATE STATUS
+
+  // DELETE TODO
+  function deleteTodo(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          type: "DELETE",
+          url: `${BASE_URL}/todos/${id}`,
+          headers: { token: TOKEN },
+        })
+          .done(data => {
+            getAllTodos()
+            Swal.fire(
+              'Deleted!',
+              `Your todos ${data.title} has been deleted.`,
+              'success'
+            )
+          })
+          .fail(err => {
+            Swal.fire({
+              title: 'Error!',
+              html: `${errorMsg(err)}`,
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            })
+          })
+      }
+    })
+  }
+  // DELETE TODO
+// END FUNCTION
+
+function getName() {
+  $('#navbarDropdown').html(`${NAME}`);
+}
 
 // TOKEN CHECK
 if (TOKEN) {
@@ -87,37 +362,7 @@ if (TOKEN) {
   $('#home').show();
   $('#login').hide();
   $('#register').hide();
-  $.ajax({
-    type: "GET",
-    url: `${BASE_URL}/todos`,
-    headers: { token: TOKEN },
-  })
-    .done(data => {
-      data.forEach((el, index) => {
-        $('#showTodo').append(
-          `
-          <div class="mx-2 my-2">
-          <div class="card" style="width: 11rem;">
-            <div class="card-body">
-              <div class="d-flex align-content-around justify-content-around">
-                <h5 class="card-title">${el.title}</h5>
-                <div class="alert alert-danger p-0" role="alert">
-                  ${el.status}
-                </div>
-              </div>
-              <p class="card-text">${moment(el.due_date).format('LL')}.</p>
-              <a href="#" id="todo${el.id}" onClick="detailTodo(${el.id})" class="btn btn-primary">Detail</a>
-            </div>
-          </div>
-          </div>
-          `
-        )
-      });
-      console.log(data)
-    })
-    .fail(err => {
-      console.log(err)
-    })
+  getAllTodos()
 } else {
   $('#nav').hide();
   $('#home').hide();
@@ -160,7 +405,7 @@ $('#formRegister').submit(function (e) {
 // END REGISTER
 
 // LOGIN
-$('#formLogin').submit(function (e) {
+$('#formLogin').submit(function(e) {
   e.preventDefault();
   const email = $('#emailLogin').val();
   const password = $('#passwordLogin').val();
@@ -173,6 +418,11 @@ $('#formLogin').submit(function (e) {
   })
     .done(data => {
       localStorage.setItem('token', data.token)
+      localStorage.setItem('name', data.name)
+      TOKEN = localStorage.getItem('token')
+      NAME = localStorage.getItem('name')
+      getName()
+      getAllTodos()
       $('#nav').show();
       $('#home').show();
       $('#login').hide();
@@ -195,6 +445,7 @@ $('#formLogin').submit(function (e) {
       })
     })
     .fail(err => {
+      console.log('error')
       Swal.fire({
         title: 'Error!',
         html: `${errorMsg(err)}`,
@@ -209,110 +460,40 @@ $('#formLogin').submit(function (e) {
 $('#logout').click(function (e) { 
   e.preventDefault();
   localStorage.removeItem('token')
+  localStorage.removeItem('name')
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  }); 
   $('#home').hide();
   $('#login').show();
 });
 // END LOGOUT
 
-// GET ONE TODOS
-function detailTodo(id) {
-  // alert(id);
-  $.ajax({
-    type: "GET",
-    url: `${BASE_URL}/todos/${id}`,
-    headers: { token: TOKEN },
-  })
-    .done(data => {
-      console.log(data)
-      // $('#detailTodo').show();
-      // $('#detailTodo').insertAfter(
-        //   `
-        //   ${data.title}
-        //   `
-        // );
-      $('#showAddTodo').hide();
-      $('#addTodo').hide();
-      $('#allCard').hide();
-      $('#detailTodo').show();
-      $('#detailTodo').html(
-        `
-        <div class="card mb-2">
-          <div class="card-body">
-            <div class="">
-              <div class="d-flex align-content-around justify-content-center">
-                <h5 class="card-title">${data.title}</h5>
-              </div>
-              <div class="alert alert-danger p-0 text-right" role="alert">
-                <div class="">${data.status}</div>
-              </div>
-            </div>
-            <p class="card-text">${data.description}.</p>
-            <p class="card-text"><small class="text-muted">Due date : ${moment(data.due_date).format('LL')}</small></p>
-          </div>
-        </div>
-        `
-      );
-    })
-    .fail(err => {
-      console.log(err)
-    })
-}
-// END GET ONE TODOS
-
-// GET ALL TODOS
-var getAllTodos = () => {
-  $.ajax({
-    type: "GET",
-    url: `${BASE_URL}/todos`,
-    headers: { token: TOKEN },
-  })
-    .done(data => {
-      $('#showTodo').empty()
-      data.forEach((el, index) => {
-        $('#showTodo').append(
-          `
-          <div class="mx-2 my-2">
-          <div class="card" style="width: 11rem;">
-            <div class="card-body">
-              <div class="d-flex align-content-around justify-content-around">
-                <h5 class="card-title">${el.title}</h5>
-                <div class="alert alert-danger p-0" role="alert">
-                  ${el.status}
-                </div>
-              </div>
-              <p class="card-text">${moment(el.due_date).format('LL')}.</p>
-              <a href="#" id="todo${el.id}" onClick="detailTodo(${el.id})" class="btn btn-primary">Detail</a>
-            </div>
-          </div>
-          </div>
-          `
-        )
-      });
-      console.log(data)
-    })
-    .fail(err => {
-      console.log(err)
-    })
-}
-// END GET ALL TODOS
-
 // ADD TODOS
 $('#formAddTodo').submit(function (e) {
   e.preventDefault();
+  console.log('masuk ke add')
   const title = $('#addTitle').val();
   const description = $('#addDescription').val();
   const due_date = $('#addDuedate').val();
+  const status = false
   $.ajax({
     type: "POST",
-    url: BASE_URL + "/register",
+    url: BASE_URL + "/todos",
     data: {
-      title, description, due_date, status: false,
+      title, description, due_date, status,
     },
+    headers: { token: TOKEN },
   })
     .done(data => {
+      $('#allCard').show()
+      $('#addTodo').show()
+      $('#showAddTodo').hide()
+      getAllTodos()
       Swal.fire({
         title: 'Succes!',
-        text: `Congratulation ${data.name} youre account has been create, Please Login`,
+        text: `Congratulation ${data.title} has been create`,
         icon: 'success',
         confirmButtonText: 'Ok'
       })
@@ -327,8 +508,7 @@ $('#formAddTodo').submit(function (e) {
     })
 });
 // END ADD TODOS
-// $('#detailTodo').click(function (e) {
-//   e.preventDefault();
-//   alert('detail')
-// });
 
+// UPDATE
+
+// 
