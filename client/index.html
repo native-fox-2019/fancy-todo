@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fancy Todo</title>
+    <meta name="google-signin-client_id" content="700576818702-t5kcio5jef4ulrphh2pcv92j01324a3s.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Fancy Todo</title>
 </head>
 
 <body>
     <div style="text-align: center;">
         <h1>FANCY TODO</h1>
         <hr>
+        <a href="#" onclick="signOut();" id="button-logout">Sign out</a>
         <br>
     </div>
     <div id="register-form" style="text-align: center;">
@@ -20,7 +22,9 @@
             <input type="password" id="password-register" name="password"><br><br>
             <button type="submit" class="btn-primary"> Register </button><br><br><br>
             <h5>Already signed up ? </h5>
-            <button type="button" class="btn-secondary" id="continue-login">Login</button>
+            <button type="button" class="btn-secondary" id="continue-login">Login</button><br><br>
+            <div class="g-signin2 mx-auto" style="width: 100px;" data-onsuccess="onSignIn"></div><br><br>
+
         </form>
     </div>
     <div id="login-form" style="text-align: center;">
@@ -31,6 +35,7 @@
             <label for="password">Password:</label><br>
             <input type="password" id="password-login" name="password"><br><br>
             <button type="submit" class="btn-primary"> Login </button><br><br><br>
+            <div class="g-signin2 mx-auto" style="width: 100px;" data-onsuccess="onSignIn"></div><br><br>
             <h5>Have not signed up ? </h5>
             <button type="button" class="btn-secondary" id="continue-register">Register</button>
           </form>
@@ -40,7 +45,7 @@
         <button type="button" class="btn-primary" id="add-form">Add</button><br>
         <table style="margin: auto; width: 800px;">
             <tr>
-                <th>Id</th>
+                <th>No.</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Status</th>
@@ -81,6 +86,7 @@
             <button type="submit" class="btn-primary" > Edit </button><br>
         </form>`
     </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./index.js"></script>
 </body>

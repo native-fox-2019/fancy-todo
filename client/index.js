@@ -10,6 +10,7 @@ function start() {
     if (localStorage.getItem('token')) {
         todo()
     } else {
+        $('#button-logout').hide()
         $('#login-form').hide()
         $('#todo').hide()
         $('#addTodo').hide()
@@ -42,8 +43,8 @@ $('#button-register').on('submit', function(event) {
             password: $password
         },
         success: () => {
-            register()
-            login()
+            $('#register-form').hide()
+            $('#login-form').show()
         },
         error: (err) => {
             console.log(err)
@@ -72,11 +73,28 @@ $('#button-login').on('submit', function(event) {
     })
 })
 
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    var id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/user/googleSignIn',
+        data: {
+            token : id_token
+        },
+        success : (token)=>{
+            localStorage.setItem('token', token)
+            todo()
+        }
+    })
+}
+
 function todo() {
     $('#register-form').hide()
     $('#login-form').hide()
     $('#addTodo').hide()
     $('#editTodo').hide()
+    $('#button-logout').show()
     $('#todo').show()
     if (localStorage.getItem('token')) {
         $.ajax({
@@ -87,15 +105,17 @@ function todo() {
             },
             success: (data) => {
                 $('#table-todo').empty()
+                let x = 1
                 data.forEach(data => {
                     $('#table-todo').append(`<tr>
-                    <td>${data.id}</td>
+                    <td>${x}</td>
                     <td>${data.title}</td>
                     <td>${data.description}</td>
                     <td>${data.status}</td>
                     <td>${data.due_date}</td>
                     <td><button onclick= "editTodo(${data.id})" class="btn btn-outline-info">Edit</button> <button onclick= "deleteTodo(${data.id})" class="btn btn-outline-danger">Delete</button></td>
                     </tr>`)
+                    x++
                 })
             }
         })
@@ -109,6 +129,7 @@ $('#add-form').on('click', function(event) {
     $('#login-form').hide()
     $('#todo').hide()
     $('#editTodo').hide()
+    $('#button-logout').hide()
     $('#addTodo').show()
 })
 
@@ -132,6 +153,7 @@ $('#add-button').on('submit', function(event) {
                 token: `${localStorage.getItem('token')}`
             },
             success: (data) => {
+                $('#add-button')[0].reset()
                 todo()
             },
             error: (err) => {
@@ -188,6 +210,7 @@ function editForm(data) {
     $('#login-form').hide()
     $('#todo').hide()
     $('#addTodo').hide()
+    $('#button-logout').hide()
     if (localStorage.getItem('token')) {
         $("#id-edit").val(data.id)
         $("#title-edit").val(data.title)
@@ -232,5 +255,18 @@ $('#edit-button').on('submit', function(event) {
         start()
     }
 })
+
+$('#button-logout').on('click', function(){
+    localStorage.removeItem('token')
+    start()
+})
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+    localStorage.removeItem('token')
+  }
 
 start()
