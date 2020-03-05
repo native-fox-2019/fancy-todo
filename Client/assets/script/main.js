@@ -1,43 +1,74 @@
-import { showAll } from "../../../Server/controllers/todoController"
+$(document).ready(function () {
+    if (localStorage.getItem("token")) {
+        getTodo()
+        $list.show();
+    } else {
+        $login.show()
+    }
 
-let $buttonLogin = $(`#btn-login`)
-let $buttonRegister = $(`#btn-register`)
-let $buttonLogout = $(`#btn-logout`)
-let $buttonDelete = $(`#btn-delete`)
-let $buttonList = $(`#btn-list`)
+    $buttonRegister.click(function (event) {
+        event.preventDefault()
+        $login.hide()
+        $register.show()
+    })
 
-let $loginEmail = $(`#email-login`)
-let $loginPassword = $(`#password-login`)
+    $buttonLogin.click(function (event) {
+        event.preventDefault()
+        $login.show()
+        $register.hide()
+    })
 
-let $registerEmail = $(`#email-register`)
-let $registerPassword = $(`#password-register`)
+    $buttonAdd.click(function (event){
+        event.preventDefault()
+        $add.show()
+        $list.hide()
+    })
 
-let $title = $('#title')
-let $description = $('#description')
-let $date = $('#date')
+    $buttonLogout.click(function (event) {
+        event.preventDefault()
+        localStorage.removeItem("token")
+        $loginFormReset.reset()
+        $list.hide()
+        $edit.hide()
+        $add.hide()
+        $login.show()
+        
+    })
 
-let $addTitle = $('#add-title')
-let $addDescription = $('#add-description')
-let $addDate = $('#add-date')
+    $buttonList.click(function (event){
+        event.preventDefault()
+        $add.hide()
+        $edit.hide()
+        $list.show()
+    })
 
-let $editTitle = $('#edit-title')
-let $editDescription = $('#edit-description')
-let $editDate = $('#edit-date')
+    // $buttonEdit.click(function(event){
+    //     event.preventDefault()
+    //     $list.hide()
+    //     getEditDataTodo(id)
+    // })
 
-let $app = $('.app')
-let $register = $('#register')
-let $login = $('#login')
-let $add = $('#add')
-let $list = $('#list')
+    $addForm.submit(function (event) {
+        event.preventDefault()
+        addTodo()
+        $addForm[0].reset()
+    })
 
-show('list')
+    $editForm.submit(function (event){
+        event.preventDefault()
+        let id = $editSubmit.data('param')
+        updateTodo(id)
+        $edit.hide()
+        $list.show()
+    })
 
-$buttonRegister.on('click', (event)=>{
-    event.preventDefault()
-    show('register')
-})
+    $registerForm.submit(function (event) {
+        event.preventDefault()
+        registerUser()
+    })
 
-$buttonLogin.on('click', (event) =>{
-    event.preventDefault()
-    show('login')
-})
+    $loginForm.submit(function (event) {
+        event.preventDefault()
+        loginUser()
+    })
+});

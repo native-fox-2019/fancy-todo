@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  <!-- <style>
+  <style>
     .app {
       display: none;
     }
-  </style> -->
+  </style>
 </head>
 
 <body>
   <!-- login start -->
   <div class="app" id="login">
     <h1>Login</h1>
-    <form>
+    <form id="login-form">
       <div class="form-group">
         <label for="email">Email address</label>
         <input type="email" class="form-control" id="email-login" aria-describedby="emailHelp">
@@ -32,6 +32,7 @@
         <input type="password" class="form-control" id="password-login">
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
+      or
       <button class="btn btn-primary" id='btn-register'>Register</button>
     </form>
   </div>
@@ -40,7 +41,7 @@
   <!-- register start -->
   <div class="app" id="register">
     <h1>Register</h1>
-    <form>
+    <form id="register-form">
       <div class="form-group">
         <label for="email">Email address</label>
         <input type="email" class="form-control" id="email-register" aria-describedby="emailHelp">
@@ -51,6 +52,7 @@
         <input type="password" class="form-control" id="password-register">
       </div>
       <button type="submit" class="btn btn-primary">Register</button>
+      or
       <button class="btn btn-primary" id='btn-login'>Login</button>
     </form>
   </div>
@@ -59,7 +61,7 @@
   <!-- add ToDo -->
   <div class="app" id="add">
     <h1>Add ToDo</h1>
-    <form>
+    <form id="add-form">
       <div class="form-group">
         <label for="title">ToDo Title</label>
         <input type="text" class="form-control" id="add-title" aria-describedby="emailHelp">
@@ -69,12 +71,12 @@
         <input type="text" class="form-control" id="add-description">
       </div>
       <div class="form-group">
-        <label for="Date">Description</label>
+        <label for="Date">Due date</label>
         <input type="text" class="form-control" id="add-date">
       </div>
       <button type="submit" class="btn btn-primary">Add</button>
-      <button class="btn btn-primary" id='btn-logout'>Log Out</button>
       <button class="btn btn-primary" id='btn-list'>Back to List</button>
+      <button class="btn btn-primary logout">Log Out</button>
     </form>
   </div>
   <!-- add ToDo finish -->
@@ -82,7 +84,7 @@
   <!-- edit ToDo -->
   <div class="app" id="edit">
     <h1>Edit ToDo</h1>
-    <form>
+    <form id="edit-form">
       <div class="form-group">
         <label for="title">ToDo Title</label>
         <input type="text" class="form-control" id="edit-title" aria-describedby="emailHelp">
@@ -95,9 +97,9 @@
         <label for="Date">Description</label>
         <input type="text" class="form-control" id="edit-date">
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <button class="btn btn-primary" id='btn-logout'>Log Out</button>
+      <button type="submit" class="btn btn-primary" id="edit-submit">Submit</button>
       <button class="btn btn-primary" id='btn-list'>Back to List</button>
+      <button class="btn btn-primary logout">Log Out</button>
     </form>
   </div>
   <!-- edit ToDo finish -->
@@ -105,7 +107,8 @@
   <!-- ToDo list -->
   <div class="app" id="list">
     <h1>ToDo list</h1>
-    <table class="table">
+    <button class="btn btn-primary" id='btn-add'>Add Todo</button>
+    <table class="table" id="table-todo">
       <thead class="thead-dark">
         <tr>
           <th scope="col">#</th>
@@ -118,31 +121,27 @@
       </thead>
       <tbody>
         <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td> <button class="btn btn-primary" id='btn-edit'>Edit</button> <button class="btn btn-primary" id='btn-delete'>Delete</button></td>
+
         </tr>
       </tbody>
     </table>
-    <!-- ToDo list finish -->
+    <button class="btn btn-primary logout">Log out</button>
+  </div>
+  <!-- ToDo list finish -->
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 
-    <script src='assets/script/login-checker.js'></script>
-    <script src='assets/script/view.js'></script>
-    <script src='assets/script/request.js'></script>
-    <script src='assets/script/main.js'></script>
-    <script src='assets/script/todo-list.js'></script>
+  <script src='assets/script/variable-declare.js'></script>
+  <script src='assets/script/request.js'></script>
+  <script src='assets/script/todo-list.js'></script>
+  <script src='assets/script/main.js'></script>
 </body>
 
 </html>

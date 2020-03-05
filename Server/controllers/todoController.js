@@ -1,14 +1,16 @@
 const { Todo } = require('../models')
+const createError = require('../helpers/createErrors')
 
 class todoController {
 
-    static add(req, res) {
+    static add(req, res, next) {
         console.log(req.body)
         let obj = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date
+            status: false,
+            due_date: req.body.due_date,
+            UserId: req.userData.id
         }
         Todo.create(obj)
             .then(data => {
@@ -19,7 +21,13 @@ class todoController {
     }
 
     static showAll(req, res) {
-        Todo.findAll()
+        let id = {
+            where: {
+                UserId: req.userData.id
+            },
+            order: [['id', 'ASC']]
+        }
+        Todo.findAll(id)
             .then(data => {
                 res.status(200).json(data)
             }).catch(err => {
@@ -27,7 +35,8 @@ class todoController {
             })
     }
 
-    static showOne(req, res) {
+    static showOne(req, res, next) {
+        console.log("masuk show one")
         let id = {
             where: {
                 id: req.params.id
@@ -36,31 +45,32 @@ class todoController {
 
         Todo.findOne(id)
             .then(data => {
-                res.status(200).json(data)
+                if (data) {
+                    res.status(200).json(data)
+                } else {
+                    throw createError(404, `Data for Id ${req.params.id} is not found`)
+                }
             }).catch(err => {
                 next(err)
             })
     }
 
-    static delete(req, res) {
+    static delete(req, res, next) {
         let id = {
             where: {
                 id: req.params.id
             }
         }
-       
+
         let dataResult = null
         Todo.findOne(id)
             .then(data => {
-                dataResult=data
-                return Todo.destroy(id)        
+                dataResult = data
+                return Todo.destroy(id)
             })
-            .then(data =>{
-                if(data < 1){
-                    throw{
-                        code: 404,
-                        msg: `Data tidak ditemukan`
-                    }
+            .then(data => {
+                if (data < 1) {
+                    throw createError(404, `Data for Id ${req.params.id} is not found`)
                 }
                 res.status(200).json(dataResult)
             })
@@ -69,34 +79,30 @@ class todoController {
             })
     }
 
-    static edit(req, res) {
+    static edit(req, res, next) {
         let id = {
             where: {
                 id: req.params.id
             }
         }
-        let obj ={
+        let obj = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
             due_date: req.body.due_date
         }
 
-        Todo.update(obj,id)
-        .then(data=>{
-            if(data < 1){
-                throw{
-                    code:404,
-                    msg:`data tidak ditemukan`
+        Todo.update(obj, id)
+            .then(data => {
+                if (data < 1) {
+                    throw createError(404, `Data for Id ${req.params.id} is not found`)
                 }
-            }
-            return Todo.findOne(id)
-        }).then(data =>{
-               
-             res.status(200).json(data)   
-        }).catch(err => {  
-            next(err)
-        })
+                return Todo.findOne(id)
+            }).then(data => {
+                res.status(200).json(data)
+            }).catch(err => {
+                console.log(err)
+                next(err)
+            })
     }
 
 }
