@@ -18,10 +18,28 @@ body {
   padding-bottom: 40px;
   height: 100vh;
 }
-.delete:hover{
+.delete:hover {
   text-decoration: underline;
   cursor: pointer;
   text-align: center;
+}
+
+#fullname-register{
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+#username-register{
+  border-radius: 0px;
+}
+
+#email-register{
+  border-radius: 0px;
+}
+
+#username {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 #register {

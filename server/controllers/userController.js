@@ -3,9 +3,7 @@ const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const { compare } = require("../helpers/hashed");
 const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(
-  "1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com"
-); // JGN LUPA MASUKIN ENV
+const client = new OAuth2Client(process.env.CLIENT_ID);
 const generator = require("generate-password");
 
 class Controller {
@@ -64,19 +62,18 @@ class Controller {
     client
       .verifyIdToken({
         idToken: req.body.id_token,
-        audience:
-          "1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com"
+        audience: process.env.CLIENT_ID
       })
-      .then(googleData => {
-        const ticket = googleData.getPayload();
+      .then(ticket => {
+        const payload = ticket.getPayload();
         let condition = {
           where: {
-            email: ticket.email
+            email: payload.email
           }
         };
-        fullname = ticket.name;
-        username = ticket.given_name;
-        email = ticket.email;
+        fullname = payload.name;
+        username = payload.given_name;
+        email = payload.email;
         return User.findOne(condition);
       })
       .then(data => {

@@ -86,7 +86,8 @@ function editStatus(id) {
 function todoDelete(id) {
   swal({
     title: "Are you sure?",
-    text: "The moment you're ready to quit is usually the moment right before a miracle happens, Don't give up!",
+    text:
+      "The moment you're ready to quit is usually the moment right before a miracle happens, Don't give up!",
     icon: "warning",
     buttons: true,
     dangerMode: true
@@ -106,7 +107,9 @@ function todoDelete(id) {
         }
       });
     } else {
-      swal("When life puts you in though situations, Don't say 'WHY ME' say 'TRY ME'.");
+      swal(
+        "When life puts you in though situations, Don't say 'WHY ME' say 'TRY ME'."
+      );
     }
   });
 }
@@ -151,6 +154,7 @@ $("#sign-up").on("click", function(e) {
 
 $("#sign-in").on("click", function(e) {
   e.preventDefault();
+  $("#form-register")[0].reset();
   login();
 });
 
@@ -198,8 +202,8 @@ function onSignIn(googleUser) {
     .done(response => {
       localStorage.setItem("token", response.token);
       swal({
-        title: "Good job!",
-        text: "You clicked the button!",
+        title: "Welcome Back",
+        text: "Here is your todo list, Don't forget your deadline !",
         icon: "success"
       });
       todo();
