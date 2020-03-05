@@ -82,6 +82,9 @@ class UserController {
             res.status(200).json({token}) 
         })
         .catch(err => {
+            if(err){
+                next(err)
+            }
             next({status: 400, msg: 'Failed'})
         })
     }
