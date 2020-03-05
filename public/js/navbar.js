@@ -6,7 +6,8 @@ $(document).ready(function(){
             window.TOKEN=null;
             localStorage.removeItem('access_token');
             main(window.TOKEN);
-            initNavbar()
+            initNavbar();
+            googleSignOut();
         })
 
         window.initNavbar=function(){

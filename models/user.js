@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    google_token:DataTypes.STRING
+    google_token:DataTypes.STRING,
+    google_login_token:DataTypes.STRING
   }, {sequelize,tableName:'Users'})
 
   User.associate = function(models) {

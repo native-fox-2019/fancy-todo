@@ -14,6 +14,7 @@
 
     var loginURL='/api/login';
     var registerURL='/api/register';
+    var loginGoogleURL='/api/login/google'
 
     var headers={
         'Content-Type':'application/json'
@@ -43,10 +44,16 @@
         register(sentData);
     });
 
-    function onLoginFail(jqXHR,status,response){
-        if(jqXHR.status===404){
-            $errText.html('Username/password is wrong');
+    function onActionFail($elem){
+        return function (jqXHR,status,response){
+            if(jqXHR.status===404){
+                $elem.html('Username/password is wrong');
+            }
         }
+    }
+
+    function onLoginDone(){
+        $btnLogin.attr('disabled',null);
     }
 
     function onLoginSuccess(data){
@@ -64,6 +71,10 @@
         login(sentData);
     }
 
+    function onGoogleLoggedInSuccess(data){
+
+    }
+
     function register(sentData){
         $.ajax({
             type:'POST',
@@ -76,6 +87,16 @@
         })
     }
 
+    function loginWithGoogle(sentData){
+        $.ajax({
+            type:'POST',
+            url:loginGoogleURL,
+            headers:headers,
+            data:JSON.stringify(sentData),
+            success:onRegisterSuccess
+        }).fail(onActionFail($errText)).always(onLoginDone)
+    }
+
     function login(sentData){
         $.ajax({
             type:'POST',
@@ -83,9 +104,50 @@
             headers:headers,
             data:JSON.stringify(sentData),
             success:onLoginSuccess
-        }).fail(onLoginFail).always(function(){
-            $btnLogin.attr('disabled',null);
-        })
+        }).fail(onActionFail($errText)).always(onLoginDone)
+    }
+
+
+
+    window.renderGoogleButton=function(){
+        gapi.signin2.render('g-signin', {
+            'scope': 'profile email',
+            'width': 240,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onGoogleSuccess,
+            'onfailure': onGoogleFailure
+        });
+    }
+
+    function onGoogleSuccess(googleUser){
+        // console.log(googleUser)
+        var profile = googleUser.getBasicProfile();
+        var sentData={
+            name:profile.getName(),
+            email:profile.getEmail(),
+            login_token:profile.getId()
+        }
+        console.log(sentData)
+        loginWithGoogle(sentData)
+
+    }
+
+    function onGoogleFailure(res){
+        console.log('Gagal',res);
+    }
+
+
+    window.googleSignOut=function(){
+        var auth2=gapi.auth2.getAuthInstance();
+        if(auth2){
+            auth2.signOut().then(function(){
+                renderGoogleButton()
+            });
+            auth2.disconnect();
+           
+        }
     }
 
 })()
