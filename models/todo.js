@@ -1,9 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Model=sequelize.Sequelize.Model;
-  const authenticate=require('../google-auth');
 
-  class Todo extends Model{}
+  class Todo extends Model{
+
+    get for_google(){
+      return {
+        summary: this.title,
+        description: this.description,
+        status:this.status,
+        start: {
+            dateTime: this.start_date.toISOString()
+        },
+        end: {
+            dateTime: this.due_date.toISOString()
+        }
+      }
+    }
+
+  }
 
   Todo.init({
     title: {

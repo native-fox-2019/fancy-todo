@@ -5,22 +5,8 @@ class TodoController{
 
     static test(req,res){
         (async function(){
-            // let todo=new Todo({
-            //     title:'Test hehehe',
-            //     description:'Hahahahah',
-            //     status:'confirmed',
-            //     due_date:new Date(),
-            //     start_date:new Date(),
-            //     userId:1
-            // });
-            
-            // await todo.save();
-
-            // res.send(todo);
-            let token=req.headers.token;
-            let secret=process.env.JWT_SECRET;
-            let decoded =jwt.decode(token,secret);
-            res.send(decoded);
+            const os=require('os');
+            res.send(os.hostname());
            
         })();
     }
@@ -51,6 +37,7 @@ class TodoController{
             let body=req.body;
             let result;
             let {token}=req.headers;
+            body.status='confirmed';
 
             try{
                 let decoded =User.validateToken(token);
@@ -102,7 +89,6 @@ class TodoController{
             let curr;
             let {token}=req.headers;
             let decoded =User.validateToken(token);
-            // body.userId=decoded.id;
 
             try{
                 curr=await Todo.findOne({where:{id}});
@@ -134,6 +120,7 @@ class TodoController{
             let result,curr;
             let {token}=req.headers;
             let decoded =User.validateToken(token);
+            let eventID;
 
             try{
                 curr=await Todo.findOne({where:{id}});
@@ -141,12 +128,13 @@ class TodoController{
                     res.send(401).json({status:401,message:'Unaunthenticated'});
                     return;
                 }
+                eventID=curr.g_id;
                 result=await Todo.destroy({where:{id}});
             }catch(err){
                 res.status(404).json({status:404,message:'Data tidak ditemukan',result});
                 return;
             }
-                res.status(200).json({status:200,message:'Data berhasil dihapus',result});
+                res.status(200).json({status:200,message:'Data berhasil dihapus',result,eventID});
           
 
         })();

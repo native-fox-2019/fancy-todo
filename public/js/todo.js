@@ -43,20 +43,49 @@
     });
 
     $btnAddTodo.on('click',function(){
-        //console.log('add todos');
         $btnAddTodo.attr('disabled','disabled');
-        addGoogleTodos();
+       
+        addTodos().then(function(data){
+            return addGoogleTodos(data.id)
+        }).then(function(){
+            refreshTodos();
+        })
+        .catch(onFail)
+        .finally(function(){
+            $btnAddTodo.attr('disabled',null)
+        });
     });
 
     $btnUpdateTodo.on('click',function(){
         $(this).attr('disabled','disabled');
-        //updateTodos();
-        updateGoogleTodos();
+      
+       updateTodos().then(function(data){
+           return updateGoogleTodos(data.data.g_id);
+       }).then(function(){
+           refreshTodos();
+       })
+       .catch(onFail)
+       .finally(function(){
+            $editModal.modal('hide');
+            $btnUpdateTodo.attr('disabled',null)
+       })
     });
 
     $btnDeleteModalTodo.on('click',function(){
         $(this).attr('disabled','disabled');
+        
         deleteTodos()
+        .then(function(data){
+            return deleteGoogleTodos(data.eventID)
+        })
+        .then(function(){
+            refreshTodos();
+        })
+        .catch(onFail)
+        .finally(function(){
+            $deleteModal.modal('hide');
+            $btnDeleteModalTodo.attr('disabled',null)
+        })
     })
 
     window.openEdit=function(id){
@@ -78,8 +107,8 @@
         $deleteModal.modal({backdrop:'static'});
     }
 
-    function onFail(jqXhr,status,err){
-        console.log({status,err,jqXhr})
+    function onFail(res){
+        console.log(res)
     }
 
     function onFetchTodoSuccess(data){
@@ -115,77 +144,136 @@
         var sentData={
             "title":$title_m.val(),
             "description":$description_m.val(),
+            "start_date":new Date($startDate_m.val()).toISOString(),
             "due_date":new Date($dueDate_m.val()).toISOString()
         }
         var url='/todos/'+willUpdateId;
-        $.ajax({
-            type:'PUT',
-            url:url,
-            headers:headers,
-            data:JSON.stringify(sentData),
-            success:refreshTodos
-        }).fail(onFail).always(function(){
-            $editModal.modal('hide');
-            $btnUpdateTodo.attr('disabled',null)
+
+        return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'PUT',
+                url:url,
+                headers:headers,
+                data:JSON.stringify(sentData),
+                success:function(data){
+                    resolve(data)
+                }
+            }).fail(function(jqXhr,status,response){
+                reject({jqXhr:jqXhr,status:status,response:response});
+            })
         });
+
     }
 
-    function updateGoogleTodos(){
+    function updateGoogleTodos(eventId){
         
         var sentData={
-            "summary":$title_m.val(),
-            "description":$description_m.val(),
-            "startDate":new Date($startDate_m.val()).toISOString(),
-            "endDate":new Date($dueDate_m.val()).toISOString(),
-            "eventId":currEdit.g_id
+            eventId:eventId
         }
         var url='/calendar/update';
 
-        console.log(sentData);
-        $.ajax({
-            type:'PUT',
-            url:url,
-            headers:headers,
-            data:JSON.stringify(sentData),
-            success:refreshTodos
-        }).fail(onFail).always(function(){
-            $editModal.modal('hide');
-            $btnUpdateTodo.attr('disabled',null)
+        return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'PUT',
+                url:url,
+                headers:headers,
+                data:JSON.stringify(sentData),
+                success:function(data){
+                    resolve(data)
+                }
+            }).fail(function(jqXhr,status,response){
+                reject({jqXhr:jqXhr,status:status,response:response});
+            });
+        })
+
+    }
+
+    function addTodos(){
+        var sentData={
+            "title":$title.val(),
+            "description":$description.val(),
+            "due_date":new Date($dueDate.val()).toISOString(),
+            "start_date":new Date($startDate.val()).toISOString()
+        }
+        var url='/todos';
+
+        return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'POST',
+                url:url,
+                headers:headers,
+                data:JSON.stringify(sentData),
+                success:function(data){
+                    resolve(data)
+                }
+            }).fail(function(jqXhr,status,response){
+                reject({jqXhr:jqXhr,status:status,response:response});
+            })
         });
     }
 
-    function addGoogleTodos(){
+    function addGoogleTodos(todoID){
         var sentData={
-            "summary":$title.val(),
-            "description":$description.val(),
-            "startDate":new Date($startDate.val()).toISOString(),
-            "endDate":new Date($dueDate.val()).toISOString(),
-            "userID":userID
+           todoID:todoID
         }
 
         var url='/calendar/add';
-        $.ajax({
-            type:'POST',
-            url:url,
-            headers:headers,
-            data:JSON.stringify(sentData),
-            success:refreshTodos
-        }).fail(onFail).always(function(){
-            $btnAddTodo.attr('disabled',null)
-        });;
+
+        return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'POST',
+                url:url,
+                headers:headers,
+                data:JSON.stringify(sentData),
+                success:function(data){
+                    resolve(data);
+                }
+            }).fail(function(jqXhr,status,response){
+                reject({jqXhr:jqXhr,status:status,response:response});
+            });
+        });
+
+
+    }
+
+    function deleteGoogleTodos(eventId){
+        var url='/calendar/delete';
+        var sentData={
+            eventId:eventId
+        }
+
+        return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'DELETE',
+                url:url,
+                headers:headers,
+                data:JSON.stringify(sentData),
+                success:function(data){
+                    resolve(data)
+                }
+            }).fail(function(jqXhr,status,response){
+                reject({jqXhr:jqXhr,status:status,response:response});
+            })
+        })
+
+
     }
 
     function deleteTodos(){
         var url='/todos/'+wilDeleteId;
-        $.ajax({
-            type:'DELETE',
-            url:url,
-            headers:headers,
-            success:refreshTodos
-        }).fail(onFail).always(function(){
-            $deleteModal.modal('hide');
-            $btnDeleteModalTodo.attr('disabled',null)
-        });
+
+        return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'DELETE',
+                url:url,
+                headers:headers,
+                success:function(data){
+                    resolve(data)
+                }
+            }).fail(function(jqXhr,status,response){
+                reject({jqXhr:jqXhr,status:status,response:response});
+            });
+        })
     }
 
     fetchTodos();

@@ -73,43 +73,16 @@ class GoogleCallenderController{
 
     static addEvent(req,res){
         // res.send('Masuk')
-        let summary=req.body.summary;
-        let location=req.body.location;
-        let description=req.body.description;
-        let status=req.body.status;
-        let startDate=req.body.startDate;
-        let endDate=req.body.endDate;
-
-        var event = {
-            summary: summary,
-            location: location,
-            description: description,
-            status:status,
-            start: {
-                dateTime: startDate
-            },
-            end: {
-                dateTime: endDate
-            }
-      };
-
-      let token=req.headers.token;
-      let decoded=tokenDecoder(token);
+        let todoID=req.body.todoID;
+        let token=req.headers.token;
 
       (async function(){
         
         try{
             let calendar =await authenticate();
-            let todo=new Todo({
-                title:summary,
-                description:description,
-                status:"confirmed",
-                due_date:endDate,
-                start_date:startDate,
-                userId:decoded.id
-            });
+            let todo=await Todo.findByPk(todoID);
 
-            await todo.save();
+            var event = todo.for_google;
 
             let data=await calendar.events.insert({
                 calendarId:process.env.CALENDAR_ID,
@@ -134,36 +107,12 @@ class GoogleCallenderController{
     }
 
     static updateEvent(req,res){
-        let summary=req.body.summary;
-        let location=req.body.location;
-        let description=req.body.description;
-        let status=req.body.status;
-        let startDate=req.body.startDate;
-        let endDate=req.body.endDate;
         let eventId=req.body.eventId;
 
-        var event = {
-            summary: summary,
-            location: location,
-            description: description,
-            status:status,
-            start: {
-                dateTime: startDate
-            },
-            end: {
-                dateTime: endDate
-            }
-        };
-
         (async function(){
-        
             try{
-                await Todo.update({
-                    title:summary,
-                    description:description,
-                    due_date:endDate,
-                    start_date:startDate
-                },{where:{g_id:eventId}});
+                let todo=await Todo.findOne({where:{g_id:eventId}});
+                var event = todo.for_google;
 
                 let calendar =await authenticate();
                 let data=await calendar.events.update({
@@ -174,7 +123,7 @@ class GoogleCallenderController{
                 })
                 res.status(200).json({status:200,message:'Berhasil diubah',data:data});
             }catch(err){
-                authenticate.errorHandler(e,res);
+                authenticate.errorHandler(err,res);
             }
           })()
     }
@@ -186,6 +135,7 @@ class GoogleCallenderController{
         (async function(){
 
             try{
+                await Todo.destroy({where:{g_id:eventId}});
                 let calendar =await authenticate();
                 await calendar.events.delete({
                     calendarId:process.env.CALENDAR_ID,
@@ -194,7 +144,7 @@ class GoogleCallenderController{
                 })
                 res.status(200).json({status:200,message:'Berhasil dihapus'});
             }catch(err){
-                authenticate.errorHandler(e,res);
+                authenticate.errorHandler(err,res);
             }
 
         })();
