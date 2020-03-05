@@ -43,4 +43,18 @@ $(document).ready(() => {
         $err.empty()
         login.$form[0].reset()
     })
+
+    addList.$form.on(`submit`, (event) => {
+        event.preventDefault()
+
+        addTodo({
+            title: addList.$title.val(),
+            description: addList.$descr.val(),
+            due_date: addList.$date.val(),
+            status: false
+        }, localStorage.getItem(`Token`))
+
+        $err.empty()
+        addList.$form[0].reset()
+    })
 })

@@ -17,7 +17,7 @@ var register = {
 }
 
 var addList = {
-    $form: $(`add-list`),
+    $form: $(`#add-list`),
     $title: $(`#add-list #title`),
     $descr: $(`#add-list #description`),
     $date: $(`#add-list #date`)
@@ -31,4 +31,5 @@ var $list = $(`#list`)
 
 // Others
 var $err = $(`.errMsg`)
-var $table = $(`#todo-list`)
+var $table = $(`#todo-list > tbody`)
+var $tableList = $(`#todo-list > tbody:last-child`)

@@ -27,16 +27,33 @@ function loginSubmit(data) {
         })
 }
 
-function getTodo(){
+function getTodo(token){
     $.ajax({
         url: `http://localhost:3000/todos`,
         type: `GET`,
         headers: {
-            token: localStorage.getItem(`Token`)
+            token
         }
     })
         .done(data => {
-            listData(data.responseJSON)
+            listData(data)
+        })
+        .fail(err => {
+            fail(err.responseJSON)
+        })
+}
+
+function addTodo(data, token){
+    $.ajax({
+        url: `http://localhost:3000/todos`,
+        type: `POST`,
+        headers: {
+            token
+        },
+        data
+    })
+        .done(data => {
+            getTodo()
         })
         .fail(err => {
             fail(err.responseJSON)

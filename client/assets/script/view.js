@@ -1,5 +1,6 @@
 function show(segment) {
     $app.hide()
+    $err.hide()
 
     switch (segment) {
         case `register`:
@@ -12,6 +13,7 @@ function show(segment) {
 
         case `list`:
             $list.show()
+            getTodo(localStorage.getItem(`Token`))
             break;
     }
 }
