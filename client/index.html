@@ -90,15 +90,15 @@
             <form id="add-form">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Title</label>
-                  <input type="text" class="form-control" id="add-title" aria-describedby="emailHelp">
+                  <input type="text" class="form-control" id="add-title" aria-describedby="emailHelp" >
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Description</label>
-                  <input type="text" class="form-control" id="add-desc">
+                  <input type="text" class="form-control" id="add-desc" >
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Due Date</label>
-                  <input type="text" class="form-control" id="add-due">
+                  <input type="text" class="form-control" id="add-due" >
                 </div>
                 <button type="submit" class="btn btn-primary" id="btn-register">Add</button>
             </form>
@@ -239,6 +239,9 @@
         
         //FUNCTION ADDING NEW TODO
         $("#add-form").on("submit", (event) => {
+            if (!$("#add-title").val() || !$("#add-desc").val() || !$("#add-due").val()) {
+                alert("field cannot be empty")
+            }
             event.preventDefault()
             $.ajax({
                 url: "http://localhost:3000/todos",
@@ -270,13 +273,14 @@
                 headers: {token:token},
                 success: (data) => {
                     $("#todo-table").empty()
+                    data.sort((a,b) => a.id - b.id)
                     data.forEach(i => {
                         $("#todo-table").append(
                             `<tr id="tr-todo">
                                 <td>${i.id}</td>
                                 <td>${i.title}</td>
                                 <td>${i.description}</td>
-                                <td><button class="btn btn-light" onClick = "changeStats(${i.id})">${i.status ? "Complete" : "Incomplete"}</button></td>
+                                <td><button class="${i.status ? "btn btn-success" : "btn btn-danger"}" onClick = "changeStats(${i.id},${i.status})">${i.status ? "done" : "check"}</button></td>
                                 <td>${i.due_date}</td>
                                 <td>
                                     <button id="btn-edit" class="btn btn-primary" onClick = "todoEdit(${i.id})">edit</button>
@@ -303,7 +307,7 @@
                     console.log(`sukses di delete`)
                 },
                 error: (err) => {
-                    console.log(`gagal di delete`)
+                    console.log(err)
                 }
             })
         }
@@ -354,7 +358,13 @@
         }
 
         //FUNCTION CHANGE STATS
-        function changeStats (id) {
+        function changeStats (id, status) {
+            let result 
+            if (status) {
+                result = false
+            } else {
+                result = true
+            }
             $.ajax({
                 url: `http://localhost:3000/todos/${id}`,
                 method: "PUT",
@@ -362,7 +372,7 @@
                     token : token
                 },
                 data: {
-                    status: true
+                    status: result
                 },
                 success: (data) => {
                     refreshTodo()
@@ -375,20 +385,28 @@
         
         //FUNCTION GOOGLE LOGIN
         function onSignIn(googleUser) {
-            var id_token = googleUser.getAuthResponse().id_token;
+            var id_token = googleUser.getAuthResponse().id_token
             console.log('INI TOKEN GOOGLE ========> ', id_token)
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://localhost:3000/googleSign');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-            console.log('Signed in as: ' + xhr.responseText);
-            };
-            xhr.send('idtoken=' + id_token);
-            var profile = googleUser.getBasicProfile()
-            // console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
-            // console.log('Name: ' + profile.getName())
-            // console.log('Image URL: ' + profile.getImageUrl())
-            // console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
+            $.ajax({
+                url: "http://localhost:3000/googleSign",
+                method: "POST",
+                data: {
+                    token: id_token
+                },
+                success: (result) => {
+                    let tokenServer = result
+                    $("#btn-logout").show()
+                    $("#table").show()
+                    $("#login").hide()
+
+                    localStorage.setItem("token", tokenServer)
+                    token = localStorage.getItem("token")
+                    refreshTodo()
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
         }
 
         //FUNCTION GOOGLE LOGOUT
