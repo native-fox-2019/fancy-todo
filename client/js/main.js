@@ -8,7 +8,7 @@ $(document).ready(() => {
     $('#register-link').on('click', () => {
         setPage('register');
     });
-    
+
     $('#login-link').on('click', () => {
         setPage('login');
     });
@@ -16,7 +16,7 @@ $(document).ready(() => {
         localStorage.removeItem('token');
         setPage('login');
     });
-    
+
     $('#login-button').on('submit', (event) => {
         event.preventDefault();
         let email = $('#email-login').val();
@@ -27,7 +27,7 @@ $(document).ready(() => {
         }
         loginUser(obj);
     });
-    
+
     $('#register-button').on('submit', (event) => {
         event.preventDefault();
         let username = $('#username-register').val();
@@ -75,3 +75,19 @@ $(document).ready(() => {
         editTodoData(obj, id);
     });
 })
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function() {
+        console.log('User signed out.');
+    });
+    setPage('login');
+}
+
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    let obj = {
+        token: id_token
+    }
+    googleVerify(obj);
+}

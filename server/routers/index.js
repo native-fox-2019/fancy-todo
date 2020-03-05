@@ -4,7 +4,7 @@ const users = require('./users');
 const authentication = require('../middlewares/authentication');
 const UsersController = require('../controllers/UsersController');
 
-router.get('/googlelogin', UsersController.googleLogin);
+router.post('/googlelogin', UsersController.googleLogin);
 router.use('/users', users);
 router.use('/todos', authentication, todos);
 

@@ -28,7 +28,7 @@ module.exports = (err, req, res, next) => {
     } else if(err.name === 'SequelizeUniqueConstraintError'){
         res.status(400).json({
             status: 400,
-            message: err.errors[0].message
+            message: 'Your email has been registered'
         });
     } else if(err.name === 'BadRequestError'){
         res.status(400).json({

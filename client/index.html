@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-signin-client_id" content="1082216831137-22orq6236lk0qfsren775g8stoscqg6r.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="111551956802-dor0nunqcd3q15t5rgm0hkh0t6moad9l.apps.googleusercontent.com">
     <title>Fancy Todo</title>
     <style>
         .allPage {
@@ -10,6 +10,7 @@
         }
     </style>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
     <div id="logout" class="allPage">
@@ -29,7 +30,7 @@
         <hr>
         <button id="register-link">Register</button>
     </div>
-
+    
     <div id="register-form" class="allPage">
         <h1>ini register</h1>
         <hr>
@@ -45,8 +46,9 @@
         <hr>
         <button id="login-link">Login</button>
     </div>
-
+    
     <div id="todos-list" class="allPage">
+        <a href="#" onclick="signOut()" id="sign-out-google">Sign out</a>
         <div>
             <form id="form-create">
                 <label>Title:</label>
@@ -91,11 +93,12 @@
             </form>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./js/page.js"></script>
     <script src="./js/request.js"></script>
     <script src="./js/view.js"></script>
     <script src="./js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
