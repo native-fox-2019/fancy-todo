@@ -1,87 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Show All/title>
+<title>Page Show All</title>
 </head>
 
-<body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+<body id="table-show" class="mr-4 ml-4">
 <h1>Table</h1>
 
 <button><a href="create_todos.html">Add Todo</a></button>
-
-<table id="list-todos" class="table">
-    
+<table id="list-todos" class="table table-bordered">
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th>Creator</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Creator Id </th>
+            <th scope="col">Action </th>
           </tr>
 </table>
-
 </body>
 
-<!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script> -->
+
+<form id="form-edit-todos" style="display:none">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" placeholder=""><br>
+    <label for="description">Description :</label><br>
+    <input type="text" id="description" name="description"><br>
+    <label for="status">Status :</label><br>
+    <input type="text" id="status" name="status"><br>
+    <label for="due_date">Due date :</label><br>
+    <input type="text" id="due_date" name="due_date"><br>
+    <input type="submit" value="Submit">
+  </form>
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script>
-    $.ajax({
-        type: "GET", 
-        url: "http://localhost:3000/todos", 
-        headers: {"token": localStorage.getItem('token')},
-        success: function(result){
-                console.log(result.response)
-                for (let i=0; i<result.response.length; i++){
-                    var data=result.response[i]
-                $('#list-todos').append(`
-                <tr>
-                    <th id="dataId" hidden>${data.id}</th>
-                    <th id="dataTitle_${i}">${data.title}</th>
-                    <th id="dataDescription_${i}">${data.description}</th>
-                    <th id="dataStatus_${i}">${data.status}</th>
-                    <th id="dataDueDate_${i}">${data.due_date}</th>
-                    <th id="dataUserId_${i}">${data.userId}</th>
-                    <th>
-                        <input onClick="window.location.href='edit_todos.html'" id="todo-del" type="button" value="Edit">
-                        <input onClick="window.location.href='table_todos.html'" id="todo-del" type="button" value="Delete">
-                    </th>
-                </tr>
-                `)
-                }
-        },
-        error: function(err){
-            console.log(err)
-        }
-    })
-
-    $(`#todo-del`).click(function(){
-        var id = $("#dataId").val()
-        console.log(id)
-        $.ajax({
-            type: "DELETE", 
-            url: "http://localhost:3000/todos/"+id, 
-            headers: {"token": localStorage.getItem('token')},
-            success: function(result){
-                console.log("success")
-            }
-        })
-    })
-
-    $("#todo-edit").click(function(){
-        var id = $("#dataId").val()
-        console.log(id)
-        $.ajax({
-            type: "DELETE", 
-            url: "http://localhost:3000/todos/"+id, 
-            headers: {"token": localStorage.getItem('token')},
-            success: function(result){
-                console.log("success")
-            }
-        })
-    })
-
- </script>
+<script src="script_table.js"></script>
+  
 
 </html>

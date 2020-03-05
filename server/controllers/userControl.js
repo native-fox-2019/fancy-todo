@@ -6,8 +6,17 @@ class UserControl {
 
     static register(req, res){
         console.log(req.body)
-        User.create(req.body)
-        .then(data=>res.status(201).json({"status": 201, "response":data}))
+        User.findOne({
+            where: {email:req.body.email}
+        })
+        .then(data=>{
+            if(data){
+                res.send("your e-mail has been registered")
+            } else {
+                User.create(req.body)
+                .then(data=>res.status(201).json({"status": 201, "response":data}))
+            }
+        })   
         .catch(e=>res.status(400).json({"status": 400, "response":e}))
     }
 

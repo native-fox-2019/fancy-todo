@@ -4,11 +4,14 @@
 <title>Page Create</title>
 
 </head>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <body>
 
 <h1>Create Todo</h1>
 
-<form id="form-todos">
+<form id="form-todos" class="form-group mr-4 ml-4" >
     <label for="title">Title:</label><br>
     <input type="text" id="title" name="title" placeholder='Your Todo title'><br>
     <label for="description">Description :</label><br>
@@ -17,8 +20,8 @@
     <input type="text" id="status" name="status"><br>
     <label for="due_date">Due date :</label><br>
     <input type="text" id="due_date" name="due_date"><br>
-    <input onClick="window.location.href='table_todos.html'" type="submit" value="Submit">
-    <input onClick="window.location.href='table_todos.html'" type="button" value="Cancel"
+    <input type="submit" value="Submit">
+    <input onClick="window.location.href='table_todos.html'" type="button" value="Cancel">
   </form>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -40,6 +43,7 @@
               data: {title: title, description: description, status: status, due_date: due_date},
               success: function(result){
                 console.log(result)
+                location.href = "table_todos.html"
               }
           })
         })
@@ -47,4 +51,5 @@
 
 
 </body>
+
 </html>
