@@ -3,7 +3,6 @@ const { Todo, ProjectUser } = require('../models')
 const todoAuthorization = (req, res, next) => {
     let todoId = req.params.id
     let { id, email } = req.userData
-    console.log(todoId, id)
     Todo.findOne({ where: { id: todoId } })
         .then(todo => {
             if (todo.UserId === id) {

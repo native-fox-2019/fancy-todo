@@ -93,6 +93,7 @@ class UserController {
                 let newToken = jwt.sign({ id, email }, process.env.JWT_SECRET)
                 const scopes = ['https://www.googleapis.com/auth/calendar']
                 const url = client.generateAuthUrl({
+                    access_type: 'offline',
                     scope: scopes
                 })
                 res.status(200).json({newToken, url})
@@ -103,15 +104,12 @@ class UserController {
     }
 
     static getCode = (req, res, next) => {
-        client.getToken(req.query.code)
-            .then(token => {
-                client.setCredentials(token)
-            })
-            .catch(err => {
-                next(err)
-            })
-        res.redirect('http://localhost:8080')
+        res.status(200).json(req.query.code)
+        // client.getToken(req.query.code, (err, token) => {
+        //     res.redirect('http://localhost:8080')
+        // })
     }
+
 }
 
-module.exports = UserController
+module.exports = { UserController, client }

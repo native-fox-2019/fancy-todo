@@ -1,4 +1,8 @@
 const { Todo } = require('../models')
+const { google } = require('googleapis')
+const { client, acctoken } = require('./UserController')
+const credentials = require('../credentials')
+const { authorize, insertEvents } = require('../index')
 
 class TodoController {
     static findAll = (req, res, next) => {
@@ -22,8 +26,33 @@ class TodoController {
         }
         
         Todo.create(newTodo)
-            .then(() => {
+            .then(todo => {
+                let event = {
+                    "summary": todo.title,
+                    "description": todo.description,
+                    "start": {
+                        "dateTime" : new Date()
+                    },
+                    "end": {
+                        "dateTime" : new Date(todo.due_date)
+                    }
+                }
+                // res.status(201).json({ msg: "New Todo has been created", newTodo })
+                let result = authorize(credentials,event, insertEvents)
+                console.log(result)
                 res.status(201).json({ msg: "New Todo has been created", newTodo })
+
+                // calendar.events.insert({
+                //     calendarId: 'primary',
+                //     resource: event
+                // }, (err, result) => {
+                //     if (result) {
+                //         console.log(result)
+                //         res.status(201).json({ msg: "New Todo has been created", newTodo })
+                //     } else {
+                //         console.log(err)
+                //     }
+                // })
             })
             .catch(err => {
                 if (err.errors) {

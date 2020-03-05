@@ -10,11 +10,11 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const TOKEN_PATH = 'token.json';
 
 // Load client secrets from a local file.
-fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
-});
+// fs.readFile('credentials.json', (err, content) => {
+//   if (err) return console.log('Error loading client secret file:', err);
+//   // Authorize a client with credentials, then call the Google Calendar API.
+//   authorize(JSON.parse(content), listEvents);
+// });
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -22,8 +22,8 @@ fs.readFile('credentials.json', (err, content) => {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials, callback) {
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
+function authorize(credentials, event, callback) {
+  const {client_secret, client_id, redirect_uris} = credentials.web;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
 
@@ -32,7 +32,7 @@ function authorize(credentials, callback) {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
     console.log(JSON.parse(token))
-    callback(oAuth2Client);
+    callback(oAuth2Client, event);
   });
 }
 
@@ -94,3 +94,22 @@ function listEvents(auth) {
     }
   });
 }
+
+function insertEvents(auth, event, calendarId) {
+  const calendar = google.calendar({version: 'v3', auth});
+  calendar.events.insert({
+    calendarId: calendarId ? calendarId : 'primary',
+    resource: event
+  }, (err, result) => {
+    if (result) {
+        console.log(result)
+        return result
+    } else {
+        console.log(err)
+    }
+  })
+}
+
+
+
+module.exports = { authorize, insertEvents }
