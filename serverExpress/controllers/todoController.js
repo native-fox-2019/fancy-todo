@@ -4,6 +4,9 @@ class TodoController {
     static list(req, res, next) {
         Todo.findAll({where: {UserId: req.userData.id}})
         .then(data => {
+            data.sort((a, b) => {
+                return a.due_date - b.due_date
+            })
             res.status(200).json(data)
         })
         .catch(err => {
@@ -14,7 +17,7 @@ class TodoController {
         let todo = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
+            status: "Uncomplete",
             due_date: req.body.due_date,
             UserId : req.userData.id
         }

@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const makeToken = require('../helpers/makeToken')
 const comparePassword = require('../helpers/comparePassword')
+const {OAuth2Client} = require('google-auth-library');
 
 class UserController {
     static register(req, res, next) {
@@ -16,6 +17,7 @@ class UserController {
                 let error = []
                 err.errors.forEach((item) => {
                     error.push ({
+                        path: item.path,
                         type: item.type,
                         msg: item.message
                     })
@@ -47,6 +49,40 @@ class UserController {
         })
         .catch(err => {
             next(err)
+        })
+    }
+    static googleLogin(req, res, next){
+        const client = new OAuth2Client(process.env.CLIENT_ID);
+        let id_token = req.body.id_token
+        let user = {}
+        client.verifyIdToken({
+            idToken: id_token,
+            audience: process.env.CLIENT_ID
+        })
+        .then(ticket => {
+            const payload = ticket.getPayload();
+            user = {
+                first_name : payload.given_name,
+                last_name : payload.family_name,
+                email: payload.email,
+                password: 'default'
+            }
+            return User.findOne({where: {email: user.email}})
+        })
+        .then(userdata => {
+            if(userdata){
+                let token = makeToken(userdata)
+                res.status(200).json({token}) 
+            }else{
+                return User.create(user)
+            }
+        })
+        .then(result => {
+            let token = makeToken(result)
+            res.status(200).json({token}) 
+        })
+        .catch(err => {
+            next({status: 400, msg: 'Failed'})
         })
     }
 }

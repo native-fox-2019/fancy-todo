@@ -1,7 +1,7 @@
 const route = require('express').Router();
-const TodoController = require('../controllers/todoController')
-const authentication = require('../middleware/authentication')
-const authorization = require('../middleware/authorization')
+const TodoController = require('../controllers/todoController');
+const authentication = require('../middleware/authentication');
+const authorization = require('../middleware/authorization');
 
 route.get('/', authentication, TodoController.list)
 route.post('/', authentication, TodoController.add);
