@@ -4,9 +4,14 @@ const jwt = require('jsonwebtoken')
 module.exports = (request, response, next) => {
     try {
         let decoded = jwt.verify(request.headers.token, 'rahasia')
-        User.findByPk(decoded.id)
+        User.findOne({
+            where:{
+                email: decoded.email
+            }
+        })
         .then( result => {
             if(result){
+                request.userData = decoded
                 next()
             }else{
                 throw {

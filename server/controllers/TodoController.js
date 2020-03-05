@@ -7,7 +7,7 @@ class TodoController {
             title: (request.body.title=='')?null:request.body.title,
             description: (request.body.description=='')?null:request.body.description,
             status: (request.body.status=='')?null:request.body.status,
-            user_id: 1,                              //Ganti
+            user_id: request.userData.id,                              
             due_date: new Date( request.body.due_date )
         }
         Todo.create(newData)
@@ -30,11 +30,11 @@ class TodoController {
             }
         } )
     }
-
+    // request.userData = decoded
     static read(request, response, next){
         Todo.findAll({
             where:{
-                user_id: 1                  //Ganti
+                user_id: request.userData.id
             }
         })
         .then( result => {
@@ -50,7 +50,7 @@ class TodoController {
             where:{
                 [Op.and]:[
                     {id: request.params.id},
-                    {user_id: 1}                //Ganti
+                    {user_id: request.userData.id}                
                 ]
             }
         })
@@ -88,7 +88,7 @@ class TodoController {
             where:{
                 [Op.and]: [
                     {id: request.params.id},
-                    {user_id: 1}                    //Ganti
+                    {user_id: request.userData.id}                    
                 ]
             }
         })
@@ -100,7 +100,7 @@ class TodoController {
                     where:{
                         [Op.and]: [
                             {id: request.params.id},
-                            {user_id: 1}                    //Ganti
+                            {user_id: request.userData.id}                    
                         ]
                     }
                 })

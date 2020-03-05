@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .box {
+            display: none;
+        }
+    </style>
+    <title>Todo App</title>
+</head>
+<body>
+    <div id="nav">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">NavBar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <button id="login-render">Login</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="register-render">Register</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="logout-btn">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="login-box" class="box">
+        <h1>Login</h1>
+        <form id="login-form" method="POST">
+            <div class="form-group">
+                <input type="text" id="login-email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" placeholder="Password">
+            </div>
+            <div>
+                <button type="submit" id="login-btn">Sign In</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="register-box" class="box">
+        <h1>Register</h1>
+        <form id="register-form" method="POST">
+            <div class="form-group">
+                <input type="text" id="register-name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="text" id="register-email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" id="register-password" placeholder="Password">
+            </div>
+            <div>
+                <button type="submit" id="register-btn">Sign Up</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="todo-box" class="box">
+        <h1>Todos!</h1>
+        <table cellpadding="10px" align="center">
+            <thead>
+                <th>Task</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </thead>
+            <tbody id="todo-tbody"></tbody>
+        </table>
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready( () => {
+        if(localStorage.getItem('token')){
+            $('#todo-box').show()
+        }else{
+            $('#login-box').show()
+        }
+
+        $('#logout-btn').on('click', (e) => {
+            localStorage.removeItem('token')
+            e.preventDefault()
+            $('.box').hide()
+            $('#login-box').show()
+        })
+
+        $('#login-render').on('click', (e) => {
+            e.preventDefault()
+            $('.box').hide()
+            $('#login-box').show()
+        })
+
+        $('#register-render').on('click', (e) => {
+            e.preventDefault()
+            $('.box').hide()
+            $('#register-box').show()
+        })
+
+        $('#todo-render').on('click', (e) => {
+            e.preventDefault()
+            $('.box').hide()
+            showTodos()
+            $('#todo-box').show()
+        })
+
+        $('#login-form').on('submit', (e) => {
+            e.preventDefault()
+            login( $('#login-email').val(), $('#login-password').val() )
+        })
+
+        $('#register-form').on('submit', (e) => {
+            e.preventDefault()
+            register( $('#register-name').val(), $('#register-email').val(), $('#register-password').val() )
+        } )
+
+        function login(email, password){
+            $.ajax({
+                method:'post',
+                url: 'http://localhost:3000/users/login',
+                data:{
+                    email,
+                    password
+                },
+                success: (data) => {
+                    localStorage.setItem('token', data.token)
+                    $('.box').hide()
+                    showTodos()
+                    $('#todo-box').show()
+                },
+                error: (err) => {
+                    $('.box').hide()
+                    console.log(err.responseJSON)
+                }
+            })
+        }
+
+        function register(name, email, password){
+            $.ajax({
+                method: 'post',
+                url: 'http://localhost:3000/users/register',
+                data:{
+                    name,
+                    email,
+                    password
+                },
+                success: (data) => {
+                    localStorage.setItem('token', data.token)
+                    $('.box').hide()
+                    showTodos()
+                    $('#todo-box').show()
+                },
+                error: (err) => {
+                    $('.box').hide()
+                    console.log(err.responseJSON)
+                }
+            })
+        }
+
+        function showTodos(){
+            $.ajax({
+                method: 'get',
+                url: 'http://localhost:3000/todos',
+                headers:{
+                    token: localStorage.getItem('token')
+                },
+                success: (data) => {
+                    let html_append = ''
+                    data.forEach(element => {
+                        html_append +=
+                        `<tr>
+                            <td>${element.title}</td>
+                            <td>${element.description}</td>
+                            <td>${element.due_date}</td>
+                            <td> <button id="editTodo-btn">Edit</button> <button id="delete-btn">Delete</button> </td>
+                        </tr>`
+                    })
+                    $('#todo-tbody').empty()
+                    $('#todo-tbody').append(html_append)
+                    $('#todo-box').show()
+                },
+                error: (err) => {
+                    $('.box').hide()
+                    console.log(err.responseJSON)
+                }
+            })
+        }
+
+        function createTodo(title, description, due_date){
+            
+        }
+    })
+</script>
+</html>
