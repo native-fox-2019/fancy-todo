@@ -22,7 +22,7 @@ class TodosController {
     }
 
     static getAll(req, res, next) {
-        Todo.findAll({where : {UserId : req.userData.id}})
+        Todo.findAll({where : {UserId : req.userData.id}, order : [['id', "ASC"]]})
         .then(data => {
                 res.status(200).json(data)
             })
