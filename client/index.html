@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Todos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap&subset=latin-ext" rel="stylesheet">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="134915435588-5qke74m4j5s24kbrksevrhpc1pq3ulsg.apps.googleusercontent.com">
+
+</head>
+<body>
+    <div class="row nav">
+            <li id="button-signUp" style="display: none;">Sign Up</li>
+            <li id="button-signIn">Sign In</li>
+            <li id="button-signOut" style="display: none;">Sign Out</li>
+ 
+    </div>
+    
+
+    <h1>Fancy Todos</h1>
+
+    <div class = "signInForm" id ="signInForm" style="display: none;">
+    <form id="form-signIn" action="" method="POST">
+        <h3> Sign In </h3>
+        <label for="fname">Email:</label><br>
+        <input type="text" id="emailLogin" name="emailLogin" value="" required><br>
+        <label for="lname">Password:</label><br>
+        <input type="password" id="passwordLogin" name="passwordLogin" value="" required><br><br>
+        <input type="submit" class="submit" id="button-signin-submit" value="Submit">
+      </form> 
+      <br>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <br>
+      <a href="#" onclick="signOut();">Sign out</a>
+    </div>
+
+    <div  id = "signUpForm" style="display: none;">
+        <h3> Sign Up </h3>
+        <form id="form-signUp" action="" method="POST">
+            <label for="fname">First Name:</label><br>
+            <input type="text" id="firstName" name="firstName" value=""><br>
+            <label for="fname">Last Name:</label><br>
+            <input type="text" id="lastName" name="lastName" value=""><br>
+            <label for="fname">Email:</label><br>
+            <input type="text" id="email" name="email" value=""><br>
+            <label for="lname">Password:</label><br>
+            <input type="password" id="password" name="password" value=""><br><br>
+            <input type="submit" class="submit" id="button-signup-submit" value="Submit">
+        </form> 
+    </div>
+
+    <div id = "TodoList" style="display: none;">
+        <table class="table" id="TodoTable">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="TableContent">
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <input type="submit" class="submit" id="button-addtodo-submit" value="Add Todos">
+    </div>
+
+    <div id = "addTodo" style="display: none;">
+        <h3> Add Todos </h3><br>
+        <form id="form-addTodo" action="" method="POST">
+            <label for="fname">Title:</label><br>
+            <input type="text" id="title" name="title" value=""><br>
+            <label for="fname">Description:</label><br>
+            <input type="text" id="description" name="description" value=""><br>
+            <label for="fname">Due Date:</label><br>
+            <input type="date" id="duedate" name="duedate" value=""><br>
+            <br>
+            <input type="submit" class="submit" id="button-add-submit" value="Submit">
+        </form>
+        <br>
+        <input type="submit" class="submit" id="button-cancel-submit" value="Cancel"> 
+    </div>
+
+    <div id = "editTodo" style="display: none;">
+
+    </div>
+
+    <div id = "editTodo" style="display: none;">
+
+    </div>
+
+    <div id = "getQuotes" style="display: none;">
+
+    </div>
+
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+
+        //========================= BUTTON AREA =========================//
+
+        $( document ).ready(function(){
+           // localStorage.removeItem("token")
+            var token = localStorage.getItem("token")
+            if(token) {
+                $("#button-signIn").hide()
+                $("#button-signUp").hide()
+                $("#button-signOut").show()
+                getTodo()
+                getQuotes();
+                $("#getQuotes").show(200)
+            } else{
+                $("#signInForm").show()
+                $("#button-signIn").show()
+                $("#button-signUp").show()
+            }
+
+        })
+
+        $("#button-signOut").on("click",function(){
+            localStorage.removeItem("token")
+            $("#signInForm").show()
+            $("#TodoList").hide()
+            $("#button-signIn").show()
+            $("#button-signUp").show()
+            $("#button-signOut").hide()
+         })
+
+        $("#button-addtodo-submit").on("click",function(){
+            $("#addTodo").show()
+            $("#TodoList").hide()
+        })
+
+        $("#button-cancel-submit").on("click",function(){
+            $("#addTodo").hide()
+            $("#TodoList").show()
+        })
+    
+        //================== PARAMETER AREA =================//
+
+        let firstName = $("#firstName")
+        let lastName = $("#lastName")
+        let email = $("#email")
+        let password = $("#password")
+        //========
+        let emailLogin = $("#emailLogin")
+        let passwordLogin = $("#passwordLogin")
+        //=======
+        let title = $("#title")
+        let description = $("#description")
+        let status = $("#status")
+        let duedate = $("#duedate")
+        //========
+        let titleEdit = $("#title-edit")
+        let descriptionEdit = $("#description-edit")
+        let statusEdit = $("#status-edit")
+        
+        //==================== FORM AREA ==================//
+
+        $("#form-signUp").on("submit",function(event){
+            event.preventDefault()
+            register()
+            $("#signInForm").show()
+            $("#signUpForm").hide()
+        })
+
+        $("#form-signIn").on("submit",function(event){
+            event.preventDefault()
+            login()
+
+        })
+
+        $("#form-addTodo").on("submit",function(event){
+            event.preventDefault()
+            addTodo()
+        })
+
+        //=============== FUNCTION AREA ===============//
+
+        function register(){
+            $.ajax({
+                url : "http://localhost:3000/user/register",
+                method : "post",
+                contentType : "application/json",
+                data : JSON.stringify({
+                    firstname : firstName.val(),
+                    lastname : lastName.val(),
+                    email : email.val(),
+                    password : password.val()
+                }),
+                success: function(data){
+                    console.log(data)
+                }
+            })
+
+        }
+
+        function login(){
+            $.ajax({
+                url : "http://localhost:3000/user/login",
+                method : "post",
+                contentType : "application/json",
+                data : JSON.stringify({
+                    email : emailLogin.val(),
+                    password : passwordLogin.val()
+                }),
+                success: function(data){
+                    console.log(data)
+                    $("#signInForm").hide()
+                    $("#button-signIn").hide()
+                    $("#button-signUp").hide()
+                    $("#button-signOut").show()
+                    localStorage.setItem("token",data.token)   
+                    getTodo();
+                    getQuotes();
+                    $("#getQuotes").show(200)        
+                },
+                error: function(jqxhr,status,error){
+                    console.log("errr");
+                    $("#form-signIn").append(jqxhr.responseJSON)
+                }
+            })
+        }
+
+        function getTodo(){
+            console.log('masuk')
+            $.ajax({
+                url : "http://localhost:3000/todos",
+                method : "get",
+                contentType : "application/json",
+                headers : {token : localStorage.getItem("token")},
+                success: function(response){
+                    $("#TodoTable").find('td').remove();
+                    response.forEach(element => {
+                        var content = '<tr><td>'+element.status+'</td><td>'+element.title+'</td><td>'+element.description+'</td><td>'+element.due_date+'</td><td><input type="submit" class="deletesubmit" id="button-Delete-submit" onclick="deleteTodo('+element.id+')" value="Delete"></td><td><input type="submit" class="editsubmit" id="button-Edit-submit" onclick="editTodo('+element.id+')" value="Edit"></td></tr>'
+                        $('#TableContent').append(content);
+                    });
+
+                $("#TodoList").show()
+                }
+
+            })
+        }
+
+        function addTodo(){
+            $.ajax({
+                url : "http://localhost:3000/todos",
+                method : "post",
+                contentType : "application/json",
+                headers : {token : localStorage.getItem("token")},
+                data : JSON.stringify({
+                    title : title.val(),
+                    description : description.val(),
+                    due_date : duedate.val()
+                }),
+                success: function(data){
+                    console.log(data)
+                    
+                    $("#addTodo").hide()
+                    $("#button-signIn").hide()
+                    $("#button-signUp").hide()
+                    $("#button-signOut").show()
+                    getTodo()
+                    $("#TodoList").show()
+
+                }
+
+            })
+        }
+
+        function deleteTodo(id){
+            $.ajax({
+                url : `http://localhost:3000/todos/${id}`,
+                method : "delete",
+                contentType : "application/json",
+                headers : {token : localStorage.getItem("token")},
+                success: function(data){
+                    
+                    $("#addTodo").hide()
+                    $("#button-signIn").hide()
+                    $("#button-signUp").hide()
+                    $("#button-signOut").show()
+                    getTodo()
+                    $("#TodoList").show()
+
+                }
+
+            })
+        }
+
+        function editTodo(id){
+            $.ajax({
+                url : `http://localhost:3000/todos/${id}`,
+                method : "get",
+                contentType : "application/json",
+                headers : {token : localStorage.getItem("token")},
+                success: function(data){
+                    let id = data.id
+                    let title = data.title
+                    let description = data.description
+                    let status = data.status
+                    let duedate = data.due_date
+                    $("#editTodo").append(`<h3> Edit Todos </h3><br>
+                                            <form id="form-editTodo" method="POST">
+                                                <label for="fname">Title:</label><br>
+                                                <input type="text" id="title-edit" name="title" value="${title}"><br>
+                                                <label for="fname">Description:</label><br>
+                                                <input type="text" id="description-edit" name="description" value="${description}"><br>
+                                                <label for="fname">Status:</label><br>
+                                                <select id="status-edit" class="select-style">
+                                                    <option value="uncompleted" ${status} === value? "selected" : "">uncompleted</option>
+                                                    <option value="on progress" ${status} === value? "selected" : "">on progress</option>
+                                                    <option value="completed" ${status} === value? "selected" : "">completed</option>
+                                                </select><br>
+                                                <br>
+                                                <input type="submit" class="submit" id="button-edit-submit" value="Submit">
+                                            </form> `)
+                    $("#editTodo").show()
+                    $("#TodoList").hide()
+                    $("#form-editTodo").on("submit",function(event){
+                            event.preventDefault()
+                            console.log(id)
+                            updateTodo(id)      
+                    })
+                }
+
+            })
+        }
+
+        function updateTodo(id){
+            editTodo(id)
+            $.ajax({
+                url : `http://localhost:3000/todos/${id}`,
+                method : "put",
+                contentType : "application/json",
+                headers : {token : localStorage.getItem("token")},
+                data : JSON.stringify({
+                    title : $("#title-edit").val(),
+                    description : $("#description-edit").val(),
+                    status : $("#status-edit").val()
+                }),
+                success: function(data){
+                    getTodo()
+                    $("#TodoList").show()
+                    $("#editTodo").hide()
+                },
+                error: function(jqxhr,status,error){
+                    console.log("errr");
+                    $("#form-signIn").append(jqxhr.responseJSON)
+                }
+
+            })
+        }
+
+        function getQuotes(){
+            $.ajax({
+                url : "http://localhost:3000/todos/quotes",
+                method : "get",
+                contentType : "application/json",
+                headers : {token : localStorage.getItem("token")},
+                success: function(data){
+                    $("#getQuotes").append(`<p>~${data.quotes}~</p>`)
+                }
+
+            })
+        }
+
+        function onSignIn(googleUser) {
+            
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url : "http://localhost:3000/user/logingoogle",
+                method : "post",
+                contentType : "application/json",
+                data : JSON.stringify({
+                    token : id_token
+                }),
+                success : function(data){
+                    console.log(data)
+                    $("#signInForm").hide()
+                    $("#button-signIn").hide()
+                    $("#button-signUp").hide()
+                    $("#button-signOut").show()
+                    localStorage.setItem("token",data.token)   
+                    getTodo();
+                    getQuotes();
+                    $("#getQuotes").show(200)        
+                },
+                error: function(jqxhr,status,error){
+                    console.log("errr");
+                    $("#form-signIn").append(jqxhr.responseJSON)
+                }
+            })
+            console.log(id_token)
+        }
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            console.log('User signed out.');
+            });
+        }
+
+    </script>
+    
+    
+</body>
+</html>

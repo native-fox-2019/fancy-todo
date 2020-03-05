@@ -1,4 +1,6 @@
 const { User } = require('../models/index.js')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
@@ -7,13 +9,16 @@ const errHandler = require('../middleware/errorHandler.js')
 class userController{
 
     static register(req,res,next){
+        
         let obj = {
             firstname : req.body.firstname,
             lastname : req.body.lastname,
             email : req.body.email,
             password : req.body.password
         }
+        console.log(obj)
         User.create(obj)
+
         .then(result=>{
             res.status(201).json(result)
         })
@@ -38,6 +43,42 @@ class userController{
             })
         })
         .catch(err=>{
+            next({status: 500, msg: 'Internal server error!'})
+        })
+    }
+
+    static googleLogin(req,res,next){
+        var token = req.body.token
+        client.verifyIdToken({
+            idToken : token,
+            audience : process.env.CLIENT_ID
+        })
+        .then(ticket=>{
+            const ticket = ticket.getPayload()
+            var user = {
+                name : payload.name,
+                email : payload.email
+            }
+            console.log(payload.email)
+            User.findOne({where:{email:user.email}})
+            console.log(user)
+            .then(data=>{
+                if(data){
+                    return data
+                } else{
+                    User.create({
+                        firstname : user.name,
+                        lastname : user.name,
+                        email : user.email,
+                        password : "12345678"
+                    })
+                    .then(result=>{
+                        res.status(201).json(result)
+                    })
+                }
+            })
+        })
+        .catch(err =>{
             next({status: 500, msg: 'Internal server error!'})
         })
     }

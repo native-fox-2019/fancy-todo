@@ -17,11 +17,10 @@ class TodoController{
         let obj = {
             title : req.body.title,
             description : req.body.description,
-            status : req.body.status,
+            status : "uncompleted",
             due_date : req.body.due_date,
             userId : req.userData.id
         }
-        console.log(req.userData.id)
         Todo.create(obj)
         .then(result=>{
             res.status(201).json(result)
@@ -43,7 +42,6 @@ class TodoController{
 
     static getTodo(req,res,next){
         let params = req.params.id
-        console.log(req.params.id)
         Todo.findOne({where:{id:params}})
         .then(result=>{
             if(result){
@@ -66,7 +64,7 @@ class TodoController{
             status : req.body.status,
             due_date : req.body.due_date
         }
-
+        console.log(obj, '>>>>>>>>>>>')
         Todo.update(obj,{where:{id:params}})
         .then(result=>{
             if(result[0]){
@@ -77,6 +75,7 @@ class TodoController{
             }
         })
         .catch(err=>{
+        console.log(err)
           res.status(400).json(err)  
         })
     }
