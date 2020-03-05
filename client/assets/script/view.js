@@ -15,3 +15,14 @@ function show(segment) {
             break;
     }
 }
+
+function fail(err) {
+    $err.empty()
+    $err.show()
+
+    $err.append(`<div>Code: ${err.status_code}</div>`)
+
+    err.status_message.forEach(i => {
+        $err.append(`<div>${i}</div>`)
+    })
+}

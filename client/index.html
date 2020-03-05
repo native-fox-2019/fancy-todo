@@ -14,20 +14,26 @@
         .app {
             display: none;
         }
+        .errMsg {
+            color: red;
+        }
     </style>
 </head>
 
 <body>
     <div id="login" class="app">
+        <div class="errMsg"></div>
+
         <h1>Login</h1>
+
         <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" id="login-email">
+                <input type="email" class="form-control" id="login-email" name="email">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="login-password">
+                <input type="password" class="form-control" id="login-password" name="pass">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             <button class="btn btn-primary float-right" id="btn-register">Register</button>
@@ -35,7 +41,10 @@
     </div>
 
     <div id="register" class="app">
+        <div class="errMsg"></div>
+
         <h1>Register</h1>
+
         <form id="regForm">
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -46,25 +55,33 @@
                 <input type="password" class="form-control" id="reg-password">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <button class="btn btn-primary float-right" id="btn-login">Login</button>
+            <button class="btn btn-primary float-right" id="btn-login">Login instead</button>
         </form>
     </div>
 
     <div id="list" class="app">
+        <div class="errMsg"></div>
+
         <h1>Todo List</h1>
-        <form>
+
+        <button class="btn btn-primary float-right mb-3" id="btn-logout">Logout</button>
+
+        <form id="add-list">
             <div class="form-group">
                 <input type="text" placeholder="Title" id="title" class="form-control mb-2">
             </div>
             <div class="form-group">
-                <textarea placeholder="Description" id="description" class="form-control mb-2" cols="30" rows="5"></textarea>
+                <textarea placeholder="Description" id="description" class="form-control mb-2" cols="30"
+                    rows="5"></textarea>
             </div>
             <div class="form-group">
                 <input type="date" id="date" class="form-control mb-2">
             </div>
             <button type="submit" class="btn btn-primary">+ Add</button>
-            <button class="btn btn-primary float-right" id="btn-logout">Logout</button>
         </form>
+        <table id="todo-list">
+            
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -75,9 +92,10 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 
-    <script src="assets/script/data-list.js"></script>
+    <script src="assets/script/var-declare.js"></script>
     <script src="assets/script/view.js"></script>
     <script src="assets/script/request.js"></script>
+    <script src="assets/script/data-list.js"></script>
     <script src="assets/script/main.js"></script>
 </body>
 
