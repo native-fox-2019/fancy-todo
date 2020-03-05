@@ -4,37 +4,39 @@ const bcrypt = require('bcrypt')
 
 class UserController {
     static login(request, response, next){
-        let user_data
+        let login_data = {
+            email: request.body.email,
+            password: request.body.password
+        }
+        let userData
         User.findOne({
-            where:{
-                email: request.body.email
+            where: {
+                email: login_data.email
             }
         })
         .then( result => {
-            if(result){
-                user_data = result
-                return bcrypt.compare(request.body.password, result.password)
-            }else{
+            if(!result){
                 throw {
                     status_code: 404,
-                    type: 'Not Found',
-                    message: 'Data Not Found'
+                    message: 'email not found'
                 }
+            }else{
+                userData = result
+                return bcrypt.compare(login_data.password, result.password)
             }
         } )
         .then( result => {
             if(result){
                 let token = jwt.sign({
-                    id: user_data.id,
-                    name: user_data.name,
-                    email: user_data.email
+                    id: userData.id,
+                    name: userData.name,
+                    email: userData.email
                 }, 'rahasia')
                 response.status(200).json({token})
             }else{
                 throw {
                     status_code: 400,
-                    type: 'Bad Request',
-                    message: 'Invalid Password'
+                    message: 'Wrong Password'
                 }
             }
         } )
