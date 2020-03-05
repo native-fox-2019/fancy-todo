@@ -118,8 +118,7 @@ function googleVerify(obj) {
     })
     .done((data) => {
         localStorage.setItem("token", data.token);
-        setPage('todos');
-        $('#logout').hide();
+        setPage('todos-google');
     }).fail(err => {
         console.log(err.responseJSON);
     });

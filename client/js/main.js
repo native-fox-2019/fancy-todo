@@ -5,11 +5,13 @@ $(document).ready(() => {
         setPage('login');
     }
 
-    $('#register-link').on('click', () => {
+    $('#register-link').on('click', (event) => {
+        event.preventDefault();
         setPage('register');
     });
 
-    $('#login-link').on('click', () => {
+    $('#login-link').on('click', (event) => {
+        event.preventDefault();
         setPage('login');
     });
     $('#logout-user').on('click', () => {

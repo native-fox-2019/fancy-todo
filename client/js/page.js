@@ -15,6 +15,11 @@ function setPage(page) {
         changePage('todos-list');
         showTodos();
         $('#logout').show();
+    } else if(page === 'todos-google') {
+        $('#form-create')[0].reset();
+        changePage('todos-list');
+        showTodos();
+        $('#sign-out-google').show();
     } else if (page === 'edit') {
         changePage('edit-form');
     }

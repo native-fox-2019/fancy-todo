@@ -14,83 +14,101 @@
 </head>
 <body>
     <div id="logout" class="allPage">
-        <button id="logout-user">LOG OUT</button>
+        <button id="logout-user" class="btn btn-primary">Sign Out</button>
     </div>
-    <div id="login-form" class="allPage">
-        <h1>ini login</h1>
-        <hr>
-        <form id="login-button">
-            <label>Email:</label>
-            <input type="text" id="email-login"><br>
-            <label>Password:</label>
-            <input type="text" id="password-login"><br>
-            <button type="submit">Login</button>
-        </form>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-        <hr>
-        <button id="register-link">Register</button>
-    </div>
-    
-    <div id="register-form" class="allPage">
-        <h1>ini register</h1>
-        <hr>
-        <form id="register-button">
-            <label>Username:</label>
-            <input type="text" id="username-register"><br>
-            <label>Email:</label>
-            <input type="text" id="email-register"><br>
-            <label>Password:</label>
-            <input type="text" id="password-register"><br>
-            <button type="submit">Register</button>
-        </form>
-        <hr>
-        <button id="login-link">Login</button>
-    </div>
-    
-    <div id="todos-list" class="allPage">
-        <a href="#" onclick="signOut()" id="sign-out-google">Sign out</a>
-        <div>
-            <form id="form-create">
-                <label>Title:</label>
-                <input type="text" id="todo-title"><br>
-                <label>Description:</label>
-                <input type="text" id="todo-description"><br>
-                <label>Due Date:</label>
-                <input type="text" id="todo-due-date"><br>
-                <button type="submit">Create</button>
-            </form>
-        </div>
-        <h1>ini todos list</h1>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Due Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="todoList">
-
-            </tbody>
-        </table>
-    </div>
-
-    <div id="edit-form" class="allPage">
-        <div>
-            <form id="form-edit">
-                <label>Title:</label>
-                <input type="text" id="edit-todo-title"><br>
-                <label>Description:</label>
-                <input type="text" id="edit-todo-description"><br>
-                <label>Due Date:</label>
-                <input type="text" id="edit-todo-due-date"><br>
-                <div id="edit-status">
-
+    <button onclick="signOut()" id="sign-out-google" class="allPage btn btn-primary ">Sign Out</button>
+    <div class="text-center">
+        <div id="login-form" class="allPage">
+            <h1>Login</h1>
+            <form id="login-button">
+                <div class="form-group">
+                    <label>Email:</label><br>
+                    <input type="text" id="email-login"><br>
                 </div>
-                <button type="submit" id="submit-edit">Edit</button>
+                <div class="form-group">
+                    <label>Password:</label><br>
+                    <input type="password" id="password-login"><br>
+                </div>
+                <button type="submit" class="btn btn-primary mb-3">Login</button>
             </form>
+            <a id="register-link" href="#">Don't have an account ? Register</a>
+            <div class="g-signin2 mx-auto my-4" style="width: 100px;" data-onsuccess="onSignIn"></div>
+        </div>
+        
+        <div id="register-form" class="allPage">
+            <h1>Register Your Account</h1>
+            <form id="register-button">
+                <div class="form-group">
+                    <label>Username:</label><br>
+                    <input type="text" id="username-register"><br>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label><br>
+                    <input type="text" id="email-register"><br>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label><br>
+                    <input type="text" id="password-register"><br>
+                </div>
+                <button type="submit" class="btn btn-primary mb-4">Register</button>
+            </form>
+            <a id="login-link" href="#">Already have an account? Login</a>
+        </div>
+        
+        <div id="todos-list" class="allPage">
+            <h1>Create a Todo List</h1>
+            <div>
+                <form id="form-create">
+                    <label>Title:</label><br>
+                    <input type="text" id="todo-title"><br>
+                    <label>Description:</label><br>
+                    <input type="text" id="todo-description"><br>
+                    <label>Due Date:</label><br>
+                    <input type="text" id="todo-due-date"><br>
+                    <button type="submit" class="btn btn-primary mt-3 mb-3">Create</button>
+                </form>
+            </div>
+            <h1>Your Todos List</h1>
+            <div class="mx-auto" style="width: 50%;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="todoList">
+        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div id="edit-form" class="allPage">
+            <h1>Edit Your Todo</h1>
+            <div>
+                <form id="form-edit">
+                    <div class="form-group">
+                        <label>Title:</label><br>
+                        <input type="text" id="edit-todo-title"><br>
+                    </div>
+                    <div class="form-group">
+                        <label>Description:</label><br>
+                        <input type="text" id="edit-todo-description"><br>
+                    </div>
+                    <div class="form-group">
+                        <label>Due Date:</label><br>
+                        <input type="text" id="edit-todo-due-date"><br>
+                    </div>
+                    <div id="edit-status" class="form-group">
+    
+                    </div>
+                    <button type="submit" id="submit-edit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

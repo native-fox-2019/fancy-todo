@@ -20,7 +20,7 @@ function setAllTodos(data) {
                             <td>${x.description}</td>
                             <td>${x.due_date}</td>
                             <td>${status}</td>
-                            <td><button onclick="editTodo(${x.id})">Edit</button> | <button onclick="deleteTodo(${x.id})">Delete</button></td>
+                            <td><button onclick="editTodo(${x.id})" class="btn btn-primary">Edit</button>  <button onclick="deleteTodo(${x.id})" class="btn btn-primary">Delete</button></td>
                         </tr>`)
     })
 }
