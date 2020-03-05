@@ -5,11 +5,11 @@ function authorization(req, res, next) {
     Todo
         .findOne({ where: { id: Number(req.params.id) } })
         .then(data => {
-            console.log(data.UserId)
             if(data){
                 if (req.user.id === data.UserId) {
-            // console.log('masuk', req.user.id)
-            next()
+                    // console.log('masuk', req.user.id)
+                    console.log(data.UserId,'============')
+                    next()
                 } else {
                     throw {
                         status: 403,

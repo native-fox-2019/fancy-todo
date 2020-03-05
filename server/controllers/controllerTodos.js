@@ -61,7 +61,7 @@ class ControllerTodos {
     }
 
     static updateData(req, res, next) {
-        let id = req.user.id
+        let id = Number(req.params.id)
         const { title, description, status, due_date } = req.body
         Todo
             .update({ title, description, status, due_date }, {
