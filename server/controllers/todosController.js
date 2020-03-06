@@ -1,8 +1,6 @@
 const { Todo, User } = require("../models");
 const createError = require("http-errors");
-require("dotenv").config();
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const { sendgrid } = require("../helpers/sendgridAPI");
 
 class TodoController {
   static post(req, res, next) {
@@ -13,32 +11,10 @@ class TodoController {
       due_date: req.body.due_date,
       UserId: req.userData.id
     };
+    let email = req.userData.email;
     Todo.create(inputData)
       .then(() => {
-        const msg = {
-          to: "darindra23@gmail.com",
-          from: "noreply.todolistapp@mail.com",
-          subject: "You've created a todo list !",
-          html: `
-          Congratulations you've created a todo list ! </br>
-          </br>
-          </br>
-          Don't Forget you have a deadline to finish your task. </br>
-          Here is your todo list : </br>
-          </br>
-          TITLE : </br>
-          ${inputData.title} </br>
-          DESCRIPTION : </br>
-          ${inputData.description} </br>
-          STATUS : </br>
-           ${inputData.status} </br>
-          DEADLINE :  </br>
-          ${inputData.due_date} </br>
-          </br>
-          </br>
-          <strong>TODO APPS BY DARINDRA R</strong>`
-        };
-        // sgMail.send(msg); JANGAN LUPA DI UN COMMENT NANTI PAS EMAIL
+        sendgrid(inputData, email);
         res
           .status(201)
           .json({ Message: "Todo Has Been Created.", Data: req.body });

@@ -5,6 +5,7 @@ const $home = $("#home");
 const $list = $("#list-table");
 const $edit = $("#edit");
 
+
 if (localStorage.getItem("token")) {
   todo();
 } else {
@@ -85,9 +86,7 @@ function editStatus(id) {
 
 function todoDelete(id) {
   swal({
-    title: "Are you sure?",
-    text:
-      "The moment you're ready to quit is usually the moment right before a miracle happens, Don't give up!",
+    title: "Are you sure want to delete?",
     icon: "warning",
     buttons: true,
     dangerMode: true
@@ -106,10 +105,6 @@ function todoDelete(id) {
           });
         }
       });
-    } else {
-      swal(
-        "When life puts you in though situations, Don't say 'WHY ME' say 'TRY ME'."
-      );
     }
   });
 }
@@ -266,6 +261,3 @@ $("#add-todo").on("click", function(e) {
     todo();
   });
 });
-
-// 1013819218155-c3td05g1gl3jilp8bhntc34j44m4ktgu.apps.googleusercontent.com
-// 9OWMprgUWdSkfmLWnBjMoBVn

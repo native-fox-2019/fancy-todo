@@ -1,6 +1,6 @@
 const { User } = require("../models");
 const createError = require("http-errors");
-const jwt = require("jsonwebtoken");
+const { sign } = require("../helpers/jwt");
 const { compare } = require("../helpers/hashed");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.CLIENT_ID);
@@ -31,14 +31,11 @@ class Controller {
           //IF DATA FOUND
           if (compare(req.body.password, data.password)) {
             // OUTPUT COMPARE TRUE OR FALSE
-            let token = jwt.sign(
-              {
-                id: data.id,
-                username: req.body.username,
-                email: req.body.email
-              },
-              process.env.SECRET
-            ); // GENERATE TOKEN JWT
+            let token = sign({
+              id: data.id,
+              username: req.body.username,
+              email: req.body.email
+            }); // GENERATE TOKEN JWT
             let fullname = data.fullname;
             res.status(200).json({ token, fullname }); // SEND TOKEN JWT
           } else {
@@ -84,14 +81,11 @@ class Controller {
         }
       })
       .then(user => {
-        let token = jwt.sign(
-          {
-            id: user.id,
-            username: user.username,
-            email: user.email
-          },
-          process.env.SECRET
-        );
+        let token = sign({
+          id: user.id,
+          username: user.username,
+          email: user.email
+        });
         res.status(200).json({ token });
       })
       .catch(err => {

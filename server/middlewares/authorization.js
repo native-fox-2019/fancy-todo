@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
 const { Todo } = require("../models");
 const createError = require("http-errors");
+
 module.exports = {
   authorization(req, res, next) {
     try {
@@ -14,10 +14,10 @@ module.exports = {
           if (data.UserId === req.userData.id) {
             next();
           } else {
-            next(createError(403, "You're Unauthorized to do this."));
+            throw createError(403, "You're Unauthorized to do this.");
           }
         } else {
-          next(createError(404));
+          throw createError(404);
         }
       });
     } catch (err) {
