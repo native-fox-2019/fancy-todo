@@ -12,13 +12,16 @@
         .box {
             display: none;
         }
+        #editTodoId {
+            display: none;
+        }
     </style>
     <title>Todo App</title>
 </head>
 <body>
     <div id="nav">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">NavBar</a>
+            <a class="navbar-brand" href="#">TodoApp!</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -82,6 +85,7 @@
                 <th>Task</th>
                 <th>Description</th>
                 <th>Due Date</th>
+                <th>Status</th>
                 <th>Action</th>
             </thead>
             <tbody id="todo-tbody"></tbody>
@@ -100,7 +104,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="addTodo-form" class="feature addTodo-div">
+                    <div id="div-addTodo-form" class="feature addTodo-div">
                         <h2>Add Todo</h2>
                         <form id="addTodo-form" method="POST">
                             <div class="form-group">
@@ -117,6 +121,30 @@
                             </div>
                 
                             <button type="submit" class="btn btn-primary" id="addTodo-btn">Add</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT TODO -->
+    <div id="editTodo-box">
+        <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="editTodoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="div-editTodo-form" class="feature editTodo-div">
+                        <h2>Edit Todo</h2>
+                        <form id="editTodo-form" method="POST">
                         </form>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
@@ -180,125 +208,210 @@
             e.preventDefault()
             createTodo( $('#atTitle').val(), $('#atDescription').val(), $('#atDue_date').val() )
         })
+
+        $('#editTodo-form').on('submit', (e) => {
+            e.preventDefault()
+            editTodo( $('#etTitle').val(), $('#etDescription').val(), $('#etDue_date').val(), $('#etStatus').val(), $('#etId').val() )
+        })
     })
 
+    function editTodo(title, description, due_date, status, id){
+        $.ajax({
+            method: 'put',
+            url: `http://localhost:3000/todos/${id}`,
+            data: {
+                title,
+                description,
+                due_date: new Date(due_date),
+                status: (status == 'true')
+            },
+            headers:{
+                token: localStorage.getItem('token')
+            },
+            success: (result) => {
+                $('.box').hide()
+                $('#editTodoModal').modal('hide')
+                showTodos()
+                $('#todo-box').show()
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err)
+            }
+        })
+    }
+
+    function modalEditTrigger(id){
+        $.ajax({
+            method: 'get',
+            url: `http://localhost:3000/todos/${id}`,
+            headers:{
+                token: localStorage.getItem('token')
+            },
+            success: (result) => {
+                console.log(result)
+                let html_append = 
+                `<div id="editTodoId" class="form-group">
+                    <label for="recipient-name" class="col-form-label">ID</label>
+                    <input type="text" class="form-control" id="etId" value="${result.id}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Todo</label>
+                    <input type="text" class="form-control" id="etTitle" value="${result.title}">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Description</label>
+                    <input type="text" class="form-control" id="etDescription" value="${result.description}">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Due Date</label>
+                    <input type="text" class="form-control" id="etDue_date" value="${result.due_date}">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label" style="text-align: left">Status: </label>
+                    <select id="etStatus">
+                        ${(!result.status)?'<option value="false" selected>Unfinished</option><option value="true">Finished</option>':'<option value="false" >Unfinished</option><option value="true" selected>Finished</option>'}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" id="editTodo-btn">Edit</button>`
+
+                $('#editTodo-form').empty()
+                $('#editTodo-form').append(html_append)
+                $('#editTodoModal').modal('show')
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err)
+            }
+        })
+    }
+
     function showTodos(){
-            $.ajax({
-                method: 'get',
-                url: 'http://localhost:3000/todos',
-                headers:{
-                    token: localStorage.getItem('token')
-                },
-                success: (data) => {
-                    console.log('masuk')
-                    let html_append = ''
-                    data.forEach(element => {
-                        html_append +=
-                        `<tr>
-                            <td>${element.title}</td>
-                            <td>${element.description}</td>
-                            <td>${element.due_date}</td>
-                            <td> <button id="editTodo-btn" class="btn btn-primary">Edit</button> <button id="delete-btn" class="btn btn-danger" onclick="deleteTodo(${element.id})">Delete</button> </td>
-                        </tr>`
-                    })
-                    $('#todo-tbody').empty()
-                    $('#todo-tbody').append(html_append)
-                    $('#todo-box').show()
-                },
-                error: (err) => {
-                    $('.box').hide()
-                    console.log(err)
-                }
-            })
-        }
+        $.ajax({
+            method: 'get',
+            url: 'http://localhost:3000/todos',
+            headers:{
+                token: localStorage.getItem('token')
+            },
+            success: (data) => {
+                let html_append = ''
+                data.forEach(element => {
+                    html_append +=
+                    `<tr>
+                        <td>${element.title}</td>
+                        <td>${element.description}</td>
+                        <td>${getDateFormat(new Date(element.due_date))}</td>
+                        <td>${(!element.status)?'unfinished':'finished'}</td>
+                        <td> <button id="editTodo-btn" class="btn btn-primary" onclick="modalEditTrigger(${element.id})">Edit</button> <button id="delete-btn" class="btn btn-danger" onclick="deleteTodo(${element.id})">Delete</button> </td>
+                    </tr>`
+                })
+                $('#todo-tbody').empty()
+                $('#todo-tbody').append(html_append)
+                $('#todo-box').show()
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err)
+            }
+        })
+    }
+
+    function getDateFormat (date) {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        let dayName = days[date.getDay()]
+        let dateFormat =
+        `${dayName}, ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`    
+        return dateFormat
+    }
 
     function login(email, password){
-            $.ajax({
-                method:'post',
-                url: 'http://localhost:3000/users/login',
-                data:{
-                    email,
-                    password
-                },
-                success: (data) => {
-                    localStorage.setItem('token', data.token)
-                    $('.box').hide()
-                    $('#login-form')[0].reset()
-                    showTodos()
-                    $('#todo-box').fadeIn()
-                },
-                error: (err) => {
-                    $('.box').hide()
-                    console.log(err.responseJSON)
-                }
-            })
-        }
+        $.ajax({
+            method:'post',
+            url: 'http://localhost:3000/users/login',
+            data:{
+                email,
+                password
+            },
+            success: (data) => {
+                console.log(data.token)
+                localStorage.setItem('token', data.token)
+                $('.box').hide()
+                $('#login-form')[0].reset()
+                showTodos()
+                $('#todo-box').fadeIn()
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err.responseJSON)
+            }
+        })
+    }
 
-        function register(name, email, password){
-            $.ajax({
-                method: 'post',
-                url: 'http://localhost:3000/users/register',
-                data:{
-                    name,
-                    email,
-                    password
-                },
-                success: (data) => {
-                    localStorage.setItem('token', data.token)
-                    $('.box').hide()
-                    $('#register-form')[0].reset()
-                    showTodos()
-                    $('#todo-box').fadeIn()
-                },
-                error: (err) => {
-                    $('.box').hide()
-                    console.log(err.responseJSON)
-                }
-            })
-        }
+    function register(name, email, password){
+        $.ajax({
+            method: 'post',
+            url: 'http://localhost:3000/users/register',
+            data:{
+                name,
+                email,
+                password
+            },
+            success: (data) => {
+                localStorage.setItem('token', data.token)
+                $('.box').hide()
+                $('#register-form')[0].reset()
+                showTodos()
+                $('#todo-box').fadeIn()
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err.responseJSON)
+            }
+        })
+    }
 
-        function createTodo(title, description, due_date){
-            $.ajax({
-                method: 'post',
-                url: 'http://localhost:3000/todos',
-                headers:{
-                    token: localStorage.getItem('token')
-                },
-                data:{
-                    title,
-                    description,
-                    due_date
-                },
-                success: (result) => {
-                    $('.box').hide()
-                    $('#addTodoModal').modal('hide')
-                    showTodos()
-                    $('#todo-box').show()
-                },
-                error: (err) => {
-                    $('.box').hide()
-                    console.log(err.responseJSON)
-                }
-            })
-        }
+    function createTodo(title, description, due_date){
+        $.ajax({
+            method: 'post',
+            url: 'http://localhost:3000/todos',
+            headers:{
+                token: localStorage.getItem('token')
+            },
+            data:{
+                title,
+                description,
+                due_date
+            },
+            success: (result) => {
+                $('.box').hide()
+                $('#addTodoModal').modal('hide')
+                showTodos()
+                $('#todo-box').show()
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err.responseJSON)
+            }
+        })
+    }
 
-        function deleteTodo(id) {
-            $.ajax({
-                method: 'delete',
-                url: `http://localhost:3000/todos/${id}`,
-                headers:{
-                    token: localStorage.getItem('token')
-                },
-                success: (result) => {
-                    $('.box').hide()
-                    showTodos()
-                    $('#todo-box').show()
-                },
-                error: (err) => {
-                    $('.box').hide()
-                    console.log(err.responseJSON)
-                }
-            })
-        }
+    function deleteTodo(id) {
+        $.ajax({
+            method: 'delete',
+            url: `http://localhost:3000/todos/${id}`,
+            headers:{
+                token: localStorage.getItem('token')
+            },
+            success: (result) => {
+                $('.box').hide()
+                showTodos()
+                $('#todo-box').show()
+            },
+            error: (err) => {
+                $('.box').hide()
+                console.log(err.responseJSON)
+            }
+        })
+    }
 </script>
 </html>
