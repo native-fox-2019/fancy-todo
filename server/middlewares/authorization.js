@@ -7,21 +7,13 @@ module.exports = (request, response, next) => {
         let todo_id = request.params.id
         Todo.findByPk(todo_id)
         .then( result => {
-            if(result){
-                if(result.user_id == decoded.id){
-                    next()
-                }else{
-                    throw {
-                        status_code: 400,
-                        type: 'Bad Request',
-                        message: 'unauthorized user'
-                    }
-                }
+            if(result.user_id == decoded.id){
+                next()
             }else{
                 throw {
-                    status_code: 404,
-                    type: 'Not Found',
-                    message: 'Data Not Found'
+                    status_code: 400,
+                    type: 'Bad Request',
+                    message: 'unauthorized user'
                 }
             }
         } )

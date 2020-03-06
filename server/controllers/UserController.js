@@ -9,6 +9,7 @@ class UserController {
             password: request.body.password
         }
         let userData
+        console.log(login_data)
         User.findOne({
             where: {
                 email: login_data.email

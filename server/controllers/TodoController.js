@@ -30,8 +30,9 @@ class TodoController {
             }
         } )
     }
-    // request.userData = decoded
+
     static read(request, response, next){
+        console.log('read')
         Todo.findAll({
             where:{
                 user_id: request.userData.id
