@@ -18,6 +18,7 @@
     var $editModal=$('#edit-modal');
     var $deleteModal=$('#delete-model');
     var $btnDeleteModalTodo=$('#btn-submit-modal-delete');
+    var $hrefUnAuth=$('#href-unauth');
 
     var todosData;
     var willUpdateId=-1;
@@ -251,8 +252,6 @@
                 reject({jqXhr:jqXhr,status:status,response:response});
             })
         })
-
-
     }
 
     function deleteTodos(){
@@ -272,6 +271,21 @@
         })
     }
 
+    function checkGoogleAuth(){
+        var url='/api/check-google-auth';
+        $.ajax({
+            type:'POST',
+            url:SERVER+url,
+            headers:headers
+        }).done(function(data){
+            if(!data.authenticate){
+                $hrefUnAuth.attr('href',data.authURL);
+                $hrefUnAuth.text('Klik here to authenticate to google calendar');
+            }
+        })
+    }
+
+    checkGoogleAuth();
     fetchTodos();
 
 })();

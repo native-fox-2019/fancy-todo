@@ -143,10 +143,6 @@ class GoogleCallenderController{
         (async function(){
 
             try{
-                // let todo=await Todo.findOne({
-                //     where:{g_id:eventId},
-                //     include:User
-                // });
                 let curr_user=await authUser(req.headers.token);
                 let calendar =await authenticate(curr_user);
                 await calendar.events.delete({

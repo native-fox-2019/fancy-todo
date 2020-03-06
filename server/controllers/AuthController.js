@@ -1,5 +1,8 @@
 const {User}=require('../models');
 const jwt=require('jsonwebtoken');
+const authenticate=require('../google-auth');
+const credentials=require('../credentials');
+const authUser=require('../helpers/authUser');
 
 class AuthController{
 
@@ -66,6 +69,24 @@ class AuthController{
                 next(err);
             }
 
+        })();
+    }
+
+    static checkGoogleAuth(req,res){
+        (async function(){
+            try{
+                let curr_user=await authUser(req.headers.token);
+                if(curr_user.google_token){
+                    res.status(200).json({authenticate:true});
+                }
+                else{
+                    const oAuth2Client=authenticate.getOAuth2(credentials,curr_user.id);
+                    let authURL=authenticate.getAccessToken(oAuth2Client);
+                    res.status(200).json({authenticate:false,authURL:authURL});
+                }
+            }catch(err){
+                authenticate.errorHandler(err,res);
+            }
         })();
     }
 }

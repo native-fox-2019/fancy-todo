@@ -49,7 +49,7 @@ function authorize(user,credentials, callback,recallback) {
     callback(oAuth2Client);
   }
   else{
-    let authURL=getAccessToken(oAuth2Client);
+    let authURL=authenticate.getAccessToken(oAuth2Client);
     recallback(authURL);
   }
 }
@@ -60,7 +60,7 @@ function authorize(user,credentials, callback,recallback) {
  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
-function getAccessToken(oAuth2Client) {
+authenticate.getAccessToken=function(oAuth2Client) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
