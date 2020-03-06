@@ -11,12 +11,12 @@ const TOKEN_PATH = 'token.json';
 
 // Load client secrets from a local file.
 
-function authenticate(){
+function authenticate(user){
     return new Promise(function(resolve,reject){
         fs.readFile('./credentials.json', (err, content) => {
             if (err) return reject(err);
             // Authorize a client with credentials, then call the Google Calendar API.
-            authorize(JSON.parse(content), function(auth){
+            authorize(user,JSON.parse(content), function(auth){
                 const calendar = google.calendar({version: 'v3', auth});
                 authenticate.auth=auth;
                 resolve(calendar)
@@ -34,15 +34,24 @@ function authenticate(){
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials, callback,recallback) {
+function authorize(user,credentials, callback,recallback) {
   const oAuth2Client=authenticate.getOAuth2(credentials);
 
   // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, recallback);
-    oAuth2Client.setCredentials(JSON.parse(token));
+  // fs.readFile(TOKEN_PATH, (err, token) => {
+  //   if (err) return getAccessToken(oAuth2Client, recallback);
+  //   oAuth2Client.setCredentials(JSON.parse(token));
+  //   callback(oAuth2Client);
+  // });
+  let google_token=user.google_token;
+  if(google_token){
+    oAuth2Client.setCredentials(JSON.parse(google_token));
     callback(oAuth2Client);
-  });
+  }
+  else{
+    let authURL=getAccessToken(oAuth2Client);
+    recallback(authURL);
+  }
 }
 
 /**
@@ -51,13 +60,13 @@ function authorize(credentials, callback,recallback) {
  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
-function getAccessToken(oAuth2Client, callback) {
+function getAccessToken(oAuth2Client) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
   });
-  callback(authUrl);
-
+  //callback(authUrl);
+  return authUrl;
 }
 
 /**

@@ -1,7 +1,7 @@
 const authenticate=require('../google-auth');
 const fs=require('fs');
-const tokenDecoder=require('../helpers/decodeToken');
-const {Todo}=require('../models');
+const {Todo,User}=require('../models');
+const authUser=require('../helpers/authUser');
 
 class GoogleCallenderController{
     
@@ -79,8 +79,10 @@ class GoogleCallenderController{
       (async function(){
         
         try{
-            let calendar =await authenticate();
-            let todo=await Todo.findByPk(todoID);
+            let todo=await Todo.findByPk(todoID,{
+                include:User
+            });
+            let calendar =await authenticate(todo.User);
 
             var event = todo.for_google;
 
@@ -97,8 +99,6 @@ class GoogleCallenderController{
 
             res.status(201).json({status:201,message:'Berhasil dibuat',data:todo,gdata:data.data.id});
            
-
-           
         }catch(err){
             authenticate.errorHandler(err,res);
         }
@@ -111,10 +111,13 @@ class GoogleCallenderController{
 
         (async function(){
             try{
-                let todo=await Todo.findOne({where:{g_id:eventId}});
+                let todo=await Todo.findOne({
+                    where:{g_id:eventId},
+                    include:User
+                });
                 var event = todo.for_google;
 
-                let calendar =await authenticate();
+                let calendar =await authenticate(todo.User);
                 let data=await calendar.events.update({
                     calendarId:process.env.CALENDAR_ID,
                     auth:authenticate.auth,
@@ -135,13 +138,17 @@ class GoogleCallenderController{
         (async function(){
 
             try{
-                await Todo.destroy({where:{g_id:eventId}});
-                let calendar =await authenticate();
+                let todo=await Todo.findOne({
+                    where:{g_id:eventId},
+                    include:User
+                });
+                let calendar =await authenticate(todo.User);
                 await calendar.events.delete({
                     calendarId:process.env.CALENDAR_ID,
                     auth:authenticate.auth,
                     eventId:eventId
                 })
+                await Todo.destroy({where:{g_id:eventId}});
                 res.status(200).json({status:200,message:'Berhasil dihapus'});
             }catch(err){
                 authenticate.errorHandler(err,res);

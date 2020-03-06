@@ -11,7 +11,8 @@ class AuthController{
             try{
                 let user=await User.findOne({where:{
                     email:body.email,
-                    password:body.password}
+                    password:body.password
+                }
                 });
                 if(user){
                     let token = jwt.sign(user.tokenvalue, secret);

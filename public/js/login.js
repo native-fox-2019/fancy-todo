@@ -115,7 +115,7 @@
             'width': 240,
             'height': 50,
             'longtitle': true,
-            'theme': 'dark',
+            'color':'white',
             'onsuccess': onGoogleSuccess,
             'onfailure': onGoogleFailure
         });
