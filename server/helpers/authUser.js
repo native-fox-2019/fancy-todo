@@ -5,5 +5,5 @@ module.exports=(token)=>{
     let decoded=decodeToken(token);
     let userId=decoded.id;
 
-    return User.finByPk(userId);
+    return User.findByPk(userId);
 }

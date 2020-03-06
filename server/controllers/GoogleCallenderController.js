@@ -138,11 +138,12 @@ class GoogleCallenderController{
         (async function(){
 
             try{
-                let todo=await Todo.findOne({
-                    where:{g_id:eventId},
-                    include:User
-                });
-                let calendar =await authenticate(todo.User);
+                // let todo=await Todo.findOne({
+                //     where:{g_id:eventId},
+                //     include:User
+                // });
+                let curr_user=await authUser(req.headers.token);
+                let calendar =await authenticate(curr_user);
                 await calendar.events.delete({
                     calendarId:process.env.CALENDAR_ID,
                     auth:authenticate.auth,
@@ -151,6 +152,7 @@ class GoogleCallenderController{
                 await Todo.destroy({where:{g_id:eventId}});
                 res.status(200).json({status:200,message:'Berhasil dihapus'});
             }catch(err){
+                console.log(err)
                 authenticate.errorHandler(err,res);
             }
 

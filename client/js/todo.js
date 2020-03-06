@@ -133,7 +133,7 @@
     }
 
     function fetchTodos(){
-        var url='/todos';
+        var url=SERVER+'/todos';
         $.get({
             url:url,
             headers:headers,
@@ -152,7 +152,7 @@
         return new Promise(function(resolve,reject){
             $.ajax({
                 type:'PUT',
-                url:url,
+                url:SERVER+url,
                 headers:headers,
                 data:JSON.stringify(sentData),
                 success:function(data){
@@ -175,7 +175,7 @@
         return new Promise(function(resolve,reject){
             $.ajax({
                 type:'PUT',
-                url:url,
+                url:SERVER+url,
                 headers:headers,
                 data:JSON.stringify(sentData),
                 success:function(data){
@@ -200,7 +200,7 @@
         return new Promise(function(resolve,reject){
             $.ajax({
                 type:'POST',
-                url:url,
+                url:SERVER+url,
                 headers:headers,
                 data:JSON.stringify(sentData),
                 success:function(data){
@@ -222,7 +222,7 @@
         return new Promise(function(resolve,reject){
             $.ajax({
                 type:'POST',
-                url:url,
+                url:SERVER+url,
                 headers:headers,
                 data:JSON.stringify(sentData),
                 success:function(data){
@@ -245,7 +245,7 @@
         return new Promise(function(resolve,reject){
             $.ajax({
                 type:'DELETE',
-                url:url,
+                url:SERVER+url,
                 headers:headers,
                 data:JSON.stringify(sentData),
                 success:function(data){
@@ -265,7 +265,7 @@
         return new Promise(function(resolve,reject){
             $.ajax({
                 type:'DELETE',
-                url:url,
+                url:SERVER+url,
                 headers:headers,
                 success:function(data){
                     resolve(data)

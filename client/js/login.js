@@ -78,7 +78,7 @@
     function register(sentData){
         $.ajax({
             type:'POST',
-            url:registerURL,
+            url:SERVER+registerURL,
             headers:headers,
             data:JSON.stringify(sentData),
             success:onRegisterSuccess
@@ -90,7 +90,7 @@
     function loginWithGoogle(sentData){
         $.ajax({
             type:'POST',
-            url:loginGoogleURL,
+            url:SERVER+loginGoogleURL,
             headers:headers,
             data:JSON.stringify(sentData),
             success:onRegisterSuccess
@@ -100,7 +100,7 @@
     function login(sentData){
         $.ajax({
             type:'POST',
-            url:loginURL,
+            url:SERVER+loginURL,
             headers:headers,
             data:JSON.stringify(sentData),
             success:onLoginSuccess

@@ -4,7 +4,7 @@ module.exports=(req,res,next)=>{
     let {token}=req.headers;
 
     if(token){
-        let secret=process.env.JWT_SECRET;
+        let secret=process.env.JWT_SECRET || 'hehehe' ;
 
         try{
             jwt.verify(token,secret);

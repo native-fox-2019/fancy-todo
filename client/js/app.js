@@ -1,5 +1,6 @@
 (function(){
     window.TOKEN=localStorage.getItem('access_token');
+    window.SERVER='http://localhost:3000';
     var todoURL='/partial/todos.html';
     var loginURL='/partial/login.html';
     var $app=$('#app');
