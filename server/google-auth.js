@@ -35,7 +35,7 @@ function authenticate(user){
  * @param {function} callback The callback to call with the authorized client.
  */
 function authorize(user,credentials, callback,recallback) {
-  const oAuth2Client=authenticate.getOAuth2(credentials);
+  const oAuth2Client=authenticate.getOAuth2(credentials,user.id);
 
   // Check if we have previously stored a token.
   // fs.readFile(TOKEN_PATH, (err, token) => {
@@ -74,10 +74,11 @@ function getAccessToken(oAuth2Client) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 
-authenticate.getOAuth2=function(credentials){
+authenticate.getOAuth2=function(credentials,userID){
   const {client_secret, client_id, redirect_uris} = credentials.installed;
+  const redirect_uri=redirect_uris[0]+'?userID='+userID;
   const oAuth2Client = new google.auth.OAuth2(
-      client_id, client_secret, redirect_uris[0]);
+      client_id, client_secret, redirect_uri);
   return oAuth2Client;
 }
 

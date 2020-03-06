@@ -46,9 +46,8 @@
         $btnAddTodo.attr('disabled','disabled');
        
         addTodos().then(function(data){
-            return addGoogleTodos(data.id)
-        }).then(function(){
             refreshTodos();
+            return addGoogleTodos(data.id)
         })
         .catch(onFail)
         .finally(function(){
@@ -60,9 +59,8 @@
         $(this).attr('disabled','disabled');
       
        updateTodos().then(function(data){
-           return updateGoogleTodos(data.data.g_id);
-       }).then(function(){
-           refreshTodos();
+            refreshTodos();
+            return updateGoogleTodos(data.data.g_id);
        })
        .catch(onFail)
        .finally(function(){
@@ -76,10 +74,8 @@
         
         deleteTodos()
         .then(function(data){
-            return deleteGoogleTodos(data.eventID)
-        })
-        .then(function(){
             refreshTodos();
+            return deleteGoogleTodos(data.eventID)
         })
         .catch(onFail)
         .finally(function(){

@@ -45,19 +45,24 @@ class GoogleCallenderController{
     static reAuth(req,res){
 
         let code=req.query.code;
+        let userID=req.query.userID;
         let credentials=fs.readFileSync('./credentials.json','utf-8');
-        const oAuth2Client=authenticate.getOAuth2(JSON.parse(credentials));
+        const oAuth2Client=authenticate.getOAuth2(JSON.parse(credentials),userID);
         (async function(){
             let flag=0;
             try{
                 oAuth2Client.getToken(code,(err,token)=>{
                     if(err){
-                        throw err;
+                        res.status(500).json(err);
                     }
                     oAuth2Client.setCredentials(token);
                     flag=1;
-                    fs.writeFile(authenticate.TOKEN_PATH,JSON.stringify(token,null,2),()=>{});
-                    res.status(201).send({status:201,message:'Token berhasil digenerate'});
+                    User.update({
+                        google_token:JSON.stringify(token)
+                        },{where:{id:userID}
+                    }).then(function(){});
+                    res.redirect('http://localhost:8080/')
+                    //fs.writeFile(authenticate.TOKEN_PATH,JSON.stringify(token,null,2),()=>{});
                 });
                
             }catch(err){
