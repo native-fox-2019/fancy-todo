@@ -19,7 +19,7 @@ class UserController {
             if(!result){
                 throw {
                     status_code: 404,
-                    message: 'email not found'
+                    message: 'You Are Not Registered Yet'
                 }
             }else{
                 userData = result
