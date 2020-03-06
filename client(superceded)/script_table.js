@@ -103,8 +103,10 @@ $("#form-create-todos").submit(function(event){
         success: function(result){
           console.log(result)
           $("#create-form").hide()
-          //$("#table-show").show()
+          $("#list-todos").remove()
+          $("#table-show").show()
           tableshow()
+          console.log("show table")
         }
     })
   })

@@ -4,7 +4,9 @@ const { Todo } = require('../models/index')
 class TodoControl {
 
     static show(req, res){
-        Todo.findAll()
+        Todo.findAll({
+            where: {userId: req.userdata.id}
+        })
         // .then(data=>res.status(200).json(data))
         .then(data=>res.status(200).json({"status": 200, "response": data}))
         .catch(e=>res.status(500).json({"status": 500, "response": e}))
