@@ -1,9 +1,10 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = (request, response, next) => {
     try {
-        let decoded = jwt.verify(request.headers.token, 'rahasia')
+        let decoded = jwt.verify(request.headers.token, process.env.JWT_KEY)
         User.findOne({
             where:{
                 email: decoded.email

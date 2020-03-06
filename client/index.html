@@ -52,7 +52,7 @@
                 <input type="password" id="login-password" placeholder="Password">
             </div>
             <div>
-                <button type="submit" id="login-btn">Sign In</button>
+                <button type="submit" id="login-btn" class="btn btn-primary">Sign In</button>
             </div>
         </form>
     </div>
@@ -70,17 +70,21 @@
                 <input type="password" id="register-password" placeholder="Password">
             </div>
             <div>
-                <button type="submit" id="register-btn">Sign Up</button>
+                <button type="submit" id="register-btn" class="btn btn-primary">Sign Up</button>
             </div>
         </form>
     </div>
 
     <div id="todo-box" class="box">
+        <div class="todo-box-user-container">
+            <h4 id="todo-box-user-name"></h4>
+            <p id="todo-box-user-email"></p>
+        </div>
         <h1>Todos!</h1>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
             Add Todo
         </button>
-        <table cellpadding="10px" align="center">
+        <table cellpadding="10px" align="center" border="1px">
             <thead>
                 <th>Task</th>
                 <th>Description</th>
@@ -154,6 +158,28 @@
         </div>
     </div>
 
+    <!-- ERROR HANDLER -->
+    <div id="errorHandler-box">
+        <div class="modal fade" id="errorHandlerModal" tabindex="-1" role="dialog" aria-labelledby="errorHandlerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="err-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -162,14 +188,23 @@
     $(document).ready( () => {
 
         if(localStorage.getItem('token')){
+            $('#login-render').hide()
+            $('#register-render').hide()
+            $('#logout-btn').show()
             showTodos()
             $('#todo-box').fadeIn()
         }else{
+            $('#login-render').show()
+            $('#register-render').show()
+            $('#logout-btn').hide()
             $('#login-box').show()
         }
 
         $('#logout-btn').on('click', (e) => {
             localStorage.removeItem('token')
+            $('#login-render').show()
+            $('#register-render').show()
+            $('#logout-btn').hide()
             e.preventDefault()
             $('.box').hide()
             $('#login-box').show()
@@ -235,8 +270,10 @@
                 $('#todo-box').show()
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }
@@ -280,8 +317,10 @@
                 $('#editTodoModal').modal('show')
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }
@@ -294,8 +333,15 @@
                 token: localStorage.getItem('token')
             },
             success: (data) => {
+                let html_append_user_name = `${data.user.name}`
+                let html_append_user_email = `${data.user.email}`
+                $('#todo-box-user-name').empty()
+                $('#todo-box-user-email').empty()
+                $('#todo-box-user-name').append(html_append_user_name)
+                $('#todo-box-user-email').append(html_append_user_email)
+
                 let html_append = ''
-                data.forEach(element => {
+                data.todos.forEach(element => {
                     html_append +=
                     `<tr>
                         <td>${element.title}</td>
@@ -306,12 +352,15 @@
                     </tr>`
                 })
                 $('#todo-tbody').empty()
+                $('#addTodo-form')[0].reset()
                 $('#todo-tbody').append(html_append)
                 $('#todo-box').show()
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }
@@ -335,14 +384,19 @@
             success: (data) => {
                 console.log(data.token)
                 localStorage.setItem('token', data.token)
+                $('#login-render').hide()
+                $('#register-render').hide()
+                $('#logout-btn').show()
                 $('.box').hide()
                 $('#login-form')[0].reset()
                 showTodos()
                 $('#todo-box').fadeIn()
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err.responseJSON)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }
@@ -364,8 +418,10 @@
                 $('#todo-box').fadeIn()
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err.responseJSON)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }
@@ -389,8 +445,10 @@
                 $('#todo-box').show()
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err.responseJSON)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }
@@ -408,8 +466,10 @@
                 $('#todo-box').show()
             },
             error: (err) => {
-                $('.box').hide()
-                console.log(err.responseJSON)
+                let err_msg = (Array.isArray(err.responseJSON))? err.responseJSON.message.join(' | '):err.responseJSON.message
+                $('#err-body').empty()
+                $('#err-body').append(err_msg)
+                $('#errorHandlerModal').modal('show')
             }
         })
     }

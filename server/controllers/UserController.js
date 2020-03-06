@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+require('dotenv').config()
 
 class UserController {
     static login(request, response, next){
@@ -9,7 +10,6 @@ class UserController {
             password: request.body.password
         }
         let userData
-        console.log(login_data)
         User.findOne({
             where: {
                 email: login_data.email
@@ -32,7 +32,7 @@ class UserController {
                     id: userData.id,
                     name: userData.name,
                     email: userData.email
-                }, 'rahasia')
+                }, process.env.JWT_KEY)
                 response.status(200).json({token})
             }else{
                 throw {
@@ -73,7 +73,7 @@ class UserController {
                 id: result.id,
                 name: result.name,
                 email: result.email
-            }, 'rahasia');
+            }, process.env.JWT_KEY);
             response.status(201).json({token})
         } )
         .catch( err => {

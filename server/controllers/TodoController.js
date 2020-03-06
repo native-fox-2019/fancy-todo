@@ -1,4 +1,4 @@
-const { Todo } = require('../models')
+const { Todo, User } = require('../models')
 const Op = require('sequelize').Sequelize.Op
 
 class TodoController {
@@ -32,14 +32,21 @@ class TodoController {
     }
 
     static read(request, response, next){
-        console.log('read')
-        Todo.findAll({
-            where:{
-                user_id: request.userData.id
-            }
-        })
+        let data_user
+        User.findByPk(request.userData.id)
         .then( result => {
-            response.status(200).json(result)
+            data_user = result
+            return Todo.findAll({
+                where:{
+                    user_id: request.userData.id
+                },
+                order: [
+                    ['due_date', 'ASC']
+                ]
+            })
+        } )
+        .then( result => {
+            response.status(200).json({user: data_user, todos: result})
         } )
         .catch( err => {
             next(err)
@@ -113,7 +120,6 @@ class TodoController {
             }
         } )
         .then( result => {
-            // console.log(result)
             response.status(200).json(todo_data)
         } )
         .catch( err => {
@@ -140,7 +146,6 @@ class TodoController {
             }
         } )
         .then( result => {
-            console.log(result)
             response.status(200).json(todo_data)
         } )
         .catch( err => {

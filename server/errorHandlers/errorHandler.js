@@ -4,7 +4,7 @@ module.exports = (err, request, response, next) => {
     }else{
         response.status(500).json({
             status_code: 500,
-            type: 'System Error',
+            message: 'System Error',
             err
         })
     }
