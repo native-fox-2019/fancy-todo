@@ -5,13 +5,13 @@ const $home = $("#home");
 const $list = $("#list-table");
 const $edit = $("#edit");
 
-
 if (localStorage.getItem("token")) {
   todo();
 } else {
   login();
 }
 
+// PAGE LOGIN
 function login() {
   $login.show();
   $register.hide();
@@ -19,6 +19,7 @@ function login() {
   $edit.hide();
 }
 
+// PAGE REGISTER
 function register() {
   $login.hide();
   $register.show();
@@ -26,6 +27,7 @@ function register() {
   $edit.hide();
 }
 
+// HOME PAGE SETELAH LOGIN
 function todo() {
   $login.hide();
   $register.hide();
@@ -46,7 +48,8 @@ function todo() {
       <td><span class="delete" style="color: orange;" onclick="editStatus(${element.id})" id="delete">${element.status}</span></td>
       <td>${element.due_date}</td>
       <td style="text-align: center;" >
-      <span  class="delete" style="color: orange;" onclick="todoEdit(${element.id})" id="delete">Edit</span> |
+      <span href="" class="delete" style="color: orange;" onclick="todoEdit(${element.id})" data-toggle="modal" data-target="#modalContactForm" id="delete">Edit</span>
+       |
       <span  class="delete" style="color: orange;" onclick="todoDelete(${element.id})" id="delete">Delete</span>
       </td>
     </tr>`);
@@ -55,6 +58,7 @@ function todo() {
   });
 }
 
+// EDIT STATUS
 function editStatus(id) {
   $.ajax({
     type: "GET",
@@ -84,6 +88,7 @@ function editStatus(id) {
   });
 }
 
+// DELETE TODO
 function todoDelete(id) {
   swal({
     title: "Are you sure want to delete?",
@@ -109,9 +114,8 @@ function todoDelete(id) {
   });
 }
 
+// FITUR EDIT TODO
 function todoEdit(id) {
-  $home.hide();
-  $edit.show();
   $.ajax({
     type: "GET",
     url: BASE_URL + "/" + id,
@@ -136,12 +140,15 @@ function todoEdit(id) {
           token: localStorage.getItem("token")
         }
       }).done(() => {
+        $("#edit-todo")[0].reset();
+        $("#modalContactForm").modal("toggle");
         todo();
       });
     });
   });
 }
 
+// FITUR HOME
 $("#sign-up").on("click", function(e) {
   e.preventDefault();
   register();
@@ -158,6 +165,7 @@ $("#cancel-edit").on("click", function(e) {
   todo();
 });
 
+// SIGN IN NORMAL
 $("#form-sign-in").on("submit", function(e) {
   e.preventDefault();
   let username = $("#username").val();
@@ -217,6 +225,7 @@ function signOut() {
   });
 }
 
+// REGISTER USER
 $("#form-register").on("submit", function(e) {
   e.preventDefault();
   let fullname = $("#fullname-register").val();
@@ -239,6 +248,8 @@ $("#form-register").on("submit", function(e) {
     }
   });
 });
+
+// ADD TODO
 
 $("#add-todo").on("click", function(e) {
   e.preventDefault();
