@@ -241,12 +241,19 @@ $("#form-register").on("submit", function(e) {
   $.ajax({
     type: "POST",
     url: "http://localhost:3000/user/register",
-    data: inputData,
-    success: function(response) {
+    data: inputData
+  })
+    .done(response => {
       login();
       $("#form-register")[0].reset();
-    }
-  });
+    })
+    .fail(err => {
+      swal({
+        title: "Invalid Input.",
+        text: "Please fill out all the form.",
+        icon: "error"
+      });
+    });
 });
 
 // ADD TODO
