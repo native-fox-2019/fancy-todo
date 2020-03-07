@@ -158,7 +158,6 @@ const showProjectTodos = id => {
                     })
                     
                     $todoAction.append($btnDelete)
-                    $todoAction.append($btnEdit)
                     $todoItem.append($todoAction)
                     $todoItem.prepend($btnCheck)
                     $projectTodoTbody.append($todoItem)
