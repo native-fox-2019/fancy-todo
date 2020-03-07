@@ -29,7 +29,7 @@
           <input type="password" class="form-control" id="passwordLogin">
         </div>
         <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <input type="checkbox" class="form-check-input" id="checkLogin">
           <label class="form-check-label checkbox " for="exampleCheck1">Show password</label>
         </div>
         <button type="submit" class="btn btn-light">Login</button>
@@ -53,10 +53,12 @@
           <label for="password1">Password</label>
           <input type="password" class="form-control" id="passwordRegister">
         </div>
-        <!-- <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label checkbox " for="exampleCheck1">Show password</label>
-      </div> -->
+
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="checkRegister">
+          <label class="form-check-label checkbox " for="exampleCheck1">Show password</label>
+        </div>
+
         <button type="submit" class="btn btn-light">Register</button>
         <button type="button" class="btn btn-light" id="toLogin">Login</button>
       </form>
@@ -154,6 +156,7 @@
 
 
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="path/to/hideShowPassword.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script src="./request.js"></script>
   <script src="./main.js"></script>

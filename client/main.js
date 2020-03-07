@@ -33,6 +33,24 @@ $(document).ready(function () {
     $('#login').show()
   })
 
+  $('#checkLogin').on('click', function () {
+    if ($(this).prop("checked") == true) {
+      $('#passwordLogin').attr('type', 'text')
+    }
+    else if ($(this).prop("checked") == false) {
+      $('#passwordLogin').attr('type', 'password')
+    }
+  })
+
+  $('#checkRegister').on('click', function () {
+    if ($(this).prop("checked") == true) {
+      $('#passwordRegister').attr('type', 'text')
+    }
+    else if ($(this).prop("checked") == false) {
+      $('#passwordRegister').attr('type', 'password')
+    }
+  })
+
   $("#actionTologin").on('submit', function (event) {
     event.preventDefault()
     let emailLogin = $('#emailLogin').val()
