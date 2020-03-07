@@ -211,7 +211,6 @@ const addProjectMember = (projectId, email) => {
 }
 
 const addProjectTodo = (id, todo) => {
-    console.log(id, todo)
     $.ajax({
         method: 'post',
         url: `http://localhost:3000/projects/${id}/todos`,
@@ -266,6 +265,7 @@ const editTodo = (id, todo) => {
 }
 
 const checkProjectTodo = (projectId, todoId, todo, status) => {
+    console.log(todo)
     $.ajax({
         method: 'put',
         url: `http://localhost:3000/projects/${projectId}/todos/${todoId}`,
@@ -282,7 +282,7 @@ const checkProjectTodo = (projectId, todoId, todo, status) => {
             console.log('todo edited')
             $allPage.hide()
             $btnSignout.show()
-            showProjectTodos(id)
+            showProjectTodos(projectId)
             $projectTodoContainer.show()
         }
     })
@@ -298,7 +298,7 @@ const deleteProjectTodo = (projectId, todoId) => {
         success: () => {
             $allPage.hide()
             $btnSignout.show()
-            showProjectTodos(id)
+            showProjectTodos(projectId)
             $projectTodoContainer.show()
         },
         error: (jqxhr, status, error) => {
