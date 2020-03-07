@@ -246,6 +246,7 @@ Status 500
 
 
 # DELETE /todos/:id
+### Delete Todos From Todo List
 ## Endpoint
 >localhost:3000/todos/:id
 ## Authentication:
