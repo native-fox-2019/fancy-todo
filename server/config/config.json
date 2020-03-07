@@ -5,5 +5,12 @@
     "database": "fancy-native",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "bhbvdxyasetdze",
+    "password": "4f91660782ae599c94180fc0e8a8fdceece927351f43657d256ded4d5f673580",
+    "database": "df91jd6sqrn84f",
+    "host": "ec2-3-230-106-126.compute-1.amazonaws.com",
+    "dialect": "postgres"
   }
 }
