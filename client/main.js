@@ -3,31 +3,54 @@ const url = 'http://localhost:3000'
 const userUrl = 'http://localhost:3000/user'
 const token = localStorage.getItem('token')
 
-function login() {
+/*function hemdle error*/
+function error(obj) {
+    let errStr = ``
+    if (obj.length === 1) {
+        errStr += `* ${obj[0]}`
+    } else {
+        obj.forEach(el => {
+            errStr += `* ${el} \n`
 
+        })
+    }
+
+    return errStr
+}
+
+function login() {
     $.ajax({
         url: `${userUrl}/login`,
         method: 'POST',
         data: {
-            username: $('#email-login').val(),
+            email: $('#email-login').val(),
             password: $('#password-login').val()
         }
     })
         .done(data => {
             localStorage.setItem('token', data.token)
-            $('#email-login').val(''),
-                $('#password-login').val('')
-            $('#login-page').hide()
-            $('#main-page').show()
+            getData()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Login succes!',
+                showConfirmButton: false,
+                timer: 1500
+            })
 
         })
         .fail(err => {
-            console.log(err)
-            // swal({
-            //     title: "S",
-            //     text: "Here's a custom image.",
-            //     imageUrl: 'thumbs-up.jpg'
-            //   });
+            $('#navbar').hide()
+            $('#main-page').hide()
+            $('#login-page').show()
+            $('#register-page').hide()
+            $('#edit-page').hide()
+            $('#footer').hide()
+            swal({
+                title: "Something Wrong",
+                text: error(err.responseJSON.message),
+                icon: "warning"
+            });
         })
 }
 
@@ -40,15 +63,51 @@ function register() {
             username: $('#username-register').val(),
             email: $('#email-register').val(),
             password: $('#password-register').val()
+
         }
     })
         .done(data => {
+            console.log($('#username-register'))
             $('#username-register').val(''),
                 $('#email-register').val(''),
                 $('#password-register').val('')
+            $('#navbar').hide()
+            $('#main-page').hide()
+            $('#login-page').show()
+            $('#register-page').hide()
+            $('#edit-page').hide()
+            $('#footer').hide()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `Login Success`,
+                showConfirmButton: false,
+                timer: 1500
+            })
         })
         .fail(err => {
-            console.log(err)
+            $('#username-register').val(''),
+                $('#email-register').val(''),
+                $('#password-register').val('')
+            $('#navbar').hide()
+            $('#main-page').hide()
+            $('#login-page').hide()
+            $('#register-page').show()
+            $('#edit-page').hide()
+            $('#footer').hide()
+            if (error(err.responseJSON.message) === '* Validation error') {
+                swal({
+                    title: "Something Wrong",
+                    text: 'username / email have used by other user. try onother one!',
+                    icon: "warning"
+                });
+            } else {
+                swal({
+                    title: "Something Wrong",
+                    text: error(err.responseJSON.message),
+                    icon: "warning"
+                });
+            }
         })
 }
 
@@ -64,9 +123,14 @@ function onSignIn(googleUser) {
     })
         .done(data => {
             localStorage.setItem('token', data.token)
-            $('#main-page').show()
-            $('#login-page').hide()
-
+            getData()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `Login Success`,
+                showConfirmButton: false,
+                timer: 1500
+            })
         })
         .fail(err => {
             console.log(err)
@@ -84,11 +148,19 @@ function getData() {
     })
         .done(data => {
             $('#data-Todos').empty()
+            $('#navbar').show()
+            $('#main-page').show()
+            $('#data-Todos').show()
+            $('#footer').show()
+            $('#login-page').hide()
+            $('#register-page').hide()
+            $('#edit-page').hide()
+
             if (data.length === 0) {
                 $('#data-Todos').append(`
            
                 <tr class="text-center" style="text-align:center;">
-                    <td colspan="6"> NO DATA </td>
+                    <td class="text-center" colspan="6"> NO DATA </td>
                 </tr>
           
             `)
@@ -99,7 +171,7 @@ function getData() {
                 <td class="text-left">${i + 1}</td>
                 <td class="text-left">${el.title}</td>
                 <td class="text-left">${el.description}</td>
-                <td class="text-left">${el.due_date}</td>
+                <td class="text-left">${el.due_date.slice(0, 10)}</td>
                 <td class="text-center">${el.status}</td>
                 <td class="text-center">
                 <a href="#" style="align-items: center;"><button
@@ -137,17 +209,29 @@ function addData() {
         }
     })
         .done(data => {
+            getData()
             $("#title").val(''),
                 $("#description").val(''),
                 $("#due_date").val('')
-            getData()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `Todo has added successfully`,
+                showConfirmButton: false,
+                timer: 1500
+            });
         })
         .fail(err => {
-            console.log(err)
+            swal({
+                title: "Something Wrong",
+                text: error(err.responseJSON.message),
+                icon: "warning"
+            });
         })
 }
 
 function findDataToEdit(id) {
+
     $.ajax({
         url: `${url}/todos/${id}`,
         method: 'GET',
@@ -156,29 +240,27 @@ function findDataToEdit(id) {
         }
     })
         .done(data => {
-
-            $('#edit-todo').empty()
-            $('#edit-todo').append(`
-            <div class="modal-header mt-3 ml-4 mr-4">
-            <h4 class="container text-center">EDIT TODO</h4>
-            </div>
-            <form class="ml-4 mr-4">
+            $('#main-page').hide()
+            $('#edit-page').show()
+            $('#form-edit').html(`
             <div class="form-group">
-                <label for="title">Title</label>
+                <label>Title</label>
                 <input type="title" class="form-control" id="title-edit" value="${data.title}">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Description</label>
+                <label >Description"</label>
                 <input type="description" class="form-control" id="description-edit" value="${data.description}">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Due Date</label>
-                <input type="date" class="form-control" id="due_date-edit" value="${data.due_date}">
+                <label>Due Date (YYYY-MM-DD)</label>
+                <input class="form-control" id="due_date-edit" value="${data.due_date.slice(0, 4)}-${data.due_date.slice(5, 7)}-${data.due_date.slice(8, 10)}">
             </div>
-            <div class="container text-right mb-3">
-                <button type="button" class="btn btn-primary" onClick="updateData(${data.id})">Edit List</button>
+            <div id="edit-footer">
+            <div class="container text-right">
+            <button type="button" class="btn btn-danger" onClick ="cancelEdit()">Cancel</button>
+            <button type="button" class="btn btn-primary" onClick="updateData(${data.id})">Edit</button>
             </div>
-        </form>
+            </div>
             `)
         })
         .fail(err => {
@@ -204,11 +286,26 @@ function updateData(id) {
             $("#title-edit").val(''),
                 $("#description-edit").val(''),
                 $("#due_date-edit").val('')
-
+            cancelEdit()
             getData()
         })
         .fail(err => {
             console.log(err)
+            if (error(err.responseJSON.message) === `* invalid input syntax for type timestamp with time zone: "Invalid date"`) {
+                swal({
+                    title: "Something Wrong",
+                    text: 'Invalid input : "Date", Make sure format YYYY/MM/DD',
+                    icon: "warning"
+                });
+            } else {
+                swal({
+                    title: "Something Wrong",
+                    text: error(err.responseJSON.message),
+                    icon: "warning"
+                });
+
+            }
+
         })
 }
 
@@ -224,6 +321,8 @@ function updateDataStatus(id) {
         }
     })
         .done(data => {
+            console.log(data)
+            $('#main-page').show()
             getData()
         })
         .fail(err => {
@@ -233,6 +332,7 @@ function updateDataStatus(id) {
 }
 
 function deleteData(id) {
+
     $.ajax({
         url: `${url}/todos/${id}`,
         method: 'DELETE',
@@ -241,9 +341,48 @@ function deleteData(id) {
         }
     })
         .done(data => {
-            getData()
+
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    getData()
+                    $('#main-page').show()
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+            })
+
         })
         .fail(err => {
+
             console.log(err)
         })
 }
@@ -253,14 +392,32 @@ function logout() {
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
+
     localStorage.removeItem('token')
     $('#username-login').val('')
     $('#password-login').val('')
     $('#login-page').show()
-    $('#username-register').val(''),
-        $('#email-register').val(''),
-        $('#password-register').val('')
+    $('#username-register').val('')
+    $('#email-register').val('')
+    $('#password-register').val('')
+    $('#login-page').show()
+    $('#register-page').hide()
+    $('#navbar').hide()
     $('#main-page').hide()
+    $('#edit-page').hide()
+    $('#footer').hide()
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: `Logout Success`,
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
+function cancelEdit() {
+    $('#edit-page').hide()
+    $('#main-page').show()
 
 }
 
@@ -271,16 +428,23 @@ $(document).ready(function () {
     if (!token) {
         $('#login-page').show()
         $('#register-page').hide()
+        $('#navbar').hide()
+        $('#main-page').hide()
+        $('#edit-page').hide()
+        $('#footer').hide()
     } else {
         getData()
+        $('#navbar').show()
         $('#main-page').show()
         $('#login-page').hide()
         $('#register-page').hide()
+        $('#edit-page').hide()
     }
 
     /* register */
     $('#register-anchor').click(function () {
         $('#login-page').hide()
+        $('#footer').hide()
         $('#register-page').show()
     })
 
@@ -288,13 +452,15 @@ $(document).ready(function () {
     $('#login-anchor').click(function () {
         $('#login-page').show()
         $('#register-page').hide()
+        $('#navbar').hide()
+        $('#main-page').hide()
+        $('#edit-page').hide()
+        $('#footer').hide()
     })
 
     /* button register */
     $("#register-page").on('submit', function (e) {
         e.preventDefault()
-        $('#login-page').show()
-        $('#register-page').hide()
         register()
     })
 
@@ -312,10 +478,10 @@ $(document).ready(function () {
         addData()
     })
 
-    $("#edit-todo").click(function (e) {
-        e.preventDefault()
-        $('#edit-todo').show()
-        $('#main-page').hide()
+    $("#cencel-edit").click(function () {
+        $('#navbar').show()
+        $('#show-edit').hide()
+        $('#main-page').show()
     })
 
     /*Modal form*/

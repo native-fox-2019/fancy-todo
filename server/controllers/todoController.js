@@ -7,6 +7,7 @@ class todoController {
         const { title, description, status, due_date, } = req.body
         Todo.create({ title, description, status: 'uncomplete', due_date, UserId })
             .then(data => {
+              
                 res.status(201).json(data)
             })
             .catch(err => {
@@ -47,6 +48,7 @@ class todoController {
         const { title, description, status, due_date } = req.body
         Todo.update({ title, description, status, due_date }, { where: { id, UserId }, returning: true })
             .then(data => {
+                console.log(data)
                 const error = {
                     msg: 'Data not found!',
                     status: 404
@@ -90,7 +92,7 @@ class todoController {
                     msg: 'Data not found!',
                     status: 404
                 }
-                if (data[0]) {
+                if (data[1]) {
                     res.status(200).json(data[0])
                 } else {
                     throw (error)

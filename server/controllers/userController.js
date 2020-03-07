@@ -33,7 +33,7 @@ class UserController {
             })
             .catch(err => {
                 const error = {
-                    msg: 'wrong email / password',
+                    msg: 'wrong email / password. please try again!!!',
                     status: 404
                 }
                 if (err) {

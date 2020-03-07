@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len: {
           args: 3,
-          msg: "username must be atleast 3 characters in length"
+          msg: "username must be at least 3 characters in length"
         }
       }
     },
@@ -38,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         isEmail: {
           args: true,
-          msg: 'Please enter a valid Email address'
+          msg: 'please enter a valid email address'
         },
         len: {
           args: [6, 128],
-          msg: "Email address must be between 6 and 128 characters in length"
+          msg: "email address must be between 6 and 128 characters in length"
         },
       }
     },
@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len: {
           args: 3,
-          msg: 'password must be atleast 3 characters in length'
+          msg: 'password must be at least 3 characters in length'
         }
       }
     }

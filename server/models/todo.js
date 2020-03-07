@@ -64,7 +64,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserId: DataTypes.INTEGER
 
-  }, { sequelize });
+  }, {
+    hooks: {
+      beforeCreate(todo, options) {
+        let date = todo.due_date.toISOString().slice(0,10)
+        todo.due_date = date
+      }
+    },
+    sequelize
+  });
   Todo.associate = function (models) {
     Todo.belongsTo(models.User)
   };

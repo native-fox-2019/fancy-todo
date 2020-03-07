@@ -227,6 +227,58 @@ Content-Type :  application/x-www-form-urlencoded
 
 <br></br>
 
+### 4. PATCH /todos/:id
+
+* Request Header :
+
+Content-Type :  application/x-www-form-urlencoded
+******
+
+* Request Body :
+        status : "complated"
+******
+
+* Success response with status (200) :
+        
+     Request req.params.id = 2
+
+        {
+            "id": 2,
+            "title": "Put for edit data",
+            "description": "the most difficult",
+            "status": "complated",
+            "due_date": "2020-02-29T17:00:00.000Z",
+            "createdAt": "2020-03-02T08:46:55.905Z",
+            "updatedAt": "2020-03-02T11:07:42.631Z"
+        }
+******
+
+* Validation Error response with status (400) :
+
+    if one of Request Body form is empty (description for sample) :
+******
+
+* Data Not Found Resposnse (404) :
+    
+    Request req.params.id = 6
+
+        {
+            "message": "Data not found!"
+        }
+
+******
+
+* Internal Server Error response with status (500) :
+
+    Typo in server sample :
+
+        {
+             "message": "Internal server error!"
+        }
+******
+
+<br></br>
+
 ### 5. DELETE /todos/:id
 
 * Success response with status (200) :

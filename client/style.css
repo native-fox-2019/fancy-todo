@@ -1,16 +1,12 @@
 
-
 @import url("https://fonts.googleapis.com/css?family=Poppins");
 
 /* BASIC */
 
-html {
-    background-color: #56baed;
-}
-
 body {
     font-family: "Poppins", sans-serif;
     height: 100vh;
+    background-color: white;
 }
 
 a {
@@ -38,7 +34,7 @@ h2 {
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    min-height: 100%;
+    max-height: 100%;
     padding: 20px;
 }
 
@@ -54,6 +50,7 @@ h2 {
     -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
     text-align: center;
+    top: 50px;
 }
 
 #formFooter {
@@ -171,15 +168,6 @@ input[type="text"]:placeholder {
 /* ANIMATIONS */
 
 /* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-    -webkit-animation-name: fadeInDown;
-    animation-name: fadeInDown;
-    -webkit-animation-duration: 0.7s;
-    animation-duration: 0.7s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
 @-webkit-keyframes fadeInDown {
     0% {
         opacity: 0;
@@ -308,85 +296,10 @@ input[type="text"]:placeholder {
     width: 20%;
 }
 
-* {
-    box-sizing: border-box;
-}
-
-
-
-
-
-table { 
-	width: 750px; 
-	border-collapse: collapse; 
-	margin:50px auto;
-	}
-
-/* Zebra striping */
-tr:nth-of-type(odd) { 
-	background: #eee; 
-	}
-
-th { 
-	background: #3498db; 
-	color: white; 
-	font-weight: bold; 
-	}
-
-td, th { 
-	padding: 10px; 
-	border: 1px solid #ccc; 
-	text-align: left; 
-	font-size: 18px;
-	}
-
-/* 
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
-*/
 @media 
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
-
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr { 
-		display: block; 
-	}
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	tr { border: 1px solid #ccc; }
-	
-	td { 
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;
-		padding-left: 50%; 
-	}
-
-	td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-		/* Label the data */
-		content: attr(data-column);
-
-		color: #000;
-		font-weight: bold;
-	}
 
 }
 
@@ -400,4 +313,55 @@ only screen and (max-width: 760px),
     -moz-box-shadow: 3px 3px 6px -3px rgba(0,0,0,0.75);
     box-shadow: 0px 2px 6px -3px rgba(0,0,0,0.75);
     box-sizing: border-box;
+}
+
+#edit-page {
+    border-radius: 15px;
+    background: #fff;
+    padding: 30px;
+    max-width: 500px;
+    position: relative;
+    padding: 45px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+    top: 60px;
+}
+
+#edit-footer {
+    display: flex;
+    justify-content: right;
+    padding: 15px;
+}
+
+#navbar {
+    /* margin-top: -15px; */
+    background-color: #c1d8e1 ;
+    height: 70px;
+    -webkit-box-shadow: 0px 10px 14px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 10px 14px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px 10px 14px -3px rgba(0,0,0,0.75);
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+li {
+    float: right;
+  }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #c1d8e1 ;
+    text-align: center;
+    -webkit-box-shadow: 0px -10px 14px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -10px 14px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px -10px 14px -3px rgba(0,0,0,0.75);
+  
 }

@@ -1,7 +1,7 @@
 
 const sendMail = (name, email) => {
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KeyWord);
     const msg = {
         to: 'gustimertaputra@gmail.com',
         from: 'gustimertaputra@gmail.com',
