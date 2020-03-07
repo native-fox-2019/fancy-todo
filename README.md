@@ -1,4 +1,8 @@
+# Todo App
+### by Darindra R
+
 # GET /todos
+### Get All Todo List
 ## Endpoint
 > localhost:3000/todos
 
@@ -7,10 +11,9 @@ Token (required)
 
 ## Request header: 
 ```
-Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
-## Response:
+## Success Response :
 Status 200
 ```
 [
@@ -25,16 +28,19 @@ Status 200
     }
 ]
 ```
+## Error Response :
 Status 401
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "invalid token"
 }
 ```
 Status 403
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "jwt must be provided"
 }
 ```
 Status 500
@@ -44,29 +50,32 @@ Status 500
 }
 ```
 # POST /todos
+### Create A Todo List
 ## Endpoint
 > localhost:3000/todos
+>
+
 
 ## Authentication:
 Token (required)
 
 ## Request header: 
 ```
-Content-Type: "application/json"
 token: YOUR_TOKEN 
 ```
 
 ## Request body:
 ```
 {
-    title: string,
-    description: string,
-    status: string,
-    due_date: string
+    title: String
+    description: String,
+    status: String,
+    due_date: String
 }
 ```
-**status** option is **incomplete** or **complete** 
-## Response
+#### All Request Body is **REQUIRED**
+#### **Status** option is **incomplete** or **complete** 
+## Success Response :
 Status 201
 ```
 {
@@ -76,25 +85,31 @@ Status 201
         "description": "Mempelajari Node JS",
         "status": "incomplete",
         "due_date": "29/04/2020"
-    }
+   }
 }
 ```
+## Error Response :
 Status 400
 ```
 [
-   error message
+   {
+      "message": "Input Cannot Be Empty",
+      "type": "Validation error",
+    }
 ]
 ```
 Status 401
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "invalid token"
 }
 ```
 Status 403
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "jwt must be provided"
 }
 ```
 Status 500
@@ -104,6 +119,7 @@ Status 500
 }
 ```
 # GET /todos/:id
+### Get Todos By ID
 ## Endpoint
 > localhost:3000/todos/:id
 
@@ -112,10 +128,9 @@ Token (required)
 
 ## Request header: 
 ```
-Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
-## Response:
+## Success Response :
 Status 200
 ```
 {
@@ -128,22 +143,25 @@ Status 200
     "updatedAt": "2020-03-07T04:33:46.640Z",
 }
 ```
+## Error Response :
 Status 401
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "invalid token"
 }
 ```
 Status 403
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "jwt must be provided"
 }
 ```
 Status 404
 ```
 {
-   msg: "Error Not Found"
+   msg: "Data Not Found"
 }
 ```
 Status 500
@@ -155,6 +173,7 @@ Status 500
 
 
 # PUT /todos/:id
+### Update Todos By ID
 ## Endpoint
 > localhost:3000/todos/:id
 
@@ -163,7 +182,6 @@ Token (required)
 
 ## Request header: 
 ```
-Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
 ## Request body:
@@ -175,7 +193,8 @@ token: YOUR_TOKEN
     due_date": string
 }
 ```
-## Response:
+#### All Request Body is **REQUIRED**
+## Success Response :
 Status 200
 ```
 {
@@ -188,28 +207,34 @@ Status 200
     }
 }
 ```
+## Error Response :
 Status 400
 ```
 [
-   error message
+   {
+      "message": "Input Cannot Be Empty",
+      "type": "Validation error",
+    }
 ]
 ```
 Status 401
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "invalid token"
 }
 ```
 Status 403
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "jwt must be provided"
 }
 ```
 Status 404
 ```
 {
-   msg: "Error Not Found"
+   msg: "Data Not Found"
 }
 ```
 Status 500
@@ -228,10 +253,9 @@ Token (required)
 
 ## Request header: 
 ```
-Content-Type: "application/json"
 token: YOUR_TOKEN
 ```
-## Response:
+## Succes Response :
 Status 200
 ```
 {
@@ -247,22 +271,25 @@ Status 200
     }
 }
 ```
+## Error Response :
 Status 401
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "invalid token"
 }
 ```
 Status 403
 ```
 {
-   error message
+    "name": "JsonWebTokenError",
+    "message": "jwt must be provided"
 }
 ```
 Status 404
 ```
 {
-   msg: "Error Not Found"
+   msg: "Data Not Found"
 }
 ```
 Status 500
@@ -274,13 +301,9 @@ Status 500
 
 
 # POST /users/register
+### Register User
 ## Endpoint
 > localhost:3000/user/register
-
-## Request header: 
-```
-Content-Type: "application/json"
-```
 
 ## Request body:
 ```
@@ -291,19 +314,23 @@ Content-Type: "application/json"
     password: string
 }
 ```
-All req.body is **required**
+All Request Body is **REQUIRED**
 
-## Response
+## Success Response :
 Status 201
 ```
 {
      "Message": "User Has Been Created."
 }
 ```
+## Error Response :
 Status 400
 ```
 [
-   error message
+   {
+      "message": "Input Cannot Be Empty",
+      "type": "Validation error",
+    }
 ]
 ```
 Status 500
@@ -315,14 +342,9 @@ Status 500
 
 
 # POST /users/login
+### Login User
 ## Endpoint
 > localhost:3000/users/login
-
-## Request header: 
-```
-Content-Type: "application/json"
-```
-
 ## Request body:
 ```
 {
@@ -330,9 +352,9 @@ Content-Type: "application/json"
     password: string
 }
 ```
-All req.body is **required**
+All Request Body is **REQUIRED**
 
-## Response
+## Success Response
 Status 200
 ```
 {
@@ -340,6 +362,7 @@ Status 200
    fullname: "YOUR NAME"
 }
 ```
+## Error Response
 Status 400
 ```
 {
