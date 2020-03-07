@@ -43,7 +43,7 @@ class userController{
             })
         })
         .catch(err=>{
-            next({status: 500, msg: 'Internal server error!'})
+            next(err)
         })
     }
 

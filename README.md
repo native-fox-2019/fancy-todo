@@ -1,62 +1,65 @@
 # fancy-todo
 
-### POST/todos
-
-Request Header :
-
+# third party
 ```bash
 {
-    "Content-Type" : "application/json"
+    Google Auth
 }
 ```
 
-Request Body : 
+# Server dependencies
+### Dependencies
+
+| Package | Version |
+| --- | --- |
+| "axios"               | "^0.19.2"|
+| "bcrypt"              | "^4.0.1" |
+| "cors"                | "^2.8.5" |
+| "dotenv"              | "^8.2.0" |
+| "express"             | "^4.17.1"|
+| "google-auth-library" | "^5.10.1"|
+| "jsonwebtoken"        | "^8.5.1" |
+| "pg"                  | "^7.18.2"|
+| "sequelize"           | "^5.21.5"| 
+
+# Default Port
 
 ```bash
-{
-    "title" : "Learning REST API",
-    "description" : "Learning REST API at Hacktiv8",
-    "status" : "uncompleted",
-    "due_date" : "2020-03-07T07:42:19.193Z"
-}
+SERVER : http://localhost:3000
+CLIENT : http://localhost:8080
 ```
 
-Response : 
-
+# Server Tools
 ```bash
-{
-    "id": 1,
-    "title": "Learning REST API",
-    "description": "Learning REST API at Hacktiv8",
-    "status": "uncompleted",
-    "due_date": "2020-03-07T07:42:19.193Z",
-    "createdAt": "2020-03-02T07:35:34.330Z",
-    "updatedAt": "2020-03-02T08:03:49.056Z"
-}
+Tools: NodeJS, Express, sequelize, postgresql
 ```
 
-Request Body (if property is empty) : 
-
+# .env example
 ```bash
-{
-    "title" : "",
-    "description" : "",
-    "status" : "uncompleted",
-    "due_date" : "2020-03-07T07:42:19.193Z"
-}
+port =
+DB_USERNAME =
+DB_PASSWORD =
+JWT_SECRET =
+CLIENT_ID =
 ```
+# User
+| URL | Method | Description |
+| --- | --- | --- |
+| /user/register        | POST | mendaftar user baru|
+| /user/login           | POST | login dan mendaptkan akses token |
+| /user/googleLogin     | POST | login dengan akun google |
 
-Response (error) : 
 
-```bash
-{
-    "title": {
-        "msg": "Please enter the title!"
-    },
-    "description": {
-        "msg": "Please enter the description!"
-    }
-}
-```
+# API
+| No | API Name | Description |
+| --- | --- | --- |
+| 1   | AirVisual         | mendaptkan data cuaca sesusai lokasi|
+| 2   | StormsConsultancy | generate quotes |
+
+# POST 
+
+### Full Documentation
+
+see full documentation here https://documenter.getpostman.com/view/10570933/SzRxUpUQ?version=latest
 
 

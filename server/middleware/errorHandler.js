@@ -4,7 +4,7 @@ function errorHandler(err,req,res,next){
             "msg" : "authentication fail, please check your email/password"
         })
     } else{
-        res.status(err.status).json({"msg" : err.msg})
+        res.status(err.status).json(err)
     }
     
 

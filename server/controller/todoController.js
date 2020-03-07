@@ -52,7 +52,7 @@ class TodoController{
             
         })
         .catch(err=>{
-            next({status: 501, msg: 'Internal server error!'})
+            next(err)
         })
     }
 

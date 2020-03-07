@@ -31,6 +31,18 @@
      $("#TodoList").show()
  })
 
+ $("#button-back-submit").on("click",function(){
+    $("#signUpForm").hide() 
+    $("#signInForm").hide() 
+    $("#main-page").show()
+})
+
+$("#button-backsignup-submit").on("click",function(){
+    $("#signUpForm").hide() 
+    $("#signInForm").hide() 
+    $("#main-page").show()
+})
+
  //================== PARAMETER AREA =================//
 
  let firstName = $("#firstName")
@@ -75,17 +87,20 @@
  function refresh(){
     var token = localStorage.getItem("token")
     if(token) {
+        $("#getWeather").empty()
+        $("#getQuotes").empty()
+        $("#signInForm").hide()
         $("#button-signIn").hide()
         $("#button-signUp").hide()
         $("#button-signOut").show()
         getTodo()
-        getQuotes();
+        getQuotes()
         getWeather()
+        
     } else{
         $("#main-page").show()
         $("#button-signIn").show()
         $("#button-signUp").show()
-        getQuotes()
     }
  }
 
@@ -118,12 +133,13 @@
              password : passwordLogin.val()
          }),
          success: function(data){
-             $("#signInForm").hide()
-             $("#button-signIn").hide()
-             $("#button-signUp").hide()
-             $("#button-signOut").show()
-             localStorage.setItem("token",data.token)   
-             getTodo();       
+            //  $("#signInForm").hide()
+            //  $("#button-signIn").hide()
+            //  $("#button-signUp").hide()
+            //  $("#button-signOut").show() 
+            //  getTodo();       
+             localStorage.setItem("token",data.token)  
+             refresh()
          },
          error: function(jqxhr,status,error){
              console.log("errr");
@@ -142,10 +158,10 @@
          success: function(response){
              $("#TodoTable").find('td').remove();
              response.forEach(element => {
-                 var content = '<tr><td>'+element.status+'</td><td>'+element.title+'</td><td>'+element.description+'</td><td>'+element.due_date+'</td><td><input type="submit" class="deletesubmit" id="button-Delete-submit" onclick="deleteTodo('+element.id+')" value="Delete"></td><td><input type="submit" class="editsubmit" id="button-Edit-submit" onclick="editTodo('+element.id+')" value="Edit"></td></tr>'
+                 var content = '<tr><td>'+element.status+'</td><td>'+element.title+'</td><td>'+element.description+'</td><td>'+element.due_date.substring(0,10)+'</td><td><input type="submit" class="deletesubmit" id="button-Delete-submit" onclick="deleteTodo('+element.id+')"  value="Delete"></td><td><input type="submit" class="editsubmit" id="button-Edit-submit" onclick="editTodo('+element.id+')" value="Edit"></td></tr>'
                  $('#TableContent').append(content);
              });
-
+             
          $("#TodoList").show()
          }
 
@@ -219,6 +235,7 @@
                                          </select><br>
                                          <br>
                                          <input type="submit" class="submit" id="button-edit-submit" value="Submit">
+                                         <input type="submit" class="submit" id="button-cancel-submit" value="Cancel"> 
                                      </form> `)
              $("#editTodo").show()
              $("#TodoList").hide()
@@ -253,7 +270,7 @@
          },
          error: function(jqxhr,status,error){
              console.log("errr");
-             $("#form-signIn").append(jqxhr.responseJSON)
+             $("#signInForm").append(`<p>wrong email/password!</p>`)
          }
 
      })
@@ -310,26 +327,25 @@
              token : id_token
          }),
          success : function(data){
-             console.log(data)
-             $("#signInForm").hide()
-             $("#button-signIn").hide()
-             $("#button-signUp").hide()
-             $("#button-signOut").show()
+            //  $("#signInForm").hide()
+            //  $("#button-signIn").hide()
+            //  $("#button-signUp").hide()
+            //  $("#button-signOut").show()
+            //  getTodo()
              localStorage.setItem("token",data.token)   
-             getTodo();      
+             refresh()
+                 
          },
          error: function(jqxhr,status,error){
              console.log("errr");
              $("#form-signIn").append(`jqxhr.responseJSON`)
          }
      })
-     console.log(id_token)
  }
 
  function signOut() {
      var auth2 = gapi.auth2.getAuthInstance();
      auth2.signOut().then(function () {
-     console.log('User signed out.');
      });
  }
 
