@@ -19,7 +19,7 @@ class LoginController {
             } else {
                 next({
                     status:404,
-                    msg:`cannot be found`
+                    msg:`Invalid username / password`
                 })
             }
         })

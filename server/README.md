@@ -1,5 +1,15 @@
 # fancy-todo
 
+
+===============================================================================================================
+
+FOR POSTMAN LINK DOCUMENTATION GO HERE: https://documenter.getpostman.com/view/10570983/SzKbKuTL?version=latest
+
+===============================================================================================================
+
+
+
+
 ROUTES:
 ------------------------------------------------------------------------------------------------------
 
@@ -173,12 +183,3 @@ LOGIN --> POST /login
 {
     token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvZGR5QGdtYWlsLmNvbSIsImlhdCI6MTU4MzI0MTMxNn0.L33hK-cM40vkq5FMIxCyp2SVOOdD9W5C3bfbPCevmrU
 }
-
-
-
-
-
-
-
-
-FOR POSTMAN LINK DOCUMENTATION GO HERE: https://documenter.getpostman.com/view/10570983/SzKbKuTL?version=latest

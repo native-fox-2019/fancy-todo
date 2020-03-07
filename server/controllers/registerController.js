@@ -1,4 +1,5 @@
 const { User } = require(`../models`)
+const sendGrid = require(`../helper/sendEmail`)
 
 class RegisterController {
     static register (req, res, next) {
@@ -8,7 +9,17 @@ class RegisterController {
             password: req.body.password
         }
 
-        User.create(newRegister)
+        User.findOne({where:{email:req.body.email}})
+        .then(data => {
+            if (data) {
+                next({
+                    status:400,
+                    msg:'Email already registered'
+                })
+            } else {
+                return User.create(newRegister)
+            }
+        })
         .then(data => {
             let show = { //data brought to user side
                 name: data.name,
