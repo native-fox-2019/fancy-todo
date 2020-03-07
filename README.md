@@ -29,6 +29,7 @@
 ### Example .env
 
 secret=cialobaobao
+
 SENDGRID_API_KEY='SG.yW5JelmwQYCo6Dg6znEtCQ ZVmHemhvg0dKz22wvkJ2I6Xt9MoY5bPB6F-2WpVmzQw'
 PORT=3000
 
