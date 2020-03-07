@@ -1,6 +1,5 @@
 const { Todo } = require('../models/index');
 const createError = require('../helpers/createError');
-const sendmail = require('../helpers/sendmail');
 
 class TodosController {
     static createTodos(req, res, next) {
@@ -13,7 +12,6 @@ class TodosController {
         }
         Todo.create(obj)
             .then(data => {
-                sendmail(req.userData.email, req.body.title);
                 res.status(201).json(data);
             }).catch(err => {
                 next(err);

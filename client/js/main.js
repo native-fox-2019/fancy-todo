@@ -9,7 +9,10 @@ $(document).ready(() => {
         event.preventDefault();
         setPage('register');
     });
-
+    $('#back-form-edit').on('click', (event) => {
+        event.preventDefault();
+        setPage('todos');
+    })
     $('#login-link').on('click', (event) => {
         event.preventDefault();
         setPage('login');

@@ -8,12 +8,13 @@ function authentication (req, res, next) {
         let decoded = verifyToken(token);
         req.userData = decoded;
         User.findOne({ where: { id: req.userData.id } })
-        .then(data => {
+        .then(data => { 
             if (!data) {
                 throw createError(404, 'Error Not Found');
             } else {
                 next();
             }
+            return null; 
         }).catch(err => {
             throw err;
         });

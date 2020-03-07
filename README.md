@@ -37,25 +37,29 @@ Status 201
 ```
 Status 400
 ```
-[
-   error message
-]
+{
+   status: 400,
+   msg: error message
+}
 ```
 Status 401
 ```
 {
-   error message
+   status: 401,
+   msg: error message
 }
 ```
 Status 403
 ```
 {
-   error message
+   status: 403,
+   msg: error message
 }
 ```
 Status 500
 ```
 {
+   status: 500,
    msg: "Internal Server Error"
 }
 ```
@@ -90,18 +94,21 @@ Status 200
 Status 401
 ```
 {
-   error message
+   status: 401,
+   msg: error message
 }
 ```
 Status 403
 ```
 {
-   error message
+   status: 403,
+   msg: error message
 }
 ```
 Status 500
 ```
-{
+{ 
+   status: 500,
    msg: "Internal Server Error"
 }
 ```
@@ -135,24 +142,28 @@ Status 200
 Status 401
 ```
 {
-   error message
+   status: 401,
+   msg: error message
 }
 ```
 Status 403
 ```
 {
-   error message
+   status: 403,
+   msg: error message
 }
 ```
 Status 404
 ```
 {
+   status: 404,
    msg: "Error Not Found"
 }
 ```
 Status 500
 ```
 {
+   status: 500,
    msg: "Internal Server Error"
 }
 ```
@@ -194,31 +205,36 @@ Status 200
 ```
 Status 400
 ```
-[
-   error message
-]
+{
+   status: 400,
+   msg: error message
+}
 ```
 Status 401
 ```
 {
-   error message
+   status: 401,
+   msg: error message
 }
 ```
 Status 403
 ```
 {
-   error message
+   status: 403,
+   msg: error message
 }
 ```
 Status 404
 ```
 {
+   status: 404,
    msg: "Error Not Found"
 }
 ```
 Status 500
 ```
 {
+   status: 500,
    msg: "Internal Server Error"
 }
 ```
@@ -251,24 +267,28 @@ Status 200
 Status 401
 ```
 {
-   error message
+   status: 401,
+   msg: error message
 }
 ```
 Status 403
 ```
 {
-   error message
+   status: 403,
+   msg: error message
 }
 ```
 Status 404
 ```
 {
+   status: 404,
    msg: "Error Not Found"
 }
 ```
 Status 500
 ```
 {
+   status: 500,
    msg: "Internal Server Error"
 }
 ```
@@ -307,13 +327,15 @@ Status 201
 ```
 Status 400
 ```
-[
-   error message
-]
+{
+   status: 400,
+   msg: error message
+}
 ```
 Status 500
 ```
 {
+   status: 500,
    msg: "Internal Server Error"
 }
 ```
@@ -346,12 +368,14 @@ Status 200
 ```
 Status 400
 ```
-[
-   error message
-]
+{
+   status: 400,
+   msg: error message
+}
 ```
 Status 500
 ```
 {
+   status: 500,
    msg: "Internal Server Error"
 }
