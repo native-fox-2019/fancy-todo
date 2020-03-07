@@ -1,3 +1,3 @@
-const createError = require(`http-error`)
+const createError = require(`http-errors`)
 
 module.exports = createError

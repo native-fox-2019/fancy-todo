@@ -1,15 +1,13 @@
 # fancy-todo
 
-bkin html(layouting):
-login
-register
-todo 
+=======
+GIT stash
 
-breakdown todo page:
-
-get token then set token 
-
-show the todos 
-
-else
-show login again
+pindah ke branch development
+git pull origin development
+pindah ke branch kita
+git rebase development
+git add per file
+git rebase --continue
+git push origin branch kita
+git stash apply
