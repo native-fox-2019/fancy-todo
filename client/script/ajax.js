@@ -1,3 +1,59 @@
+
+function showLogin() {
+    $("#add-page").hide(300)
+    $("#register-page").hide(300)
+    $("#main-page").hide(300)
+    $("#edit-page").hide(300)
+    $("#edit-profile-page").hide(300)
+    $("#login-page").show(300)
+}
+
+function showRegister() {
+    $("#add-page").hide(300)
+    $("#main-page").hide(300)
+    $("#edit-page").hide(300)
+    $("#login-page").hide(300)
+    $("#edit-profile-page").hide(300)
+    $("#register-page").show(300)
+}
+
+function showEdit() {
+    $("#add-page").hide(300)
+    $("#register-page").hide(300)
+    $("#main-page").hide(300)
+    $("#login-page").hide(300)
+    $("#edit-page").show(300)
+    $("#edit-profile-page").hide(300)
+}
+
+function showAdd() {
+    $("#add-page").show(300)
+    $("#register-page").hide(300)
+    $("#main-page").hide(300)
+    $("#edit-page").hide(300)
+    $("#login-page").hide(300)
+    $("#edit-profile-page").hide(300)
+}
+
+function showMain() {
+    $("#add-page").hide(300)
+    $("#register-page").hide(300)
+    $("#main-page").show(300)
+    $("#edit-page").hide(300)
+    $("#login-page").hide(300)
+    $("#edit-profile-page").hide(300)
+    getData()
+}
+
+function showEditProfile() {
+    $("#add-page").hide(300)
+    $("#register-page").hide(300)
+    $("#main-page").hide(300)
+    $("#edit-page").hide(300)
+    $("#login-page").hide(300)
+    $("#edit-profile-page").show(300)
+}
+
 function register() {
     event.preventDefault()
     $.ajax({
@@ -40,10 +96,10 @@ function showEditProfile(){
             'token': localStorage.getItem('token')
         },
         success: (data) => {
-            $('#profile-name').val(data.name)
-            $('#profile-email').val(data.email)
-            $('#profile-password').val(data.password)
-            showEdit()
+            showEditProfile()
+            $('#name-profile').val(data.name)
+            $('#email-profile').val(data.email)
+            $('#password-profile').val(data.password)
         },
         error: (err) => console.log(err)
     })

@@ -139,107 +139,107 @@
                 </div>
             </div>
         </div>
-
-        <div id="edit-page">
-            <div class="container d-flex justify-content-center" id="form-edit">
-                <form id="edit-todos">
-                    <input type="hidden" id="rahasia">
-                    <div>
-                        <label for="title">title</label>
-                        <input type="text" name="title" id="edit-title">
-                    </div>
-                    <div>
-                        <label for="description">description</label>
-                        <input type="text" name="description" id="edit-description">
-                    </div>
-                    <div>
-                        <label for="status">status</label>
-                        <select name="status" id="edit-status">
-                            <option value="done">done</option>
-                            <option value="on progress">on progress</option>
-                            <option value="not yet">not yet</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="due_date">due_date</label>
-                        <input type="date" name="due_date" id="edit-due_date">
-                    </div>
-                    <div>
-                        <button type="submit" onsubmit="updateData($('#rahasia').val())">Edit</button>
-                    </div>
-                </form>
-            </div>
+    </div>
+    <div id="edit-page">
+        <div class="container d-flex justify-content-center" id="form-edit">
+            <form id="edit-todos">
+                <input type="hidden" id="rahasia">
+                <div>
+                    <label for="title">title</label>
+                    <input type="text" name="title" id="edit-title">
+                </div>
+                <div>
+                    <label for="description">description</label>
+                    <input type="text" name="description" id="edit-description">
+                </div>
+                <div>
+                    <label for="status">status</label>
+                    <select name="status" id="edit-status">
+                        <option value="done">done</option>
+                        <option value="on progress">on progress</option>
+                        <option value="not yet">not yet</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="due_date">due_date</label>
+                    <input type="date" name="due_date" id="edit-due_date">
+                </div>
+                <div>
+                    <button type="submit" onsubmit="updateData($('#rahasia').val())">Edit</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="AddFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add To Do</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <div id="form-add" class="container d-flex justify-content-center">
-                                <form id="add">
-                                    <div>
-                                        <label for="title">title</label>
-                                    </div>
-                                    <div>
-                                        <input type="text" name="title" id="add-title">
-                                    </div>
-                                    <div>
-                                        <label for="description">description</label>
-                                    </div>
-                                    <div>
-                                        <input type="text" name="description" id="add-description">
-                                    </div>
-                                    <div>
-                                        <label for="status">status</label>
-                                    </div>
-                                    <div>
-                                        <select name="status" id="add-status">
-                                            <option value="done">done</option>
-                                            <option value="on progress">on progress</option>
-                                            <option value="not yet">not yet</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="due_date">due_date</label>
-                                    </div>
-                                    <div>
-                                        <input type="date" name="due_date" id="add-due_date">
-                                    </div>
-                                    <div>
-                                        <button id="add-button" type="submit" onclick="addData()"
-                                            class="btn btn-primary">Add</button>
-                                    </div>
-                                </form>
-                            </div>
+    <div class="modal fade" id="AddFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add To Do</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div id="form-add" class="container d-flex justify-content-center">
+                            <form id="add">
+                                <div>
+                                    <label for="title">title</label>
+                                </div>
+                                <div>
+                                    <input type="text" name="title" id="add-title">
+                                </div>
+                                <div>
+                                    <label for="description">description</label>
+                                </div>
+                                <div>
+                                    <input type="text" name="description" id="add-description">
+                                </div>
+                                <div>
+                                    <label for="status">status</label>
+                                </div>
+                                <div>
+                                    <select name="status" id="add-status">
+                                        <option value="done">done</option>
+                                        <option value="on progress">on progress</option>
+                                        <option value="not yet">not yet</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="due_date">due_date</label>
+                                </div>
+                                <div>
+                                    <input type="date" name="due_date" id="add-due_date">
+                                </div>
+                                <div>
+                                    <button id="add-button" type="submit" onclick="addData()"
+                                        class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-        <script src="script/google.js"></script>
-        <script src="script/script.js"></script>
-        <script src="script/ajax.js"></script>
-        <script src="script/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="script/google.js"></script>
+    <script src="script/script.js"></script>
+    <script src="script/ajax.js"></script>
+    <script src="script/jquery.js"></script>
 </body>
 
 </html>
