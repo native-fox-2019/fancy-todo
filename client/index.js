@@ -101,6 +101,7 @@ $('#button-login').on('submit', function(event) {
 })
 
 function calendarific(){
+    $('#calendarific').empty()
     $.ajax({
         method: 'GET',
         url: 'http://localhost:3000/calendar',
@@ -130,7 +131,7 @@ function onSignIn(googleUser) {
         },
         success : (token)=>{
             localStorage.setItem('token', token)
-            todo()
+            startTrue()
         },
         error : (err)=>{
             console.log(err)
@@ -166,16 +167,6 @@ function showTodo(){
     })
 }
 
-function todo() {
-    startTrue()
-    if (localStorage.getItem('token')) {
-        showTodo()
-        calendarific()
-    } else {
-        signOut()
-    }
-}
-
 $('#add-form').on('click', function() {
     $('#register-form').hide()
     $('#login-form').hide()
@@ -207,7 +198,7 @@ $('#add-button').on('submit', function(event) {
             },
             success: (data) => {
                 $('#add-button')[0].reset()
-                todo()
+                startTrue()
             },
             error: (err) => {
                 console.log(err)
@@ -227,7 +218,7 @@ function deleteTodo(id) {
                 token: `${localStorage.getItem('token')}`
             },
             success: () => {
-                todo()
+                startTrue()
             },
             error: (err) => {
                 console.log(err)
@@ -299,7 +290,7 @@ $('#edit-button').on('submit', function(event) {
                 token: `${localStorage.getItem('token')}`
             },
             success: () => {
-                todo()
+                startTrue()
             },
             error: (err) => {
                 console.log(err)
