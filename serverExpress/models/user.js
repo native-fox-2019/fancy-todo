@@ -2,6 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   
   const bcrypt = require('bcrypt')
+  const checkEmail = require('../helpers/checkEmail')
+
   const Sequelize = sequelize.Sequelize;
   const Model = Sequelize.Model;
 

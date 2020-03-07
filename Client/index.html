@@ -119,16 +119,20 @@
                 },
                 error: (jqxhr, status, error) => {
                     $("#submit-register p").remove()
-                    let errors = jqxhr.responseJSON.error
-                    let text = 'Please input your '
-                    for(i = 0; i < errors.length; i++){
-                        if(i === errors.length-1){
-                            text += `and ${errors[i].path}.`
-                        }else{
-                            text += `${errors[i].path}, `
+                    let errors = jqxhr.responseJSON
+                    if(!errors.msg){
+                        let text = 'Please input your '
+                        for(i = 0; i < errors.error.length; i++){
+                            if(i === errors.error.length-1){
+                                text += `and ${errors.error[i].path}.`
+                            }else{
+                                text += `${errors.error[i].path}, `
+                            }
                         }
+                        $("#submit-register").append(`<p style="color: red; font-size: 14px">${text}</p>`)
+                    }else{
+                        $("#submit-register").append(`<p style="color: red; font-size: 14px">${errors.msg}</p>`)
                     }
-                    $("#submit-register").append(`<p style="color: red; font-size: 14px">${text}</p>`)
                 }
             })
         }
@@ -152,6 +156,7 @@
             })
         }
         function getTodos(){
+            $(".todos .container").remove()
             $.ajax({
                 url: "http://localhost:3002/todos",
                 method: "get",
@@ -184,6 +189,8 @@
             })
         }
         function addTodo(title, description, due_date){
+            console.log('triggxerred')
+
             $.ajax({
                 url: "http://localhost:3002/todos",
                 method: "post",
@@ -198,10 +205,6 @@
                     $("#submit-add-todo")[0].reset()
                     $("#add-todo").hide(300)
                     start()
-                    // $todos.hide(300)
-                    // $(".todos .container").remove()
-                    // getTodos()
-                    // $todos.show(450)
                 },
                 error: (jqxhr, status, error) => {
                     console.log(jqxhr.responseJSON)
@@ -224,7 +227,6 @@
                         headers: {token: localStorage.token},
                         success: (data) => {
                             $todos.hide(300)
-                            $(".todos .container").remove()
                             getTodos()
                             $todos.show(450)
                         },
@@ -302,7 +304,6 @@
                     $editTodo.hide(300)
                     $("#edit-todo h3, #edit-todo form").remove()
                     $todos.hide(300)
-                    $(".todos .container").remove()
                     getTodos()
                     $todos.show(450)
                 },
@@ -332,8 +333,16 @@
                 console.log('User signed out.');
             });
         }
+
+        $("#submit-add-todo").on("submit", function(event){
+                event.preventDefault();
+                let $title = $("#add-todo-title");
+                let $description = $("#add-todo-description");
+                let $due_date = $("#add-todo-due_date")
+                addTodo($title.val(), $description.val(), $due_date.val())
+            }) 
+
         function start(){
-            $(".todos .container").remove()
             getTodos()
             $(".todos").show(450)
             $("#button-add-todo").show()
@@ -350,13 +359,7 @@
                 $addTodo.show(450)
                 $editTodo.hide(300)
             })
-            $("#submit-add-todo").on("submit", function(event){
-                event.preventDefault();
-                let $title = $("#add-todo-title");
-                let $description = $("#add-todo-description");
-                let $due_date = $("#add-todo-due_date")
-                addTodo($title.val(), $description.val(), $due_date.val())
-            })
+            
             $("#button-cancel-add").on("click", function(){
                 $addTodo.hide(300)
             })

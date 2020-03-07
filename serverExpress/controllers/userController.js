@@ -2,12 +2,31 @@ const { User } = require('../models')
 const makeToken = require('../helpers/makeToken')
 const comparePassword = require('../helpers/comparePassword')
 const {OAuth2Client} = require('google-auth-library');
+const checkEmail = require('../helpers/checkEmail')
 
 class UserController {
     static register(req, res, next) {
         let { first_name, last_name, email, password } = req.body;
-        User.create({
-            first_name, last_name, email, password
+        checkEmail(email)
+        .then(response => {
+            if(!response.data.format_valid){
+                throw ({status: 400, msg: 'Invalid format'})
+            }else if(response.data.did_you_mean){
+                throw ({status: 400, msg: `Do you mean your email is ${response.data.did_you_mean}?`})
+            }else if(!response.data.smtp_check){
+                throw ({status: 400, msg: 'Email not Found'})
+            }else{
+                return User.findOne({where: {email}})
+            }
+        })
+        .then((data) => {
+            if(data){
+                throw ({status: 400, msg:'Email has been used'})
+            }else{
+                return User.create({
+                    first_name, last_name, email, password
+                })
+            }
         })
         .then(result => {
             res.status(201).json(result)
@@ -23,9 +42,8 @@ class UserController {
                     })
                 })
                 next({status: 400, error})
-                res.status(400).json(error)
             }else{
-                res.tatus(500)
+                next(err)
             }
         })
     }
