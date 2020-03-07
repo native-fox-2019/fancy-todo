@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="google-signin-client_id"
+        content="243042074427-qtub7stg80td5iacgnmfpg42mdsj38hp.apps.googleusercontent.com">
     <style>
         body{
             text-align: center;
         }
         .box {
             display: none;
+            margin-top: 30px;
         }
         #editTodoId {
             display: none;
+        }
+        .g-signin2{
+            margin-left: 45%;
         }
     </style>
     <title>Todo App</title>
@@ -36,7 +42,10 @@
                         <button id="register-render" class="btn-primary btn-sm">Register</button>
                     </li>
                     <li class="nav-item">
-                        <button id="logout-btn" class="btn-danger btn-sm">Logout</button>
+                        <button id="logout-btn" class="btn-danger btn-sm" onclick="signOut()">Logout</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="todo-btn" class="btn-success btn-sm">See Todos</button>
                     </li>
                     <li class="nav-item">
                         <button id="holiday-btn" class="btn-success btn-sm">See Holidays</button>
@@ -58,6 +67,8 @@
                 <button type="submit" id="login-btn" class="btn btn-primary">Sign In</button>
             </div>
         </form>
+        <p>--- or ---</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </div>
 
     <div id="register-box" class="box">
@@ -104,7 +115,7 @@
         <table cellpadding="10px" align="center" border="1px">
             <thead>
                 <th>Name</th>
-                <th>Description</th>
+                <th style="max-width: 200px;">Description</th>
                 <th>Date</th>
             </thead>
             <tbody id="holiday-tbody"></tbody>
@@ -196,6 +207,7 @@
     </div>
 
 </body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -206,12 +218,14 @@
             $('#login-render').hide()
             $('#register-render').hide()
             $('#logout-btn').show()
+            $('#todo-btn').show()
             showTodos()
             $('#todo-box').fadeIn()
         }else{
             $('#login-render').show()
             $('#register-render').show()
             $('#logout-btn').hide()
+            $('#todo-btn').hide()
             $('#login-box').show()
         }
 
@@ -220,6 +234,7 @@
             $('#login-render').show()
             $('#register-render').show()
             $('#logout-btn').hide()
+            $('#todo-btn').hide()
             e.preventDefault()
             $('.box').hide()
             $('#login-box').show()
@@ -270,7 +285,39 @@
             e.preventDefault()
             editTodo( $('#etTitle').val(), $('#etDescription').val(), $('#etDue_date').val(), $('#etStatus').val(), $('#etId').val() )
         })
+
+        $('#todo-btn').on('click', (e) => {
+            e.preventDefault()
+            showTodos()
+            $('.box').hide()
+            $('#todo-box').show()
+        })
     })
+
+    function onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token
+        $.ajax({
+            method: "post",
+            url: "Http://localhost:3000/users/googleLogin",
+            data: {
+                token: id_token
+            },
+            success: (data) => {
+                localStorage.setItem('token', data.token)
+                $('#login-render').hide()
+                $('#register-render').hide()
+                $('#logout-btn').show()
+                $('#todo-btn').show()
+                $('.box').hide()
+                $('#login-form')[0].reset()
+                showTodos()
+                $('#todo-box').fadeIn()
+            },
+            error: (jqXHR, error, thrownErr) => {
+                console.log(jqXHR.status, jqXHR.statusMessage, 'error')
+            }
+        });
+    }
 
     function showHolidays(){
         $.ajax({
@@ -281,8 +328,8 @@
                 result.forEach(element => {
                     html_append += 
                     `<tr>
-                        <td>${element.name}</td>
-                        <td>${element.description}</td>
+                        <td style="max-width: 200px;">${element.name}</td>
+                        <td style="max-width: 400px;">${element.description}</td>
                         <td>${getDateFormat(new Date(element.date))}</td>
                     </tr>`
                 });
@@ -436,6 +483,7 @@
                 $('#login-render').hide()
                 $('#register-render').hide()
                 $('#logout-btn').show()
+                $('#todo-btn').show()
                 $('.box').hide()
                 $('#login-form')[0].reset()
                 showTodos()
@@ -525,5 +573,13 @@
             }
         })
     }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
+
 </script>
 </html>
