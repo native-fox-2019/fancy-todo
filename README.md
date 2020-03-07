@@ -2,6 +2,11 @@
 
 Fancy To-Do Sangle Page App With Express, Postgres, Sequelize, and jQuery
 ___________
+## 3rd Party API
+1. Geo js : used to get the user's IP address and country code the country the user is located in
+2. Calendarific : used to get a list of holidays per year in the country where the user is located
+3. GoQR.me : used to display the qr code of each todo and display a description of the todo
+___________
 
 ## REST API Documentation
 
