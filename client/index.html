@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Todos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap&subset=latin-ext" rel="stylesheet">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="134915435588-5qke74m4j5s24kbrksevrhpc1pq3ulsg.apps.googleusercontent.com">
+
+</head>
+<body>
+    <div class="row nav">
+            <li id="button-signUp" style="display: none;">Sign Up</li>
+            <li id="button-signIn">Sign In</li>
+            <a href="#" onclick="signOut();"><li id="button-signOut" style="display: none;">Sign out</li></a>
+    </div>
+
+    <div class="main-page" id="main-page" style="display:none">
+    <h1>Welcome To Fancy Todos</h1>
+    <h2>Get Your Life More Organized Here!</h2>
+
+    <div class="waveWrapper waveAnimation">
+        <div class="waveWrapperInner bgTop">
+          <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgMiddle">
+          <div class="wave waveMiddle" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-mid.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgBottom">
+          <div class="wave waveBottom" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-bot.png')"></div>
+        </div>
+    </div>
+
+    </div>
+
+
+    <div class = "signInForm" id ="signInForm" style="display: none;">
+    <form id="form-signIn" action="" method="POST">
+        <h3> Sign In </h3>
+        <label for="fname">Email:</label><br>
+        <input type="text" id="emailLogin" name="emailLogin" value="" required><br>
+        <label for="lname">Password:</label><br>
+        <input type="password" id="passwordLogin" name="passwordLogin" value="" required><br><br>
+        <input type="submit" class="submit" id="button-signin-submit" value="Submit">
+        <input type="submit" class="submit" id="button-back-submit" value="Back"> 
+      </form> 
+      <br>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <br>
+    </div>
+
+    <div  id = "signUpForm" style="display: none;">
+        <h3> Sign Up </h3>
+        <form id="form-signUp" action="" method="POST">
+            <label for="fname">First Name:</label><br>
+            <input type="text" id="firstName" name="firstName" value=""><br>
+            <label for="fname">Last Name:</label><br>
+            <input type="text" id="lastName" name="lastName" value=""><br>
+            <label for="fname">Email:</label><br>
+            <input type="text" id="email" name="email" value=""><br>
+            <label for="lname">Password:</label><br>
+            <input type="password" id="password" name="password" value=""><br><br>
+            <input type="submit" class="submit" id="button-signup-submit" value="Submit">
+        </form> 
+        <br>
+        <input type="submit" class="submit" id="button-backsignup-submit" value="Back"> 
+    </div>
+
+
+    <div id = "TodoList" style="display: none;">
+        <h1>Fancy Todo</h1>
+        <br>
+        <div class="getWeather"  id="getWeather" style="display: none;">
+        
+        </div>
+        <table class="table" id="TodoTable">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="TableContent">
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <input type="submit" class="submit" id="button-addtodo-submit" value="Add Todos">
+
+        <div id = "getQuotes" style="display: none;"></div>
+    </div>
+
+    <div id = "addTodo" style="display: none;">
+        <h3> Add Todos </h3>
+        <form id="form-addTodo" action="" method="POST">
+            <label for="fname">Title:</label><br>
+            <input type="text" id="title" name="title" value="" required><br>
+            <label for="fname">Description:</label><br>
+            <input type="text" id="description" name="description" value="" required><br>
+            <label for="fname">Due Date:</label><br>
+            <input type="date" id="duedate" name="duedate" value="" required><br>
+            <br>
+            <input type="submit" class="submit" id="button-add-submit" value="Submit">
+            <input type="submit" class="submit" id="button-cancel-submit" value="Cancel"> 
+        </form>
+        <br>
+        
+    </div>
+
+    <div id = "editTodo" style="display: none;">
+
+    </div>
+
+
+
+
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="script.js"></script>
+    <script type="text/javascript" src="https://www.airvisual.com/scripts/widget_v2.0.js"></script>
+    
+    
+</body>
+</html>
