@@ -1,6 +1,6 @@
 module.exports = (err, req, res, next) => {
     var status_code = 500
-    var status_message = `Internal Server Error`
+    var status_message = [`Internal Server Error`]
 
     switch (err.name) {
         case `SequelizeValidationError`:

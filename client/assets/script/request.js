@@ -30,7 +30,7 @@ function loginSubmit(data) {
 }
 
 // Todo
-function getTodo(token){
+function getTodo(token) {
     $.ajax({
         url: `http://localhost:3000/todos`,
         type: `GET`,
@@ -46,7 +46,7 @@ function getTodo(token){
         })
 }
 
-function addTodo(data, token){
+function addTodo(data, token) {
     $.ajax({
         url: `http://localhost:3000/todos`,
         type: `POST`,
@@ -88,4 +88,29 @@ function deleteTodo(id, token) {
             token
         }
     })
+        .done(data => {
+            getTodo(token)
+        })
+        .fail(err => {
+            fail(err.responseJSON)
+        })
+}
+
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3000/users/googleSignIn",
+        data: {
+            id_token
+        }
+    })
+        .done(data => {
+            localStorage.setItem(`Token`, data.token)
+            show(`list`)
+        })
+        .fail(err => {
+            fail(err.responseJSON)
+        })
 }

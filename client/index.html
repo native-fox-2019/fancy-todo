@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="816656371110-eah09dv6b3fc2tevee62or9v0aavq59i.apps.googleusercontent.com">
 
     <title>Fancy Todolist</title>
 
@@ -30,7 +31,6 @@
         <div class="errMsg"></div>
 
         <h1>Login</h1>
-
         <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -41,6 +41,7 @@
                 <input type="password" class="form-control" id="login-password" name="pass">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="g-signin2 btn" data-onsuccess="onSignIn"></div>
             <button class="btn btn-primary float-right" id="btn-register">Register</button>
         </form>
     </div>
@@ -60,6 +61,7 @@
                 <input type="password" class="form-control" id="reg-password">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="g-signin2 btn" data-onsuccess="onSignIn"></div>
             <button class="btn btn-primary float-right" id="btn-login">Login instead</button>
         </form>
     </div>
@@ -155,15 +157,18 @@
     </div>
 
 
-
+    <!-- google sign in -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-
+    <!-- custom scripts -->
     <script src="assets/script/var-declare.js"></script>
     <script src="assets/script/view.js"></script>
     <script src="assets/script/request.js"></script>

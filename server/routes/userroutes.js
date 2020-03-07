@@ -7,4 +7,6 @@ router.post(`/register`, user.create)
 
 router.post(`/login`, user.login)
 
+router.post(`/googleSignIn`, user.googleSignin)
+
 module.exports = router

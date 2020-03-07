@@ -1,7 +1,7 @@
 $(document).ready(() => {
-    
+
     // checks whether user has logged in
-    if(localStorage.getItem(`Token`)) {
+    if (localStorage.getItem(`Token`)) {
         show(`list`)
     } else {
         show(`login`)
@@ -19,6 +19,10 @@ $(document).ready(() => {
 
     $btnLogout.on(`click`, (event) => {
         localStorage.removeItem(`Token`)
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.')
+        })
         show(`login`)
     })
 
@@ -41,7 +45,7 @@ $(document).ready(() => {
             email: login.$email.val(),
             password: login.$pass.val()
         })
-        
+
         $err.empty()
         login.$form[0].reset()
     })

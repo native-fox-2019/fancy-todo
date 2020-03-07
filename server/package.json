@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/lifegrain/fancy-todo#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "google-auth-library": "^5.10.1",
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.2",
