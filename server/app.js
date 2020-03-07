@@ -14,10 +14,4 @@ app
     .use('/', indexRouter)
     .use(handlingError)
 
-
-
-
-
-
-
 app.listen(port, () => { console.log('listening to port', port) })

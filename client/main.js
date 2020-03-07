@@ -1,27 +1,37 @@
-
+"use strict"
 const url = 'http://localhost:3000'
 const userUrl = 'http://localhost:3000/user'
 const token = localStorage.getItem('token')
-if (!token) {
-    $('#login-page').show()
-    $('#register-page').hide()
-} else {
-    getData()
-    $('#main-page').show()
-    $('#login-page').hide()
-    $('#register-page').hide()
+
+function login() {
+
+    $.ajax({
+        url: `${userUrl}/login`,
+        method: 'POST',
+        data: {
+            username: $('#email-login').val(),
+            password: $('#password-login').val()
+        }
+    })
+        .done(data => {
+            localStorage.setItem('token', data.token)
+            $('#email-login').val(''),
+                $('#password-login').val('')
+            $('#login-page').hide()
+            $('#main-page').show()
+
+        })
+        .fail(err => {
+            console.log(err)
+            // swal({
+            //     title: "S",
+            //     text: "Here's a custom image.",
+            //     imageUrl: 'thumbs-up.jpg'
+            //   });
+        })
 }
 
-$('#register-anchor').click(function () {
-    $('#login-page').hide()
-    $('#register-page').show()
-})
-
-$('#login-anchor').click(function () {
-    $('#login-page').show()
-    $('#register-page').hide()
-})
-
+/*registe manual*/
 function register() {
     $.ajax({
         url: `${userUrl}/register`,
@@ -37,45 +47,32 @@ function register() {
                 $('#email-register').val(''),
                 $('#password-register').val('')
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
         })
 }
 
-$("#register-page").on('submit', function (e) {
-    e.preventDefault()
-    register()
-    $('#login-page').show()
-    $('#register-page').hide()
-})
-
-function login() {
+/*Google OAuth */
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: `${userUrl}/login`,
+        url: `${userUrl}/googleLogin`,
         method: 'POST',
         data: {
-            username: $('#username-login').val(),
-            password: $('#password-login').val()
+            token: id_token
         }
     })
         .done(data => {
-            console.log(data)
             localStorage.setItem('token', data.token)
-            $('#username-login').val(''),
-                $('#password-login').val('')
+            $('#main-page').show()
+            $('#login-page').hide()
 
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
+
         })
 }
-
-$("#login-page").on("submit", function (e) {
-    e.preventDefault()
-    login()
-    $('#login-page').hide()
-    $('#main-page').show()
-})
 
 function getData() {
     $.ajax({
@@ -86,24 +83,42 @@ function getData() {
         }
     })
         .done(data => {
-            $('#main-page').empty()
-            data.forEach((el, i) => {
-                $('#main-page').append(`
+            $('#data-Todos').empty()
+            if (data.length === 0) {
+                $('#data-Todos').append(`
+           
+                <tr class="text-center" style="text-align:center;">
+                    <td colspan="6"> NO DATA </td>
+                </tr>
+          
+            `)
+            } else {
+                data.forEach((el, i) => {
+                    $('#data-Todos').append(`
                 <tr>
-                <td>${i + 1}</td>
-                <td>${el.title}</td>
-                <td>${el.description}</td>
-                <td>${el.status}</td>
-                <td>${el.due_date}</td>
-                <td> <button type=”button” onClick="updateDataStatus(${el.id})">Done</button>||
-                <button type="button" onClick="findDataToEdit(${el.id})">Edit</button>||
-                <button type="button" onClick="deleteData(${el.id})">Delete</button></td>       
+                <td class="text-left">${i + 1}</td>
+                <td class="text-left">${el.title}</td>
+                <td class="text-left">${el.description}</td>
+                <td class="text-left">${el.due_date}</td>
+                <td class="text-center">${el.status}</td>
+                <td class="text-center">
+                <a href="#" style="align-items: center;"><button
+                style=" background-color: rgb(99, 194, 209); color: white; align-items: center;" onClick="updateDataStatus(${el.id})">Done</button></a>
+                ||
+                <a href="#" style="align-items: center;"><button
+                style=" background-color: rgb(99, 194, 209); color: yellow; align-items: center;" onClick="findDataToEdit(${el.id})">Edit</button></a>
+                ||
+                <a href="#" style="align-items: center;"><button
+                    style=" background-color: rgb(99, 194, 209); color: red; align-items: center;" onClick="deleteData(${el.id})">Delete</button></a>
+                </td>
                 </tr>
                 `)
 
-            });
+                });
+            }
+
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
         })
 }
@@ -127,17 +142,10 @@ function addData() {
                 $("#due_date").val('')
             getData()
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
         })
 }
-
-$("#add-todos").on('submit', function (e) {
-    e.preventDefault()
-    $('#modal').modal('toggle');
-    addData()
-})
-
 
 function findDataToEdit(id) {
     $.ajax({
@@ -173,7 +181,7 @@ function findDataToEdit(id) {
         </form>
             `)
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
         })
 
@@ -199,7 +207,7 @@ function updateData(id) {
 
             getData()
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
         })
 }
@@ -218,7 +226,7 @@ function updateDataStatus(id) {
         .done(data => {
             getData()
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
 
         })
@@ -235,12 +243,16 @@ function deleteData(id) {
         .done(data => {
             getData()
         })
-        .catch(err => {
+        .fail(err => {
             console.log(err)
         })
 }
 
 function logout() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
     localStorage.removeItem('token')
     $('#username-login').val('')
     $('#password-login').val('')
@@ -249,13 +261,69 @@ function logout() {
         $('#email-register').val(''),
         $('#password-register').val('')
     $('#main-page').hide()
+
 }
 
-/*Modal */
-$('#exampleModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget)
-    var recipient = button.data('whatever')
-    var modal = $(this)
-    modal.find('.modal-title').text('New message to ' + recipient)
-    modal.find('.modal-body input').val(recipient)
+
+
+/* check token*/
+$(document).ready(function () {
+    if (!token) {
+        $('#login-page').show()
+        $('#register-page').hide()
+    } else {
+        getData()
+        $('#main-page').show()
+        $('#login-page').hide()
+        $('#register-page').hide()
+    }
+
+    /* register */
+    $('#register-anchor').click(function () {
+        $('#login-page').hide()
+        $('#register-page').show()
+    })
+
+    /* button */
+    $('#login-anchor').click(function () {
+        $('#login-page').show()
+        $('#register-page').hide()
+    })
+
+    /* button register */
+    $("#register-page").on('submit', function (e) {
+        e.preventDefault()
+        $('#login-page').show()
+        $('#register-page').hide()
+        register()
+    })
+
+
+    /* button login */
+    $("#login-page").on("submit", function (e) {
+        e.preventDefault()
+        login()
+    })
+
+    /*button modal*/
+    $("#add-todos").on('submit', function (e) {
+        e.preventDefault()
+        $('#modal').modal('toggle');
+        addData()
+    })
+
+    $("#edit-todo").click(function (e) {
+        e.preventDefault()
+        $('#edit-todo').show()
+        $('#main-page').hide()
+    })
+
+    /*Modal form*/
+    $('#exampleModal').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+    })
 })

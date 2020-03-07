@@ -1,10 +1,8 @@
 "use strict"
 const { Todo } = require('../models')
-
 class todoController {
 
     static addTodo(req, res, next) {
-        console.log(req.body)
         const UserId = req.user.id
         const { title, description, status, due_date, } = req.body
         Todo.create({ title, description, status: 'uncomplete', due_date, UserId })
@@ -67,13 +65,16 @@ class todoController {
         const { status } = req.body
         Todo.update({ status }, { where: { id, UserId }, returning: true })
             .then(data => {
-                console.lo
+
                 const error = {
                     msg: 'Data not found!',
                     status: 404
                 }
-                if (!data[1].length) throw (error)
-                res.status(200).json(data[1][0])
+                if (!data[1].length) {
+                    throw (error)
+                } else {
+                    res.status(200).json(data[1][0])
+                }
             })
             .catch(err => {
                 next(err)
