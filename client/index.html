@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="967618393359-hq93iiftc26gklc1q3v5kvtfbpb66do3.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Document</title>
+
+</head>
+<body>
+    <!-- INI ISI HTML  -->
+
+    <!-- LOGIN FORM -->
+    <div id="login" style="margin-top: 15%;">
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form">
+                            <h3 class="text-center text-info">Login</h3>
+                            <span id="err-login" style="color: red;"></span>
+                            <div class="form-group">
+                                <label for="username" class="text-info">Email:</label><br>
+                                <input type="text" name="username" id="emailLog" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">Password:</label><br>
+                                <input type="password" name="password" id="passwordLog" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sign In</button>
+                            <button type="button" class="btn btn-primary" id="btn-register">Register</button><br><br>
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            <small>Login with Google account</small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGOUT BUTTON -->
+    <div id="btn-logout" style="text-align: right; margin-right: 100px; margin-top: 50px;">
+        <button type="button" id="btn-logout" class="btn btn-danger">logout</button>
+    </div>
+
+    <!-- TODO TABLE -->
+    <div id="table">
+        <div class="container">
+            <h1 style="text-align: center;">ToDo List</h1>
+            <table class="table table-striped">
+                <thead class="black white-text">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="todo-table">
+    
+                </tbody>  
+              </table>
+              <button id="btn-add-todo" class="btn btn-primary btn-block">Add Todo</button>
+        </div>
+    </div>
+    
+    <!-- REGISTER FORM -->
+    <div id="register">
+        <div class="container" style="margin-top: 20%;">
+            <h1 style="text-align:center;">Registration Form</h1>
+            <span id="err-regis" style="color: red; text-align: center;"></span>
+            <form id="register-form">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" id="reg-name" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Email</label>
+                  <input type="email" class="form-control" id="reg-email">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" id="reg-pass">
+                </div>
+                <button type="submit" class="btn btn-primary" id="btn-register">Register</button>
+                <button type="reset" class="btn btn-primary">Clear</button><br><br>
+                <button type="button" class="btn btn-danger" id="btn-register-cancel">Back to Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADD NEW TODO FORM -->
+    <div id="add-new-todo">
+        <div class="container">
+            <h1>Add New ToDo</h1>
+            <span id="err-add" style="color: red;"></span>
+            <form id="add-form">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Title</label>
+                  <input type="text" class="form-control" id="add-title" aria-describedby="emailHelp" >
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Description</label>
+                  <input type="text" class="form-control" id="add-desc" >
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Due Date</label>
+                  <input type="text" class="form-control" id="add-due" >
+                </div>
+                <button type="submit" class="btn btn-primary" id="btn-register">Add</button>
+                <button type="reset" class="btn btn-primary" >Clear</button> <br><br>
+                <button type="button" class="btn btn-danger" onclick="refreshTodo()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT TODO FORM -->
+
+    <div id="edit-todo">
+        <div class="container">
+            <h1>Edit Todo</h1>
+            <form id="edit-form">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Title</label>
+                  <input type="text" class="form-control" id="edit-title" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Description</label>
+                  <input type="text" class="form-control" id="edit-desc">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Due Date</label>
+                  <input type="text" class="form-control" id="edit-due">
+                </div>
+                <button type="submit" class="btn btn-primary" id="btn-edit">edit</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- IMPORT -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="script/script.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- INI SCRIPT JQUERY -->
+    <script>
+        var token = localStorage.getItem("token")
+
+        if (token) {
+            $(document).ready(() => {
+                refreshTodo()
+                $("#login").hide()
+                $("#btn-logout").show()
+                $("#register").hide()
+                $("#add-new-todo").hide()
+                $("#edit-todo").hide()
+            })
+        } else {
+            $(document).ready(() => {
+                $("#login").show()
+                $("#table").hide()
+                $("#btn-logout").hide()
+                $("#register").hide()
+                $("#add-new-todo").hide()
+                $("#edit-todo").hide()
+            })
+        }
+        
+        
+        //LOG OUT BUTTON
+        $("#btn-logout").on("click", () => {
+            signOut()
+            localStorage.removeItem("token")
+            $("#table").hide()
+            $("#login").show()
+            $("#btn-logout").hide()
+        })
+
+        //REGISTER BUTTON
+        $("#btn-register").on("click", (event) => {
+            $("#login").hide()
+            $("#register").show()
+        })
+
+        //LOG IN FUNCTION (IF THE LOG IN BUTTON IS PRESSED)
+        $("#login-form").on("submit", (event) => {
+            event.preventDefault()
+            $.ajax({
+                url: "http://localhost:3000/login",
+                method: "POST",
+                data: {
+                    email: $("#emailLog").val(),
+                    password: $("#passwordLog").val()
+                },
+                success: (data) => {
+                    $("#table").show()
+                    $("#login").hide()
+                    localStorage.setItem("token", data.token)
+                    token = localStorage.getItem("token")
+                    $("#btn-logout").show()
+                    refreshTodo()
+                },
+                error: (response) => {
+                    $("#err-login").text(response.responseJSON.msg)
+
+                }
+
+            })
+        })
+
+
+        //BUTTON CANCEL REGISTER
+        $("#btn-register-cancel").on("click", () => {
+            $("#login").show()
+            $("#register").hide()
+        })
+
+        //FUNCTION REGISTER (INSIDE REGISTER FORM) + SAVED TO DATABASE
+        $("#register-form").on("submit", (event) => {
+            event.preventDefault()
+            $.ajax({
+                url: "http://localhost:3000/register",
+                method: "POST",
+                data: {
+                    name:$("#reg-name").val(),
+                    email:$("#reg-email").val(),
+                    password:$("#reg-pass").val()
+                },
+                success: (data) => {
+                    $("#login").show()
+                    $("#register").hide()
+                },
+                error: (response) => {
+                    console.log(response.responseJSON)
+                    if (!response.responseJSON.length){
+                        $("#err-regis").text(response.responseJSON.msg)
+                    } else {
+                        $("#err-regis").text(response.responseJSON)
+                    }
+                }
+            })
+        })
+
+        
+
+        //BUTTON ADD NEW TODO CLICKED
+        $("#btn-add-todo").on("click", (event) => {
+            $("#table").hide()
+            $("#add-new-todo").show()
+        })
+        
+        //FUNCTION ADDING NEW TODO
+        $("#add-form").on("submit", (event) => {
+            event.preventDefault()
+            $.ajax({
+                url: "http://localhost:3000/todos",
+                method:"POST",
+                headers: {token:token},
+                data: {
+                    title:$("#add-title").val(),
+                    description:$("#add-desc").val(),
+                    due_date:$("#add-due").val()
+                },
+                success: (data) => {  
+                    $("#register").hide()     
+                    $("#add-new-todo").hide()     
+                    refreshTodo()                    
+                },
+                error: (response) => {
+                    $("#err-add").text(response.responseJSON)
+                }
+            })
+        })
+
+
+        //FUNCTION GET TODO-LIST BY THAT SPECIFIC ID
+        let refreshTodo = () => {  
+            $("#add-new-todo").hide()
+            $("#table").show()     
+            $.ajax({
+                url: "http://localhost:3000/todos/",
+                method: "GET",
+                headers: {token:token},
+                success: (data) => {
+                    $("#todo-table").empty()
+                    data.sort((a,b) => a.id - b.id)
+                    data.forEach(i => {
+                        $("#todo-table").append(
+                            `<tr id="tr-todo">
+                                <td>${i.id}</td>
+                                <td>${i.title}</td>
+                                <td>${i.description}</td>
+                                <td><button class="${i.status ? "btn btn-success" : "btn btn-danger"}" onClick = "changeStats(${i.id},${i.status})">${i.status ? "done" : "check"}</button></td>
+                                <td>${i.due_date}</td>
+                                <td>
+                                    <button id="btn-edit" class="btn btn-primary" onClick = "todoEdit(${i.id})">edit</button>
+                                    <button id="btn-delete" class="btn btn-danger" onClick = "todoDel(${i.id})">delete</button>
+                                <td>
+                            </tr>`)
+                    })
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+
+
+        //FUNCTION DELETE
+        let todoDel = (id) => {
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                method: "DELETE",
+                headers: {token:token},
+                success: (data) => {
+                    refreshTodo()
+                    console.log(`sukses di delete`)
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+
+        
+
+        //FUNCTION FIND ONE
+        let findOne = (id) => {
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                method: "GET",
+                headers: {token:token},
+                success: (data) => {
+                    $("#table").hide()
+                    $("#edit-todo").show()
+                    $("#edit-title").val(data.title)
+                    $("#edit-desc").val(data.description)
+                    $("#edit-due").val(data.due_date)
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+
+        //FUNCTION EDIT
+        let todoEdit = (id) => {
+            findOne(id)
+            $("#edit-form").on("submit", (event) => {
+                $.ajax({
+                    url: `http://localhost:3000/todos/${id}`,
+                    method: "PUT",
+                    headers: {token:token},
+                    data: {
+                        title: $("#edit-title").val(),
+                        description: $("#edit-desc").val(),
+                        due_date: $("#edit-due").val()
+                    },
+                    success: (data) => {
+                        console.log(`sukses di update`)
+                    },
+                    error: (err) => {
+                        console.log(`gagal di update`)
+                    }
+                })
+            })
+            
+        }
+
+        //FUNCTION CHANGE STATS
+        function changeStats (id, status) {
+            let result 
+            if (status) {
+                result = false
+            } else {
+                result = true
+            }
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                method: "PUT",
+                headers: {
+                    token : token
+                },
+                data: {
+                    status: result
+                },
+                success: (data) => {
+                    refreshTodo()
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+        
+        //FUNCTION GOOGLE LOGIN
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token
+            $.ajax({
+                url: "http://localhost:3000/googleSign",
+                method: "POST",
+                data: {
+                    token: id_token
+                },
+                success: (result) => {
+                    let tokenServer = result
+                    $("#btn-logout").show()
+                    $("#table").show()
+                    $("#login").hide()
+
+                    localStorage.setItem("token", tokenServer)
+                    token = localStorage.getItem("token")
+                    refreshTodo()
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+
+        //FUNCTION GOOGLE LOGOUT
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance()
+            auth2.signOut().then(function () {
+        })
+  }
+        
+    </script>
+    
+</body>
+</html>
