@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-signin-client_id" content="700576818702-t5kcio5jef4ulrphh2pcv92j01324a3s.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Fancy Todo</title>
+</head>
+
+<body style="background-image: url(https://image.freepik.com/free-vector/paper-message-notes-illustration-sheets-pieces-paper-clips_33099-321.jpg);">
+    <div style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+        <span onclick=startTrue() style="cursor: pointer;"><h1>FANCY TODO</h1></span>
+        <h6>“Each day I will accomplish one thing on my to do list.”
+            ― Lailah Gifty Akita</h6>
+        <hr>
+        <a href="#" onclick="signOut();" id="button-logout" style="position: absolute; right: 60px; top: 20px;">Sign out</a>
+        <br> 
+    </div>
+
+    <div id="register-form" style="text-align: center;">
+        <h3>Register</h3>
+        <form id="button-register">
+            <label for="email">Email:</label><br>
+            <input type="email" id="email-register" name="email"><br>
+            <small class="form-text text-muted">We'll never share your email with anyone else.</small><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password-register" name="password"><br>
+            <small class="form-text text-muted">Don't be so hard on yourself.</small><br>
+            <label for="password">Confirm Password:</label><br>
+            <input type="password" id="confirm-password-register"><br>
+            <small class="form-text text-muted">We want to make sure there is no typo ^^.</small><br>
+            <button type="submit" class="btn-primary"> Register </button><br><br>
+            <h5>Already signed up ? <button type="button" class="btn btn-link" id="continue-login">Login</button></h5><br>
+            <h6>Or Continue Login With Your Google Account</h6>
+            <div class="g-signin2 mx-auto" style="width: 100px;" data-onsuccess="onSignIn"></div><br><br>
+
+        </form>
+    </div>
+
+    <div id="login-form" style="text-align: center;">
+        <h3>Login</h3>
+        <form id="button-login">
+            <label for="email">Email:</label><br>
+            <input type="email" id="email-login" name="email"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password-login" name="password"><br><br>
+            <button type="submit" class="btn-primary"> Login </button><br><br>
+            <h6>Or Sign In With Your Google Account</h6>
+            <div class="g-signin2 mx-auto" style="width: 100px;" data-onsuccess="onSignIn"></div><br><br>
+            <h6>Have not signed up ? <button type="button" class="btn btn-link" id="continue-register">Register</button></h6>
+          </form>
+    </div>
+
+    <div id="todo" style="text-align: center;" class="table"> 
+        <h3>Todo List</h3>
+        <table style="margin: auto; width: 800px;" class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Due Date(YYYY-MM-DD)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-todo" style="margin: auto; width: 800px;">
+            </tbody> 
+        </table><br>
+        <button type="button" class="btn-primary" id="add-form">Add New Todo</button><br>
+    </div>
+
+    <div>
+        <br>
+        <br>
+    </div>
+
+    <div id="calendar">
+        <table style="margin: auto; width: 800px;" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <td>Indonesia 2020 Holiday</td>
+                    <td>Date</td>
+                </tr>
+            </thead>
+            <tbody id="calendarific">
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="addTodo" style="text-align: center;" class="form">
+        <h3>Add Todo</h3>
+        <form id="add-button">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title-add" name="title"><br>
+            <label for="description">Description:</label><br>
+            <input type="text" id="description-add" name="description"><br>
+            <label for="status">Status:</label><br>
+            <input type="text" id="status-add" name="status"><br>
+            <label for="due_date">Due Date:</label><br>
+            <input type="date" id="due_date-add" name="due_date"><br><br>
+            <button type="submit" class="btn-primary" > Add </button><br>
+            <small class="form-text text-muted">Going back homepage?</small>
+            <span onclick=startTrue() style="cursor: pointer; color: blue;">Click me.</span><br>
+        </form>
+    </div>
+    <div id="editTodo" style="text-align: center;" class="form">
+        <h3>Edit</h3>
+        <form id="edit-button">
+            <label >Id:</label><br>
+            <input type="text" id="id-edit" name="id" readonly><br>
+            <label for="title">Title:</label><br>
+            <input type="text" id="title-edit" name="title"><br>
+            <label for="description">Description:</label><br>
+            <input type="text" id="description-edit" name="description"><br>
+            <label for="status">Status:</label><br>
+            <input type="text" id="status-edit" name="status"><br>
+            <label for="due_date">Due Date (DD/MM/YYYY):</label><br>
+            <input type="date" id="due_date-edit" name="due_date"><br><br>
+            <button type="submit" class="btn-primary" > Edit </button><br>
+            <small class="form-text text-muted">Going back homepage?</small>
+            <span onclick=startTrue() style="cursor: pointer; color:blue;">Click me.</span><br>
+        </form>`
+    </div>
+    <div>
+        <br>
+        <br>
+    </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+<footer style="position: fixed; bottom: 0; text-align: center; width: 100%; background-color: black; opacity: 50%; color: white;">
+    <hr style="border: 0;">
+    <small>Todo List -- Copyright @fznakbar</small>
+</footer>
+</html>
