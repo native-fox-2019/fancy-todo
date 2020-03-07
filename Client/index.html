@@ -172,18 +172,18 @@
                                             <div style="display: flex; flex-direction: row">
                                                 <div style="width: 150px">
                                                     <span style="font-size: 15px">Status:</span><br>
-                                                    <span style="font-size: 18.5px; color: ${element.status === 'Uncomplete' ? 'Red' : 
-                                                    element.status === 'On progress' ? 'green' : 'black'}">${element.status}</span>
+                                                    <span style="font-size: 18.5px; color: ${element.status === 'Uncomplete' ? 'rgb(255, 126, 126)' : 
+                                                    element.status === 'On progress' ? '#bac94a' : 'black'}">${element.status}</span>
                                                 </div>
                                                 <div>
                                                     <span style="font-size: 15px">Due date:</span><br>
-                                                    <span style="color: blue; font-size: 18.5px;">${new Date(element.due_date).toDateString()}</span>
+                                                    <span style="color: #6c8cbf; font-size: 18.5px;">${new Date(element.due_date).toDateString()}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class ="action" >
                                             <button id="button-edit" onclick="editForm(${element.id})" style="margin: 0 3px">Edit</button>
-                                            <button id="button-delete" onclick="todoDelete(${element.id})" style="margin: 0 3px; background-color: red;">Delete</button>
+                                            <button id="button-delete" onclick="todoDelete(${element.id})" style="margin: 0 3px; background-color: rgb(255, 126, 126); background-image: none;">Delete</button>
                                         </div>
                                     </div>
                                 </div>    
