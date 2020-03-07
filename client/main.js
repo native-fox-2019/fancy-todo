@@ -103,6 +103,8 @@ function showAllTodo() {
   $('#addTodo').show();
   $('#detailTodo').hide();
   $('#showAddTodo').hide();
+  $('#showUpdateTodo').hide()
+
 }
 function showTodayTodo() {
   const date = new Date()
@@ -133,6 +135,7 @@ function showHistoryTodo() {
   getAllHistory()
   $('#allCard').show();
   $('#detailTodo').hide();
+  $('#showUpdateTodo').hide()
 }
 // END MENU SIDE
 
@@ -555,10 +558,6 @@ function updateTodo(id) {
               <label for="updateDuedate">Due Date</label>
               <input type="date" value="${moment(data.due_date).format('YYYY-MM-DD')}" name="datemin" class="form-control" id="updateDuedate">
             </div>
-            <div class="form-group">
-              <label for="updateStatus">Status</label>
-              <input type="text" value="${data.status}" class="form-control" id="updateStatus">
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           `
       );
@@ -578,6 +577,7 @@ $(document).ready(function () {
     const due_date = $('#updateDuedate').val();
     const status = $('#updateStatus').val();
     // const status = false
+
     $.ajax({
       type: "PUT",
       url: BASE_URL + `/todos/${id}`,
