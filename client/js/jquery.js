@@ -1,8 +1,8 @@
-const loginPage = $('#loginPage')
-const todosTable = $('#todosTable')
-const registerPage = $('#registerPage')
-const url = "http://localhost:3000"
-const token = localStorage.getItem('token')
+let loginPage = $('#loginPage')
+let todosTable = $('#todosTable')
+let registerPage = $('#registerPage')
+let url = "http://localhost:3000"
+let token = localStorage.getItem('token')
 
 if (!token) {
   $("#todosTable").hide()
@@ -11,6 +11,7 @@ if (!token) {
   $('#loginPage').hide()
   $('#logoutBtn').hide()
   $("#addPage").hide()
+  $("#editPage").hide()
 } else {
   getData()
   $("#todosTable").show()
@@ -19,6 +20,7 @@ if (!token) {
   $('#logoutBtn').show()
   $("#todosPage").show()
   $("#addPage").hide()
+  $("#editPage").hide()
 }
 
 function register() {
@@ -65,6 +67,64 @@ function register() {
     })
 }
 
+function editOne(id) {
+  $('#editPage').show()
+  $.ajax({
+    url: url + '/todos/' + id,
+    method: 'GET',
+    contentType: 'application/json',
+    headers: { token: token },
+    success: data => {
+      // console.log(data);
+      $('#editForm').append(
+        `
+        <h4>Edit Todo</h4>
+        <br>
+        <div class="form-group">
+        <input type="text" class="form-control" value="${data.id}" hidden id="editId" aria-describedby="emailHelp" placeholder="Title">
+        <label for="exampleInputEmail1">Title</label>        
+        <input type="text" class="form-control" value="${data.title}" id="titleEdit" aria-describedby="emailHelp" placeholder="Title">
+        </div>
+        <div class="form-group">
+        <label for="exampleInputEmail1">Description</label>
+        <input type="text" class="form-control" value="${data.description}" id="descriptionEdit" aria-describedby="emailHelp"
+        placeholder="Description">
+        </div>
+        <div class="form-group">
+        <label for="exampleInputPassword1">Due Date</label>
+        <input type="date" class="form-control" value="${moment(data.due_date).format('YYYY-MM-DD')}" id="due_dateEdit" placeholder="Date">
+        </div>
+        <button type="submit" class="btn btn-primary">Edit Todo</button>
+        `
+      )
+    }
+  })
+}
+
+$("#editForm").on('submit', function (e) {
+  // e.preventDefault()
+  const id = Number($("#editId").val())
+  console.log(id, $('#titleEdit').val(),
+    $('#descriptionEdit').val(),
+    $('#due_dateEdit').val());
+  // alert(id)
+  $.ajax({
+    url: url + '/todos/' + id,
+    method: "PUT",
+    headers: { token: token },
+    contentType: 'application/json',
+    data: JSON.stringify({
+      title: $('#titleEdit').val(),
+      description: $('#descriptionEdit').val(),
+      due_date: $('#due_dateEdit').val()
+    })
+  })
+    .done(data => {
+      getData()
+    })
+}
+)
+
 function login() {
   $.ajax({
     url: `${url}/users/login`,
@@ -78,7 +138,8 @@ function login() {
     .done((data) => {
       // console.log(data);
       localStorage.setItem('token', data)
-      // getData()
+      token = localStorage.getItem('token')
+      getData()
       $('#registerPage').hide()
       $('#loginPage').hide()
       $('#logoutBtn').show()
@@ -119,14 +180,14 @@ function getData() {
         if (el.status === "Sudah") {
           $('#todosData').append(
             `
-            <tr class="table-secondary">
+            <tr class="">
                 <td>${index + 1}</td>
                 <td>${el.title}</td>
                 <td>${el.description}</td>
                 <td>${el.status}</td>
-                <td>${el.due_date}</td>
+                <td>${moment(el.due_date).format('L')}</td>
                 <td>
-                <button type="button" onClick="del(${el.id})" class="btn btn-danger " title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Cancel</button>
+                <button type="button" onClick="del(${el.id})" class="btn btn-danger " title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Remove</button>
                 </td>                
             </tr>
 
@@ -135,14 +196,15 @@ function getData() {
         } else {
           $('#todosData').append(
             `
-            <tr class="table-secondary">
+            <tr class="">
                 <td>${index + 1}</td>
                 <td>${el.title}</td>
                 <td>${el.description}</td>
                 <td>${el.status}</td>
-                <td>${el.due_date}</td>
+                <td>${moment(el.due_date).format('L')}</td>
                 <td>
-                <button type="button" id="doneBtn${el.id}" onClick="updateDone(${el.id})" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Done</button>                
+                <button type="button" id="doneBtn${el.id}" onClick="updateDone(${el.id})" class="btn btn-success" title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Done</button>                
+                <button type="button" onClick="editOne(${el.id})" class="btn btn-warning " title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Edit</button>
                 <button type="button" onClick="del(${el.id})" class="btn btn-danger " title="" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover Title">Cancel</button>
                 </td>                
             </tr>
@@ -167,38 +229,80 @@ function getData() {
 
 function updateDone(id) {
   // alert(id)
-  console.log(id);
-  $.ajax({
-    url: `${url}/todos/${id}`,
-    method: 'PUT',
-    headers: {
-      token: token
-    },
-    data: {
-      status: 'Sudah'
-    }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You've done this task??",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, of course!'
   })
-    .done((data) => {
-      console.log(data);
-      getData()
-      $(`#doneBtn${id}`).hide()
+    .then((result) => {
+      if (result.value) {
+        console.log(id);
+        $.ajax({
+          url: `${url}/todos/${id}`,
+          method: 'PUT',
+          headers: {
+            token: token
+          },
+          data: {
+            status: 'Sudah'
+          }
+        })
+          .done((data) => {
+            console.log(data);
+            getData()
+            $(`#doneBtn${id}`).hide()
+          })
+          .done((data) => {
+            Swal.fire(
+              'Congratulations!!',
+              `You've Done one task!!! .`,
+              'success'
+            )
+            getData()
+          })
+      }
     })
 }
 
 function del(id) {
-  $.ajax({
-    url: `${url}/todos/` + id,
-    method: `DELETE`,
-    headers: {
-      token: token
-    },
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: `${url}/todos/` + id,
+        method: `DELETE`,
+        headers: {
+          token: token
+        },
+      })
+        .done((data) => {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+          getData()
+        })
+    }
   })
-    .done((data) => {
-      getData()
-    })
 }
 
 function addData() {
+  // e.preventDefault()
+  // console.log($("#titleAdd").val(),
+  //   $("#descriptionAdd").val(),
+  //   $("#due_dateAdd").val());
   $.ajax({
     url: `${url}/todos`,
     method: 'POST',
@@ -210,11 +314,16 @@ function addData() {
       description: $("#descriptionAdd").val(),
       due_date: $("#due_dateAdd").val()
     },
-    success: (data) => {
-      console.log(data);
-      getData()
-    }
   })
+    .done((data) => {
+      Swal.fire({
+        title: 'SUCCESS',
+        text: "You added one task!!",
+        icon: 'success',
+        confirmButtonText: 'Continue'
+      })
+      getData()
+    })
 }
 
 $('#loginForm').on('submit', (e) => {
@@ -284,6 +393,7 @@ $('#showAddTodo').on('click', function (e) {
 })
 
 $('#addForm').on('submit', function (e) {
+  // e.preventDefault()
   addData()
   getData()
 })
@@ -309,7 +419,8 @@ function onSignIn(googleUser) {
     .done((data) => {
       // console.log(data);
       localStorage.setItem('token', data)
-      // getData()
+      token = localStorage.getItem('token')
+      getData()
       $('#registerPage').hide()
       $('#loginPage').hide()
       $('#logoutBtn').show()

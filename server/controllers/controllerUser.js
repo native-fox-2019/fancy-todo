@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client("476504549399-atherlcqb2eflh6lr8v3b4a03a65pmum.apps.googleusercontent.com");
 const compare = require('../helpers/compare')
+const sendEmail = require('../helpers/api')
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 class controllerUser {
   static register(req, res, next) {
@@ -15,6 +19,9 @@ class controllerUser {
         password
       })
       .then(result => {
+        let msg = sendEmail(result.email, `${result.email} You've been registered on our Application. Thank you for using our application.`)
+        sgMail.send(msg)
+
         User
           .findOne({
             where: {
@@ -74,7 +81,7 @@ class controllerUser {
       .catch(err => {
         // console.log('masuk sini??');
         next({
-          status: 404,
+          status: 400,
           msg: "Invalid email / password."
         })
       })
@@ -122,6 +129,8 @@ class controllerUser {
                 password: "12345",
               })
               .then(result => {
+                let msg = sendEmail(result.email, `${result.email} You've been registered on our Application. Thank you for using our application.`)
+                sgMail.send(msg)
                 const token = jwt.sign({
                   id: result.id,
                   username: result.username,
@@ -130,8 +139,8 @@ class controllerUser {
                 res.status(200).json(token)
               })
               .catch(err => {
-              next(err)
-            })
+                next(err)
+              })
           }
         })
     }

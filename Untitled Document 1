@@ -1,7 +1,7 @@
 Users
 	id
 	name
-
+	email
 
 Tasks
 	id
@@ -9,10 +9,11 @@ Tasks
 	UserId
 	ProjectId
 
+
 Projects
 	id
+	OwnerId
 	projectName
-	
 
 UserProjects
 	UserId
