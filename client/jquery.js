@@ -174,6 +174,7 @@ $googleSignin.on('click', () => {
     $allPage.hide()
     $btnSignout.show()
     $todoContainer.show()
+    $projectsContainer.show()
     onSignIn()
 })
 

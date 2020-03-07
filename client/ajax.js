@@ -356,6 +356,7 @@ function onSignIn(googleUser) {
         success: token => {
             console.log('User signed in.')
             localStorage.setItem("token", token)
+            showProject()
             showTodo()
         },
         error: (jqxhr, status, error) => {
