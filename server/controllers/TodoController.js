@@ -6,7 +6,7 @@ const { authorize, insertEvents } = require('../googleCal')
 
 class TodoController {
     static findAll = (req, res, next) => {
-        Todo.findAll({ where: { UserId: req.userData.id }, order: [['id', 'ASC']] })
+        Todo.findAll({ where: { UserId: req.userData.id, ProjectId: null }, order: [['id', 'ASC']] })
             .then(todo => {
                 res.status(200).json(todo)
             })

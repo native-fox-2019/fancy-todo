@@ -94,7 +94,7 @@ class ProjectController {
             status,
             due_date
         }
-        let TodoId = req.params.userId
+        let TodoId = req.params.todoId
         
         Todo.update(editedTodo, { where: { id: TodoId, ProjectId } })
             .then(updated => {
@@ -128,11 +128,11 @@ class ProjectController {
 
     static deleteTodo = (req, res, next) => {
         let ProjectId = req.params.projectId
-        let TodoId = req.params.userId
+        let TodoId = req.params.todoId
         let deleted
         Todo.destroy({ where: { id: TodoId, ProjectId } })
             .then(() => {
-                res.status(200).json(deleted)
+                res.status(200).json('Success')
             })
             .catch(err => {
                 next(err)

@@ -30,7 +30,12 @@ const todoAuthorization = (req, res, next) => {
 }
 
 const projectAuthorization = (req, res, next) => {
-    let ProjectId = req.params.id
+    let ProjectId
+    if (req.params.id) {
+        ProjectId = req.params.id
+    } else if (req.params.projectId) {
+        ProjectId = req.params.projectId
+    }
     let UserId = req.userData.id
     ProjectUser.findOne({ where: { ProjectId } })
         .then(projectUser => {
