@@ -1,11 +1,10 @@
 "use strict"
-const jwt = require('jsonwebtoken')
+const { verifyToken } = require('../helpers/jwt.js')
 
 function authentication(req, res, next) {
-    const {token} = req.headers
+    const { token } = req.headers
     try {
-        let decoded = jwt.verify(token, process.env.JWT_SECRET)
-        console.log(decoded, '======== INI DECODED')
+        let decoded = verifyToken(token)
         req.userData = decoded
         next()
     } catch (err) {

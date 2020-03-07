@@ -1,13 +1,20 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
 
-  const bcrypt = require('bcryptjs');
-  const saltRounds = 10;
+  const {hashPassword} = require('../helpers/bcryptjs.js')
 
   const Model = sequelize.Sequelize.Model
   class User extends Model {}
 
   User.init({
+    username: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Please insert an username'
+        }
+      }
+    },
     email: {
       type: DataTypes.STRING,
       validate: {
@@ -28,16 +35,15 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (instance, options) => {
         let inputPass = instance.password
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(inputPass, salt);
-        instance.password = hash
+        instance.password = hashPassword(inputPass)
       }
     },
     sequelize
   });
 
   User.associate = function(models) {
-    User.hasMany(models.Todo)
+    User.hasMany(models.Task)
+    User.hasMany(models.Project)
     // associations can be defined here
   };
   return User;
