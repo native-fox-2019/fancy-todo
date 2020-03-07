@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   const Model = Sequelize.Model
   class User extends Model { }
   User.init({
-    username: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -14,6 +14,17 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        isEmail:true
+      },
+      unique: {
+          args: true,
+          msg: 'Email address already in use!'
+      }
+    },    
     password: {
       type: DataTypes.STRING,
       allowNull: false,

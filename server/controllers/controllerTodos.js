@@ -1,8 +1,7 @@
 'use strict'
 
-const { Todo } = require('../models')
-const jwt = require('jsonwebtoken')
-const axios = require('axios')
+const { Todo, Sequelize } = require('../models')
+const Op = Sequelize.Op
 
 class ControllerTodos {
     static postTask(req, res, next) {
@@ -11,11 +10,6 @@ class ControllerTodos {
         Todo
             .create({ title, description, status, due_date, UserId })
             .then(data => {
-                axios({
-                    url:'',
-                    method:'post',
-                    data:data
-                })
                 res.status(201).json(data)
             })
             .catch(err => {
@@ -24,18 +18,19 @@ class ControllerTodos {
     }
 
     static getAll(req, res, next) {
-        console.log('qwerqe')
         let id = Number(req.user.id)
         Todo
-            .findAll({ where: { UserId: id } })
+            .findAll({ 
+                where: { 
+                    UserId: id
+                },
+                [Op.order]:[
+                    ['id','asc']
+                ]})
             .then(data => {
-                console.log(data)
-                console.log('data')
                 res.status(200).json(data)
             })
             .catch(err => {
-                console.log('err')
-                console.log(err)
                 next(err)
             })
     }
