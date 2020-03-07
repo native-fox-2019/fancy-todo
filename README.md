@@ -2,6 +2,10 @@
 
 Fancy To-Do Single Page App With Express, Postgres, Sequelize, and jQuery
 ___________
+
+## Postman Documentation
+[click here](https://documenter.getpostman.com/view/10570997/SzRxUq1G?version=latest)
+___________
 ## 3rd Party API
 1. Geo js : used to get the user's IP address and country code the country the user is located in
 2. Calendarific : used to get a list of holidays per year in the country where the user is located
