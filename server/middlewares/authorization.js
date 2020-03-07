@@ -37,9 +37,9 @@ const projectAuthorization = (req, res, next) => {
         ProjectId = req.params.projectId
     }
     let UserId = req.userData.id
-    ProjectUser.findOne({ where: { ProjectId } })
+    ProjectUser.findOne({ where: { ProjectId, UserId } })
         .then(projectUser => {
-            if (projectUser.UserId === UserId) {
+            if (projectUser) {
                 next()
             } else {
                 next(
