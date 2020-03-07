@@ -1,9 +1,9 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
-const {OAuth2Client} = require('google-auth-library');
+// const {OAuth2Client} = require('google-auth-library');
 // const client = new OAuth2Client(process.env.CLIENT_ID,'tLWdeJVWz43GxDa6zCYywINU',"urn:ietf:wg:oauth:2.0:oob")
 const { google } = require('googleapis')
-const client = new google.auth.OAuth2(process.env.CLIENT_ID,'tLWdeJVWz43GxDa6zCYywINU',"http://localhost:3000")
+const client = new google.auth.OAuth2(process.env.CLIENT_ID,process.env.CLIENT_SECRET,"http://localhost:3000")
 
 class UserController {
     static register = (req, res, next) => {
@@ -90,26 +90,14 @@ class UserController {
             .then(user => {
                 let id = user.id
                 let email = user.email
-                let newToken = jwt.sign({ id, email }, process.env.JWT_SECRET)
-                const scopes = ['https://www.googleapis.com/auth/calendar']
-                const url = client.generateAuthUrl({
-                    access_type: 'offline',
-                    scope: scopes
-                })
-                res.status(200).json({newToken, url})
+                let token = jwt.sign({ id, email }, process.env.JWT_SECRET)
+                res.status(200).json(token)
             })
             .catch(err => {
                 next(err)
             })
     }
 
-    static getCode = (req, res, next) => {
-        res.status(200).json(req.query.code)
-        // client.getToken(req.query.code, (err, token) => {
-        //     res.redirect('http://localhost:8080')
-        // })
-    }
-
 }
 
-module.exports = { UserController, client }
+module.exports = UserController

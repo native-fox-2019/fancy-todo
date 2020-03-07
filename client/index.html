@@ -9,10 +9,10 @@
 </head>
 <body>
     <h1 class="text-center">Todos App</h1>
-    <div class="text-center" id="signout-div">
-        <button onclick="signOut();" id="button-signout" class="button-signout">Sign out</button>
+    <div class="text-center">
+      <button onclick="signOut()" class="btn btn-primary all" id="signout-button">Sign Out</button>
     </div>
-    <div class="container">
+    <div class="container all" id="login">
         <form id="form-login">
             <h3>Sign In</h3>
             <div class="form-group">
@@ -24,14 +24,17 @@
               <label for="exampleInputPassword1">Password</label>
               <input type="password" class="form-control" id="password-login">
             </div>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div class="g-signin2" data-onsuccess="onSignIn" id="google-signin"></div>
             <div class="text-center">
+              <button type="button" id="button-signup">Register</button>
+            </div>
+            <div class="text-center mt-3">
                 <button  type="submit" class="btn btn-primary">Sign in</button>
             </div>
         </form>
     </div>
 
-    <div class="container">
+    <div class="container all" id="signup">
         <form id="form-signup">
             <h3 class="text-center">Sign Up</h3>
             <div class="form-group">
@@ -52,11 +55,14 @@
               <input type="password" class="form-control" id="password-signup">
             </div>
             <div class="text-center">
+              <button type="button" id="button-loginInstead">Login Instead</button>
+            </div>
+            <div class="text-center mt-3">
                 <button type="submit" class="btn btn-primary">Sign up</button>
             </div>
         </form>
     </div>
-    <div class="container mt-5">
+    <div class="container mt-5 all" id="form-addTodo-container">
         <form id="form-addTodo">
             <h5>Add Todo</h5>
             <div class="form-row">
@@ -73,34 +79,33 @@
                 </div>
             </div>
             <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Sign up</button>
+                <button type="submit" class="btn btn-primary">Add</button>
             </div>
         </form>
-        <div id="todos-container" class="mt-5">
-            <h3 class="text-center">Your Todo List</h3>
-            <div id="get-url"></div>
-            <table class="table mt-4">
-                <thead>
-                  <tr>
-                    <th scope="col">Status</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">DueDate</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="todos-tbody">
-                  <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
+    </div>
+    <div class="container">
+      <div id="todos-container" class="mt-5 all">
+          <h3 class="text-center">Your Todo List</h3>
+          <button class="btn btn-primary" id="add-todo-button">Add Todo</button>
+          <table class="table mt-4">
+              <thead>
+                <tr>
+                  <th scope="col">Status</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">DueDate</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="todos-tbody">
+                
+              </tbody>
+            </table>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="./jquery.js"></script>
+    <script src="./ajax.js"></script>
 </body>
 </html>

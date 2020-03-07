@@ -31,7 +31,6 @@ function authorize(credentials, event, callback) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
-    console.log(JSON.parse(token))
     callback(oAuth2Client, event);
   });
 }
@@ -102,7 +101,6 @@ function insertEvents(auth, event, calendarId) {
     resource: event
   }, (err, result) => {
     if (result) {
-        console.log(result)
         return result
     } else {
         console.log(err)
