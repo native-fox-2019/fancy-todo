@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     hooks: {
-      beforeCreate: (instance, option) => {
+      beforeSave: (instance, option) => {
         const salt = 10
         const hash = bcrypt.hashSync(instance.password, salt)
         instance.password = hash

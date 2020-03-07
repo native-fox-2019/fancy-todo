@@ -2,6 +2,9 @@
 
 const { Todo, Sequelize } = require('../models')
 const Op = Sequelize.Op
+const sgMail = require('@sendgrid/mail');
+const message = require('../helpers/sendGrid')
+
 
 class ControllerTodos {
     static postTask(req, res, next) {
@@ -10,6 +13,28 @@ class ControllerTodos {
         Todo
             .create({ title, description, status, due_date, UserId })
             .then(data => {
+                let msg = `<STRONG>
+                <div>hi ${req.user.email}, this is an email from your to-do-lists!
+                <br>
+                <br>
+                congratulations, you has successfully creates a to-do task
+                </div>
+                <br>
+                <br>
+                <div>
+                at: ${data.due_date.toISOString().substr(0,10)}, 
+                </div>
+                <br>
+                <div>
+                description: ${data.description}<br>
+                </div>
+                <br>
+                <br>
+                <div>
+                we just want to let you know that we always there to remind you.
+                thx for using our service, have a nice day!</STRONG></div>`
+                sgMail.setApiKey(process.env.API_KEY_SENDGRID)
+                sgMail.send(message(req.user.email,`you have succesfuly created a task ${data.title}`,msg))
                 res.status(201).json(data)
             })
             .catch(err => {

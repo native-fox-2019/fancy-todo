@@ -8,6 +8,8 @@ const { OAuth2Client } = require('google-auth-library');
 const { google } = require('googleapis')
 const generatePass = require('../helpers/generateRandomPass')
 const client = new google.auth.OAuth2(process.env.CLIENT_ID, 'y1Z6s1A4HZguQKiLBZzL7Uq_', "http://localhost:3000")
+const sgMail = require('@sendgrid/mail');
+
 
 class ControllerUser {
     static google_login(req, res, next) {
@@ -23,10 +25,11 @@ class ControllerUser {
                 return User.findOne({ where: { email: payload.email } })
             })
             .then(data => {
-                const { email, name } = payload
                 let password = generatePass()
+                const { email, name } = payload
+                console.log(payload.email, payload.name)
                 if (!data) {
-                    return User.create({ email, name, password })
+                    return User.create({ email, name, password:data })
                 } else {
                     return data
                 }
@@ -41,6 +44,7 @@ class ControllerUser {
                 res.status(200).json({ token, url })
             })
             .catch(err => {
+                console.log(err)
                 next(err)
             })
     }
@@ -50,6 +54,7 @@ class ControllerUser {
         User
             .create({ email, name, password })
             .then(data => {
+
                 res.status(200).json({ data })
             })
             .catch(err => {
@@ -59,6 +64,7 @@ class ControllerUser {
 
     static login(req, res, next) {
         const { email, password } = req.body;
+        console.log ({ email, password }, req.body)
         User
             .findOne({
                 where: {
@@ -66,10 +72,15 @@ class ControllerUser {
                 }
             })
             .then(data => {
-                const test = bcrypt.compareSync(req.body.password, data.password)
+                const test = bcrypt.compareSync(password, data.password)
                 if (test) {
                     const token = jwt.sign({ id: data.id, email: data.email }, process.env.JWT_SECRET)
                     res.status(200).json(token)
+                } else {
+                    throw {
+                        status:404,
+                        msg:'not found'
+                    }
                 }
             })
             .catch(err => {
@@ -78,26 +89,29 @@ class ControllerUser {
     }
 
     static update(req, res, next) {
-        let id = Number(req.user.id)
+        // let id = Number(req.user.id)
+        console.log('masuk update')
+        console.log(req.body,'==================')
         const { name, password, email } = req.body
-        User.update({ name, password, email })
+        User.update({ name, password, email }, { individualHooks:true})
             .then(data => {
                 res.status(201).json(data)
             })
             .catch(err => {
+                console.log(err)
                 next(err)
             })
     }
 
-    static getUser (req,res,next){
-        let id=Number(req.user.id)
-        User.findOne({where:{id}})
-        .then(data=>{
-            res.status(200).json(data)
-        })
-        .catch(err=>{
-            next(err)
-        })
+    static getUser(req, res, next) {
+        let id = Number(req.user.id)
+        User.findOne({ where: { id } })
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch(err => {
+                next(err)
+            })
     }
 }
 
