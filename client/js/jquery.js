@@ -102,7 +102,7 @@ function editOne(id) {
 }
 
 $("#editForm").on('submit', function (e) {
-  // e.preventDefault()
+  e.preventDefault()
   const id = Number($("#editId").val())
   console.log(id, $('#titleEdit').val(),
     $('#descriptionEdit').val(),
@@ -120,7 +120,23 @@ $("#editForm").on('submit', function (e) {
     })
   })
     .done(data => {
+      $("#editPage").hide()
+      $("#todosTable").show()
       getData()
+      Swal.fire({
+        title: 'Success!',
+        text: 'You already updated your task!',
+        icon: 'success',
+        confirmButtonText: 'Continue'
+      })
+    })
+    .fail(err => {
+      Swal.fire({
+        title: 'error!',
+        text: 'You cannot leave one of them empty',
+        icon: 'error',
+        confirmButtonText: 'Continue'
+      })
     })
 }
 )
