@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="google-signin-client_id"
+        content="243042074427-qtub7stg80td5iacgnmfpg42mdsj38hp.apps.googleusercontent.com">
+    <link rel="stylesheet" href="./style/style-index.css">
+    <title>Todo App</title>
+</head>
+<body>
+    <div id="nav">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">TodoApp!</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <button id="login-render" class="btn-primary btn-sm">Login</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="register-render" class="btn-primary btn-sm">Register</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="logout-btn" class="btn-danger btn-sm" onclick="signOut()">Logout</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="todo-btn" class="btn-success btn-sm">See Todos</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="holiday-btn" class="btn-success btn-sm">See Holidays</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="login-box" class="box">
+        <h1>Login</h1>
+        <form id="login-form" method="POST">
+            <div class="form-group">
+                <input type="text" id="login-email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" placeholder="Password">
+            </div>
+            <div>
+                <button type="submit" id="login-btn" class="btn btn-primary">Sign In</button>
+            </div>
+        </form>
+        <p>--- or ---</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
+
+    <div id="register-box" class="box">
+        <h1>Register</h1>
+        <form id="register-form" method="POST">
+            <div class="form-group">
+                <input type="text" id="register-name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="text" id="register-email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" id="register-password" placeholder="Password">
+            </div>
+            <div>
+                <button type="submit" id="register-btn" class="btn btn-primary">Sign Up</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="todo-box" class="box">
+        <div class="todo-box-user-container">
+            <h4 id="todo-box-user-name"></h4>
+            <p id="todo-box-user-email"></p>
+        </div>
+        <h1 class="todo-title">Todos!</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
+            Add Todo
+        </button>
+        <table cellpadding="10px" align="center" border="1px">
+            <thead>
+                <th>Task</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
+            <tbody id="todo-tbody"></tbody>
+        </table>
+    </div>
+
+    <div id="holiday-box" class="box">
+        <h1>This Year Holiday List!</h1>
+        <table cellpadding="10px" align="center" border="1px">
+            <thead>
+                <th>Name</th>
+                <th style="max-width: 200px;">Description</th>
+                <th>Date</th>
+            </thead>
+            <tbody id="holiday-tbody"></tbody>
+        </table>
+    </div>
+
+    <!-- ADD TODO -->
+    <div id="addTodo-box">
+        <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="addTodoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Todo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="div-addTodo-form" class="feature addTodo-div">
+                        <form id="addTodo-form" method="POST">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Todo</label>
+                                <input type="text" class="form-control" id="atTitle">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Description</label>
+                                <input type="text" class="form-control" id="atDescription">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Due Date</label>
+                                <input type="date" class="form-control" id="atDue_date">
+                            </div>
+                
+                            <button type="submit" class="btn btn-primary" id="addTodo-btn">Add</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT TODO -->
+    <div id="editTodo-box">
+        <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="editTodoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="div-editTodo-form" class="feature editTodo-div">
+                        <form id="editTodo-form" method="POST">
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ERROR HANDLER -->
+    <div id="errorHandler-box">
+        <div class="modal fade" id="errorHandlerModal" tabindex="-1" role="dialog" aria-labelledby="errorHandlerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="err-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div id="qrcode-box"></div>
+
+</body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="./script/main.js"></script>
+<script src="./script/function.js"></script>
+</html>
