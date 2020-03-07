@@ -350,5 +350,3 @@ Status (200)
 ```javascript
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJoZW5hcml2YW5hYUBnbWFpbC5jb20iLCJpYXQiOjE1ODM1NTk5MjF9.q0qRNCzGxjC1TeqsaHxwqINnLu2FXRjTD3IulTJlzE8"
 ```
-
-### Properties

@@ -83,6 +83,27 @@
             </div>
         </form>
     </div>
+    <div class="container mt-5 all" id="form-addProjectTodo-container">
+        <form id="form-addProjectTodo">
+            <h5>Add Todo</h5>
+            <div class="form-row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Title" id="projectTodo-title">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Due Date" id="projectTodo-duedate">
+              </div>
+            </div>
+            <div class="form-row mt-3">
+                <div class="col">
+                   <textarea class="form-control" rows="3" placeholder="Description" id="projectTodo-description"></textarea>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
     <div class="container mt-5 all" id="form-editTodo-container">
         <form id="form-editTodo">
             <h5>Edit Todo</h5>
@@ -107,10 +128,38 @@
             </div>
         </form>
     </div>
+    <div class="container mt-5 all" id="form-addProject-container">
+      <form id="form-addProject">
+          <h5>Add Project</h5>
+          <div class="form-row">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Project Name" id="project-name">
+            </div>
+          </div>
+          <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+      </form>
+  </div>
+  <div class="container mt-5 all" id="form-addMember-container">
+    <form id="form-addMember">
+        <h5>Add Member</h5>
+        <div class="form-row">
+          <div class="col">
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="invite user by email" id="member-email">
+          </div>
+        </div>
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </form>
+  </div>
     <div class="container">
       <div id="todos-container" class="mt-5 all">
-          <h3 class="text-center">Your Todo List</h3>
+          <h3 class="text-center">Your Personal Todo List</h3>
           <button class="btn btn-primary" id="add-todo-button">Add Todo</button>
+          <button class="btn btn-primary" id="add-project-button">Add Project</button>
           <table class="table mt-4">
               <thead>
                 <tr>
@@ -122,6 +171,42 @@
                 </tr>
               </thead>
               <tbody id="todos-tbody">
+                
+              </tbody>
+            </table>
+      </div>
+    </div>
+    <div class="container">
+      <div id="projects-container" class="mt-5 all">
+          <h3 class="text-center" id="project-todo-button">Your Project List</h3>
+          <table class="table mt-4">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="projects-tbody">
+                
+              </tbody>
+            </table>
+      </div>
+    </div>
+    <div class="container">
+      <div id="projectTodos-container" class="mt-5 all">
+          <h3 class="text-center">Your Project Todo List</h3>
+          <button class="btn btn-primary" id="add-projectTodo-button">Add Todo</button>
+          <table class="table mt-4">
+              <thead>
+                <tr>
+                  <th scope="col">Status</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">DueDate</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="projectTodos-tbody">
                 
               </tbody>
             </table>

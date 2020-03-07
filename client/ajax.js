@@ -30,6 +30,8 @@ const login = (email, password) => {
             $allPage.hide()
             $btnSignout.show()
             $todoContainer.show()
+            $projectsContainer.show()
+            showProject()
             showTodo()
         },
         error: (jqxhr, status, error) => {
@@ -91,6 +93,83 @@ const showTodo = () => {
     })
 }
 
+const showProject = () => {
+    $.ajax({
+        method: 'get',
+        url: 'http://localhost:3000/projects',
+        headers: {
+            "token" : localStorage.getItem("token")
+        },
+        success: projects => {
+            if (projects.length) {
+                $projectsTbody.empty()
+                projects.forEach(project => {
+                    let $projectItem = $(`<tr><td>${project.name}</td></tr>`)
+                    let $projectAction = $(`<td></td>`)
+                    let $projectTodoButton = $(`<button class="btn btn-primary">Todo List</button> `)
+                    let $addMemberButton = $(`<button class="btn btn-primary">Invite Member</button>`)
+                    $addMemberButton.on('click', () => {
+                        projectId = project.id
+                        $allPage.hide()
+                        $addMember.show()
+                    })
+                    $projectTodoButton.on('click', () => {
+                        projectId = project.id
+                        $allPage.hide()
+                        $btnSignout.show()
+                        showProjectTodos(project.id)
+                        $projectTodoContainer.show()
+                    })
+                    $projectAction.append($projectTodoButton)
+                    $projectAction.append($addMemberButton)
+                    $projectItem.append($projectAction)
+                    $projectsTbody.append($projectItem)
+                })
+            } else {
+                $projectsTbody.empty()
+            }
+        },
+        error: (jqxhr, status, error) => {
+            console.log(error)
+        } 
+    })
+}
+
+const showProjectTodos = id => {
+    $.ajax({
+        method: 'get',
+        url: `http://localhost:3000/projects/${id}/todos`,
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        success: todos => {
+            if (todos.length) {
+                $projectTodoTbody.empty()
+                todos.forEach(todo => {
+                    let $todoItem =  $(`<tr><td>${todo.title}</td><td>${todo.description}</td><td>${todo.due_date}</td></tr>`)
+                    let $todoAction = $(`<td></td>`)
+                    let $btnDelete = $(`<button class="btn btn-primary">Delete</button> `)
+                    let $btnCheck = $(`<td><input type="checkbox" class="form-check-input ml-2" ${todo.status === 'Completed' ?  'checked' : ''}></td>`)
+                    $btnDelete.on('click', () => {
+                        deleteProjectTodo(id, todo.id)
+                    })
+                    $btnCheck.on('click', (e) => {
+                        checkProjectTodo(id, todo.id, todo, e.target.checked)
+                    })
+                    
+                    $todoAction.append($btnDelete)
+                    $todoAction.append($btnEdit)
+                    $todoItem.append($todoAction)
+                    $todoItem.prepend($btnCheck)
+                    $projectTodoTbody.append($todoItem)
+                })
+            } else {
+                $projectTodoTbody.empty()
+            }
+        }
+    })
+}
+
 const addTodo = todo => {
     $.ajax({
         method: 'post',
@@ -102,13 +181,73 @@ const addTodo = todo => {
         success: () => {
             console.log('todo created')
             $addTodoForm[0].reset()
-            showTodo()
+            $allPage.hide()
+            $btnSignout.show()
+            showProjectTodos(project.id)
+            $projectTodoContainer.show()
         },
         error: (jqxhr, status, error) => {
             console.log(error)
         }
     })
 }
+
+const addProjectMember = (projectId, email) => {
+    $.ajax({
+        method: 'post',
+        url: `http://localhost:3000/projects/${projectId}/members`,
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        data: {
+            "email" : email
+        },
+        success: () => {
+            console.log('user invited')
+            $addMemberForm[0].reset()
+            showProject()
+            showTodo()
+        }
+    })
+}
+
+const addProjectTodo = (id, todo) => {
+    console.log(id, todo)
+    $.ajax({
+        method: 'post',
+        url: `http://localhost:3000/projects/${id}/todos`,
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        data: todo,
+        success: () => {
+            console.log('todo created')
+            $addProjectTodoForm[0].reset()
+            $allPage.hide()
+            $btnSignout.show()
+            showProjectTodos(id)
+            $projectTodoContainer.show()
+        }
+    })
+}
+
+const addProject = project => {
+    $.ajax({
+        method: 'post',
+        url: `http://localhost:3000/projects`,
+        headers: {
+            "token" : localStorage.getItem("token")
+        },
+        data: project,
+        success: () => {
+            console.log('project created')
+            $addProjectForm[0].reset()
+            showProject()
+            showTodo()
+        }
+    })
+}
+
 
 const editTodo = (id, todo) => {
     $.ajax({
@@ -121,7 +260,50 @@ const editTodo = (id, todo) => {
         success: () => {
             console.log('todo edited')
             $editTodoForm[0].reset()
+            showProject()
             showTodo()
+        }
+    })
+}
+
+const checkProjectTodo = (projectId, todoId, todo, status) => {
+    $.ajax({
+        method: 'put',
+        url: `http://localhost:3000/projects/${projectId}/todos/${todoId}`,
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        data: {
+            "title" : todo.title,
+            "description" : todo.description,
+            "status" : status ? "Completed" : "Not Started",
+            "due_date" : todo.due_date
+        },
+        success: () => {
+            console.log('todo edited')
+            $allPage.hide()
+            $btnSignout.show()
+            showProjectTodos(id)
+            $projectTodoContainer.show()
+        }
+    })
+}
+
+const deleteProjectTodo = (projectId, todoId) => {
+    $.ajax({
+        method: 'delete',
+        url: `http://localhost:3000/projects/${projectId}/todos/${todoId}`,
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        success: () => {
+            $allPage.hide()
+            $btnSignout.show()
+            showProjectTodos(id)
+            $projectTodoContainer.show()
+        },
+        error: (jqxhr, status, error) => {
+            console.log(error)
         }
     })
 }
@@ -134,6 +316,7 @@ const deleteTodo = id => {
             "token": localStorage.getItem("token")
         },
         success: () => {
+            showProject()
             showTodo()
         },
         error: (jqxhr, status, error) => {
@@ -156,6 +339,7 @@ const checkTodo = (todo, status) => {
             "due_date" : todo.due_date
         },
         success: () => {
+            showProject()
             showTodo()
         },
         error: (jqxhr, status, error) => {

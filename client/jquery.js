@@ -3,6 +3,20 @@
 let $todoContainer = $("#todos-container")
 let $todoTbody = $("#todos-tbody")
 
+let $projectsContainer = $('#projects-container')
+let $projectsTbody = $('#projects-tbody')
+
+let $projectTodoContainer = $('#projectTodos-container')
+let $projectTodoTbody = $('#projectTodos-tbody')
+let $projectTodoButton = $('#project-todo-button')
+
+let $addProjectTodo = $('#form-addProjectTodo-container')
+let $addProjectTodoForm = $('#form-addProjectTodo')
+let $addProjectTodoButton = $('#add-projectTodo-button')
+
+let $addMember = $('#form-addMember-container')
+let $addMemberForm = $('#form-addMember')
+
 let $login = $('#login')
 let $loginForm = $('#form-login')
 let $btnSignout = $('#signout-button')
@@ -14,14 +28,49 @@ let $loginInsteadButton = $('#button-loginInstead')
 
 let $addTodo = $('#form-addTodo-container')
 let $addTodoForm = $('#form-addTodo')
+let $addTodoButton = $('#add-todo-button')
 
 let $editTodo = $('#form-editTodo-container')
 let $editTodoForm = $('#form-editTodo')
 
 let $googleSignin = $('#google-signin')
-let $addTodoButton = $('#add-todo-button')
+
+let $addProject = $('#form-addProject-container')
+let $addProjectForm = $('#form-addProject')
+let $addProjectButton = $('#add-project-button')
+
 let $allPage = $('.all')
 let todoId
+let projectId
+
+$addProjectTodoButton.on('click', () => {
+    $allPage.hide()
+    $addProjectTodo.show()
+})
+
+$addMemberForm.on('submit', (e) => {
+    e.preventDefault()
+    let email = $('#member-email').val()
+    addProjectMember(projectId, email)
+    $allPage.hide()
+    $btnSignout.show()
+    $todoContainer.show()
+    $projectsContainer.show()
+})
+
+$addProjectTodoForm.on('submit', (e) => {
+    e.preventDefault()
+    let $todoTitle = $('#projectTodo-title').val()
+    let $todoDueDate = $('#projectTodo-duedate').val()
+    let $todoDescription = $('#projectTodo-description').val()
+    let newTodo = {
+        "title": $todoTitle,
+        "description": $todoDescription,
+        "due_date": $todoDueDate
+    }
+    addProjectTodo(projectId, newTodo)
+})
+
 
 if (localStorage.getItem("token") !== null) {
     $(document).ready(() => {
@@ -30,6 +79,8 @@ if (localStorage.getItem("token") !== null) {
         $allPage.hide()
         $btnSignout.show()
         $todoContainer.show()
+        $projectsContainer.show()
+        showProject()
         showTodo()
     })
 } else if (localStorage.getItem("signup") === 'on sign up') {
@@ -41,6 +92,8 @@ if (localStorage.getItem("token") !== null) {
         $login.show()
     })
 }
+
+
 
 $signupButton.on('click', () => {
     localStorage.setItem("signup", "on sign up")
@@ -104,6 +157,16 @@ $editTodoForm.on('submit', (e) => {
     $btnSignout.show()
 })
 
+$addProjectForm.on('submit', (e) => {
+    e.preventDefault()
+    let projectName = $('#project-name').val()
+    let newProject = {
+        "name" : projectName
+    }
+    addProject(newProject)
+    $allPage.hide()
+})
+
 
 
 
@@ -117,6 +180,11 @@ $googleSignin.on('click', () => {
 $addTodoButton.on('click', () => {
     $allPage.hide()
     $addTodo.show()
+})
+
+$addProjectButton.on('click', () => {
+    $allPage.hide()
+    $addProject.show()
 })
 
 

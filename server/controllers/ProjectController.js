@@ -85,8 +85,79 @@ class ProjectController {
             })
     }
 
-    static addMember = (req, res, next) => {
+    static updateTodo = (req, res, next) => {
+        let { title, description, status, due_date } = req.body
+        let ProjectId = req.params.projectId
+        let editedTodo = {
+            title,
+            description,
+            status,
+            due_date
+        }
+        let TodoId = req.params.userId
         
+        Todo.update(editedTodo, { where: { id: TodoId, ProjectId } })
+            .then(updated => {
+                if (!updated[0]) {
+                    next(
+                        {
+                            status: 404,
+                            msg: 'Todo not found'
+                        }
+                    )
+                }
+                res.status(200).json({ msg: "Todo has been edited", editedTodo })
+            })
+            .catch(err => {
+                if (err.errors) {
+                    let msg = []
+                    err.errors.forEach(error => {
+                        msg.push(error.message)
+                    })
+                    next(
+                        {
+                            status: 400,
+                            msg:msg
+                        }
+                    )
+                } else {
+                    next(err)
+                }
+            })
+    }
+
+    static deleteTodo = (req, res, next) => {
+        let ProjectId = req.params.projectId
+        let TodoId = req.params.userId
+        let deleted
+        Todo.destroy({ where: { id: TodoId, ProjectId } })
+            .then(() => {
+                res.status(200).json(deleted)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+    static addMember = (req, res, next) => {
+        let { email } = req.body
+        let projectId = req.params.id
+        let newMember
+        User.findOne({ where: { email } })
+            .then(user => {
+                newMember = user
+                let newProjectUser = {
+                    ProjectId: projectId,
+                    UserId: user.id
+                }
+                return ProjectUser.create(newProjectUser)
+            })
+            .then(data => {
+                res.status(201).json({ msg: `${newMember.first_name} invited to this project`})
+            })
+            .catch(err => {
+                next(err)
+            })
     }
 
     static findMembersById = (req, res, next) => {
