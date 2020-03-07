@@ -8,21 +8,26 @@ $(document).ready(() => {
     }
 
     $btnReg.on(`click`, (event) => {
+        $table.empty()
         event.preventDefault()
         show(`register`)
     })
 
     $btnLogin.on(`click`, (event) => {
+        $table.empty()
         event.preventDefault()
         show(`login`)
     })
 
     $btnLogout.on(`click`, (event) => {
+        $table.empty()
         localStorage.removeItem(`Token`)
+
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
             console.log('User signed out.')
         })
+
         show(`login`)
     })
 

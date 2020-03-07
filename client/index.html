@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="google-signin-client_id" content="816656371110-eah09dv6b3fc2tevee62or9v0aavq59i.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="816656371110-eah09dv6b3fc2tevee62or9v0aavq59i.apps.googleusercontent.com">
 
     <title>Fancy Todolist</title>
 
@@ -20,7 +21,8 @@
             color: red;
         }
 
-        th, td {
+        th,
+        td {
             text-align: center;
         }
     </style>
@@ -74,7 +76,6 @@
         <button type="button" class="btn btn-primary" id="add" data-toggle="modal" data-target="#md-add">+ Add</button>
         <button class="btn btn-primary float-right mb-3" id="btn-logout">Logout</button>
 
-
         <!-- modal add -->
         <div class="modal fade" id="md-add" tabindex="-1" role="dialog" aria-labelledby="md-Label" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -115,6 +116,8 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Due Date</th>
+                    <th>Weather</th>
+                    <th>Temperature</th>
                     <th colspan="2">Action</th>
                 </tr>
             </thead>
@@ -155,7 +158,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- google sign in -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>

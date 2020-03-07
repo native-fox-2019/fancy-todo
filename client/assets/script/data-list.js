@@ -4,6 +4,11 @@ function listData(data) {
         $tableList.append(`<tr class="w-100">`)
         $tableList.append(`<td><input type="checkbox" id="checkbox${todo.id}" ${todo.status ? "checked" : ""}></td>`)
         $tableList.append(`<td>${todo.title}</td> <td>${todo.description}</td> <td>${todo.due_date}</td>`)
+        if(todo.forecast) {
+            $tableList.append(`<td>${todo.forecast.weather}<td>${todo.forecast.temp.min}°C - ${todo.forecast.temp.max}°C`)
+        } else {
+            $tableList.append(`<td>can only show weather this week<td>can only show weather this week`)
+        }
         $tableList.append(`<td><button type="button" class="btn btn-primary" id="edit${todo.id}"
                             data-toggle="modal" data-target="#md-edit">
                             Edit
