@@ -6,7 +6,7 @@ const authorization = require('../middlewares/authorization');
 
 route.post('/', authentication, Controller.addData);
 route.get('/', authentication, Controller.showData);
-route.get('/:id', authentication, authentication, Controller.showDataById);
+route.get('/:id', authentication, authorization, Controller.showDataById);
 route.put('/:id', authentication, authorization, Controller.edit);
 route.delete('/:id', authentication, authorization, Controller.deleteData);
 

@@ -1,9 +1,9 @@
-const { User } = require('../models');
+const {Todo} = require('../models');
 
 function authorization(req, res, next){
-    User.findOne({
+    Todo.findOne({
         where: {
-            id: req.userData.id
+            userId: req.userData.id
         }
     })
         .then(data=>{
@@ -16,7 +16,7 @@ function authorization(req, res, next){
             }
         })
         .catch(err=>{
-            next(err);
+            next(err)
         })
 }
 

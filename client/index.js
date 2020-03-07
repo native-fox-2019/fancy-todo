@@ -9,7 +9,8 @@ $(document).ready(function(){
             method: 'GET',
             headers: {token: localStorage.getItem('token')},
             success: function(data){
-                
+                $('.table-data').empty();
+
                 data.forEach(todos => {
                     $('#table-todo').append(`<tr class="table-data">
                     <td>${todos.title}</td>
@@ -154,6 +155,24 @@ $(document).ready(function(){
         start();
     })
 
+    $('#register-form').on('submit', function(event){
+        event.preventDefault();
+
+        let $emailRegister = $('#email-register').val();
+        let $passwordRegister = $('#password-register').val();
+
+        $.ajax({
+            url: 'http://localhost:3000/user/register',
+            method: 'POST',
+            data:{email: $emailRegister, password: $passwordRegister},
+            success: function(data){
+                $('.parts').hide();
+                $('#Thelogin').show();
+            }
+        })
+    })
+
+
     function start(){
         if(localStorage.getItem('token')){
             $('.parts').hide();
@@ -163,6 +182,7 @@ $(document).ready(function(){
             $('#Thelogin').show();
         }
     }
+
 
     start();
 
@@ -175,4 +195,5 @@ $(document).ready(function(){
         $('.parts').hide();
         $('#Thelogin').show();
     })
+    
 })

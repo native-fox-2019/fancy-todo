@@ -1,5 +1,5 @@
 const { Todo } = require('../models');
-const jwt = require('jsonwebtoken');
+const sendMail = require('../sendMail.js');
 
 class Controller{
     
@@ -15,6 +15,7 @@ class Controller{
         
         Todo.create(dataAdd)
             .then(data=>{
+                // sendMail(dataAdd.title);
                 res.status(201).json(dataAdd);
                 
             })
