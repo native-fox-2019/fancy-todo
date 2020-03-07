@@ -10,6 +10,7 @@ let $buttonWeather = $('#btn-weather')
 let $doneChecker = $(`#done-checker`)
 
 let $error = $('#err')
+let $errorForm = $('#errForm')
 
 let $statusBody = $(`#status-body`)
 

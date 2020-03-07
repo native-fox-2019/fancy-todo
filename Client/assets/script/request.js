@@ -10,7 +10,10 @@ let addTodo = () => {
         },
         success: function (data) {
             $add.hide()
+            $errorForm.hide()
             getTodo()
+        },error:function(data){
+            $errorForm.show()
         }
     })
 }
@@ -67,11 +70,8 @@ let updateTodo = (id) => {
             due_date: $editDate.val()
         },
         success: function (data) {
+            $errorForm.hide()
             getTodo()
-        },
-        fail: function(err) {
-            console.log("disini")
-            console.log(err)
         }
     })
 }
@@ -105,7 +105,7 @@ let registerUser = () => {
             $list.show()
             getTodo()
         },
-        error: function(data){
+        error: function(err){
             $error.show()
         }
 

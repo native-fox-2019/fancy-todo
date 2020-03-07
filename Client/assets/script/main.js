@@ -33,6 +33,7 @@ $(document).ready(function () {
         $list.hide()
         $edit.hide()
         $add.hide()
+        $errorForm.hide()
         $login.show()
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -45,6 +46,7 @@ $(document).ready(function () {
         $add.hide()
         $edit.hide()
         $weather.hide()
+        $errorForm.hide()
         $list.show()
     })
 
