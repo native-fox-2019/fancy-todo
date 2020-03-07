@@ -15,7 +15,7 @@ class Controller{
         
         Todo.create(dataAdd)
             .then(data=>{
-                // sendMail(dataAdd.title);
+                sendMail(dataAdd.title);
                 res.status(201).json(dataAdd);
                 
             })

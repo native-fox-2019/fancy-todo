@@ -5,57 +5,61 @@
     <meta name="google-signin-client_id" content="91945127163-61ared22mukbbrt2ii4l17arkocufe9h.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-<body>
+<body style="background-color: lightgrey;">
+    <!-- Login -->
     <div id="Thelogin" class="parts" style="text-align: center;">
-        <h1>Fancy Todo List</h1>
+        <h1>Todo List</h1>
         <form class="container" id="login-form" style="text-align: center;">
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input type="email" class="form-control" id="email-login" aria-describedby="emailHelp">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
               <input type="password" class="form-control" id="password-login">
             </div>
-            <button class="btn-sucsess" type="submit">Login</button>
-            <button class="btn-register">Register</button><br><br>
+            <button class="btn btn-primary m-2" type="submit">Login</button>
+            <button class="btn-register btn btn-secondary">Register</button><br><br>
             <div style="width: 100px;" class="g-signin2 mx-auto" data-onsuccess="onSignIn"></div>
           </form>
     </div>
 
+    <!-- Register -->
     <div id="Theregister" class="parts" style="text-align: center;">
         <h1>Fancy Todo List</h1>
-        <form id="register-form" style="text-align: center;">
+        <form class="container" id="register-form" style="text-align: center;">
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input type="email" class="form-control" id="email-register" aria-describedby="emailHelp">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
               <input type="password" class="form-control" id="password-register">
             </div>
-            <button type="submit">Register</button>
-            <button class="btn-login">Login</button>
+            <button class="btn btn-success m-2" type="submit">Register</button>
+            <button class="btn-login btn btn-secondary">Login</button>
           </form>
     </div>
 
+    <!-- List -->
     <div id="todo-list" class="parts" style="text-align: center;">
-        <h1>Todo List</h1>
-        <button class="btn-add">Add</button>
-        <button onclick="signOut();" class="btn-logout">Logout</button>
-        <table id="table-todo" border="1" class="table">
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Due date</th>
-                <th>Action</th>
-            </tr>
+        <h1>My list</h1>
+        <button class="btn-add m-3 btn btn-success">+ Add</button>
+        <button onclick="signOut();" class="btn-logout btn btn-danger">Logout</button>
+        <table id="table-todo" border="1" class="table table-active table-striped">
+           <thead class="thead-dark">
+               <tr>
+                   <th>Title</th>
+                   <th>Description</th>
+                   <th>Status</th>
+                   <th>Due date</th>
+                   <th>Action</th>
+               </tr>
+           </thead>
         </table>
     </div>
 
+    <!-- Add list -->
     <div id="add-list" class="parts" style="text-align: center;">
         <h1>Add to list</h1>
         <form id="add-form" style="text-align: center;">
@@ -64,13 +68,18 @@
             <label>Description</label><br>
             <input type="text"  class="add-desc"><br>
             <label>Status</label><br>
-            <input type="text"  class="add-status"><br>
+            <select class="add-status">
+                <option value="On Going">On Going</option>
+                <option value="Haven't Started">Haven't Started</option>
+            </select><br><br>
             <label>Due date</label><br>
             <input type="text"  class="add-date"><br><br>
-            <button class="submit-add" type="submit">Add</button>
+            <button class="submit-add btn btn-success m-3" type="submit">Add</button>
+            <button class="submit-cancel btn btn-danger">Cancel</button>
         </form>
     </div>
 
+    <!-- Edit -->
     <div id="edit-list" class="parts" style="text-align: center;">
         <h1>Edit list</h1>
         <form id="edit-form" style="text-align: center;">
@@ -79,10 +88,14 @@
             <label>Description</label><br>
             <input type="text" class="edit-desc"><br>
             <label>Status</label><br>
-            <input type="text" class="edit-status"><br>
+            <select class="edit-status">
+                <option value="On Going">On Going</option>
+                <option value="Haven't Started">Haven't Started</option>
+            </select><br><br>
             <label>Due date</label><br>
             <input type="text" class="edit-date"><br><br>
-            <button type="submit">Edit</button>
+            <button class="btn btn-success m-3" type="submit">Edit</button>
+            <button class="edit-cancel btn btn-danger" type="submit">Cancel</button>
         </form>
     </div>
 

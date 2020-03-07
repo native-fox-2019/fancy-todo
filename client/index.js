@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     $('.parts').hide();
 
-    //read
+    //Read
     function showTodo(){
         $.ajax({
             url: 'http://localhost:3000/todos',
@@ -17,7 +17,7 @@ $(document).ready(function(){
                     <td>${todos.description}</td>
                     <td>${todos.status}</td>
                     <td>${todos.due_date}</td>
-                    <td><button data-id="${todos.id}" class="btn-edit">Edit</button><button data-id="${todos.id}" class="btn-delete">Delete</button></td>
+                    <td><button data-id="${todos.id}" class="btn-edit btn btn-info m-2">Edit</button><button data-id="${todos.id}" class="btn-delete btn btn-danger">Delete</button></td>
                     </tr>`)
                 });
 
@@ -27,7 +27,7 @@ $(document).ready(function(){
         })
     }
 
-    //create
+    //Create
     $('.btn-add').on('click', function(){
         $('.parts').hide();
         $('#add-list').show();
@@ -59,7 +59,11 @@ $(document).ready(function(){
         })
     })
 
-    //edit
+    $('.submit-cancel').on('click', function(){
+        start();
+    })
+
+    //Edit
     $(document).on('click', '.btn-edit', function(){
         $('.parts').hide();
         $('#edit-list').show();
@@ -78,9 +82,17 @@ $(document).ready(function(){
                     due_date: data.due_date
                 }
 
+                let statusOnEdit;
+
+                if(dataEdit.status === "Haven't Started"){
+                    statusOnEdit = dataEdit.status;
+                }else{
+                    statusOnEdit = dataEdit.status;
+                }
+
                 $('.edit-title').val(dataEdit.title);
                 $('.edit-desc').val(dataEdit.description);
-                $('.edit-status').val(dataEdit.status);
+                $('.edit-status').val(statusOnEdit);
                 $('.edit-date').val(dataEdit.due_date);
                 $('.submit-add').val(dataEdit.id)
             }
@@ -114,6 +126,10 @@ $(document).ready(function(){
             }
         })
     })
+
+    $('.edit-cancel').on('click', function(){
+        start();
+    })
     
 
     //delete
@@ -132,7 +148,7 @@ $(document).ready(function(){
 
     })
 
-    
+    //Login and Logout
     $('#login-form').on('submit', function(event){
         event.preventDefault();
         let $email = $('#email-login').val();
@@ -155,6 +171,8 @@ $(document).ready(function(){
         start();
     })
 
+
+    //Register
     $('#register-form').on('submit', function(event){
         event.preventDefault();
 
