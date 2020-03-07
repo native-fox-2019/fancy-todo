@@ -123,6 +123,7 @@
 
     function onGoogleSuccess(googleUser){
         // console.log(googleUser)
+        debugger;
         var profile = googleUser.getBasicProfile();
         var sentData={
             name:profile.getName(),
@@ -135,6 +136,7 @@
     }
 
     function onGoogleFailure(res){
+        debugger;
         console.log('Gagal',res);
     }
 
@@ -143,11 +145,31 @@
         var auth2=gapi.auth2.getAuthInstance();
         if(auth2){
             auth2.signOut().then(function(){
-                renderGoogleButton()
+                //renderGoogleButton()
             });
             auth2.disconnect();
            
         }
     }
+
+    function renderButton(){
+        gapi.load('auth2', function(){
+            // Retrieve the singleton for the GoogleAuth library and set up the client.
+            debugger;
+            auth2 = gapi.auth2.init({
+              client_id: '642251915423-irs882ak5nuis2j1ctr2lbd7eurgugqc.apps.googleusercontent.com',
+              cookiepolicy: 'single_host_origin',
+              'scope': 'profile email'
+              // Request scopes in addition to 'profile' and 'email'
+              //scope: 'additional_scope'
+            });
+            // attachSignin(document.getElementById('customBtn'));
+            var element=document.getElementById('google-btn-login');
+            console.log(element.id);
+            auth2.attachClickHandler(element, {},onGoogleSuccess,onGoogleFailure);
+        });
+    }
+
+    renderButton();
 
 })()
