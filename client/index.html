@@ -7,27 +7,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta name="google-signin-client_id"
         content="243042074427-qtub7stg80td5iacgnmfpg42mdsj38hp.apps.googleusercontent.com">
-    <style>
-        body{
-            text-align: center;
-        }
-        .box {
-            display: none;
-            margin-top: 30px;
-        }
-        #editTodoId {
-            display: none;
-        }
-        .g-signin2{
-            margin-left: 45%;
-        }
-        #logout-btn{
-            display: none;
-        }
-        #todo-btn{
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/style-index.css">
     <title>Todo App</title>
 </head>
 <body>
@@ -100,7 +80,7 @@
             <h4 id="todo-box-user-name"></h4>
             <p id="todo-box-user-email"></p>
         </div>
-        <h1>Todos!</h1>
+        <h1 class="todo-title">Todos!</h1>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
             Add Todo
         </button>
@@ -141,7 +121,6 @@
                 </div>
                 <div class="modal-body">
                     <div id="div-addTodo-form" class="feature addTodo-div">
-                        <h2>Add Todo</h2>
                         <form id="addTodo-form" method="POST">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Todo</label>
@@ -179,7 +158,6 @@
                 </div>
                 <div class="modal-body">
                     <div id="div-editTodo-form" class="feature editTodo-div">
-                        <h2>Edit Todo</h2>
                         <form id="editTodo-form" method="POST">
                         </form>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

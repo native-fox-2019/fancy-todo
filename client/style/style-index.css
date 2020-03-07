@@ -1,0 +1,48 @@
+body{
+    text-align: center;
+}
+.box {
+    display: none;
+    margin-top: 30px;
+}
+#editTodoId {
+    display: none;
+}
+.g-signin2{
+    margin-left: 45%;
+}
+#logout-btn{
+    display: none;
+}
+#todo-btn{
+    display: none;
+}
+
+body{
+    background-color: #252526;
+    color: white;
+}
+
+.todo-box-user-container{
+    text-align: center;
+    border-style: solid;
+    border-color: white;
+    border-radius: 30px;
+    margin: 0 30%;
+}
+
+#todo-box-user-name{
+    margin-top: 14px;
+}
+
+.todo-title{
+    margin-top: 20px;
+}
+
+table{
+    margin-top: 20px;
+}
+
+.modal{
+    color: black;
+}
