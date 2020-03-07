@@ -50,7 +50,7 @@ class TodosController {
     .then(todo => {
       
       if(todo === null){
-        res.status(404).json({ message: 'Not found' })
+        res.status(404).json({ message: 'Todo Not found' })
       }else{
         res.status(200).json(todo)
       }
@@ -87,7 +87,7 @@ class TodosController {
       where: { id }
     })
     .then(todo => {
-      res.status(200).json(todo)
+      res.status(200).json({message: 'Has been delete'})
     })
     .catch(err => {
       next(err)

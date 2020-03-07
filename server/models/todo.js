@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeSave: (Todo, options) =>{
         if(Todo.status !== 'Compelete'){
-          Todo.status = 'Uncomplete'
+          Todo.status = 'Incomplete'
         }
       }
     },
