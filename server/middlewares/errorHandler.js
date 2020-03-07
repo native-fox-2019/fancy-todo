@@ -1,5 +1,4 @@
 function errorHandler(err, req, res, next) {
-    // console.log(err)
     if (err.name === 'SequelizeValidationError') {
         res.status(400).json(err.errors)
     } else if(err.status === 400){

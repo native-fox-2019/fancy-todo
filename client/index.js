@@ -1,55 +1,80 @@
-function register() {
+$(document).ready(()=>{
+    if(localStorage.getItem('token')){
+        startTrue()
+    } else {
+        startFalse()
+    }
+})
+
+function startTrue(){
     $('#register-form').hide()
+    $('#login-form').hide()
+    $('#addTodo').hide()
+    $('#editTodo').hide()
+    $('#button-logout').show()
+    $('#calendar').show()
+    $('#todo').show()
+    showTodo()
+    calendarific()
 }
 
-function login() {
+function startFalse(){
+    $('#button-logout').hide()
+    $('#todo').hide()
+    $('#addTodo').hide()
+    $('#editTodo').hide()
+    $('#register-form').hide()
+    $('#calendar').hide()
     $('#login-form').show()
 }
 
-function start() {
-    if (localStorage.getItem('token')) {
-        todo()
-    } else {
-        $('#button-logout').hide()
-        $('#login-form').hide()
-        $('#todo').hide()
-        $('#addTodo').hide()
-        $('#editTodo').hide()
-        $('#register-form').show()
-    }
+function register(){
+    $('#button-logout').hide()
+    $('#todo').hide()
+    $('#addTodo').hide()
+    $('#editTodo').hide()
+    $('#login-form').hide()
+    $('#calendar').hide()
+    $('#register-form').show()
 }
 
-
 $('#continue-register').on('click', function() {
-    start()
+    register()
 })
 
 $('#continue-login').on('click', function() {
     $('#register-form').hide()
     $('#editTodo').hide()
     $('#addTodo').hide()
-    $('#login-form').show()
+    $('#calendar').hide()
+    $('#login-form').show() 
 })
 
 $('#button-register').on('submit', function(event) {
     event.preventDefault()
     let $email = $('#email-register').val()
     let $password = $('#password-register').val()
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/user/register",
-        data: {
-            email: $email,
-            password: $password
-        },
-        success: () => {
-            $('#register-form').hide()
-            $('#login-form').show()
-        },
-        error: (err) => {
-            console.log(err)
-        }
-    })
+    let $confirmPassword = $('#confirm-password-register').val()
+    if($password === $confirmPassword){
+        $.ajax({
+            method: "POST",
+            url: "http://localhost:3000/user/register",
+            data: {
+                email: $email,
+                password: $password
+            },
+            success: (token) => {
+                localStorage.setItem('token', token)
+                todo()
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        })
+    } else {
+        register()
+    }
+    $('#button-register')[0].reset()
 })
 
 $('#button-login').on('submit', function(event) {
@@ -68,13 +93,34 @@ $('#button-login').on('submit', function(event) {
             todo()
         },
         error: (err) => {
+            console.log('wrong password/username')
             console.log(err)
         }
     })
+    $('#button-login')[0].reset()
 })
 
+function calendarific(){
+    $.ajax({
+        method: 'GET',
+        url: 'http://localhost:3000/calendar',
+        success : (data)=>{
+            for(let i = 0; i<data.length; i++){
+                $('#calendarific').append(`
+                <tr>
+                <td>${data[i].name}<td>
+                <td>${data[i].date.iso}<td>
+                </tr>
+                `)
+            }
+        },
+        error : (err) =>{
+            console.log(err)
+        }
+    })
+}
+
 function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
     var id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
         method: 'POST',
@@ -85,51 +131,58 @@ function onSignIn(googleUser) {
         success : (token)=>{
             localStorage.setItem('token', token)
             todo()
+        },
+        error : (err)=>{
+            console.log(err)
+        }
+    })
+}
+
+function showTodo(){
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/todos",
+        headers: {
+            token: `${localStorage.getItem('token')}`
+        },
+        success: (data) => {
+            $('#table-todo').empty()
+            let x = 1
+            data.forEach(data => {
+                $('#table-todo').append(`<tr>
+                <td>${x}</td>
+                <td>${data.title}</td>
+                <td>${data.description}</td>
+                <td>${data.status}</td>
+                <td>${data.due_date}</td>
+                <td><button onclick= "editTodo(${data.id})" class="btn btn-outline-info">Edit</button> <button onclick= "deleteTodo(${data.id})" class="btn btn-outline-danger">Delete</button></td>
+                </tr>`)
+                x++
+            })
+        },
+        error : (err)=>{
+            console.log(err)
         }
     })
 }
 
 function todo() {
-    $('#register-form').hide()
-    $('#login-form').hide()
-    $('#addTodo').hide()
-    $('#editTodo').hide()
-    $('#button-logout').show()
-    $('#todo').show()
+    startTrue()
     if (localStorage.getItem('token')) {
-        $.ajax({
-            method: "GET",
-            url: "http://localhost:3000/todos",
-            headers: {
-                token: `${localStorage.getItem('token')}`
-            },
-            success: (data) => {
-                $('#table-todo').empty()
-                let x = 1
-                data.forEach(data => {
-                    $('#table-todo').append(`<tr>
-                    <td>${x}</td>
-                    <td>${data.title}</td>
-                    <td>${data.description}</td>
-                    <td>${data.status}</td>
-                    <td>${data.due_date}</td>
-                    <td><button onclick= "editTodo(${data.id})" class="btn btn-outline-info">Edit</button> <button onclick= "deleteTodo(${data.id})" class="btn btn-outline-danger">Delete</button></td>
-                    </tr>`)
-                    x++
-                })
-            }
-        })
+        showTodo()
+        calendarific()
     } else {
-        start()
+        signOut()
     }
 }
 
-$('#add-form').on('click', function(event) {
+$('#add-form').on('click', function() {
     $('#register-form').hide()
     $('#login-form').hide()
     $('#todo').hide()
     $('#editTodo').hide()
     $('#button-logout').hide()
+    $('#calendar').hide()
     $('#addTodo').show()
 })
 
@@ -161,7 +214,7 @@ $('#add-button').on('submit', function(event) {
             }
         })
     } else {
-        start()
+        signOut()
     }
 })
 
@@ -181,7 +234,7 @@ function deleteTodo(id) {
             }
         })
     } else {
-        start()
+        signOut()
     }
 }
 
@@ -201,7 +254,7 @@ function editTodo(id) {
             }
         })
     } else {
-        start()
+        signOut()
     }
 }
 
@@ -210,6 +263,7 @@ function editForm(data) {
     $('#login-form').hide()
     $('#todo').hide()
     $('#addTodo').hide()
+    $('#calendar').hide()
     $('#button-logout').hide()
     if (localStorage.getItem('token')) {
         $("#id-edit").val(data.id)
@@ -220,7 +274,7 @@ function editForm(data) {
         $("#due_date-edit").val(data.due_date)     
         $('#editTodo').show()  
     } else {
-        start()
+        signOut()
     }
 }
 
@@ -252,13 +306,8 @@ $('#edit-button').on('submit', function(event) {
             }
         })
     } else {
-        start()
+        signOut()
     }
-})
-
-$('#button-logout').on('click', function(){
-    localStorage.removeItem('token')
-    start()
 })
 
 function signOut() {
@@ -267,6 +316,5 @@ function signOut() {
       console.log('User signed out.');
     });
     localStorage.removeItem('token')
+    startFalse()
   }
-
-start()

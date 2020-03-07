@@ -4,7 +4,6 @@ const Todo = Model.Todo
 class TodosController {
 
     static add(req, res, next) {
-        console.log('masuk add')
         let obj = {
             title: req.body.title,
             description: req.body.description,
@@ -22,7 +21,7 @@ class TodosController {
     }
 
     static getAll(req, res, next) {
-        Todo.findAll({where : {UserId : req.userData.id}, order : [['id', "ASC"]]})
+        Todo.findAll({where : {UserId : req.userData.id}, order : [['due_date', "ASC"]]})
         .then(data => {
                 res.status(200).json(data)
             })

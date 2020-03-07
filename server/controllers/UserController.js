@@ -12,7 +12,8 @@ class UserController {
         }
         User.create(obj)
             .then(user => {
-                res.status(201).json(user)
+                let token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET)
+                res.status(201).json(token)
             })
             .catch(err => {
                 next(err)
@@ -54,19 +55,16 @@ class UserController {
             })
             .then(dataUser => {
                 if (dataUser === null) {
-                    console.log('masuk akun belum terdaftar')
                     let obj = {
                         email: email,
                         password: 'Ahdy75hugg8765HJdh'
                     }
                     return User.create(obj)
                 } else {
-                    console.log('masuk akun terdaftar')
                     return dataUser
                 }
             })
             .then(user => {
-                console.log('masuk .then akun terdaftar sama kaga')
                 let token = jwt.sign({
                         id: user.id,
                         email: user.email
