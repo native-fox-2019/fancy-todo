@@ -20,6 +20,17 @@
     var $btnDeleteModalTodo=$('#btn-submit-modal-delete');
     var $hrefUnAuth=$('#href-unauth');
 
+    var $errorTitle=$('#error-title');
+    var $errorDescription=$('#error-description');
+    var $errorStartDate=$('#error-start-date');
+    var $errorDueDate=$('#error-end-date');
+
+    var $errorTitleM=$('#error-title-m');
+    var $errorDescriptionM=$('#error-description-m');
+    var $errorStartDateM=$('#error-start-date-m');
+    var $errorDueDateM=$('#error-end-date-m');
+
+
     var todosData;
     var willUpdateId=-1;
     var wilDeleteId=-1;
@@ -61,11 +72,11 @@
       
        updateTodos().then(function(data){
             refreshTodos();
+            $editModal.modal('hide');
             return updateGoogleTodos(data.data.g_id);
        })
        .catch(onFail)
        .finally(function(){
-            $editModal.modal('hide');
             $btnUpdateTodo.attr('disabled',null)
        })
     });
@@ -141,9 +152,20 @@
         var sentData={
             "title":$title_m.val(),
             "description":$description_m.val(),
-            "start_date":new Date($startDate_m.val()).toISOString(),
-            "due_date":new Date($dueDate_m.val()).toISOString()
+            "start_date":$startDate_m.val(),
+            "due_date":$dueDate_m.val()
         }
+        var element={
+            $errorTitle:$errorTitleM,
+            $errorDescription:$errorDescriptionM,
+            $errorStartDate:$errorStartDateM,
+            $errorDueDate:$errorDueDateM
+        }
+        
+        if(!validateTodos(sentData,element)){
+            return Promise.reject({message:'Validation Fail'});
+        }
+
         var url='/todos/'+willUpdateId;
 
         return new Promise(function(resolve,reject){
@@ -182,6 +204,45 @@
                 reject({jqXhr:jqXhr,status:status,response:response});
             });
         })
+    }
+
+    function validateTodos(sentData,element){
+        $('[id|=error]').text('');
+        if(!sentData.title){
+            element.$errorTitle.text('Title must be filled');
+            return false;
+        }
+
+        if(!sentData.description){
+            element.$errorDescription.text('Description must be filled');
+            return false;
+        }
+
+        var start_date_obj=new Date(sentData.start_date);
+        var due_date_obj=new Date(sentData.due_date);
+
+        if(!sentData.start_date){
+            element.$errorStartDate.text('Start Date must be filled');
+            return false;
+        }
+        else if(!start_date_obj.getTime()){
+            element.$errorStartDate.text('Wrong date format for start date');
+            return false;
+        }
+
+        if(!sentData.due_date){
+            element.$errorDueDate.text('Due Date must be filled')
+            return false;
+        }
+        else if(!due_date_obj.getTime()){
+            element.$errorDueDate.text('Wrong date format for due date');
+            return false;
+        }
+
+        sentData.start_date=start_date_obj.toISOString();
+        sentData.due_date=due_date_obj.toISOString();
+
+        return true;
 
     }
 
@@ -189,9 +250,22 @@
         var sentData={
             "title":$title.val(),
             "description":$description.val(),
-            "due_date":new Date($dueDate.val()).toISOString(),
-            "start_date":new Date($startDate.val()).toISOString()
+            "due_date":$dueDate.val(),
+            "start_date":$startDate.val()
         }
+
+        var element={
+            $errorTitle:$errorTitle,
+            $errorDescription:$errorDescription,
+            $errorStartDate:$errorStartDate,
+            $errorDueDate:$errorDueDate
+        }
+        
+        if(!validateTodos(sentData,element)){
+            return Promise.reject({message:'Validation Fail'});
+        }
+
+
         var url='/todos';
 
         return new Promise(function(resolve,reject){
