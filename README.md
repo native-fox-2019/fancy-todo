@@ -1,6 +1,6 @@
 # fancy-todo
 
-Fancy To-Do Sangle Page App With Express, Postgres, Sequelize, and jQuery
+Fancy To-Do Single Page App With Express, Postgres, Sequelize, and jQuery
 ___________
 ## 3rd Party API
 1. Geo js : used to get the user's IP address and country code the country the user is located in
