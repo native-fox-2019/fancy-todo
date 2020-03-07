@@ -19,7 +19,6 @@ let $all = $('#.all')
 
 if(localStorage.token){
     $(document).ready (() => {
-        $all.hide()
         showMain()
     })
 } else {

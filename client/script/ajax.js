@@ -27,10 +27,45 @@ function login() {
         success: (data) => {
             localStorage.setItem('token', data)
             getData()
-            $("#main-page").show()
-            $('#login-page').hide()
+            showMain()
         }
     });
+}
+
+function showEditProfile(){
+    $.ajax({
+        url: 'http://localhost:3000/users',
+        method: 'get',
+        headers: {
+            'token': localStorage.getItem('token')
+        },
+        success: (data) => {
+            $('#profile-name').val(data.name)
+            $('#profile-email').val(data.email)
+            $('#profile-password').val(data.password)
+            showEdit()
+        },
+        error: (err) => console.log(err)
+    })
+}
+
+function editProfile(){
+    $.ajax({
+        url: 'http://localhost:3000/users',
+        method: 'put',
+        headers: {
+            'token': localStorage.getItem('token')
+        },
+        data:{
+            "name":$('#profile-name').val(),
+            "email":$('#profile-email').val(),
+            "password":$('#profile-password').val()
+        },
+        success: (data) => {
+            showMain()
+        },
+        error: (err) => console.log(err)
+    })
 }
 
 function getData() {
@@ -49,8 +84,8 @@ function getData() {
                 <td>${el.description}</td>
                 <td><input type="checkbox" id="data-title" ${el.status === 'done' ? 'checked' : ''}></input></td>
                 <td>${el.due_date.substring(0, 10)}</td>
-                <td><button onclick="getOne(${el.id})" id="update-button">Edit</button>
-                <button id="delete-button" onclick="deleteData(${el.id})">Delete</button></td>
+                <td><button class="btn btn-primary" onclick="getOne(${el.id})" id="update-button">Edit</button>
+                <button class="btn btn-primary" id="delete-button" onclick="deleteData(${el.id})">Delete</button></td>
                 </tr>`)
             });
         },
@@ -66,9 +101,7 @@ function getOne(id) {
             'token': localStorage.getItem('token')
         },
         success: (data) => {
-            
-            $('#main-page').hide(300)
-            $('#edit-page').show(300)
+            showEdit()
             $('#edit-title').val(data.title)
             $('#edit-description').val(data.description)
             $('#edit-status select').val(data.status)
@@ -94,7 +127,7 @@ function addData() {
             due_date: $('#add-due_date').val()
         },
         success: (data) => {
-            // event.preventDefault()
+            event.preventDefault()
             $('#add-page').hide()
             reload()
             $('#main-page').show()

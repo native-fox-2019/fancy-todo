@@ -12,28 +12,26 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" >Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">Edit Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="signOut()" href="">Sign Out</a>
-              </li>
-          </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <button class="nav-link" onclick="showMain()">Home <span class="sr-only">(current)</span></button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="edit-profile" onclick="showEditProfile()">Edit Profile</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" onclick="signOut()">Sign Out</button>
+                </li>
+            </ul>
         </div>
-      </nav>
-
-
+    </nav>
 
     <div id="login-page">
         <div id="form-login">
@@ -81,129 +79,167 @@
         </div>
     </div>
 
-    <div id="main-page">
-        <div id="welcome">
-            <h1>welcome to your todo list</h1>
-        </div>
-        <div id="todos-container">
-            <div id="table-todos">
-                <button id='reload-data' onclick="reload()">reload</button>
-                <div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>status</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="todos-data">
-                    </tbody>
-                </table>
-                <button type="button" class="btn btn-primary" data-toggle="modal" id="add-todos"
-                data-target="#AddFormModal">
-                Add Your To Do Now!
-            </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div id="edit-page">
+    <div id="edit-profile-page">
         <div id="form-edit">
-            <form id="edit">
-                <input type="hidden" id="rahasia">
+            <form>
                 <div>
-                    <label for="title">title</label>
-                    <input type="text" name="title" id="edit-title">
+                    <label for="name">Name</label>
                 </div>
                 <div>
-                    <label for="description">description</label>
-                    <input type="text" name="description" id="edit-description">
+                    <input type="text" name="name" id="name-profile">
                 </div>
                 <div>
-                    <label for="status">status</label>
-                    <select name="status" id="edit-status">
-                        <option value="done">done</option>
-                        <option value="on progress">on progress</option>
-                        <option value="not yet">not yet</option>
-                    </select>
+                    <label for="email">Email</label>
                 </div>
                 <div>
-                    <label for="due_date">due_date</label>
-                    <input type="date" name="due_date" id="edit-due_date">
+                    <input type="text" name="email" id="email-profile">
                 </div>
                 <div>
-                    <button type="submit" onsubmit="updateData($('#rahasia').val())">Edit</button>
+                    <label for="password">Password</label>
+                </div>
+                <div>
+                    <input type="text" name="password" id="password-profile">
+                </div>
+                <div>
+                    <button class="btn-primary" type="submit" onclick="editProfile()">Edit Profile</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="modal fade" id="AddFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add To Do</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div >
-                        <div id="form-add">
-                            <form id="add">
-                                <div>
-                                    <label for="title">title</label>
-                                    <input type="text" name="title" id="add-title">
-                                </div>
-                                <div>
-                                    <label for="description">description</label>
-                                    <input type="text" name="description" id="add-description">
-                                </div>
-                                <div>
-                                    <label for="status">status</label>
-                                    <select name="status" id="add-status">
-                                        <option value="done">done</option>
-                                        <option value="on progress">on progress</option>
-                                        <option value="not yet">not yet</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="due_date">due_date</label>
-                                    <input type="date" name="due_date" id="add-due_date">
-                                </div>
-                                <div>
-                                    <button id="add-button" type="submit" onclick="addData()"
-                                        class="btn btn-primary">Add</button>
-                                </div>
-                            </form>
-                        </div>
+    <div id="main-page" class="container">
+        <div class="d-flex justify-content-center" id="welcome">
+            <h1>welcome to your todo list</h1>
+        </div>
+        <div class="" id="todos-container">
+            <div class="d-flex flex-column " id="table-todos">
+                <button class=" btn-primary d-flex justify-content-center" id='reload-data'
+                    onclick="reload()">reload</button>
+                <div>
+                    <table style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>status</th>
+                                <th>Due Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="todos-data">
+                        </tbody>
+                    </table>
+                    <div class="d-flex flex-column">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" id="add-todos"
+                            data-target="#AddFormModal">
+                            Add Your To Do Now!
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-    <script src="script/google.js"></script>
-    <script src="script/script.js"></script>
-    <script src="script/ajax.js"></script>
-    <script src="script/jquery.js"></script>
+        <div id="edit-page">
+            <div class="container d-flex justify-content-center" id="form-edit">
+                <form id="edit-todos">
+                    <input type="hidden" id="rahasia">
+                    <div>
+                        <label for="title">title</label>
+                        <input type="text" name="title" id="edit-title">
+                    </div>
+                    <div>
+                        <label for="description">description</label>
+                        <input type="text" name="description" id="edit-description">
+                    </div>
+                    <div>
+                        <label for="status">status</label>
+                        <select name="status" id="edit-status">
+                            <option value="done">done</option>
+                            <option value="on progress">on progress</option>
+                            <option value="not yet">not yet</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="due_date">due_date</label>
+                        <input type="date" name="due_date" id="edit-due_date">
+                    </div>
+                    <div>
+                        <button type="submit" onsubmit="updateData($('#rahasia').val())">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="AddFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add To Do</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div id="form-add" class="container d-flex justify-content-center">
+                                <form id="add">
+                                    <div>
+                                        <label for="title">title</label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="title" id="add-title">
+                                    </div>
+                                    <div>
+                                        <label for="description">description</label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="description" id="add-description">
+                                    </div>
+                                    <div>
+                                        <label for="status">status</label>
+                                    </div>
+                                    <div>
+                                        <select name="status" id="add-status">
+                                            <option value="done">done</option>
+                                            <option value="on progress">on progress</option>
+                                            <option value="not yet">not yet</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="due_date">due_date</label>
+                                    </div>
+                                    <div>
+                                        <input type="date" name="due_date" id="add-due_date">
+                                    </div>
+                                    <div>
+                                        <button id="add-button" type="submit" onclick="addData()"
+                                            class="btn btn-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+        <script src="script/google.js"></script>
+        <script src="script/script.js"></script>
+        <script src="script/ajax.js"></script>
+        <script src="script/jquery.js"></script>
 </body>
 
 </html>

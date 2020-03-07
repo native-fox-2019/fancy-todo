@@ -5,7 +5,6 @@ const { User, Todo } = require('../models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { OAuth2Client } = require('google-auth-library');
-// const client = new google.auth.OAuth2(process.env.CLIENT_ID,process.env.CLIENT_SECRET,process.env.redirect_uris[1])
 const { google } = require('googleapis')
 const generatePass = require('../helpers/generateRandomPass')
 const client = new google.auth.OAuth2(process.env.CLIENT_ID, 'y1Z6s1A4HZguQKiLBZzL7Uq_', "http://localhost:3000")
@@ -51,7 +50,7 @@ class ControllerUser {
         User
             .create({ email, name, password })
             .then(data => {
-                res.status(200).json({ email })
+                res.status(200).json({ data })
             })
             .catch(err => {
                 next(err)
@@ -80,14 +79,25 @@ class ControllerUser {
 
     static update(req, res, next) {
         let id = Number(req.user.id)
-        const { name, username, password, email } = req.body
-        User.update({ name, username, password, email })
+        const { name, password, email } = req.body
+        User.update({ name, password, email })
             .then(data => {
-                res.status(201).json({name, username, password, email})
+                res.status(201).json(data)
             })
             .catch(err => {
                 next(err)
             })
+    }
+
+    static getUser (req,res,next){
+        let id=Number(req.user.id)
+        User.findOne({where:{id}})
+        .then(data=>{
+            res.status(200).json(data)
+        })
+        .catch(err=>{
+            next(err)
+        })
     }
 }
 
