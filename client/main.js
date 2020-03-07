@@ -9,6 +9,7 @@ $(document).ready(function () {
   $('#addTodosDiv').hide()
   $('#todosForm').hide()
   $('#todolistPage').hide()
+  $('#sun').hide()
 
 
   if (!localStorage.getItem('token')) {
@@ -20,8 +21,22 @@ $(document).ready(function () {
     $('#login').hide()
     $('#todolistPage').show()
     showAllTodos()
-
   }
+
+
+  $('#moon').on('click', function (event) {
+    $('#box1').toggleClass('sun-mode')
+    $('#moon').hide()
+    $('#sun').show()
+    $('#container').toggleClass('sun-mode')
+  });
+  $('#sun').on('click', function (event) {
+    $('#box1').toggleClass('sun-mode')
+    $('#container').toggleClass('sun-mode')
+    $('#moon').show()
+    $('#sun').hide()
+  });
+
 
   $('#toRegister').on('click', function (event) {
     $('#register').show()

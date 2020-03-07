@@ -10,13 +10,18 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="./style.css">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-
-
+  <script src="https://unpkg.com/feather-icons"></script>
   <title>ToDos</title>
 </head>
 
 <body>
+
   <div id="container">
+    <div id="onoffswitch" style="text-align: right;">
+      <div type="button" id="moon"><i data-feather="moon"></i></div>
+      <div type="button" id="sun"><i data-feather="sun"></i></div>
+    </div>
+
     <div id="login">
       <h2> Forms login</h2>
       <form id="actionTologin">
@@ -156,25 +161,14 @@
 
 
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script src="path/to/hideShowPassword.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script src="./request.js"></script>
   <script src="./main.js"></script>
   <script src="./view.js"></script>
+  <script>
+    feather.replace()
+  </script>
 
-  <!-- <script>
-    function myFunction() {
-      var x = document.getElementById("passwordLogin");
-      var y = document.getElementById("passwordRegister");
-      if (x.type === "password" || y.type === "password") {
-        x.type = "text";
-        y.type = "text";
-      } else {
-        x.type = "password";
-        y.type = "password";
-      }
-    }
-  </script> -->
 </body>
 
 </html>
