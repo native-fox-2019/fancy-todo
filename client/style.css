@@ -1,8 +1,10 @@
 body {
   size: fixed;
-  min-width: 1024px;
-  min-height: 576px;
-  background-color: navajowhite;
+  height : 100%;
+  width : 100%;
+  /*min-width: 1024px;
+  min-height: 576px;*/
+  background-color: rgb(3, 98, 107);
 }
 
 .nav {
@@ -10,21 +12,32 @@ body {
     margin: 0;
     padding: 10px;
     overflow: hidden;
-    background-color: rgb(3, 98, 107);
+    background-color: rgb(1, 92, 107);
     /* width: 100%;
     height : 100% */
 }
+
+#main-page{
+  border-color: black;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-family: "Lato";
+  margin : 180px auto;
+  color: white;
+}
   
 li {
-    float: left;
+    float: right;
     color: white;
     font-family: "Lato";
-    font-weight: 400;
+    font-weight: 300;
     display: block;
     color: white;
     text-align: center;
     padding: 0 16px;
     text-decoration: none;
+    font-size: 20px;
 }
   
 
@@ -33,6 +46,15 @@ h1  {
     font-family: "Lato";
     font-weight: 300;
     text-align: center;
+    color: white;
+}
+
+h2  {
+  padding-top: 30px;
+  font-family: "Lato";
+  font-weight: 300;
+  text-align: center;
+  font-style: italic;
 
 }
 
@@ -45,13 +67,25 @@ h3  {
 }
 
 #signInForm {
+    border-color: black;
+    width: 20%;
     text-align: center;
     font-family: "Lato";
+    margin : 100px auto;
+    background: white;
+
 }
 
+
+
 #signUpForm {
-    text-align: center;
-    font-family: "Lato";
+  border-color: black;
+  width: 20%;
+  text-align: center;
+  font-family: "Lato";
+  margin : 100px auto;
+  background: white;
+  padding-bottom: 20px;
 }
 
 
@@ -59,15 +93,18 @@ h3  {
   padding : 20px;
   text-align: center;
   font-family: "Lato";
-  width: 40%;
-  margin: 10px auto;
+  width: 20%;
+  margin: 100px auto;
   background-color: rgb(255, 255, 255);
-  border-radius: 20px;
 }
 
 #editTodo{
+  padding : 20px;
   text-align: center;
   font-family: "Lato";
+  width: 20%;
+  margin: 100px auto;
+  background-color: rgb(255, 255, 255);
 }
 
 .submit {
@@ -113,13 +150,21 @@ h3  {
 #TodoTable {
   width: 90%;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 0px;
   font-family: "Lato";
   font-weight: 300;
-  margin: 10px auto;
-  padding-top: 30px;
+  margin-left : 65px;
   background-color: white;
-  border-radius: 10px;
+}
+
+#weatherTable {
+  width: 28%;
+  text-align: left;
+  font-family: "Lato";
+  font-weight: 300;
+  margin-left: 65px;
+  color: white;
+  border-radius: 2px;
 }
 
 #TodoList {
@@ -132,7 +177,7 @@ h3  {
   font-family: "Kalam";
   padding-top: 50px;
   font-size : 18px;
-
+  color: white;
 }
 
 .select-style {
@@ -158,6 +203,88 @@ h3  {
   outline: none;
 }
 
-.airWidget{
-  padding-left: 30px;
+
+.g-signin2{
+	padding-top:10px;
+	width: 100%;
+  }
+  
+  .g-signin2 > div{
+	margin: 0 auto;
+  }
+
+  @keyframes move_wave {
+    0% {
+        transform: translateX(0) translateZ(0) scaleY(1)
+    }
+    50% {
+        transform: translateX(-25%) translateZ(0) scaleY(0.55)
+    }
+    100% {
+        transform: translateX(-50%) translateZ(0) scaleY(1)
+    }
+}
+.waveWrapper .waveAnimation {
+    overflow: hidden;
+    position: absolute;
+    height: 50%;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    bottom: 0px;
+}
+.waveWrapperInner {
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    height: 50%;
+    bottom: 0px;
+}
+.bgTop {
+    z-index: 15;
+    opacity: 0.25;
+    bottom: 0px;
+}
+.bgMiddle {
+    z-index: 10;
+    opacity: 0.5;
+    bottom: 0px;
+}
+.bgBottom {
+    z-index: 5;
+    bottom: 0px;
+}
+.wave {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 200%;
+    height: 50%;
+    background-repeat: repeat no-repeat;
+    background-position: 0 bottom;
+    transform-origin: center bottom;
+}
+.waveTop {
+    background-size: 50% 100px;
+}
+.waveAnimation .waveTop {
+  animation: move-wave 3s;
+   -webkit-animation: move-wave 3s;
+   -webkit-animation-delay: 1s;
+   animation-delay: 1s;
+   bottom: 0px;
+}
+.waveMiddle {
+    background-size: 50% 120px;
+    bottom: 0px;
+}
+.waveAnimation .waveMiddle {
+    animation: move_wave 10s linear infinite;
+}
+.waveBottom {
+    background-size: 50% 100px;
+}
+.waveAnimation .waveBottom {
+    animation: move_wave 15s linear infinite;
 }

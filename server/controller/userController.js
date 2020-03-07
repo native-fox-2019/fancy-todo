@@ -1,5 +1,6 @@
 const { User } = require('../models/index.js')
 const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
@@ -46,42 +47,35 @@ class userController{
         })
     }
 
+
     static googleLogin(req,res,next){
-        var token = req.body.token
-        const client = new OAuth2Client(process.env.CLIENT_ID);
+        let email = null;
         client.verifyIdToken({
-            idToken : token,
-            audience : process.env.CLIENT_ID
+            idToken : req.body.token,
+            audience : "134915435588-5qke74m4j5s24kbrksevrhpc1pq3ulsg.apps.googleusercontent.com"
         })
         .then(ticket=>{
-            const ticket = ticket.getPayload()
-            var user = {
-                name : payload.name,
-                email : payload.email
-            }
-            console.log(payload.email)
-            User.findOne({where:{email:user.email}})
-            console.log(user)
-            .then(data=>{
-                if(data){
-                    let token = jwt.sign({email:user.email,id:user.id},process.env.JWT_SECRET)
-                    res.status(201).json(token)
-                } else{
-                    User.create({
-                        firstname : user.name,
-                        lastname : user.name,
-                        email : user.email,
-                        password : "12345678"
-                    })
-                    .then(result=>{
-                        let token = jwt.sign({email:user.email,id:user.id},process.env.JWT_SECRET)
-                        res.status(201).json(token)
-                    })
-                }
-            })
+            email = ticket.getPayload().email
+            return User.findOne({where:{email : email }})
         })
-        .catch(err =>{
-            next({status: 500, msg: 'Internal server error!'})
+        .then(data=>{
+            if(data){
+              return data
+            } else{
+                return User.create({
+                    firstname : email,
+                    lastname : email,
+                    email : email,
+                    password : "default"
+                })
+            }
+        })
+        .then(data=>{
+            let token = jwt.sign({id:data.id,email:data.email}, process.env.JWT_SECRET)
+            res.status(201).json({token})
+        })
+        .catch(err=>{
+            next(err)
         })
     }
 }

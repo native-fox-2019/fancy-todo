@@ -16,15 +16,25 @@
     <div class="row nav">
             <li id="button-signUp" style="display: none;">Sign Up</li>
             <li id="button-signIn">Sign In</li>
-            <li id="button-signOut" style="display: none;">Sign Out</li>
- 
+            <a href="#" onclick="signOut();"><li id="button-signOut" style="display: none;">Sign out</li></a>
     </div>
-    
 
-    <h1>Fancy Todos</h1>
+    <div class="main-page" id="main-page" style="display:none">
+    <h1>Welcome To Fancy Todos</h1>
+    <h2>Get Your Life More Organized Here!</h2>
 
-    <div class="airWidget"  name="airWidget" style="display: none;">
-    <div name="airvisual_widget" key="qjhx6AGyviFGQX3oS"></div>
+    <div class="waveWrapper waveAnimation">
+        <div class="waveWrapperInner bgTop">
+          <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgMiddle">
+          <div class="wave waveMiddle" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-mid.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgBottom">
+          <div class="wave waveBottom" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-bot.png')"></div>
+        </div>
+    </div>
+
     </div>
 
 
@@ -38,9 +48,10 @@
         <input type="submit" class="submit" id="button-signin-submit" value="Submit">
       </form> 
       <br>
+      <input type="submit" class="submit" id="button-signin-submit" value="Submit">
       <div class="g-signin2" data-onsuccess="onSignIn"></div>
       <br>
-      <a href="#" onclick="signOut();">Sign out</a>
+      
     </div>
 
     <div  id = "signUpForm" style="display: none;">
@@ -58,7 +69,13 @@
         </form> 
     </div>
 
+
     <div id = "TodoList" style="display: none;">
+        <h1>Fancy Todo</h1>
+        <br>
+        <div class="getWeather"  id="getWeather" style="display: none;">
+        
+        </div>
         <table class="table" id="TodoTable">
             <thead>
                 <tr>
@@ -77,6 +94,8 @@
         </table>
         <br>
         <input type="submit" class="submit" id="button-addtodo-submit" value="Add Todos">
+
+        <div id = "getQuotes" style="display: none;"></div>
     </div>
 
     <div id = "addTodo" style="display: none;">
@@ -100,13 +119,8 @@
 
     </div>
 
-    <div id = "editTodo" style="display: none;">
 
-    </div>
 
-    <div id = "getQuotes" style="display: none;">
-
-    </div>
 
 
     

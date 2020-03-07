@@ -1,31 +1,24 @@
  //========================= BUTTON AREA =========================//
 
- $( document ).ready(function(){
-    // localStorage.removeItem("token")
-     var token = localStorage.getItem("token")
-     if(token) {
-         $("#button-signIn").hide()
-         $("#button-signUp").hide()
-         $("#button-signOut").show()
-         $("#airWidget").show()
-         getTodo()
-         getQuotes();
-         $("#getQuotes").show(200)
-     } else{
-         $("#signInForm").show()
-         $("#button-signIn").show()
-         $("#button-signUp").show()
-     }
-
- })
-
  $("#button-signOut").on("click",function(){
      localStorage.removeItem("token")
-     $("#signInForm").show()
+     $("#main-page").show()
      $("#TodoList").hide()
      $("#button-signIn").show()
      $("#button-signUp").show()
      $("#button-signOut").hide()
+  })
+
+  $("#button-signUp").on("click",function(){
+    $("#signUpForm").show() 
+    $("#signInForm").hide() 
+    $("#main-page").hide()
+  })
+
+  $("#button-signIn").on("click",function(){
+    $("#signInForm").show()
+    $("#signUpForm").hide() 
+    $("#main-page").hide() 
   })
 
  $("#button-addtodo-submit").on("click",function(){
@@ -57,7 +50,7 @@
  let descriptionEdit = $("#description-edit")
  let statusEdit = $("#status-edit")
  
- //==================== FORM AREA ==================//
+ //==================== BUTTON ON FORM AREA ==================//
 
  $("#form-signUp").on("submit",function(event){
      event.preventDefault()
@@ -78,6 +71,24 @@
  })
 
  //=============== FUNCTION AREA ===============//
+
+ function refresh(){
+    var token = localStorage.getItem("token")
+    if(token) {
+        $("#button-signIn").hide()
+        $("#button-signUp").hide()
+        $("#button-signOut").show()
+        getTodo()
+        getQuotes();
+        getWeather()
+    } else{
+        $("#main-page").show()
+        $("#button-signIn").show()
+        $("#button-signUp").show()
+        getQuotes()
+    }
+ }
+
 
  function register(){
      $.ajax({
@@ -107,15 +118,12 @@
              password : passwordLogin.val()
          }),
          success: function(data){
-             console.log(data)
              $("#signInForm").hide()
              $("#button-signIn").hide()
              $("#button-signUp").hide()
              $("#button-signOut").show()
              localStorage.setItem("token",data.token)   
-             getTodo();
-             getQuotes();
-             $("#getQuotes").show(200)        
+             getTodo();       
          },
          error: function(jqxhr,status,error){
              console.log("errr");
@@ -163,7 +171,6 @@
              $("#button-signUp").hide()
              $("#button-signOut").show()
              getTodo()
-             $("#TodoList").show()
 
          }
 
@@ -177,14 +184,10 @@
          contentType : "application/json",
          headers : {token : localStorage.getItem("token")},
          success: function(data){
-             
-             $("#addTodo").hide()
              $("#button-signIn").hide()
              $("#button-signUp").hide()
              $("#button-signOut").show()
              getTodo()
-             $("#TodoList").show()
-
          }
 
      })
@@ -222,7 +225,8 @@
              $("#form-editTodo").on("submit",function(event){
                      event.preventDefault()
                      console.log(id)
-                     updateTodo(id)      
+                     updateTodo(id)   
+                     $("#editTodo").empty()   
              })
          }
 
@@ -245,6 +249,7 @@
              getTodo()
              $("#TodoList").show()
              $("#editTodo").hide()
+             $("#editTodo").empty()
          },
          error: function(jqxhr,status,error){
              console.log("errr");
@@ -263,8 +268,35 @@
          success: function(data){
              $("#getQuotes").append(`<p>~${data.quotes}~</p>`)
          }
-
      })
+     $("#getQuotes").show()
+ }
+
+ function getWeather(){
+     $.ajax({
+         url: "http://localhost:3000/todos/check/weather",
+         method: "get",
+         contentType : "application/json",
+         headers : {token: localStorage.getItem("token")},
+         success: function(data){
+             $("#getWeather").append(`
+                    <table class="table table-sm table-borderless" id="weatherTable">
+                    <thead>
+                        <tr>
+                            <th>City : ${data.weather.city}</>
+                        </tr>
+                    </thead>
+                    <tbody id="TableWeather">
+                        <tr>
+                        <td>Weather : ${data.weather.current.weather.tp} °C</>
+                        <td>Pollution Index : ${data.weather.current.pollution.aqius}</>
+                        </tr>
+                    </tbody>
+                </table>
+             `)
+         }
+     })
+     $("#getWeather").show()
  }
 
  function onSignIn(googleUser) {
@@ -284,13 +316,11 @@
              $("#button-signUp").hide()
              $("#button-signOut").show()
              localStorage.setItem("token",data.token)   
-             getTodo();
-             getQuotes();
-             $("#getQuotes").show(200)        
+             getTodo();      
          },
          error: function(jqxhr,status,error){
              console.log("errr");
-             $("#form-signIn").append(jqxhr.responseJSON)
+             $("#form-signIn").append(`jqxhr.responseJSON`)
          }
      })
      console.log(id_token)
@@ -302,3 +332,23 @@
      console.log('User signed out.');
      });
  }
+
+ //============= Document Ready ==========//
+ $( document ).ready(function(){
+    refresh()
+   //  var token = localStorage.getItem("token")
+   //  if(token) {
+   //      $("#button-signIn").hide()
+   //      $("#button-signUp").hide()
+   //      $("#button-signOut").show()
+   //      getTodo()
+   //      getQuotes();
+   //      getWeather()
+   //  } else{
+   //      $("#signInForm").show()
+   //      $("#button-signIn").show()
+   //      $("#button-signUp").show()
+   //      getQuotes()
+   //  }
+
+})

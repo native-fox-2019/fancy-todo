@@ -9,7 +9,7 @@ class TodoController{
             res.status(200).json(result)
         })
         .catch(err=>{
-            next({status: 500, msg: 'Internal server error!'})
+            next({status: 501, msg: 'Internal server error!'})
         })
     }
 
@@ -35,7 +35,7 @@ class TodoController{
             } 
             next({status: 400, msg: totalError})
             } else{
-            next({status: 500, msg: 'Internal server error!'})
+            next({status: 501, msg: 'Internal server error!'})
             }
         })
     }
@@ -52,7 +52,7 @@ class TodoController{
             
         })
         .catch(err=>{
-            next({status: 500, msg: 'Internal server error!'})
+            next({status: 501, msg: 'Internal server error!'})
         })
     }
 
@@ -76,14 +76,14 @@ class TodoController{
         })
         .catch(err=>{
         console.log(err)
-          res.status(400).json(err)  
+            next({status: 501, msg: 'Internal server error!'}) 
         })
     }
 
     static delete(req,res,next){
         let params = req.params.id
         let todo = null
-        Todo.findByPk(params)
+        Todo.findOne({where:{id:params}})
         .then(result=>{
             if(result){
             todo = result;
@@ -96,7 +96,7 @@ class TodoController{
              res.status(200).json(todo)  
         })
         .catch(err=>{
-            next({status: 500, msg: 'Internal server error!'})
+            next({status: 501, msg: 'Internal server error!'})
         })
     }
 
@@ -109,20 +109,20 @@ class TodoController{
             res.status(200).json({"quotes" : response.data.quote})
         })
         .catch(err=>{
-            res.status(500).json('error!')
+            res.status(501).json(err)
         })
     }
 
-    static getWeather(req,res){
+    static getWeather(req,res,next){
         axios({
             method: 'get',
             url : 'http://api.airvisual.com/v2/nearest_city?key=971d601f-a933-433f-a8fe-cfa789dbd7de'
         })
         .then((response) =>{
-            res.status(200).json({"quotes" : response.data})
+            res.status(200).json({"weather" : response.data.data})
         })
         .catch(err=>{
-            res.status(500).json('error!')
+            next({status: 501, msg: 'Internal server error!'}) 
         })
     }
 
