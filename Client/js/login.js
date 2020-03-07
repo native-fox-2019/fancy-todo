@@ -9,7 +9,7 @@ $("#login-submit").click(function() {
         }
     })
     .done(result => {
-        jwt = result.token;
+        localStorage.jwt = result.token;
         switchToLoggedIn();
         showPage("todos");
     })

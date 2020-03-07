@@ -1,9 +1,10 @@
 "use strict"
 
 const router = require('express').Router();
-const ToDoController = require('../controllers/UserController');
+const UserController = require('../controllers/UserController');
 
-router.post('/register', ToDoController.register);
-router.post('/login', ToDoController.login);
+router.post('/register', UserController.register);
+router.post('/login', UserController.login);
+router.post('/googlelogin', UserController.googleLogin);
 
 module.exports = router;

@@ -2,9 +2,12 @@ function hideAllPages() {
     $("#register-page").hide();
     $("#login-page").hide();
     $("#todos-page").hide();
+    $("#todosAdd-page").hide();
+    $("#todosEdit-page").hide();
+    $("#todosDelete-page").hide();
 }
 
-function showPage(page) {
+function showPage(page, id) {
     currentPage = page;
     hideAllPages();
     $(".nav-item").removeClass("active");
@@ -22,6 +25,20 @@ function showPage(page) {
             $("#todos-link").parent().addClass("active");
             loadTodos();
             break;
+        case "todoAdd":
+            $("#todos-page").show();
+            $("#todos-link").parent().addClass("active");
+            loadTodos();
+            $("#todosAdd-page").show();
+            break;
+        case "todoEdit":
+            loadTodoForEdit(id);
+            $("#todosEdit-page").show();
+            break;
+        case "todoDelete":
+            loadTodoForDelete(id);
+            $("#todosDelete-page").show();
+            break;
     }
 }
 
@@ -30,6 +47,15 @@ function switchToLoggedIn() {
     $("#register-link").parent().hide();
     $("#todos-link").parent().show();
     $("#logout-link").parent().show();
+    $("#sign-out-google").parent().hide();
+}
+
+function switchToLoggedInWithGoogle() {
+    $("#login-link").parent().hide();
+    $("#register-link").parent().hide();
+    $("#todos-link").parent().show();
+    $("#logout-link").parent().hide();
+    $("#sign-out-google").parent().show();
 }
 
 function switchToLoggedOut() {
@@ -37,6 +63,7 @@ function switchToLoggedOut() {
     $("#register-link").parent().show();
     $("#todos-link").parent().hide();
     $("#logout-link").parent().hide();
+    $("#sign-out-google").parent().hide();
 }
 
 $("#login-link").click(function () {
@@ -52,9 +79,17 @@ $("#todos-link").click(function () {
 });
 
 $("#logout-link").click(function () {
-    jwt = null;
+    delete localStorage.jwt;
     switchToLoggedOut();
     showPage("login");
 });
 
-showPage(currentPage);
+$(document).ready(() => {
+    if (localStorage.jwt) {
+        switchToLoggedIn();
+        showPage("todos");
+    } else {
+        switchToLoggedOut();
+        showPage("login");
+    }
+});

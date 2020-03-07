@@ -2,6 +2,8 @@ const model = require('../models');
 const User = model.User;
 const Bcrypt = require('../helpers/bcrypt.js');
 const jwt = require("../helpers/jwt.js");
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 /**
  * @swagger
@@ -63,6 +65,31 @@ class UserController{
                 next(err);
             }
         })
+    }
+    static googleLogin(req, res, next) {
+        let token = req.body.token;
+        client.verifyIdToken({
+            idToken: token,
+            audience: process.env.CLIENT_ID
+        })
+        .then(response => {
+            return User.findOne({ where: { email: response.payload.email } })
+                .then(user => {
+                    if (!user) {
+                        return User.create({
+                            email: response.payload.email,
+                            password: '12345'
+                        });
+                    } else {
+                        return user;
+                    }
+                });
+        }).then(user => {
+            let token = jwt.sign({email: user.email});
+            res.status(200).json({ token });
+        }).catch(err => {
+            next(err);
+        });
     }
 }
 
