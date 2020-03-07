@@ -2,7 +2,7 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
-  sendgrid(inputData,email) {
+  sendgrid(inputData, email) {
     const msg = {
       to: `${email}`,
       from: "noreply.todolistapp@mail.com",
