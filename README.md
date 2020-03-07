@@ -25,4 +25,4 @@ Route | HTTP | Header(s) | Body | Description
 ### Holiday Routing:
 Route | HTTP | Header(s) | Body | Description
 --- | --- | --- | --- | ---
-/ | GET | none | List All Holiday in This Year by Your Current Country
+/ | GET | none | none | List All Holiday in This Year by Your Current Country
