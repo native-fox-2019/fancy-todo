@@ -83,6 +83,30 @@
             </div>
         </form>
     </div>
+    <div class="container mt-5 all" id="form-editTodo-container">
+        <form id="form-editTodo">
+            <h5>Edit Todo</h5>
+            <div class="form-row">
+              <div class="col">
+                <input type="text" class="form-control" id="todo-current-title">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" id="todo-current-duedate">
+              </div>
+              <div class="col" style="display: none;">
+                <input type="text" class="form-control" id="todo-current-status">
+              </div>
+            </div>
+            <div class="form-row mt-3">
+                <div class="col">
+                   <textarea class="form-control" rows="3" id="todo-current-description"></textarea>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+        </form>
+    </div>
     <div class="container">
       <div id="todos-container" class="mt-5 all">
           <h3 class="text-center">Your Todo List</h3>

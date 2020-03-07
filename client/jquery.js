@@ -15,9 +15,13 @@ let $loginInsteadButton = $('#button-loginInstead')
 let $addTodo = $('#form-addTodo-container')
 let $addTodoForm = $('#form-addTodo')
 
+let $editTodo = $('#form-editTodo-container')
+let $editTodoForm = $('#form-editTodo')
+
 let $googleSignin = $('#google-signin')
 let $addTodoButton = $('#add-todo-button')
 let $allPage = $('.all')
+let todoId
 
 if (localStorage.getItem("token") !== null) {
     $(document).ready(() => {
@@ -83,6 +87,24 @@ $addTodoForm.on('submit', (e) => {
     $todoContainer.show()
     $btnSignout.show()
 })
+
+$editTodoForm.on('submit', (e) => {
+    e.preventDefault()
+    let title = $('#todo-current-title').val()
+    let description = $('#todo-current-description').val()
+    let dueDate = $('#todo-current-duedate').val()
+    let edited = {
+        "title" : title,
+        "description" : description,
+        "due_date" : dueDate
+    }
+    editTodo(todoId, edited)
+    $allPage.hide()
+    $todoContainer.show()
+    $btnSignout.show()
+})
+
+
 
 
 $googleSignin.on('click', () => {

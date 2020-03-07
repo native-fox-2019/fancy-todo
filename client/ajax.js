@@ -50,7 +50,9 @@ const showTodo = () => {
                 $todoTbody.empty()
                 data.forEach(todo => {
                     let $todoItem =  $(`<tr><td>${todo.title}</td><td>${todo.description}</td><td>${todo.due_date}</td></tr>`)
-                    let $btnDelete = $(`<td><button class="btn btn-primary" >Delete</button></td>`)
+                    let $todoAction = $(`<td></td>`)
+                    let $btnDelete = $(`<button class="btn btn-primary">Delete</button> `)
+                    let $btnEdit = $(`<button class="btn btn-primary">Edit</button>`)
                     let $btnCheck = $(`<td><input type="checkbox" class="form-check-input ml-2" ${todo.status === 'Completed' ?  'checked' : ''}></td>`)
                     $btnDelete.on('click', () => {
                         deleteTodo(todo.id)
@@ -58,7 +60,24 @@ const showTodo = () => {
                     $btnCheck.on('click', (e) => {
                         checkTodo(todo, e.target.checked)
                     })
-                    $todoItem.append($btnDelete)
+                    $btnEdit.on('click', () => {
+                        todoId = todo.id
+                        $('#todo-current-title').val(() => {
+                            return `${todo.title}`
+                        })
+                        $('#todo-current-description').val(() => {
+                            return `${todo.description}`
+                        })
+                        $('#todo-current-duedate').val(() => {
+                            return `${todo.due_date}`
+                        })
+                        $allPage.hide()
+                        $editTodo.show()
+                    })
+                    
+                    $todoAction.append($btnDelete)
+                    $todoAction.append($btnEdit)
+                    $todoItem.append($todoAction)
                     $todoItem.prepend($btnCheck)
                     $todoTbody.append($todoItem)
                 })
@@ -87,6 +106,22 @@ const addTodo = todo => {
         },
         error: (jqxhr, status, error) => {
             console.log(error)
+        }
+    })
+}
+
+const editTodo = (id, todo) => {
+    $.ajax({
+        method: 'put',
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+            "token": localStorage.getItem("token")
+        },
+        data: todo,
+        success: () => {
+            console.log('todo edited')
+            $editTodoForm[0].reset()
+            showTodo()
         }
     })
 }
