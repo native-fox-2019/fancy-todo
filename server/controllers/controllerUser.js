@@ -25,11 +25,10 @@ class ControllerUser {
                 return User.findOne({ where: { email: payload.email } })
             })
             .then(data => {
-                let password = generatePass()
                 const { email, name } = payload
-                console.log(payload.email, payload.name)
+                let password = generatePass()
                 if (!data) {
-                    return User.create({ email, name, password:data })
+                    return User.create({ email, name, password })
                 } else {
                     return data
                 }
