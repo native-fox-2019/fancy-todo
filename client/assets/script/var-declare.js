@@ -38,9 +38,9 @@ var edit = {
 
 // view
 var $app = $(`.app`) // used to hide all (client will have a blank page)
-var $register = $(`#register`) // register form
-var $login = $(`#login`) // login form
-var $list = $(`#list`) // shows todo entries
+var $register = $(`#register`) // register form div
+var $login = $(`#login`) // login form div
+var $list = $(`#list`) // shows todo div
 
 // Others
 var $err = $(`.errMsg`) // the part where error messages shows up

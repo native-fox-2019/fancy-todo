@@ -1,6 +1,8 @@
 function show(segment) {
     $app.hide()
     $err.hide()
+    login.$form[0].reset()
+    register.$form[0].reset()
 
     switch (segment) {
         case `register`:
