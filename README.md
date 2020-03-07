@@ -26,9 +26,21 @@ Route | HTTP | Header(s) | Body | Description
 --- | --- | --- | --- | ---
 /login | POST | none | email: string, password: string | Login User
 /register | POST | none | name: string, email: string, password: string | Create New User
-/googleLogin | POST | none | name: string, email: string, password: string | Create New User with Goole OAuth 2.0
+/googleLogin | POST | none | name: string, email: string, password: string | Create New User with Google OAuth 2.0
 
 ### Holiday Routing:
 Route | HTTP | Header(s) | Body | Description
 --- | --- | --- | --- | ---
 / | GET | none | none | List All Holiday in This Year by Your Current Country
+_________________
+
+## Usage
+1. $git clone https://github.com/agunggst/fancy-todo.git
+2. $cd fancy-todo
+3. $cd server
+4. $npm install
+5. $node app.js
+6. $cd ..
+7. $cd client
+8. $live-server
+9. go to your browser and open http://localhost:8080
