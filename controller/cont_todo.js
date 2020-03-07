@@ -38,8 +38,10 @@ class Controller {
     }
     
     static getTodos (request,response){
-        Todo.findAll()
+        let UserId =request.userData.id
+        Todo.findAll({where:{UserId:UserId}},{order:[['id','asc']]})
         .then(result=>{
+            
             response.status(200).json(result)
         })
         .catch(err =>{
@@ -49,10 +51,10 @@ class Controller {
 
     static getTodosById (request,response,next){
         let Pk = Number(request.params.id)
-        console.log(Pk,'ini primary key')
+        
         Todo.findByPk(Pk)
         .then(result=>{
-            console.log(result,"ini dari getbyID")            
+                      
             response.status(200).json(result)
         })
         .catch(err=>{
@@ -106,7 +108,7 @@ class Controller {
             console.log(res,'ini res delete')
             let send = [data,'data telah dihapus']
             // data.msg="telah berhasil dihapus"
-            console.log(res)
+            
                 response.status(200).json(send)
         })
         .catch(err=>{
@@ -127,11 +129,12 @@ class Controller {
                       date:res.data.response.holidays[i].date.iso
                   })
               }
-              console.log(arr)
+              
               response.status(201).json(arr)
           })
         
     }
+
 
 
 }

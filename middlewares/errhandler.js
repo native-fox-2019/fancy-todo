@@ -14,7 +14,8 @@ function ErrorHandler (err,req,res,next){
             msg:"internal server error"
         }
         res.status(500).json(obj)
-    }   
+    }
+       
 
 }
 

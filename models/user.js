@@ -10,9 +10,26 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model{}
 
   User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    name: {
+      type:DataTypes.STRING,
+      validate:{notEmpty:{
+        msg:'name cannot be an empty space'
+      }}
+    },
+    email: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg:"email cannot be an empty space"
+        }
+      }
+    },
+    password: {type:DataTypes.STRING,
+    validate:{
+      notEmpty:{
+        msg:"Password cannot be an empty space"
+      }
+    }}
 
   },{ hooks:{
     beforeSave:(instance,option)=>{
