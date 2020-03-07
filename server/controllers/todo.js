@@ -84,7 +84,39 @@ class Controller {
             res.status(200).json(data[1][0])
         })
         .catch(err =>{
-            console.log(err)
+            // console.log(err)
+            next(err)
+        })
+    }
+    static updateStatus(req, res, next){
+        const {status} = req.body
+        Todo.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then( data =>{
+            if (!data) {
+                throw createError(404, 'Not Found')
+            }else
+            if (data.UserId === req.user) {
+                return Todo.update({
+                    status,
+                    },{
+                        where:{
+                            id:req.params.id
+                        },
+                    returning:true
+                })
+            }else{
+                throw createError(403, 'Forbiden Acces')
+            }
+        })
+        .then(data =>{
+            res.status(200).json(data[1][0])
+        })
+        .catch(err =>{
+            // console.log(err)
             next(err)
         })
     }
