@@ -1,7 +1,11 @@
 # fancy-todo
 
-link documentation : https://documenter.getpostman.com/view/10571018/SzKbKuJY?version=latest
+link documentation todo controller side: https://documenter.getpostman.com/view/10571018/SzKbKuJY
 
+link documentation calendarific API : https://documenter.getpostman.com/view/10571018/SzRxUpPq
+
+link documentation User controller side : https://documenter.getpostman.com/view/10571018/SzRxUpPr
+ 
 POST /todos ---> Add new Todo List Into Database
 
 Validation : Request Body Cannot be Empty
