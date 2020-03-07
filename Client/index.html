@@ -163,7 +163,9 @@
                 headers: {token: localStorage.token},
                 success: function(data){
                     data.forEach(element => {
-                        $(".todos").append(`<div class="container">
+                        $(".todos").append(`
+                                <div class="container" id="todo-${element.id}">
+                                    <div class="content">
                                         <div class="kiri" style="width: 50%;">
                                             <h3>${element.title}</h3>
                                             <p>${element.description}</p>
@@ -183,7 +185,10 @@
                                             <button id="button-edit" onclick="editForm(${element.id})" style="margin: 0 3px">Edit</button>
                                             <button id="button-delete" onclick="todoDelete(${element.id})" style="margin: 0 3px; background-color: red;">Delete</button>
                                         </div>
-                                    </div>`)
+                                    </div>
+                                </div>    
+                                    `
+                        )
                     });
                 }
             })
@@ -252,7 +257,7 @@
                     let todayParsed = `${year}-${month}-${date}`
                     $("#edit-todo").hide(300)
                     $("#edit-todo h3, #edit-todo form").remove()
-                    $("#edit-todo").append(`<h3 style="margin: 20px auto; width: 300px; font-size: 30px;">Edit Todo</h3>
+                    $(`#edit-todo`).append(`<h3 style="margin: 20px auto; width: 300px; font-size: 30px;">Edit Todo</h3>
                     <form style="width: 300px; margin: 10px auto;" id="submit-edit-todo">
                         <input type="text" id="edit-todo-title" placeholder="Title" value="${data.title}"><br>
                         <input type="text" id="edit-todo-description" placeholder="Description" value="${data.description}"><br>
@@ -267,15 +272,11 @@
                         <button type="submit">Edit Todo</button><br>
                         <button id="button-cancel-edit" class="cancel" >Cancel</button>
                     </form>`)
-                    $addTodo.hide(300)
-                    $("#button-add-todo").on("click", function(){
-                        $addTodo.show(450)
-                        $editTodo.hide(300)
-                    })
-                    $("#edit-todo").show(450)
+                    $addTodo.hide(200)
+                    $editTodo.show(450)
                     $("#button-cancel-edit").on("click", function(){
                         $editTodo.hide(300)
-                        $("#edit-todo h3, #edit-todo form").remove()
+                        $(`#edit-todo h3, #edit-todo form`).remove()
                     })
                     $("#submit-edit-todo").on("submit", function(event){
                         event.preventDefault();
@@ -357,7 +358,7 @@
             })
             $("#button-add-todo").on("click", function(){
                 $addTodo.show(450)
-                $editTodo.hide(300)
+                $editTodo.hide(200)
             })
             
             $("#button-cancel-add").on("click", function(){
