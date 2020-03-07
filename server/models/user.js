@@ -6,6 +6,26 @@ module.exports = (sequelize, DataTypes) => {
 
   class User extends Model{
 
+    static validateRegisterInput(body,err){
+        if(!body.name){
+          err.message='Name must be filled';
+          return false;
+        }
+
+        if(!body.email){
+          err.message='Email must be filled';
+          return false
+        }
+
+        if(!body.password){
+          err.message='Password must be filled';
+          return false;
+        }
+
+        return true;
+
+    }
+
     static validateToken(token){
       let secret=process.env.JWT_SECRET || 'hehe' ;
       let decoded =jwt.verify(token,secret);

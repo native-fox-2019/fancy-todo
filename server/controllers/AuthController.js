@@ -35,6 +35,11 @@ class AuthController{
         (async function(){
             let body=req.body;
             let secret=process.env.JWT_SECRET || 'hehehe';
+            let errObj={};
+            if(!User.validateRegisterInput(body,errObj)){
+                res.status(400).json({status:400,err:errObj});
+            }
+
             try{
                 let user=await User.create(body);
                 res.status(201).json(user);

@@ -11,6 +11,7 @@
     var $btnLogin=$('#btn-login');
     var $btnRegister=$('#btn-register');
     var $errText=$('#error-res');
+    var $errTextReg=$('#error-res-register');
 
     var loginURL='/api/login';
     var registerURL='/api/register';
@@ -43,6 +44,13 @@
         }
         register(sentData);
     });
+
+    function onErrorRegister(jqXHR){
+        var res=jqXHR.responseJSON;
+        if(res.err){
+            $errTextReg.html(res.err.message)
+        }
+    }
 
     function onActionFail($elem){
         return function (jqXHR,status,response){
@@ -82,7 +90,7 @@
             headers:headers,
             data:JSON.stringify(sentData),
             success:onRegisterSuccess
-        }).fail().always(function(){
+        }).fail(onErrorRegister).always(function(){
             $btnRegister.attr('disabled',null);
         })
     }
