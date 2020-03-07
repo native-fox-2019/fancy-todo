@@ -37,10 +37,10 @@ _________________
 ## Usage
 make sure you already install nodejs and live-server in vscode
 
-Clone this repo
+##### Clone this repo
 1. $git clone https://github.com/agunggst/fancy-todo.git
 
-npm install all dependencies and run nodejs - live-server
+##### npm install all dependencies and run nodejs - live-server
 2. $cd fancy-todo
 3. $cd server
 4. $npm install
@@ -49,5 +49,5 @@ npm install all dependencies and run nodejs - live-server
 7. $cd client
 8. $live-server
 
-open the app on your browser
+##### open the app on your browser
 9. go to your browser and open http://localhost:8080
