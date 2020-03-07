@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="764486185935-aobe28kkks4b421rio9i94pmf79eh9c2.apps.googleusercontent.com">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="showMain()">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="edit-profile" onclick="showProfile()">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="signOut()" id="signOut-button">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="login-page">
+        <div class="container d-flex justify-content-center" id="form-login">
+            <form method="POST">
+                <div>
+                    <label class="container d-flex justify-content-center" for="email">Email</label>
+                </div>
+                <div>
+                    <input type="text" name="email" id="login-email">
+                </div>
+                <div>
+                    <label class="container d-flex justify-content-center" for="password">Password</label>
+                </div>
+                <div>
+                    <input type="password" name="password" id="login-password">
+                </div>
+                <div style="padding: 3vh;" class="container d-flex justify-content-center">
+                    <button type="submit" onclick="login()">Submit</button> 
+                    <button id="register-button">register</button>
+                </div>
+                    <div style="padding-left: 6vh;" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="register-page">
+        <div class="container d-flex justify-content-center" id="form-register">
+            <form id="register">
+                <div>
+                    <label for="name">name</label>
+                    <input type="text" name="name" id="register-name">
+                </div>
+                <div>
+                    <label for="email">email</label>
+                    <input type="text" name="email" id="register-email">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="text" name="password" id="register-password">
+                </div>
+                <div>
+                    <button type="submit">Register Now</button>
+                </div>
+                <div>
+                    already have an account?
+                    <button>yes, i alreay have an account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="edit-profile-page">
+        <div class="container d-flex justify-content-center" id="form-edit">
+            <form>
+                <div>
+                    <label class="container d-flex justify-content-center" for="name">Name</label>
+                </div>
+                <div>
+                    <input type="text" name="name" id="name-profile">
+                </div>
+                <div>
+                    <label class="container d-flex justify-content-center" for="email">Email</label>
+                </div>
+                <div>
+                    <input type="text" name="email" id="email-profile">
+                </div>
+                <div>
+                    <label class="container d-flex justify-content-center" for="password">Password</label>
+                </div>
+                <div>
+                    <input type="text" name="password" id="password-profile">
+                </div>
+                <div style="padding-top: 3vh; border-radius: 1vh;">
+                    <button style="border-radius: 1vh;" class="btn-primary container d-flex justify-content-center" class="container d-flex justify-content-center" type="submit" onclick="editProfile()">Edit Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="main-page" class="container">
+        <div style="padding: 5vh;" class="d-flex justify-content-center" id="welcome">
+            <h1>welcome to your todo list</h1>
+        </div>
+        <div class="" id="todos-container">
+            <div class="d-flex flex-column " id="table-todos">
+                <button class=" btn-primary" style="width: 15vh;border-radius: 1vh;" id='reload-data'
+                    onclick="reload()">reload</button>
+                <div style="padding: 3vh;">
+                    <table style="width: 100%; text-align: center;">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>status</th>
+                                <th>Due Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="todos-data">
+                        </tbody>
+                    </table>
+                    <div class="d-flex flex-column" style="padding-top: 3vh;">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" id="add-todos"
+                            data-target="#AddFormModal">
+                            Add Your To Do Now!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-page">
+        <div class="container d-flex justify-content-center" id="form-edit">
+            <form id="edit-todos">
+                <input type="hidden" id="rahasia">
+                <div>
+                    <label class="container d-flex justify-content-center" for="title">title</label>
+                </div>
+                <div>
+                    <input type="text" name="title" id="edit-title">
+                </div>
+                <div>
+                    <label class="container d-flex justify-content-center" for="description">description</label>
+                </div>
+                <div>
+                    <input type="text" name="description" id="edit-description">
+                </div>
+                <div>
+                    <label class="container d-flex justify-content-center" for="status">status</label>
+                </div>
+                <div>
+                    <select class="container d-flex justify-content-center" name="status" id="edit-status">
+                        <option value="done">done</option>
+                        <option value="on progress">on progress</option>
+                        <option value="not yet">not yet</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="container d-flex justify-content-center" for="due_date">due_date</label>
+                </div>
+                <div>
+                    <input type="date" name="due_date" id="edit-due_date">
+                </div>
+                <div>
+                    <button class="container d-flex justify-content-center btn-primary" type="submit" onsubmit="updateData($('#rahasia').val())">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add To Do</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div id="form-add" class="container d-flex justify-content-center">
+                            <form id="add">
+                                <div>
+                                    <label class="container d-flex justify-content-center" for="title">title</label>
+                                </div>
+                                <div>
+                                    <input type="text" name="title" id="add-title">
+                                </div>
+                                <div>
+                                    <label class="container d-flex justify-content-center" for="description">description</label>
+                                </div>
+                                <div>
+                                    <input type="text" name="description" id="add-description">
+                                </div>
+                                <div>
+                                    <label class="container d-flex justify-content-center" for="status">status</label>
+                                </div>
+                                <div>
+                                    <select class="container d-flex justify-content-center" name="status" id="add-status">
+                                        <option value="done">done</option>
+                                        <option value="on progress">on progress</option>
+                                        <option value="not yet">not yet</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="container d-flex justify-content-center" for="due_date">due_date</label>
+                                </div>
+                                <div>
+                                    <input class="container d-flex justify-content-center" type="date" name="due_date" id="add-due_date">
+                                </div>
+                                <div style="padding-top: 3vh;">
+                                    <button class="btn-primary container d-flex justify-content-center" id="add-button" type="submit" onclick="addData()"
+                                        class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="script/google.js"></script>
+    <script src="script/script.js"></script>
+    <script src="script/ajax.js"></script>
+    <script src="script/jquery.js"></script>
+</body>
+
+</html>
