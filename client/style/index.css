@@ -1,4 +1,27 @@
-#todoDiv table thead tr th {
-    width: 200px;
-    border-bottom: 1px solid grey;
+* {
+    background-color: black;
+    color: white;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+body {
+    background-color: black !important;
+}
+
+.flexbox {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+.regLogWidth {
+    max-width: 320px;
+}
+
+#todoList tr td textarea, #todoList tr td input {
+    border: none;
+    border-radius: 100px;
 }

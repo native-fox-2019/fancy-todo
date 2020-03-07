@@ -1,8 +1,8 @@
 'use strict'
+
 const BASE_URL = 'http://localhost:3000';
 
-function register(event) {
-    event.preventDefault();
+function register() {
     $.ajax({
         method: 'POST',
         url: BASE_URL + '/users/register',
@@ -16,8 +16,7 @@ function register(event) {
     });
 }
 
-function login(event) {
-    event.preventDefault();
+function login() {
     $.ajax({
         method: 'POST',
         url: BASE_URL + '/users/login',
@@ -36,8 +35,7 @@ function login(event) {
     });
 }
 
-function addNewTodo(event) {
-    event.preventDefault();
+function addNewTodo() {
     $.ajax({
         method: 'POST',
         url: BASE_URL + '/todos',
@@ -64,13 +62,13 @@ function getAllTodos() {
         url: BASE_URL + '/todos',
         headers: { token: localStorage.getItem('token') },
         success: (data) => {
+            $('#mainPageTitle').html(`Welcome, ${data.UserEmail.split('@')[0]}!<br>What's your next plan?`)
             $('#todoList').empty();
-            data.sort((a,b)=>{return b.id - a.id})
-            // for (let i = data.length-1; i >= 0 ; i--) {
-                data.forEach(d => {
+            data.todos.sort((a,b)=>{return b.id - a.id})
+            data.todos.forEach(d => {
                 $('#todoList').append(`
                 <tr>
-                    <td><input type="text" id="titleUpdate-${d.id}" value="${d.title}" readonly></td>
+                    <td><textarea id="titleUpdate-${d.id}" readonly>${d.title}</textarea></td>
                     <td><textarea id="descriptionUpdate-${d.id}" cols="30" rows="5">${d.description}</textarea></td>
                     <td><select id="statusUpdate-${d.id}">
                             <option value="" hidden></option>
@@ -84,16 +82,15 @@ function getAllTodos() {
                         <input type="date" min="2019-01-01" max="2019-12-31" id="due_dateUpdate-${d.id}" value="${d.due_date.substring(0,10)}" readonly>
                     </td>
                     <td>
-                        <button onclick="updateTodo(${d.id})">Update</button>
-                        <button onclick="deleteTodo(${d.id})">Delete</button>
+                        <button class="btn btn-outline-warning btn-block" onclick="updateTodo(${d.id})">Update</button>
+                        <button class="btn btn-outline-danger btn-block" onclick="deleteTodo(${d.id})">Delete</button>
                     </td>
                 </tr>
                 `);
             });
-            // }
         },
         error: (err) => {
-            console.log(err.responseText);
+            console.log(err);
         }
     });
 }

@@ -1,5 +1,5 @@
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client('417245750214-tuclalcrcarlnemdnl4ntbfs13hbpid6.apps.googleusercontent.com');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
@@ -9,9 +9,7 @@ class UserController {
         let email = null;
         client.verifyIdToken({
             idToken: req.body.token,
-            audience: '417245750214-tuclalcrcarlnemdnl4ntbfs13hbpid6.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
-            // Or, if multiple clients access the backend:
-            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+            audience: process.env.GOOGLE_CLIENT_ID
         })
         .then(ticket => {
             email = ticket.getPayload().email;
@@ -34,10 +32,10 @@ class UserController {
         .then(data => {
             let token = jwt.sign({ id: data.id, email: data.email }, process.env.AUTH_SECRET);
             res.status(200).json({ token });
-            })
-            .catch(err => {
-                next(err);
-            })
+        })
+        .catch(err => {
+            next(err);
+        })
     }
 
     static register = (req, res, next) => {

@@ -1,6 +1,6 @@
-const { Todo } = require('../models');
+const { Todo, User } = require('../models');
 const createError = require('http-errors');
-const holidayIdn = require('../helpers/holidayAPI');
+const axios = require('axios');
 
 class TodoController {
     static addTodo = (req, res, next) => {
@@ -11,11 +11,11 @@ class TodoController {
             due_date: req.body.due_date,
             UserId: req.userData.id
         };
-        return holidayIdn(req.body.due_date)
+        axios.get(`https://calendarific.com/api/v2/holidays?&api_key=${process.env.CALENDARIFIC_API_KEY}&country=ID&year=${toAdd.due_date.split('-')[0]}&month=${toAdd.due_date.split('-')[1]}&day=${toAdd.due_date.split('-')[2]}`)
         .then(holiday => {
-            console.log(holiday,'=====================================================');
-            if (holiday.holidays.length) {
-                toAdd.title += ` [${holiday.holidays[0].name}]`;
+            console.log(holiday.data.response.holidays.length);
+            if (holiday.data.response.holidays.length) {
+                toAdd.title += ` [${holiday.data.response.holidays[0].name}]`
             }
             return Todo.create(toAdd);
         })
@@ -29,9 +29,14 @@ class TodoController {
 
     static getTodo = (req, res, next) => {
         let UserId = req.userData.id;
-        Todo.findAll({ where: { UserId } })
-        .then(data => {
-            res.status(200).json(data);
+        let UserEmail = null
+        User.findOne({ where: UserId })
+        .then(user => {
+            UserEmail = user.email;
+            return Todo.findAll({ where: { UserId } })
+        })
+        .then(todos => {
+            res.status(200).json({ UserEmail, todos });
         })
         .catch(err => {
             next(err);
