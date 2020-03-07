@@ -1,3 +1,4 @@
+// login / register
 function registerSubmit(data) {
     $.ajax({
         url: `http://localhost:3000/users/register`,
@@ -27,6 +28,7 @@ function loginSubmit(data) {
         })
 }
 
+// Todo
 function getTodo(token){
     $.ajax({
         url: `http://localhost:3000/todos`,
@@ -53,7 +55,24 @@ function addTodo(data, token){
         data
     })
         .done(data => {
-            getTodo()
+            getTodo(token)
+        })
+        .fail(err => {
+            fail(err.responseJSON)
+        })
+}
+
+function editTodo(data, token) {
+    $.ajax({
+        url: `http://localhost:3000/todos`,
+        type: `PUT`,
+        headers: {
+            token
+        },
+        data
+    })
+        .done(data => {
+            getTodo(token)
         })
         .fail(err => {
             fail(err.responseJSON)
