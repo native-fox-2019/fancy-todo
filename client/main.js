@@ -3,6 +3,7 @@ var TOKEN = localStorage.getItem('token');
 var NAME = localStorage.getItem('name');
 // due date is min now
 addDuedate.min = new Date().toISOString().split("T")[0];
+// updateDuedate.min = new Date().toISOString().split("T")[0];
 // ERROR HANDLER 
 var errorMsg = (err) => {
   if (Array.isArray(err.responseJSON.message)) {
@@ -183,7 +184,7 @@ function showHistoryTodo() {
 
   // GET ALL TODOS
 function getAllTodos() {
-    console.log(localStorage.getItem('token'))
+    // console.log(localStorage.getItem('token'))
     $.ajax({
       type: "GET",
       url: `${BASE_URL}/todos`,
@@ -198,15 +199,15 @@ function getAllTodos() {
             <div class="mx-2 my-2">
             <div class="card" style="width: 11rem;">
               <div class="card-body">
-                <div class="d-flex align-content-around justify-content-around">
-                  <h5 class="card-title">${el.title}</h5>
-                  <div class="alert alert-danger p-0" role="alert">
-                    ${el.status}
-                  </div>
+                <h5 class="card-title">${el.title}</h5>
+                <div class="alert alert-danger p-0" role="alert">
+                  ${el.status}
                 </div>
                 <p class="card-text">${moment(el.due_date).format('LL')}.</p>
-                <a href="#" id="todo${el.id}" onClick="detailTodo(${el.id})" class="btn btn-primary">Detail</a>
-                <a href="#" id="todo${el.id}" onClick="updateStatusTodo(${el.id})" class="btn btn-warning">Done</a>
+                <p class="card-text">${el.description}.</p>
+                <a href="#" id="todo${el.id}" onClick="detailTodo(${el.id})" class="btn btn-primary btn-sm">Detail</a>
+                <a href="#" id="todo${el.id}" onClick="updateStatusTodo(${el.id})" class="btn btn-warning btn-sm">Done</a>
+                <a href="#" id="todo${el.id}" onClick="updateTodo(${el.id})" class="btn btn-info btn-sm">Edit</a>
               </div>
             </div>
             </div>
@@ -214,15 +215,15 @@ function getAllTodos() {
             )
           }
         });
-        console.log(data)
+        // console.log(data)
       })
       .fail(err => {
-        Swal.fire({
-          title: 'Error!',
-          html: `${errorMsg(err)}`,
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        })
+        $('#showTodo').html(
+          `<div class="mx-auto my-auto pt-5">
+          <div><h3>${errorMsg(err)}</h3></div>
+          </div>
+          `
+        )
       })
   }
   // END GET ALL TODOS
@@ -237,12 +238,19 @@ function getAllTodos() {
       headers: { token: TOKEN },
     })
       .done(data => {
+        // $(document).ready(function () {
+        //   $("button").click(function () {
+        //     $("#div1").fadeIn(1000);
+        //     $("#div2").fadeIn(2000);
+        //     $("#div3").fadeIn(3000);
+        //   });
+        // });
         $('#showTodo').empty()
         data.forEach((el, index) => {
           if (el.status == 'true') {
             $('#showTodo').append(
               `
-            <div class="mx-2 my-2">
+            <div id="div${index+1}" class="mx-2 my-2">
             <div class="card" style="width: 11rem;">
               <div class="card-body">
                 <div class="d-flex align-content-around justify-content-around">
@@ -252,23 +260,23 @@ function getAllTodos() {
                   </div>
                 </div>
                 <p class="card-text">${moment(el.due_date).format('LL')}.</p>
-                <a href="#" id="todo${el.id}" onClick="deleteTodo(${el.id})" class="btn btn-danger">Delete</a>
-              </div>
+                <a href="#" id="todo${el.id}" onClick="deleteTodo(${el.id})" class="btn btn-danger btn-sm">Delete</a>
+                </div>
             </div>
             </div>
             `
             )
           }
         });
-        console.log(data)
+        // console.log(data)
       })
       .fail(err => {
-        Swal.fire({
-          title: 'Error!',
-          html: `${errorMsg(err)}`,
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        })
+        $('#showTodo').html(
+          `<div class="mx-auto my-auto pt-5">
+          <div><h3>${errorMsg(err)}</h3></div>
+          </div>
+          `
+        )
       })
   }
 
@@ -312,7 +320,11 @@ function getAllTodos() {
     })
   }
   // UPDATE STATUS
-
+  //  UPDATE TODOS
+  // function updateTodo(id) {
+      
+  //   }
+    //  END UPDATE TODOS
   // DELETE TODO
   function deleteTodo(id) {
     Swal.fire({
@@ -423,7 +435,7 @@ $('#formLogin').submit(function(e) {
       NAME = localStorage.getItem('name')
       getName()
       getAllTodos()
-      $('#nav').show();
+      // $('#nav').show();
       $('#home').show();
       $('#login').hide();
       $('#register').hide();
@@ -510,5 +522,90 @@ $('#formAddTodo').submit(function (e) {
 // END ADD TODOS
 
 // UPDATE
+function updateTodo(id) {
+  // alert(el);
+  $.ajax({
+    type: "GET",
+    url: `${BASE_URL}/todos/${id}`,
+    headers: { token: TOKEN },
+  })
+    .done(data => {
+      let alert = 'alert-success'
+      if (data.status == 'false') {
+        alert = 'alert-danger'
+      }
+      $('#showAddTodo').hide();
+      $('#addTodo').hide();
+      $('#allCard').hide();
+      $('#showUpdateTodo').show();
+      $('#showUpdateTodo').html(
+        `
+          <h3 class="text-center">Update Todo</h3>
+          <form id="formUpdateTodo">
+            <div class="form-group">
+              <label for="updateTitle">Tittle</label>
+              <input type="text" value="${data.id}" class="form-control" id="updateId">
+              <input type="text" value="${data.title}" class="form-control" id="updateTitle">
+            </div>
+            <div class="form-group">
+              <label for="updateDescription">Description</label>
+              <input type="text" value="${data.description}" class="form-control" id="updateDescription">
+            </div>
+            <div class="form-group">
+              <label for="updateDuedate">Due Date</label>
+              <input type="date" value="${moment(data.due_date).format('YYYY-MM-DD')}" name="datemin" class="form-control" id="updateDuedate">
+            </div>
+            <div class="form-group">
+              <label for="updateStatus">Status</label>
+              <input type="text" value="${data.status}" class="form-control" id="updateStatus">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          `
+      );
+    })
+    .fail(err => {
+      console.log(err)
+    })
+}
 
-// 
+$('#formUpdateTodo').submit(function (e) {
+  e.preventDefault();
+  alert('masuk')
+  console.log('masuk ke update')
+  const id = $('#updateId').val();
+  const title = $('#updateTitle').val();
+  const description = $('#updateDescription').val();
+  const due_date = $('#updateDuedate').val();
+  const status = $('#updateStatus').val();
+  // const status = false
+  // $.ajax({
+  //   type: "PUT",
+  //   url: BASE_URL + `/todos/${id}`,
+  //   data: {
+  //     title, description, due_date, status,
+  //   },
+  //   headers: { token: TOKEN },
+  // })
+  //   .done(data => {
+  //     $('#allCard').show()
+  //     $('#updateTodo').show()
+  //     $('#showUpdateTodo').hide()
+  //     getAllTodos()
+  //     Swal.fire({
+  //       title: 'Succes!',
+  //       text: `Congratulation ${data.title} has been updated`,
+  //       icon: 'success',
+  //       confirmButtonText: 'Ok'
+  //     })
+  //   })
+  //   .fail(err => {
+  //     Swal.fire({
+  //       title: 'Error!',
+  //       html: `${errorMsg(err)}`,
+  //       icon: 'error',
+  //       confirmButtonText: 'Ok'
+  //     })
+  //   })
+});
+// END UPDATE

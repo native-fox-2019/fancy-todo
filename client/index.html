@@ -18,7 +18,7 @@
 <body>
 <!-- ===================================================================================================================================== -->
   <!-- REGISTER -->
-  <div id="register" class="bg-login">
+  <div id="register" class="bg-login font-Courgette">
     <div class="container">
       <h2 class="text-center py-4">Fancy Todo</h2>
       <h4 class="text-center py-4">Please Register: </h4>
@@ -49,18 +49,22 @@
         </div>
       </div>
     </div>
+  <div class="ocean">
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
   </div>
   <!-- END REGISTER -->
 <!-- ===================================================================================================================================== -->
 
   <!-- LOGIN -->
-  <div id="login" class="bg-login">
+  <div id="login" class="bg-login font-Courgette">
     <div class="container">
       <h2 class="text-center py-4">Fancy Todo</h2>
       <h4 class="text-center py-4">Please Login: </h4>
     </div>
     <div class="container d-flex align-content-center justify-content-center">
-      <div class="border p-4 rounded">
+      <div class="border p-4 rounded bg-content">
         <div class="d-flex justify-content-center">
           <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
@@ -89,6 +93,10 @@
         </div>
       </div>
     </div>
+    <div class="ocean">
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
   </div>
   <!-- END LOGIN -->
 <!-- ===================================================================================================================================== -->
@@ -97,7 +105,7 @@
       <!-- NAV -->
       <nav class="navbar navbar-expand-lg navbar-light bg-info">
         <div class="container">
-          <a class="navbar-brand" href="#">Navbar</a>
+          <a class="navbar-brand" href="#">Fancy Todo</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -116,8 +124,8 @@
                   Username
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Profil</a>
-                  <a class="dropdown-item" href="#">Setting</a>
+                  <a id="profilUser" class="dropdown-item" href="#">Profil</a>
+                  <a id="settingUser" class="dropdown-item" href="#">Setting</a>
                   <div class="dropdown-divider"></div>
                   <a id="logout" class="dropdown-item" href="#">Logout</a>
                 </div>
@@ -129,7 +137,7 @@
       <!-- END NAV -->
 
       <!-- BODY -->
-      <div id="home" class="container mt-4">
+      <div id="home" class="container mt-4 font fontBree">
         <div class="row">
           <!-- MENU SILDE -->
           <div class="col-3">
@@ -145,14 +153,14 @@
 
 
           <!-- CONTENT -->
-          <div class="col-9 border rounded">
+          <div class="col-9 border rounded bg-content my-4">
             <div class="d-flex align-content-center justify-content-end">
               <div id="addTodo" class="btn btn-primary my-2">Add Todo</div>
             </div>
 
             <!-- CARD -->
-            <div id="allCard">
-              <div id="showTodo" class="row flex-wrap">
+            <div id="allCard" class="">
+              <div id="showTodo" class="row flex-wrap" style="overflow-y: auto;">
               <!-- CONTENT IN CARD FROM GET ALL TODOS -->
               </div>
             </div>
@@ -180,7 +188,11 @@
               </form>
             </div>
             <!-- END OF ADD TODO -->
-
+            <!-- Update TODO -->
+            <div id="showUpdateTodo" class="my-2" style="display: none;">
+              
+            </div>
+            <!-- END OF update TODO -->
             <!-- HISTORY -->
             <div id="allHistory">
               <div id="showHistory" class="d-flex align-content-between justify-content-between flex-wrap">
@@ -195,6 +207,7 @@
       <!-- END BODY -->
   </div>
   <!-- END HOME -->
+  <!-- wave animations -->
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js">
