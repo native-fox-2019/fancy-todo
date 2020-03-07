@@ -5,8 +5,9 @@ const createError = require('../helper/http-errors')
 class ControllerTodo {
 
   static getAllTodo(req, res, next) {
+    let UserId = req.user.id
     Todo
-      .findAll()
+      .findAll({ where: { UserId }, order: [['updatedAt', 'DESC']] })
       .then(result => {
         res.status(200).json(result)
       })

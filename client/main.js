@@ -1,22 +1,26 @@
 
 
+
 $(document).ready(function () {
+  $('#login').show()
   $('#register').hide()
-  $('#allTodos').hide()
   $('#todolistPage').hide()
+  $('#editTodosDiv').hide()
   $('#addTodosDiv').hide()
-  // $('#tableTodos').empty()
+  $('#todosForm').hide()
+  $('#todolistPage').hide()
+
 
   if (!localStorage.getItem('token')) {
-    $('#register').hide()
     $('#login').show()
-    $('#todolistPage').hide()
-  } else {
     $('#register').hide()
+    // $('#todolistPage').hide()
+    // $('#editTodosDiv').hide()
+  } else {
     $('#login').hide()
     $('#todolistPage').show()
-    // $('#addTodosDiv').show()
     showAllTodos()
+
   }
 
   $('#toRegister').on('click', function (event) {
@@ -34,8 +38,10 @@ $(document).ready(function () {
     let emailLogin = $('#emailLogin').val()
     let passwordLogin = $('#passwordLogin').val()
     login(emailLogin, passwordLogin)
-    $('#allTodos').show()
+    // $('#todolistPage').show()
     $('#login').hide()
+    $('#editTodosDiv').hide()
+
   })
 
   $("#actionToRegister").on('submit', function (event) {
@@ -44,11 +50,19 @@ $(document).ready(function () {
     let email = $('#emailRegister').val()
     let password = $('#passwordRegister').val()
     register(username, email, password)
-    // $('#allTodos').show()
+    // $('#todolistPage').show()
+    $('#register').hide()
+    $('#editTodosDiv').hide()
   })
 
-  $('#AddTodoList').on('click', function (event) {
+  $('#btn_google').on('click', function (event) {
+    $('#login').hide()
+    onSignIn()
+  })
+
+  $('#addTodoList').on('click', function (event) {
     $('#addTodosDiv').show()
+    $('#todosForm').show()
     $('#todolistPage').hide()
   })
 
@@ -58,6 +72,35 @@ $(document).ready(function () {
     let description = $('#descriptionAdd').val()
     let due_date = $('#due_dateAdd').val()
     addTodos(title, description, due_date)
+    $('#todolistPage').show()
+    $('#login').hide()
+    // $('#editTodosDiv').hide()
+    $('#addTodosDiv').hide()
+  })
+
+  $('#tolistPage').on('click', function () {
+    $('#todolistPage').show()
+    $('#addTodosDiv').hide()
+  })
+
+  $('#cancelEdit').on('click', function () {
+    $('#editTodosDiv').hide()
+    $('#todolistPage').show()
+  })
+
+  $('#todosEdit').on('submit', function (event) {
+    event.preventDefault()
+    $('#editTodosDiv').hide()
+    $('#todolistPage').show()
+    editTodosButton()
+    showAllTodos()
+  })
+
+
+  //logout
+  $('#logoutTodoList').on('click', function () {
+    logoutTodos()
+    // $('#login').show()
   })
 
 })

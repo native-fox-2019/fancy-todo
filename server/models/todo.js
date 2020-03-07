@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: 'Please fill in all fields' },
         notEmpty: { msg: 'Please fill in all fields' },
         isIn: {
-          args: [['not done', 'finished', 'Expired']],
+          args: [['not done', 'finished', 'expired']],
           msg: 'status not found'
         }
       }

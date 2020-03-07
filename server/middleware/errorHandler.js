@@ -20,6 +20,8 @@ module.exports = (err, req, res, next) => {
     res.status(404).json('data invalid')
   } else if (err.name === 'BadRequestError') {
     res.status(400).json('Email or password wrong')
+  } else if (err.name === 'ForbiddenError') {
+    res.status(403).json(err)
   }
   else {
     res.status(500).json('500 internal server error')
