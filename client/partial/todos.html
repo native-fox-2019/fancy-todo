@@ -1,0 +1,144 @@
+<div class="row">
+    
+    <h2>Add New Todos</h2>
+    <form id="form-todo">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" class="form-control">
+            <p class="red" id="error-title"></p>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" class="form-control">
+            <p class="red" id="error-description"></p>
+        </div>
+        <div class="form-group">
+            <label for="start-date">Start Date</label>
+            <div class="form-group input-group date" id="start-date-content">
+                <input type='text' class="form-control" id="start-date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <p class="red" id="error-start-date"></p>
+        </div>
+        <div class="form-group">
+            <label for="due-date">Due Date</label>
+            <div class="form-group input-group date" id="due-date-content">
+                <input type='text' class="form-control" id="due-date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <p class="red" id="error-due-date"></p>
+        </div>
+        <button class="btn btn-success" id="btn-add-todos">submit</button>
+        <a id="href-unauth"></a>
+        <script>
+            (function(){
+                $('#due-date-content').datetimepicker();
+                $('#start-date-content').datetimepicker();
+            })()
+        </script>
+        
+    </form>
+</div>
+<div class="row">
+  <h2>Todo List</h2>
+  <table class="table table-bordered">
+      <thead>
+          <th>ID</th>
+          <th>title</th>
+          <th>description</th>
+          <th>status</th>
+          <th>Due Date</th>
+          <th>Action</th>
+      </thead>
+  
+  <tbody id="todos-content"></tbody>
+</table>
+</div>
+<div class="modal fade" id="edit-modal" role="dialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Edit Todos</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="title_m">Title</label>
+            <input type="text" id="title_m" class="form-control">
+            <p class="red" id="error-title-m"></p>
+        </div>
+        <div class="form-group">
+            <label for="description_m">Description</label>
+            <input type="text" id="description_m" class="form-control">
+            <p class="red" id="error-description-m"></p>
+        </div>
+        <div class="form-group">
+            <label for="start-date_m">Start Date</label>
+            <div class="form-group input-group date" id="start-date-content_m">
+                <input type='text' class="form-control" id="start-date_m" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <p class="red" id="error-start-date-m"></p>
+        </div>
+        <div class="form-group">
+            <label for="due-date_m">Due Date</label>
+            <div class="form-group input-group date" id="due-date-content_m">
+                <input type='text' class="form-control" id="due-date_m" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <p class="red" id="error-due-date-m"></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="btn-submit-modal">Submit</button>
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  <script>
+    (function(){
+        $('#due-date-content_m').datetimepicker();
+        $('#start-date-content_m').datetimepicker();
+    })()
+</script>
+  
+</div>
+</div>
+<div class="modal fade" id="delete-model" role="dialog">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Delete Todos</h4>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure want to delete this todos</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btn-submit-modal-delete">Yes</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<template id="tr-partial">
+    <tr>
+        <td>{id}</td>
+        <td>{title}</td>
+        <td>{description}</td>
+        <td>{status}</td>
+        <td>{due_date}</td>
+        <td>
+            <button class="btn btn-primary" onclick="openEdit({id})">Edit</button>
+            <button class="btn btn-danger" onclick="openDelete({id})">Delete</button>
+        </td>
+    </tr>
+</template>
+
+<script src="/js/todo.js"></script>
