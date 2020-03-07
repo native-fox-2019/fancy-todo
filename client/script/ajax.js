@@ -1,57 +1,57 @@
 
-function showLogin() {
-    $("#add-page").hide(300)
-    $("#register-page").hide(300)
-    $("#main-page").hide(300)
-    $("#edit-page").hide(300)
-    $("#edit-profile-page").hide(300)
-    $("#login-page").show(300)
+function showLogin(params) {
+    $("#add-page").hide(params)
+    $("#register-page").hide(params)
+    $("#main-page").hide(params)
+    $("#edit-page").hide(params)
+    $("#edit-profile-page").hide(params)
+    $("#login-page").show(params)
 }
 
-function showRegister() {
-    $("#add-page").hide(300)
-    $("#main-page").hide(300)
-    $("#edit-page").hide(300)
-    $("#login-page").hide(300)
-    $("#edit-profile-page").hide(300)
-    $("#register-page").show(300)
+function showRegister(params) {
+    $("#add-page").hide(params)
+    $("#main-page").hide(params)
+    $("#edit-page").hide(params)
+    $("#login-page").hide(params)
+    $("#edit-profile-page").hide(params)
+    $("#register-page").show(params)
 }
 
-function showEdit() {
-    $("#add-page").hide(300)
-    $("#register-page").hide(300)
-    $("#main-page").hide(300)
-    $("#login-page").hide(300)
-    $("#edit-page").show(300)
-    $("#edit-profile-page").hide(300)
+function showEdit(params) {
+    $("#add-page").hide(params)
+    $("#register-page").hide(params)
+    $("#main-page").hide(params)
+    $("#login-page").hide(params)
+    $("#edit-page").show(params)
+    $("#edit-profile-page").hide(params)
 }
 
-function showAdd() {
-    $("#add-page").show(300)
-    $("#register-page").hide(300)
-    $("#main-page").hide(300)
-    $("#edit-page").hide(300)
-    $("#login-page").hide(300)
-    $("#edit-profile-page").hide(300)
+function showAdd(params) {
+    $("#add-page").show(params)
+    $("#register-page").hide(params)
+    $("#main-page").hide(params)
+    $("#edit-page").hide(params)
+    $("#login-page").hide(params)
+    $("#edit-profile-page").hide(params)
 }
 
-function showMain() {
-    $("#add-page").hide(300)
-    $("#register-page").hide(300)
-    $("#main-page").show(300)
-    $("#edit-page").hide(300)
-    $("#login-page").hide(300)
-    $("#edit-profile-page").hide(300)
-    getData()
+function showMain(params) {
+    $("#add-page").hide(params)
+    $("#register-page").hide(params)
+    $("#main-page").show(params)
+    $("#edit-page").hide(params)
+    $("#login-page").hide(params)
+    $("#edit-profile-page").hide(params)
+    getData(params)
 }
 
-function showEditProfile() {
-    $("#add-page").hide(300)
-    $("#register-page").hide(300)
-    $("#main-page").hide(300)
-    $("#edit-page").hide(300)
-    $("#login-page").hide(300)
-    $("#edit-profile-page").show(300)
+function showEditProfile(params) {
+    $("#add-page").hide(params)
+    $("#register-page").hide(params)
+    $("#main-page").hide(params)
+    $("#edit-page").hide(params)
+    $("#login-page").hide(params)
+    $("#edit-profile-page").show(params)
 }
 
 function register() {
@@ -77,18 +77,17 @@ function login() {
         url: 'http://localhost:3000/users/login',
         method: 'post',
         data: {
-            'username': $('#login-username').val(),
+            'email': $('#login-email').val(),
             'password': $('#login-password').val()
         },
         success: (data) => {
             localStorage.setItem('token', data)
-            getData()
-            showMain()
+            showMain(0)
         }
     });
 }
 
-function showEditProfile(){
+function showProfile(){
     $.ajax({
         url: 'http://localhost:3000/users',
         method: 'get',
@@ -96,10 +95,10 @@ function showEditProfile(){
             'token': localStorage.getItem('token')
         },
         success: (data) => {
-            showEditProfile()
             $('#name-profile').val(data.name)
             $('#email-profile').val(data.email)
             $('#password-profile').val(data.password)
+            showEditProfile(300)
         },
         error: (err) => console.log(err)
     })
@@ -118,7 +117,7 @@ function editProfile(){
             "password":$('#profile-password').val()
         },
         success: (data) => {
-            showMain()
+            showMain(300)
         },
         error: (err) => console.log(err)
     })
@@ -157,7 +156,7 @@ function getOne(id) {
             'token': localStorage.getItem('token')
         },
         success: (data) => {
-            showEdit()
+            showEdit(300)
             $('#edit-title').val(data.title)
             $('#edit-description').val(data.description)
             $('#edit-status select').val(data.status)
@@ -184,9 +183,7 @@ function addData() {
         },
         success: (data) => {
             event.preventDefault()
-            $('#add-page').hide()
-            reload()
-            $('#main-page').show()
+           showMain(300)
         },
         error: (err) => {
             console.log(err)
@@ -202,7 +199,7 @@ function deleteData(id) {
             'token': localStorage.getItem('token')
         },
         success: (data) => {
-            showMain()
+            showMain(0)
         },
         error :(err)=>{
             console.log(err)
@@ -226,11 +223,10 @@ function updateData() {
         },
         success: (data) => {
             event.preventDefault()
-            showMain()
+            showMain(300)
         },
         error: (err) => {
             console.log(err)
         }
-
     })
 }

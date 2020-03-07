@@ -8,6 +8,7 @@ $('#edit-todos').on('submit', (event) => {
     updateData()
 })
 $('#edit-profile').on('click', (event) => {
+    event.preventDefault()
     showEditProfile()
 })
 
@@ -21,14 +22,18 @@ $('#profile-todos').on('click', (event) => {
 })
 
 if (localStorage.getItem('token')) {
-    showMain()
+    $add.hide()
+    $register.hide()
+    $main.show()
+    $edit.hide()
+    $login.hide()
+    $profile.hide()
+    getData()
 } else {
-    showLogin()
+    $("#add-page").hide()
+    $register.hide()
+    $main.hide()
+    $edit.hide()
+    $login.show()
+    $profile.hide()
 }
-$('#login').on('submit', () => {
-    if (localStorage.token) {
-        showMain()
-    } else {
-        showLogin()
-    }
-})

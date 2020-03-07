@@ -4,6 +4,7 @@ let $login = $('#login-page')
 let $register = $('#register-page')
 let $add = $('#add-page')
 let $edit = $('#edit-page')
+let $profile = $('#edit-profile-page')
 
 let $loginBtn = $('#login-button')
 let $registerBtn = $('#register-button')
