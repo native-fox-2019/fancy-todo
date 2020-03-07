@@ -283,8 +283,8 @@ _Response :_
 
 ## Todos
 
-| Url   | Method    |   Description                      |
-| -------------     | ---------------------------------- |
+| Url   | Method    |   Description |
+| -------------     | ------------- | ------------- |
 | /     | POST      | Membuat todo baru
 | /     | GET       | Mendapatkan list todo
 | /:id  | GET       | Mendapatkan data todo berdasarkan id
@@ -294,11 +294,11 @@ _Response :_
 
 ## Table Responses
 
-| Code    | Description                                          | 
-| --------| ---------------------------------------------------- |
-| 200     | Response Sukses                                      | 
-| 201     | Data berhasil ditambahkan                            | 
+| Code   | Description    | 
+| -------------     | ------------- |
+| 200     | Response Sukses      | 
+| 201     | Data berhasil ditambahkan      | 
 | 400     | Request yang diberikan tidak lengkap atau salah      | 
-| 403     | Tidak memiliki otoritas                              | 
-| 404     | Data tidak ditemukan / tidak ada                     | 
-| 500     | Error dari sisi server                               | 
+| 403     | Tidak memiliki otoritas      | 
+| 404     | Data tidak ditemukan / tidak ada      | 
+| 500     | Error dari sisi server    | 
