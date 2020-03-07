@@ -123,7 +123,6 @@
 
     function onGoogleSuccess(googleUser){
         // console.log(googleUser)
-        debugger;
         var profile = googleUser.getBasicProfile();
         var sentData={
             name:profile.getName(),
@@ -136,7 +135,6 @@
     }
 
     function onGoogleFailure(res){
-        debugger;
         console.log('Gagal',res);
     }
 
@@ -155,7 +153,6 @@
     function renderButton(){
         gapi.load('auth2', function(){
             // Retrieve the singleton for the GoogleAuth library and set up the client.
-            debugger;
             auth2 = gapi.auth2.init({
               client_id: '344866426626-65ags7r92el6bvtrj0krdmk113l2r3fj.apps.googleusercontent.com',
               cookiepolicy: 'single_host_origin',
