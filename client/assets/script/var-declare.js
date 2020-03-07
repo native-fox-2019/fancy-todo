@@ -23,7 +23,8 @@ var addList = {
     $form: $(`#add-list`),
     $title: $(`#add-list #title`),
     $descr: $(`#add-list #description`),
-    $date: $(`#add-list #date`)
+    $date: $(`#add-list #date`),
+    $modal: $(`#md-add`)
 }
 
 // edit form
@@ -31,7 +32,8 @@ var edit = {
     $form: $(`#editTodo`),
     $title: $(`#edit-title`),
     $descr: $(`#edit-description`),
-    $date: $(`#edit-date`)
+    $date: $(`#edit-date`),
+    $modal: $(`#md-edit`)
 }
 
 // view
@@ -44,4 +46,4 @@ var $list = $(`#list`) // shows todo entries
 var $err = $(`.errMsg`) // the part where error messages shows up
 var $table = $(`#todo-list > tbody`) // the body of the table to show entries
 var $tableList = $(`#todo-list > tbody:last-child`) // currently not used (remove if still not used)
-var entryId // entryId for edit
+var entry // entry data for edit form

@@ -18,6 +18,10 @@
         .errMsg {
             color: red;
         }
+
+        th, td {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -68,20 +72,40 @@
         <button type="button" class="btn btn-primary" id="add" data-toggle="modal" data-target="#md-add">+ Add</button>
         <button class="btn btn-primary float-right mb-3" id="btn-logout">Logout</button>
 
-        <form id="add-list">
-            <div class="form-group">
-                <input type="text" placeholder="Title" id="title" class="form-control mb-2">
+
+        <!-- modal add -->
+        <div class="modal fade" id="md-add" tabindex="-1" role="dialog" aria-labelledby="md-Label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="md-Label">add Entry</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="md-bd">
+                        <form id="add-list">
+                            <div class="form-group">
+                                <input type="text" placeholder="Title" id="title" class="form-control mb-2">
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Description" id="description" class="form-control mb-2" cols="30"
+                                    rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" id="date" class="form-control mb-2">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <textarea placeholder="Description" id="description" class="form-control mb-2" cols="30"
-                    rows="5"></textarea>
-            </div>
-            <div class="form-group">
-                <input type="date" id="date" class="form-control mb-2">
-            </div>
-            <button type="submit" class="btn btn-primary">+ Add</button>
-        </form>
-        
+        </div>
+
+
         <table id="todo-list" class="w-100 mt-3">
             <thead>
                 <tr>
@@ -89,15 +113,16 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Due Date</th>
-                    <th>Action</th>
+                    <th colspan="2">Action</th>
                 </tr>
             </thead>
             <tbody>
 
             </tbody>
         </table>
+
         <!-- modal edit -->
-        <div class="modal fade" id="md" tabindex="-1" role="dialog" aria-labelledby="md-Label" aria-hidden="true">
+        <div class="modal fade" id="md-edit" tabindex="-1" role="dialog" aria-labelledby="md-Label" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -119,7 +144,7 @@
                                 <input type="date" id="edit-date" class="form-control mb-2">
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </form>

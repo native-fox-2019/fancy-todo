@@ -6,7 +6,8 @@ function registerSubmit(data) {
         data
     })
         .done(data => {
-            show(`login`)
+            localStorage.setItem(`Token`, data.token)
+            show(`list`)
         })
         .fail(err => {
             fail(err.responseJSON)
@@ -64,7 +65,7 @@ function addTodo(data, token){
 
 function editTodo(data, token) {
     $.ajax({
-        url: `http://localhost:3000/todos`,
+        url: `http://localhost:3000/todos/${data.id}`,
         type: `PUT`,
         headers: {
             token
@@ -77,4 +78,14 @@ function editTodo(data, token) {
         .fail(err => {
             fail(err.responseJSON)
         })
+}
+
+function deleteTodo(id, token) {
+    $.ajax({
+        url: `http://localhost:3000/todos/${id}`,
+        type: `DELETE`,
+        headers: {
+            token
+        }
+    })
 }

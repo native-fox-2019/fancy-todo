@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    
+    // checks whether user has logged in
     if(localStorage.getItem(`Token`)) {
         show(`list`)
     } else {
@@ -46,6 +48,7 @@ $(document).ready(() => {
 
     addList.$form.on(`submit`, (event) => {
         event.preventDefault()
+        addList.$modal.modal(`toggle`)
 
         addTodo({
             title: addList.$title.val(),
@@ -56,5 +59,18 @@ $(document).ready(() => {
 
         $err.empty()
         addList.$form[0].reset()
+    })
+
+    edit.$form.on(`submit`, (event) => {
+        event.preventDefault()
+        edit.$modal.modal(`toggle`)
+
+        editTodo({
+            id: entry.id,
+            title: edit.$title.val(),
+            description: edit.$descr.val(),
+            status: entry.status,
+            due_date: edit.$date.val()
+        }, localStorage.getItem(`Token`))
     })
 })

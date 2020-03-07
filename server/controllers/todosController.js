@@ -26,7 +26,8 @@ class TodosController {
         Model.Todolist.findAll({
             where: {
                 UserId: Number(req.user.id)
-            }
+            },
+            order: [[`due_date`, `ASC`]]
         })
             .then(data => {
                 res.status(200).json(data)
