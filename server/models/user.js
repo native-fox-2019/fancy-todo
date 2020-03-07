@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:{
         notNull:{
-          msg: 'Email tidak boleh kosong'
+          msg: 'Email cannot empty'
         }
       }
     },
