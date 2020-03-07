@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const mailgun = require("mailgun-js");
-const DOMAIN = 'sandbox07aad5600cdb43d1b553478ed09cde43.mailgun.org';
+const DOMAIN = process.env.DOMAIN;
 const mg = mailgun({apiKey: process.env.API_KEY, domain: DOMAIN});
 
 function sendMail(todo){

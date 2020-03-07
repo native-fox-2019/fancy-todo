@@ -132,7 +132,7 @@ $(document).ready(function(){
     })
     
 
-    //delete
+    //Delete
     $(document).on('click', '.btn-delete', function() {
         let deleteValue = $(this).data('id');
     
