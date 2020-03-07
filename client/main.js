@@ -538,13 +538,13 @@ function updateTodo(id) {
       $('#addTodo').hide();
       $('#allCard').hide();
       $('#showUpdateTodo').show();
-      $('#showUpdateTodo').html(
+      $('#formUpdateTodo').html(
         `
           <h3 class="text-center">Update Todo</h3>
-          <form id="formUpdateTodo">
+          
             <div class="form-group">
               <label for="updateTitle">Tittle</label>
-              <input type="text" value="${data.id}" class="form-control" id="updateId">
+              <input type="text" hidden value="${data.id}" class="form-control" id="updateId">
               <input type="text" value="${data.title}" class="form-control" id="updateTitle">
             </div>
             <div class="form-group">
@@ -560,7 +560,6 @@ function updateTodo(id) {
               <input type="text" value="${data.status}" class="form-control" id="updateStatus">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
           `
       );
     })
@@ -568,44 +567,45 @@ function updateTodo(id) {
       console.log(err)
     })
 }
-
-$('#formUpdateTodo').submit(function (e) {
-  e.preventDefault();
-  alert('masuk')
-  console.log('masuk ke update')
-  const id = $('#updateId').val();
-  const title = $('#updateTitle').val();
-  const description = $('#updateDescription').val();
-  const due_date = $('#updateDuedate').val();
-  const status = $('#updateStatus').val();
-  // const status = false
-  // $.ajax({
-  //   type: "PUT",
-  //   url: BASE_URL + `/todos/${id}`,
-  //   data: {
-  //     title, description, due_date, status,
-  //   },
-  //   headers: { token: TOKEN },
-  // })
-  //   .done(data => {
-  //     $('#allCard').show()
-  //     $('#updateTodo').show()
-  //     $('#showUpdateTodo').hide()
-  //     getAllTodos()
-  //     Swal.fire({
-  //       title: 'Succes!',
-  //       text: `Congratulation ${data.title} has been updated`,
-  //       icon: 'success',
-  //       confirmButtonText: 'Ok'
-  //     })
-  //   })
-  //   .fail(err => {
-  //     Swal.fire({
-  //       title: 'Error!',
-  //       html: `${errorMsg(err)}`,
-  //       icon: 'error',
-  //       confirmButtonText: 'Ok'
-  //     })
-  //   })
-});
+$(document).ready(function () {
+  $('#formUpdateTodo').submit(function (e) {
+    e.preventDefault();
+    // alert('masuk')
+    console.log('masuk ke update')
+    const id = $('#updateId').val();
+    const title = $('#updateTitle').val();
+    const description = $('#updateDescription').val();
+    const due_date = $('#updateDuedate').val();
+    const status = $('#updateStatus').val();
+    // const status = false
+    $.ajax({
+      type: "PUT",
+      url: BASE_URL + `/todos/${id}`,
+      data: {
+        title, description, due_date, status,
+      },
+      headers: { token: TOKEN },
+    })
+      .done(data => {
+        $('#allCard').show()
+        $('#updateTodo').show()
+        $('#showUpdateTodo').hide()
+        getAllTodos()
+        Swal.fire({
+          title: 'Succes!',
+          text: `Congratulation ${data.title} has been updated`,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
+      })
+      .fail(err => {
+        Swal.fire({
+          title: 'Error!',
+          html: `${errorMsg(err)}`,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      })
+  });
+})
 // END UPDATE
