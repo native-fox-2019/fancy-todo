@@ -20,3 +20,12 @@ https://documenter.getpostman.com/preview/10575809-13b97c5e-abb2-44b1-8bd8-9f42f
 | /USERS/REGISTER        |          POST | NONE |NAME:string,EMAIL:string,PASSWORD:string      |Create Users |
 | /USERS/LOGIN           |          POST | NONE |NAME:string,EMAIL:string,PASSWORD:string      |Login to Todos |
 | /TODOS/glSign          | POST| NONE |NONE |LOGIN GL USERS |
+
+
+<dl>
+  <dt>Definition list</dt>
+  <dd>Is something people use sometimes.</dd>
+
+  <dt>Markdown in HTML</dt>
+  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
+</dl>
