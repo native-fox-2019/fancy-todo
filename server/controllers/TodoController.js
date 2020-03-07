@@ -85,7 +85,12 @@ class TodoController {
         Todo.update(editedTodo, { where: { id } })
             .then(updated => {
                 if (!updated[0]) {
-                    throw new Error("Todo not found")
+                    next(
+                        {
+                            status: 404,
+                            msg: 'Todo not found'
+                        }
+                    )
                 }
                 res.status(200).json({ msg: "Todo has been edited", editedTodo })
             })

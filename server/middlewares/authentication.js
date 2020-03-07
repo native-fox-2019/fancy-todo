@@ -6,7 +6,10 @@ const authentication = (req, res, next) => {
         req.userData = jwt.verify(token, process.env.JWT_SECRET)
         next()
     } catch (err) {
-        next(err)
+        next({
+            status: 400,
+            msg: err.message
+        })
     }
 }
 

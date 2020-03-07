@@ -7,14 +7,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "Validation errors (title can not be empty)" }
+        notNull: true,
+        notEmpty: { msg: "Validation errors (title can not be empty)" }
       }
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "Validation errors (description can not be empty)" }
+        notNull: true,
+        notEmpty: { msg: "Validation errors (description can not be empty)" }
       }
     },
     status: DataTypes.STRING,
@@ -22,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "Validation errors (due_date can not be empty)" }
+        notNull: true,
+        notEmpty: { msg: "Validation errors (due_date can not be empty)" }
       }
     }
   }, {

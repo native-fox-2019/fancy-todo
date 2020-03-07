@@ -5,6 +5,14 @@ const todoAuthorization = (req, res, next) => {
     let { id, email } = req.userData
     Todo.findOne({ where: { id: todoId } })
         .then(todo => {
+            if (todo === null) {
+                next(
+                    {
+                        status: 404,
+                        msg: 'Todo not found'
+                    }
+                )
+            }
             if (todo.UserId === id) {
                 next()
             } else {

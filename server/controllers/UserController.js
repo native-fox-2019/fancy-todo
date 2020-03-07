@@ -20,7 +20,16 @@ class UserController {
                 res.status(201).json(user)
             })
             .catch(err => {
-                next(err)
+                let msg = []
+                err.errors.forEach(error => {
+                    msg.push(error.message)
+                })
+                next(
+                    {
+                        status: 400,
+                        msg: msg
+                    }
+                )
             })
     }
 
@@ -41,7 +50,7 @@ class UserController {
                         next(
                             {
                                 status: 400,
-                                msg: 'Wrong Password'
+                                msg: 'Wrong Email / Password'
                             }
                         )
                     }
@@ -49,7 +58,7 @@ class UserController {
                     next(
                         {
                             status:400,
-                            msg: 'Wrong Email'
+                            msg: 'Wrong Email / Password'
                         }
                     )
                 }
