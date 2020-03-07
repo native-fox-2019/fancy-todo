@@ -21,3 +21,8 @@ Route | HTTP | Header(s) | Body | Description
 /login | POST | none | email: string, password: string | Login User
 /register | POST | none | name: string, email: string, password: string | Create New User
 /googleLogin | POST | none | name: string, email: string, password: string | Create New User with Goole OAuth 2.0
+
+### Holiday Routing:
+Route | HTTP | Header(s) | Body | Description
+--- | --- | --- | --- | ---
+/ | GET | none | List All Holiday in This Year by Your Current Country
