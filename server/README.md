@@ -1,7 +1,4 @@
-# fancy-todo
-
-### POSTMAN Share
-https://www.getpostman.com/collections/4ca24d4df95a5c8738f5
+# fancy-todo-api
 
 ### GET /todos
 
