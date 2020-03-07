@@ -23,12 +23,12 @@
     var $errorTitle=$('#error-title');
     var $errorDescription=$('#error-description');
     var $errorStartDate=$('#error-start-date');
-    var $errorDueDate=$('#error-end-date');
+    var $errorDueDate=$('#error-due-date');
 
     var $errorTitleM=$('#error-title-m');
     var $errorDescriptionM=$('#error-description-m');
     var $errorStartDateM=$('#error-start-date-m');
-    var $errorDueDateM=$('#error-end-date-m');
+    var $errorDueDateM=$('#error-due-date-m');
 
 
     var todosData;
