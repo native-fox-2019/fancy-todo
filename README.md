@@ -11,7 +11,8 @@ http://localhost:8080/
 API :
 
 ```
-
+mailboxvalidator
+sendgrid
 ```
 
 
@@ -27,7 +28,11 @@ $ npm install
 ## .ENV Tempelates
 
 ```
-
+JWT="jwt secret"
+GoogleClienId="googleCLientId"
+DefaultPassword="minimal 6 karakter"
+API_KEY="mailvalidator"
+SENDGRID_API_KEY="sendgrid"
 
 ```
 
@@ -40,7 +45,7 @@ $ npm install
 
 
 
-## Main Routes
+## Main Routes Todos
 
 | Routes |
 | :----: |
@@ -50,7 +55,7 @@ $ npm install
 
 ## Todos Routes
 
-| Routes | Method | Body                                                         |      | Result                               |
+| Routes | Method | Body                                                         |      | Descriptions                         |
 | ------ | ------ | ------------------------------------------------------------ | ---- | ------------------------------------ |
 | /      | get    |                                                              |      | returns all todos on db              |
 | /      | post   | title:<string><br/> description:<string><br/> status:<string><br/> due_date:<strin><br/> |      | Create Todos                         |
@@ -60,25 +65,31 @@ $ npm install
 
 
 
+## Main Routes Users
+
+| Routes |      |
+| ------ | ---- |
+| /users |      |
+
+
+
+## Users Routes
+
+| Routes    | Method | Descriptions                                                 |
+| --------- | ------ | ------------------------------------------------------------ |
+| /register | post   | register user with username (string)<br> email (string)<br>email(string)<br> |
+| /login    | post   | login user data form email(string)<br> password(string)      |
+|           |        |                                                              |
+
 # Middlewares
 
 This app uses 2 middlewares **Authentication** and **ErrorHandler**
 
 
 
-### Authentication:
-
-
-
-### ErrorHandler:
-
-​		Handles all errors
-
 ### Postman API Documentasi :
 
 ```
 https://documenter.getpostman.com/view/3757275/SWTHbFJM
-
-
 ```
 
