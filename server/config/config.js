@@ -2,7 +2,7 @@ module.exports = {
   "development": {
     "username": process.env.DB_USERNAME || "postgres",
     "password": process.env.DB_PASSWORD || "postgres",
-    "database": "Fancy-Todo",
+    "database": "TaskList",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
@@ -12,7 +12,7 @@ module.exports = {
 //   "development": {
 //     "username": "postgres",
 //     "password": "postgres",
-//     "database": "Fancy-Todo",
+//     "database": "FlashcardDB",
 //     "host": "127.0.0.1",
 //     "dialect": "postgres"
 //   },

@@ -1,0 +1,67 @@
+#landingPage {
+	margin: 10px auto;
+	font-family: "Lato";
+	text-align: center;
+	padding: 300px;
+}
+
+#loginForm {
+	margin: 10px auto;
+	font-family: "Lato";
+	text-align: center;
+	padding: 150px;
+}
+
+#translatePage {
+	margin: 10px auto;
+	font-family: "Lato";
+	text-align: center;
+	padding: 250px;
+}
+
+#registerForm {
+	margin: 10px auto;
+	font-family: "Lato";
+	text-align: center;
+	padding: 150px;
+}
+
+.g-signin2 {
+	padding-top:20px;
+	width: 100%;
+}
+  
+.g-signin2 > div {
+	margin: 0 auto;
+}
+
+.flexbox-menu {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+.flexbox-tasks {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+    align-content: stretch;
+}
+
+.flexbox-tasks-each {
+	padding: 200px 0px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+    align-content: stretch;
+}
+.task-body {
+	margin: 20px 10px;
+}

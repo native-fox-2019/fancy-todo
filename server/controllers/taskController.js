@@ -1,60 +1,58 @@
-const {Todo} = require('../models')
+"use strict"
+
+const {Task} = require('../models')
 const axios = require('axios')
 
 class Controller {
 
-    static viewAll(req, res) {
-        Todo.findAll()
+    static list(req, res, next) {
+        let option = { where: {UserId: req.userData.id} }
+        Task.findAll(option)
         .then(data => res.status(200).json(data))
-        .catch(err => res.status(500).json(err))
+        .catch(err => next(err))
     }
 
-    static viewOne(req, res) {
-        let id = req.params.id
-        let option = { where: { id: id } }
-
-        Todo.findOne(option)
-        .then(data => {
-            if (data) {
-                res.status(200).json(data)
-            } else {
-                throw ('Error 404: Not found')
-            }
-        })
-        .catch(err => {
-            if (err) {
-                res.status(404).json(err)
-            } else {
-                res.status(500)
-            }
-        })
-    }
-
-    static add(req, res) {
+    static add(req, res, next) {
         let obj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date,
+            deadline: req.body.deadline,
             UserId: req.userData.id
         }
-        Todo.create(obj)
+        Task.create(obj)
         .then(data => res.status(201).json(data))
-        .catch(err => res.status(400).json(err))
+        .catch(err => next(err))
     }
 
-    static edit(req, res) {
+    static getOne(req,res,next){
+        let id = req.params.id
+        Task.findOne({ where: { id: id } })
+        .then(result=>{
+            if(result){
+                res.status(200).json(result)
+            } else{
+                throw {status: 404, message: 'Data not found'}
+            }
+        })
+        .catch(err=>{
+            next(err)
+        })
+    }
+
+    static edit(req, res, next) {
+        console.log('Masuk Edit')
         let id = req.params.id
         let option = { where: { id: id } }
         let obj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date,
+            deadline: req.body.deadline,
             UserId: req.userData.id
         }
 
-        Todo.update(obj, option)
+        Task.update(obj, option)
         .then(success => {
             if (success[0]) {
                 res.status(200).json(obj)
@@ -71,32 +69,34 @@ class Controller {
         })
     }
 
-    static delete(req, res) {
+    static delete(req, res, next) {
         let id = req.params.id
         let option = { where: { id: id } }
 
-        Todo.findOne(option)
-        .then(data => {
-            if (data) {
-                Todo.destroy(option)
-                .then(() => res.status(200).json(data))  
+        Task.findOne(option)
+        .then(task => {
+            if (task) {
+                Task.destroy(option)
+                .then(() => res.status(200).json(task))
+                .catch(err => next(err))
             } else {
-                res.status(404).json('Error 404: Not found')
+                next(err)
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static qotd(req, res) {
+    static getQuote(req, res) {
+        console.log('HMM MASUUUUUUUUUK QUOTEEE')
         // Generate random quote //
         axios({
-           method: 'get',
+           method: 'GET',
            url: 'https://quote-garden.herokuapp.com/quotes/random',
         })
         .then((response) => {
-            res.status(200).json(response.data.quoteText)
+            res.status(200).json(response.data)
         })
         .catch(err => next(err))
     }
