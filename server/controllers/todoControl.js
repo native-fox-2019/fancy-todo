@@ -7,9 +7,8 @@ class TodoControl {
         Todo.findAll({
             where: {userId: req.userdata.id}
         })
-        // .then(data=>res.status(200).json(data))
         .then(data=>res.status(200).json({"status": 200, "response": data}))
-        .catch(e=>res.status(500).json({"status": 500, "response": e}))
+        .catch(err=>res.status(500).json({"status": 500, "response": err}))
     }
 
     static find(req, res){
@@ -22,13 +21,10 @@ class TodoControl {
                 res.status(404).json({"status": 404, "response": "data not found"})
             }
         })
-        .catch(e=>res.status(500)({"status": 500, "response": e}))
+        .catch(err=>res.status(500)({"status": 500, "response": err}))
     }
 
     static create(req, res){
-        console.log(req.body)
-        console.log("====")
-        console.log(req.userdata)
         let newData = {
             title: req.body.title,
             description: req.body.description,
@@ -38,36 +34,29 @@ class TodoControl {
         }
         Todo.create(newData)
         .then(data=>res.status(201).json({"status": 201, "response": `new data : ${data.title} has been saved`}))//{
-        .catch(e=>{
-            if(e.name ="SequelizeValidationError"){
-                res.status(400).json({"status": 400, "response": e.message})
+        .catch(err=>{
+            if(err.name ="SequelizeValidationError"){
+                res.status(400).json({"status": 400, "response": err.message})
             } else {
-                res.status(500).json({"status": 500, "response": e})
+                res.status(500).json({"status": 500, "response": err})
             }
         })
     }
 
     static edit(req, res){
         let searchId = req.params.id
-        console.log(req.body)
-        console.log('=====')
-        console.log(req.userdata)
         Todo.update(req.body, {
             where: {id: searchId}
         })
         .then(data=>{
-            console.log(data)
-            //if(data){
-                res.status(200).json({"status": 200, "response": `data with id : ${searchId} has been updated`})
-            // } else {
-            //     res.status(404).json({"status": 404, "response": "data not found"})
-            // }
+            res.status(200).json({"status": 200, "response": `data with id : ${searchId} has been updated`})
+            
         })  
-        .catch(e=>{
-            if(e.name ="SequelizeValidationError"){
-                res.status(400).json({"status": 400, "response": e.message})
+        .catch(err=>{
+            if(err.name ="SequelizeValidationError"){
+                res.status(400).json({"status": 400, "response": err.message})
             } else {
-                res.status(500).json({"status": 500, "response": e})
+                res.status(500).json({"status": 500, "response": err})
             }
         })
     }
@@ -84,7 +73,7 @@ class TodoControl {
                 res.status(404).json({"status": 404, "response": "no data is deleted"})
             }
         })
-        .catch(e=> res.status(500).json({"status": 500, "response":e} ))
+        .catch(err=> res.status(500).json({"status": 500, "response":err} ))
     }
 
 }

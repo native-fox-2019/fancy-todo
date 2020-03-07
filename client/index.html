@@ -4,7 +4,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="264565253357-inhdklomlhegc0600pe1a0ojsetsjcbr.apps.googleusercontent.com">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Fancy Todo</title>
@@ -17,6 +18,7 @@
           }
     h1 {text-align: center}
   </style>
+
   <body class="container">
     <!--  Register FORM    -->
     <div id="register" class="section">
@@ -51,9 +53,10 @@
               <label for="password-login">Password</label>
               <input type="password" class="form-control" id="password-login">
             </div>
-            <button type="submit" class="btn btn-primary">Login</button><br>
-            Please register if you have never been registered yet!
+            <button type="submit" class="btn btn-primary mb-3">Login</button><br>
+            Please register if you have never been registered yet or using Google Sign In!
             <button type="button" class="btn btn-primary" id="btn-register">Register</button>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
           </form>
     </div>
     <!--     Add FORM      -->
@@ -113,10 +116,14 @@
     <!--    TODO LIST   -->
     <div id="todos" class="section">
         <h1>Todos List</h1>
+        <div style="background-color: greenyellow;">
+          <p id="weather" style="font-size: 12px;"></p>
+        </div>
         <button type="button" class="btn btn-primary" id="btn-todo">Add Todo</button>
+        <button type="button" class="btn btn-primary" id="btn-news">Read News</button>
         <button type="button" class="btn btn-primary float-right" id="btn-logout">Logout</button>
-        <table class="table table-bordered mt-3" id="table-todos">
-            <thead>
+        <table class="table table-bordered mt-4" id="table-todos">
+            <thead class="p-3 mb-2 bg-primary" style="text-align: center">
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
@@ -131,10 +138,41 @@
         </table>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--    NEWS LIST   -->
+    <div id="news-page" class="section">
+      <h1>World News Today</h1>
+      <button type="button" class="btn btn-primary" id="btn-news-out">Back To Todos</button>
+      <div id="news" style="background-color: greenyellow;">Today's news: </div>
+    </div>
+
+    <div id="error" style="color:red"></div>
+
+    <script>
+        function onSignIn(googleUser) {
+          // Useful data for your client-side scripts:
+          var profile = googleUser.getBasicProfile();
+          console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+          console.log('Full Name: ' + profile.getName());
+          console.log('Given Name: ' + profile.getGivenName());
+          console.log('Family Name: ' + profile.getFamilyName());
+          console.log("Image URL: " + profile.getImageUrl());
+          console.log("Email: " + profile.getEmail());
+  
+          // The ID token you need to pass to your backend:
+          var id_token = googleUser.getAuthResponse().id_token;
+          console.log("ID Token: " + id_token);
+        }
+      </script>
+
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="script/main.js"></script>
     <script src="script/request.js"></script>
+    <script src="script/listShow.js"></script>
+    <script src="script/edit.js"></script>
+    <script src="script/delete.js"></script>
+    <script src="script/weather.js"></script>
+    <script src="script/news.js"></script>
   </body>
 </html>
