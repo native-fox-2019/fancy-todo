@@ -9,6 +9,8 @@ $(document).ready(function () {
     $buttonRegister.click(function (event) {
         event.preventDefault()
         $login.hide()
+        $error.hide()
+        $registerForm[0].reset()
         $register.show()
     })
 
@@ -46,21 +48,10 @@ $(document).ready(function () {
         $list.show()
     })
 
-    // $buttonEdit.click(function(event){
-    //     event.preventDefault()
-    //     $list.hide()
-    //     getEditDataTodo(id)
-    // })
-
     $addForm.submit(function (event) {
         event.preventDefault()
         addTodo()
         $addForm[0].reset()
-    })
-
-    $doneChecker.click(function (event){
-        event.preventDefault()
-        updateStatusTodo()
     })
 
     $editForm.submit(function (event){
@@ -100,6 +91,7 @@ function onSignIn(googleUser) {
         success:function(response ){
             console.log(response)
             localStorage.setItem("token",response.token)
+            $error.hide()
             getTodo()
         }
     })

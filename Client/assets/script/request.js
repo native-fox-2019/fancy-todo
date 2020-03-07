@@ -101,8 +101,12 @@ let registerUser = () => {
         },
         success: function (data) {
             $register.hide()
+            $error.hide()
             $list.show()
             getTodo()
+        },
+        error: function(data){
+            $error.show()
         }
 
     })
@@ -118,7 +122,11 @@ let loginUser = () => {
         },
         success: function (data) {
             localStorage.setItem("token", data.token)
+            $error.hide()
             getTodo()
+        },
+        error: function(xhr,ajaxOptions,thrownError){
+            $error.show()
         }
     })
 }
