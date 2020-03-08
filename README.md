@@ -36,6 +36,7 @@ Code: 500
 API
 
 API from https://openweathermap.org/current is being used to get the updated weather in Jakarta
+API from https://newsapi.org is being used to get updated news from around the world
 
 ----------
 .ENV 

@@ -80,14 +80,16 @@ function onSignIn(googleUser) {
     console.log(id_token+"<<<token google")
     $.ajax({
         type:"POST",
-        url:"http://localhost:3000/user/googlogin",
+        url:"http://localhost:3000/user/googlelogin",
         data:{
             id_token
         },
         success:function(response ){
             console.log(response)
             localStorage.setItem("token",response.token)
-            getTodo()
+            $(`#login`).hide()
+            $(`#todos`).show()
+            listShow()
         }
     })
   }

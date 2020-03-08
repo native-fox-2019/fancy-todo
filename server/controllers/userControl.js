@@ -42,13 +42,14 @@ class UserControl {
     }
 
     static googleLogin(req, res){
+        console.log('masuk')
         client.verifyIdToken({
             idToken: req.body.id_token,
             audience: process.env.CLIENT, // Specify the CLIENT_ID of the app that accesses the backend
                 // Or, if multiple clients access the backend:
                 //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-            });
-            then(ticket => {
+            })
+            .then(ticket => {
                 const payload = ticket.getPayload();
                 User.findOne({
                     where: {

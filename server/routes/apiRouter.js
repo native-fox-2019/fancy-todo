@@ -17,9 +17,13 @@ router.get('/current_weather_data', function (req, res){
 })
 
 router.get('/news', function (req, res){
+    let sekarang = new Date()
+    let tanggal = sekarang.getDate()
+    let bulan = sekarang.getMonth()
+    let tahun = sekarang.getFullYear()
     axios({
         method: 'get',
-        url: 'http://newsapi.org/v2/everything?q=bitcoin&from=2020-02-07&sortBy=publishedAt&apiKey=b26cbc3a8e544fc0bdae88645907e76c',
+        url: `http://newsapi.org/v2/top-headlines?country=id&from=${tahun}-${bulan}-${tanggal}&sortBy=publishedAt&apiKey=${process.env.APINEWS_KEY}`,
     })
     .then(function (response) {
         res.send(response.data)
