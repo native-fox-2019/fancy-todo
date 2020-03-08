@@ -5,7 +5,7 @@ if(process.env.NODE_ENV !== 'production'){
 
 module.exports = {
   "development": {
-    "username": process.env.CONFIG_USER,
+    "username": "gusti",
     "password": process.env.CONFIG_PASS,
     "database": "Todo_list3",
     "host": "127.0.0.1",

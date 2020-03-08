@@ -1,7 +1,7 @@
 "use strict"
 const url = 'http://localhost:3000'
 const userUrl = 'http://localhost:3000/user'
-const token = localStorage.getItem('token')
+let token = localStorage.getItem('token')
 
 /*function hemdle error*/
 function error(obj) {
@@ -29,6 +29,7 @@ function login() {
     })
         .done(data => {
             localStorage.setItem('token', data.token)
+            token = localStorage.getItem('token')
             getData()
             Swal.fire({
                 position: 'center',
@@ -69,8 +70,8 @@ function register() {
         .done(data => {
             console.log($('#username-register'))
             $('#username-register').val(''),
-                $('#email-register').val(''),
-                $('#password-register').val('')
+            $('#email-register').val(''),
+            $('#password-register').val('')
             $('#navbar').hide()
             $('#main-page').hide()
             $('#login-page').show()
@@ -80,7 +81,7 @@ function register() {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: `Login Success`,
+                title: `You are really close to login`,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -123,7 +124,7 @@ function onSignIn(googleUser) {
     })
         .done(data => {
             localStorage.setItem('token', data.token)
-            getData()
+            token = localStorage.getItem('token')
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -131,10 +132,10 @@ function onSignIn(googleUser) {
                 showConfirmButton: false,
                 timer: 1500
             })
+            getData()
         })
         .fail(err => {
             console.log(err)
-
         })
 }
 
@@ -331,61 +332,57 @@ function updateDataStatus(id) {
         })
 }
 
-function deleteData(id) {
+// function deleteData(id) {
+//     const swalWithBootstrapButtons = Swal.mixin({
+//         customClass: {
+//           confirmButton: 'btn btn-success',
+//           cancelButton: 'btn btn-danger'
+//         },
+//         buttonsStyling: false
+//       })
+      
+//       swalWithBootstrapButtons.fire({
+//         title: 'Are you sure?',
+//         text: "You won't be able to revert this!",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonText: 'Yes, delete it!',
+//         cancelButtonText: 'No, cancel!',
+//         reverseButtons: true
+//       }).then((result) => {
+//         if (result.value) {
+//             $.ajax({
+//                 url: `${url}/todos/${id}`,
+//                 method: 'DELETE',
+//                 headers: {
+//                     token: token
+//                 }
+//             })
+//             .done(data => {
+//                 swalWithBootstrapButtons.fire(
+//                     'Deleted!',
+//                     'Your file has been deleted.',
+//                     'success'
+//                   )
+//                 getData()
+//                 $('#main-page').show()
+//             })
+//         } else if (
+//           /* Read more about handling dismissals below */
+//           result.dismiss === Swal.DismissReason.cancel
+//         ) {
+//           swalWithBootstrapButtons.fire(
+//             'Cancelled',
+//             'Your imaginary file is safe :)',
+//             'error'
+//           )
+//         }
+//       })
+//         .fail(err => {
 
-    $.ajax({
-        url: `${url}/todos/${id}`,
-        method: 'DELETE',
-        headers: {
-            token: token
-        }
-    })
-        .done(data => {
-
-
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
-
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    getData()
-                    $('#main-page').show()
-                    swalWithBootstrapButtons.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
-                }
-            })
-
-        })
-        .fail(err => {
-
-            console.log(err)
-        })
-}
+//             console.log(err)
+//         })
+// }
 
 function logout() {
     var auth2 = gapi.auth2.getAuthInstance();
