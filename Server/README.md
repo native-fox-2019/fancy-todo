@@ -11,3 +11,5 @@ git add per file
 git rebase --continue
 git push origin branch kita
 git stash apply
+
+doccumentation di documentation.md
