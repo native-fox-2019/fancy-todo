@@ -11,8 +11,9 @@ function loginUser(obj) {
         localStorage.setItem("token", data.token);
         setPage('todos');
         $('#sign-out-google').hide();
+        loginModal();
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     });
 }
 
@@ -26,7 +27,7 @@ function registerUser(obj) {
     .done(() => {
         setPage('login');
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     });
 }
 
@@ -41,7 +42,7 @@ function getUserTodos() {
     .done(data => {
         setAllTodos(data);
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     });
 }
 
@@ -56,7 +57,7 @@ function deleteTodo(id) {
     .done(() => {
         showTodos();
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     })
 }
 
@@ -73,7 +74,7 @@ function createNewTodos(obj) {
     .done(() => {
         showTodos();
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     });
 }
 
@@ -88,7 +89,7 @@ function editTodo(id) {
     .done((data) => {
         editForm(data);
     }).fail(err => {
-        console.log(err.responseJSON)
+        errorMessage(err.responseJSON.message);
     });
 }
 
@@ -105,7 +106,7 @@ function editTodoData(obj, id) {
     .done(() => {
         setPage('todos');
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     });
 }
 
@@ -120,6 +121,6 @@ function googleVerify(obj) {
         localStorage.setItem("token", data.token);
         setPage('todos-google');
     }).fail(err => {
-        console.log(err.responseJSON);
+        errorMessage(err.responseJSON.message);
     });
 }
