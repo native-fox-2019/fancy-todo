@@ -6,11 +6,11 @@ let token = localStorage.getItem('token')
 /*function hemdle error*/
 function error(obj) {
     let errStr = ``
-    if (obj.length === 1) {
-        errStr += `* ${obj[0]}`
+    if (obj.length <= 1) {
+        errStr += `${obj[0]}`
     } else {
         obj.forEach(el => {
-            errStr += `* ${el} \n`
+            errStr += `${el} \n`
 
         })
     }
@@ -28,6 +28,7 @@ function login() {
         }
     })
         .done(data => {
+           
             localStorage.setItem('token', data.token)
             token = localStorage.getItem('token')
             getData()
@@ -38,7 +39,7 @@ function login() {
                 showConfirmButton: false,
                 timer: 1500
             })
-
+            
         })
         .fail(err => {
             $('#navbar').hide()
@@ -49,7 +50,7 @@ function login() {
             $('#footer').hide()
             swal({
                 title: "Something Wrong",
-                text: error(err.responseJSON.message),
+                text: 'email or password wrong!',
                 icon: "warning"
             });
         })
@@ -68,7 +69,6 @@ function register() {
         }
     })
         .done(data => {
-            console.log($('#username-register'))
             $('#username-register').val(''),
             $('#email-register').val(''),
             $('#password-register').val('')
@@ -88,8 +88,8 @@ function register() {
         })
         .fail(err => {
             $('#username-register').val(''),
-                $('#email-register').val(''),
-                $('#password-register').val('')
+            $('#email-register').val(''),
+            $('#password-register').val(''),
             $('#navbar').hide()
             $('#main-page').hide()
             $('#login-page').hide()
@@ -285,8 +285,8 @@ function updateData(id) {
     })
         .done(data => {
             $("#title-edit").val(''),
-                $("#description-edit").val(''),
-                $("#due_date-edit").val('')
+            $("#description-edit").val(''),
+            $("#due_date-edit").val('')
             cancelEdit()
             getData()
         })

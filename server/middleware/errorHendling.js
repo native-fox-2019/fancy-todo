@@ -3,7 +3,6 @@ module.exports = (err, req, res, next) => {
         const errMsg = err.errors.map(msg => {
             return msg.message
         })
-        console.log(errMsg)
         res.status(400).json({ message: errMsg })
     } else if (err.name = 'SequelizeDatabaseError') {
         res.status(400).json({ message: [err.message] })
