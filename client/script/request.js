@@ -45,6 +45,7 @@ $(`#login-form`).submit(function (event){
                 $(`#login`).hide()
                 $(`#todos`).show()
                 listShow()
+                weather()
             },
             error: function(err){
                 $(`#error`).empty()

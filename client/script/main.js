@@ -77,7 +77,6 @@ $(`#btn-news-out`).click(function(){
 
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
-    console.log(id_token+"<<<token google")
     $.ajax({
         type:"POST",
         url:"http://localhost:3000/user/googlelogin",
