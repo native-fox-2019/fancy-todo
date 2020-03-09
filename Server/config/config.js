@@ -8,7 +8,7 @@ module.exports = {
     "dialect": "postgres"
   },
   "production": {
-    "username": "waruohqmaipah",
+    "username": "waruohqmaipahj",
     "password": "86e5ab894e3f289a918301ec2f69bd835d9109e8e818abbdae5f9fcf2d79b7aa",
     "database": "d1o8b1ggbvehke",
     "host": "ec2-184-72-235-159.compute-1.amazonaws.com",
