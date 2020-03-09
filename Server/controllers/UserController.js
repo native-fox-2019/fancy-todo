@@ -56,8 +56,8 @@ class UserController{
                     res.status(200).json({token})
                 }else{
                     next({
-                        status: 401,
-                        message: "Unauthorized"
+                        status: 400,
+                        message: "Wrong Password/Username"
                     });
                 }
             }
