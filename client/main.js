@@ -401,6 +401,8 @@ $('#formRegister').submit(function (e) {
     },
   })
     .done(data => {
+      $('#login').show();
+      $('#register').hide();
       Swal.fire({
         title: 'Succes!',
         text: `Congratulation ${data.name} youre account has been create, Please Login`,
@@ -438,7 +440,7 @@ $('#formLogin').submit(function(e) {
       NAME = localStorage.getItem('name')
       getName()
       getAllTodos()
-      // $('#nav').show();
+      $('#nav').show();
       $('#home').show();
       $('#login').hide();
       $('#register').hide();
@@ -481,6 +483,7 @@ $('#logout').click(function (e) {
     console.log('User signed out.');
   }); 
   $('#home').hide();
+  $('#nav').hide();
   $('#login').show();
 });
 // END LOGOUT
