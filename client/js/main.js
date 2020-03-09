@@ -87,6 +87,7 @@ function signOut() {
         console.log('User signed out.');
     });
     setPage('login');
+    
 }
 
 function onSignIn(googleUser) {

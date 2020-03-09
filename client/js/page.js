@@ -19,6 +19,7 @@ function setPage(page) {
         $('#form-create')[0].reset();
         changePage('todos-list');
         showTodos();
+        loginModal();
         $('#sign-out-google').show();
     } else if (page === 'edit') {
         changePage('edit-form');
