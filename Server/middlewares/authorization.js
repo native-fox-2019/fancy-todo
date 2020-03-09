@@ -1,8 +1,7 @@
-const jwt = require('jsonwebtoken')
 const { Todo } = require('../models')
 
 module.exports = (req, res, next) => {
-    let { token } = req.headers
+    // let { token } = req.headers
     let id = {
         where: {
             id: req.params.id

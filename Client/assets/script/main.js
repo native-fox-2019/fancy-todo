@@ -17,6 +17,7 @@ $(document).ready(function () {
     $buttonLogin.click(function (event) {
         event.preventDefault()
         $login.show()
+        $error.hide()
         $register.hide()
     })
 

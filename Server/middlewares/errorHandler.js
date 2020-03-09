@@ -1,8 +1,6 @@
 module.exports = (err, req, res, next) => {
-    let status_code = 500
-    let status_message = "Internal Server Error"
     switch (err.name) {
-        case `SequelizeValdiationError`:
+        case `SequelizeValidationError`:
             let errorMessage = []
 
             err.errors.forEach(element => {
@@ -32,6 +30,8 @@ module.exports = (err, req, res, next) => {
             status_message= "Email already exist"
             break;
     }
+    let status_code = 500
+    let status_message = "Internal Server Error"
     status_code === 500 && console.log(err.stack)
     res.status(status_code).json({
         status_code, status_message

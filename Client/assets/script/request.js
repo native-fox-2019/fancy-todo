@@ -38,7 +38,6 @@ let getEditDataTodo = (id) => {
             $editTitle.val(data.title)
             $editDescription.val(data.description)
             $editDate.val(data.due_date)
-            $editTitle.val(data.title)
             $editSubmit.data('param', id)
             $list.hide()
             $edit.show()
@@ -48,17 +47,7 @@ let getEditDataTodo = (id) => {
         }
     })
 }
-let updateStatusTodo = (id) => {
-    $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
-        type: "PUT",
-        headers: {token: localStorage.getItem('token')},
-        success: function (data){
-            $statusBody.val(true)
-            getTodo()
-        }
-    })
-}
+
 let updateTodo = (id) => {
     $.ajax({
         url: `http://localhost:3000/todos/${id}`,
@@ -75,22 +64,7 @@ let updateTodo = (id) => {
         }
     })
 }
-function checkTodo(id, data) {
-    console.log(id, data)
-    $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
-        type: "PUT",
-        headers: { token: localStorage.getItem("token") },
-        data,
-        success: function (data) {
-            getTodo()
-        },
-        fail: function(err) {
-            console.log("checkbox")
-            console.log(err)
-        }
-    })
-}
+
 let registerUser = () => {
     $.ajax({
         url: "http://localhost:3000/users/register",
@@ -100,9 +74,9 @@ let registerUser = () => {
             password: $registerPassword.val()
         },
         success: function (data) {
+            localStorage.setItem("token", data.token)
             $register.hide()
             $error.hide()
-            $list.show()
             getTodo()
         },
         error: function(err){
@@ -123,7 +97,6 @@ let loginUser = () => {
         success: function (data) {
             localStorage.setItem("token", data.token)
             $error.hide()
-            getTodo()
         },
         error: function(xhr,ajaxOptions,thrownError){
             $error.show()

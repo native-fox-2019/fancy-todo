@@ -14,30 +14,22 @@ class UserController {
 
         User.create(obj)
             .then(data => {
-                res.status(200).json({
-                    token: UserController.autoLogin(data.email)
+
+                return User.findOne({
+                    where: {
+                        email: data.email
+                    }
                 })
+
+            }).then(data => {
+                let token = jwt.jwtSign(data.id)
+                res.status(200).json({ token })
             })
             .catch(err => {
                 next(err)
             })
     }
 
-    static autoLogin(email) {
-        User.findOne({
-            where: {
-                email
-            }
-        })
-            .then(data => {
-                let token = jwt.jwtSign(data.id)
-
-                return token
-            })
-            .catch(err => {
-                throw err
-            })
-    }
 
     static login(req, res, next) {
         let obj = {
@@ -79,37 +71,32 @@ class UserController {
             // Or, if multiple clients access the backend:
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         }).then(ticket => {
-            const payload = ticket.getPayload();
+            var payload = ticket.getPayload();
             User.findOne({
-                where: {
+                where:
+                {
                     email: payload.email
                 }
-            })
-                .then(data => {
-                    if (data) {
-                        return data
+            }).then(data => {
+                if (data) {
+                    return data
+                } else {
+                    let input = {
+                        email: payload.email,
+                        password: "test"
                     }
-                    else {
-                        let obj = {
-                            email: payload.email,
-                            password: "apapun"
-                        }
-                        return User.create(obj)
-                    }
-                })
-                .then(data => {
-                    // console.log(data)
-                    if (data) {
-                        var token = jwt.jwtSign(data.id)
-                    }
-                    res.status(200).json({ token: token })
-                })
-                .catch(err => {
+                    return User.create(input)
+                }
+            }).then(data => {
+                if(data){
+                    var token = jwt.jwtSign(data.id)
+                }
+                    res.status(201).json({ token })
+                }).catch(err => {
                     next(err)
                 })
-        })
-
-
+            })
+        
     }
 }
 module.exports = UserController

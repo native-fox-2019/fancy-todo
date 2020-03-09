@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {sequelize, hooks: {
         beforeCreate: (instance, options) => {
-          instance.password = bcrypt.hasher(instance.password)
+          User.password = bcrypt.hasher(User.password)
         }
       }
     })
