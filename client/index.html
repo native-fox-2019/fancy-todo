@@ -316,16 +316,17 @@
         function onSignIn(googleUser) {
             var id_token = googleUser.getAuthResponse().id_token;
             $.ajax({
-                method :"POST",
-                url : `http://localhost:3000/users/googlelogin`,
+                method: "POST",
+                url: `http://localhost:3000/users/googlelogin`,
                 data: {
-                    token : id_token
+                    token: id_token
                 }
-            })   
-            .done(data => {
-                localStorage.setItem("token", data.token)
-                        getTodo()
             })
+                .done(data => {
+                    localStorage.setItem("token", data.token)
+                    getTodo()
+                    console.log(`ajax sudah masuk`)
+                })
         }
 
     </script>

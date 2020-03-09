@@ -53,7 +53,7 @@ class UserController {
             audience: process.env.GOOGLE_SIGN_KEY,
         })
             .then(ticket => {
-                let payload = ticket.payload()
+                let payload = ticket.getPayload()
                 return User.findOne({
                     where: {
                         email: payload.email
@@ -79,6 +79,10 @@ class UserController {
                     .catch(err => {
                         next(err)
                     })
+            })
+
+            .catch(err =>{
+                next(err)
             })
     }
 
