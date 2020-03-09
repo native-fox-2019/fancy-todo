@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.min.css">
+  <meta name="google-signin-client_id" content="831032422222-1vo1hs36kr7vtu6vajsialdf5bb57ms9.apps.googleusercontent.com">
+  <link rel="stylesheet" href="./custome.css">
+  <title>Fancy Todo</title>
+</head>
+
+<body>
+<!-- ===================================================================================================================================== -->
+  <!-- REGISTER -->
+  <div id="register" class="bg-login font-Courgette">
+    <div class="container">
+      <h2 class="text-center py-4">Fancy Todo</h2>
+      <h4 class="text-center py-4">Please Register: </h4>
+    </div>
+    <div class="container d-flex align-content-center justify-content-center">
+      <div class="border p-4 rounded bg-content">
+        <form id="formRegister">
+          <div class="form-group">
+            <label for="nameRegister">Name</label>
+            <input type="text" class="form-control" id="nameRegister">
+          </div>
+          <div class="form-group">
+            <label for="emailRegister">Email address</label>
+            <input type="email" class="form-control" id="emailRegister" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+              else.</small>
+          </div>
+          <div class="form-group">
+            <label for="passwordRegister">Password</label>
+            <input type="password" class="form-control" id="passwordRegister">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+          <a href="#" id="btn-login">
+            <small class="form-text text-muted">Have account? please Login</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  <div class="ocean">
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+  </div>
+  <!-- END REGISTER -->
+<!-- ===================================================================================================================================== -->
+
+  <!-- LOGIN -->
+  <div id="login" class="bg-login font-Courgette">
+    <div class="container">
+      <h2 class="text-center py-4">Fancy Todo</h2>
+      <h4 class="text-center py-4">Please Login: </h4>
+    </div>
+    <div class="container d-flex align-content-center justify-content-center">
+      <div class="border p-4 rounded bg-content">
+        <div class="d-flex justify-content-center">
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
+        <div class="d-flex justify-content-center my-4">
+          <div class="sparator">-------------------</div>
+          <div>or</div>
+          <div class="sparator">-------------------</div>
+        </div>
+        <form id="formLogin">
+          <div class="form-group">
+            <label for="emailLogin">Email address</label>
+            <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+              else.</small>
+          </div>
+          <div class="form-group">
+            <label for="passwordLogin">Password</label>
+            <input type="password" class="form-control" id="passwordLogin">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+          <a href="#" id="btn-register">
+            <small class="form-text text-muted">Don't have account? please Register</small>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="ocean">
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+  </div>
+  <!-- END LOGIN -->
+<!-- ===================================================================================================================================== -->
+  <!-- HOME -->
+  <div id="nav">
+      <!-- NAV -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <div class="container">
+          <a class="navbar-brand" href="#">Fancy Todo</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <!-- <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li> -->
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  Username
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a id="profilUser" class="dropdown-item" href="#">Profil</a>
+                  <a id="settingUser" class="dropdown-item" href="#">Setting</a>
+                  <div class="dropdown-divider"></div>
+                  <a id="logout" class="dropdown-item" href="#">Logout</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- END NAV -->
+
+      <!-- BODY -->
+      <div id="home" class="container mt-4 font fontBree">
+        <div class="row">
+          <!-- MENU SILDE -->
+          <div class="col-3">
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action" onclick="showAllTodo()">Show All</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showTodayTodo()">Today</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showNext7DayTodo()">Next 7 Days </a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showMonthTodo()">In Month</a>
+              <a href="#" class="list-group-item list-group-item-action" onclick="showHistoryTodo()">History</a>
+            </div>
+          </div>
+          <!-- END MENU SIDE -->
+
+
+          <!-- CONTENT -->
+          <div class="col-9 border rounded bg-content my-4">
+            <div class="d-flex align-content-center justify-content-end">
+              <div id="addTodo" class="btn btn-primary my-2">Add Todo</div>
+            </div>
+
+            <!-- CARD -->
+            <div id="allCard" class="">
+              <div id="showTodo" class="row flex-wrap" style="overflow-y: auto;">
+              <!-- CONTENT IN CARD FROM GET ALL TODOS -->
+              </div>
+            </div>
+            <!-- END OF CARD -->
+            <div id="detailTodo" class="m-2 p-2">
+              <!-- CONTENT IN CARD FROM GET ONE TODOS -->
+            </div>
+            <!-- ADD TODO -->
+            <div id="showAddTodo" class="my-2">
+              <h3 class="text-center">Add Todo</h3>
+              <form id="formAddTodo">
+                <div class="form-group">
+                  <label for="addTitle">Tittle</label>
+                  <input type="text" class="form-control" id="addTitle">
+                </div>
+                <div class="form-group">
+                  <label for="addDescription">Description</label>
+                  <input type="text" class="form-control" id="addDescription">
+                </div>
+                <div class="form-group">
+                  <label for="addDuedate">Due Date</label>
+                  <input type="date" name="datemin" class="form-control" id="addDuedate">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+            <!-- END OF ADD TODO -->
+            <!-- Update TODO -->
+            <div id="showUpdateTodo" class="my-2">
+              <form id="formUpdateTodo">
+
+              </form>
+            </div>
+            <!-- END OF update TODO -->
+            <!-- HISTORY -->
+            <div id="allHistory">
+              <div id="showHistory" class="d-flex align-content-between justify-content-between flex-wrap">
+              <!-- CONTENT IN CARD FROM GET ALL TODOS FILTER STATUS TRUE-->
+              </div>
+            </div>
+            <!-- END OF HISTORY -->
+          </div>
+          <!-- END CONTENT -->
+        </div>
+      </div>
+      <!-- END BODY -->
+  </div>
+  <!-- END HOME -->
+  <!-- wave animations -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js">
+  </script>
+  <!-- sweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.all.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.8.2/dist/sweetalert2.min.js">
+  </script>
+  <!-- MOMENT JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <!-- Bootsrtap -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+  </script>
+  <!-- LOGIN GOOGLE -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- QUERRY -->
+  <script src="./main.js"></script>
+  <script>
+  </script>
+</body>
+
+</html>
