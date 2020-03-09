@@ -19,11 +19,11 @@ class UserController {
             .catch(err => {
                 next(err)
             })
-    }
-
-    static login(req, res, next) {
-        const { email, password } = req.body
-        User.findOne({ where: { email: email } })
+        }
+        
+        static login(req, res, next) {
+            const { email, password } = req.body
+            User.findOne({ where: { email: email } })
             .then(data => {
                 if (comparePass(password, data.password)) {
                     res.status(200).json({ token: generateToken(data.id, data.username) })

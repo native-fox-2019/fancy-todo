@@ -7,7 +7,6 @@ class todoController {
         const { title, description, status, due_date, } = req.body
         Todo.create({ title, description, status: 'uncomplete', due_date, UserId })
             .then(data => {
-              
                 res.status(201).json(data)
             })
             .catch(err => {

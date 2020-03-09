@@ -1,6 +1,6 @@
 "use strict"
-const { User } = require('../models')
 const verifyToken = require('../helpers/verifyToken')
+const { User } = require('../models')
 
 const authentication = (req, res, next) => {
     const token = req.headers.token
