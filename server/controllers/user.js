@@ -3,7 +3,7 @@ const createError = require('http-errors')
 const {generateToken} = require('../helpers/generateToken')
 const { comparePassword } = require('../helpers/comparePassword')
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client('831032422222-1vo1hs36kr7vtu6vajsialdf5bb57ms9.apps.googleusercontent.com');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT);
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
@@ -70,7 +70,7 @@ class Controller{
     static loginGoogle(req, res, next) {
         client.verifyIdToken({
             idToken: req.body.id_token,
-            audience: '831032422222-1vo1hs36kr7vtu6vajsialdf5bb57ms9.apps.googleusercontent.com'
+            audience: process.env.GOOGLE_CLIENT
         })
         .then(ticket =>{
             return ticket.getPayload()
