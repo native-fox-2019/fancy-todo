@@ -68,7 +68,6 @@ class UserController {
                                 username: payload.given_name,
                                 email: payload.email,
                                 password: "12345"
-
                             })
                         }
                     })
