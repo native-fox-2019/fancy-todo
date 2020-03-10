@@ -7,7 +7,6 @@ class todoController {
         const { title, description, status, due_date, } = req.body
         Todo.create({ title, description, status: 'uncomplete', due_date, UserId })
             .then(data => {
-              
                 res.status(201).json(data)
             })
             .catch(err => {
@@ -86,8 +85,9 @@ class todoController {
 
     static deleteData(req, res, next) {
         const id = +req.params.id
-        Promise.all([Todo.findOne({ where: { id } }), Todo.destroy({ where: { id } })])
+        Promise.all([Todo.findOne({ where: { id }, returning: true }), Todo.destroy({ where: { id } })])
             .then(data => {
+                console.log(data)
                 const error = {
                     msg: 'Data not found!',
                     status: 404

@@ -11,7 +11,11 @@ const authorization = (req, res, next) => {
             } else if (data.UserId === UserId) {
                 next()
             } else {
-
+                const error = {
+                    status : 404,
+                    message : 'Data not found'
+                }
+                throw(error)
             }
         })
         .catch(err => {
