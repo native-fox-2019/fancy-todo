@@ -8,9 +8,20 @@ function onSignIn(googleUser) {
             console.log('google sign-in success!');
             localStorage.setItem('token', gToken.token);
             refresh();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Google Sign-In Success!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: (err) => {
-            console.log('google sign-in fail!\n',err.responseText);
+            Swal.fire({
+                icon: `error`,
+                title: `Error!`,
+                text: `Google Sign-In Failed. Please Try Again.`
+            })
         }
     });
 }
@@ -18,6 +29,12 @@ function onSignIn(googleUser) {
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
-        console.log('google sign-out success!');
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Google Sign-Out Success!',
+            showConfirmButton: false,
+            timer: 1500
+        })
     });
 }

@@ -3,6 +3,9 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
+const bcrypt = require('bcrypt');
+const saltRounds = Number(process.env.BCRYPT_SALTROUNDS);
+const axios = require('axios');
 
 class UserController {
     static googleSignIn = (req, res, next) => {
@@ -22,11 +25,19 @@ class UserController {
             if (data) {
                 return data;
             } else {
-                let newUser = {
-                    email: email,
-                    password: email
-                };
-                return User.create(newUser)
+                return axios.get(process.env.RANDOM_WORDS)
+                .then(randomWords => {
+                    console.log(randomWords);
+                    return bcrypt.hash(randomWords.data.join(''), saltRounds)
+                })
+                .then(hash => {
+                    console.log(hash);
+                    let newUser = {
+                        email: email,
+                        password: hash
+                    };
+                    return User.create(newUser)
+                })
             }
         })
         .then(data => {
@@ -40,12 +51,15 @@ class UserController {
 
     static register = (req, res, next) => {
         let newUser = {
-            email: req.body.email,
-            password: req.body.password
+            email: req.body.email
         };
-        User.create(newUser)
+        bcrypt.hash(req.body.password, saltRounds)
+        .then(hash => {
+            newUser.password = hash;
+            return User.create(newUser)
+        })
         .then(() => {
-            return User.findOne({ 
+            return User.findOne({
                 where: {
                     email: newUser.email,
                     password: newUser.password
@@ -63,12 +77,23 @@ class UserController {
     static login = (req, res, next) => {
         let loginData = {
             email: req.body.email,
-            password: req.body.password
         }
+        let userData = {}
         User.findOne({ where: loginData })
         .then(data => {
-            if (data) {
-                let token = jwt.sign({ id: data.id, email: data.email }, process.env.AUTH_SECRET);
+            if (!data) {
+                throw createError(400,'InvalidLogin');
+            } else {
+                userData = {
+                    id: data.id,
+                    email: data.email
+                };
+                return bcrypt.compare(req.body.password, data.password)
+            }
+        })
+        .then(result => {
+            if (result) {
+                let token = jwt.sign(userData, process.env.AUTH_SECRET);
                 res.status(200).json({ token });
             } else {
                 throw createError(400,'InvalidLogin');

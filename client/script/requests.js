@@ -9,9 +9,22 @@ function register() {
         data: { email: $('#regEmail').val(), password: $('#regPassword').val() },
         success: () => {
             $('#regForm')[0].reset();
+            refresh();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Register Success!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: (err) => {
             console.log(err.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to Register!',
+                text: `Error ${err.responseText.status}: ${err.responseText.message}`
+            })
         }
     });
 }
@@ -20,7 +33,7 @@ function login() {
     $.ajax({
         method: 'POST',
         url: BASE_URL + '/users/login',
-        data: { 
+        data: {
             email: $('#logEmail').val(),
             password: $('#logPassword').val()
         },
@@ -28,9 +41,21 @@ function login() {
             localStorage.setItem('token', data.token);
             $('#logForm')[0].reset();
             refresh();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Log-In Success!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: (err) => {
             console.log(err.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to Log In!',
+                text: `Error ${err.responseText.status}: ${err.responseText.message}`
+            })
         }
     });
 }
@@ -49,9 +74,21 @@ function addNewTodo() {
         success: () => {
             $('#addTodoForm')[0].reset();
             getAllTodos();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Add Todo Success!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: (err) => {
             console.log(err.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to Add New Todo!',
+                text: `Error ${err.responseText.status}: ${err.responseText.message}`
+            })
         }
     });
 }
@@ -90,7 +127,12 @@ function getAllTodos() {
             });
         },
         error: (err) => {
-            console.log(err);
+            console.log(err.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to Load Todo List! Please Try Again.',
+                text: `Error ${err.responseText.status}: ${err.responseText.message}`
+            })
         }
     });
 }
@@ -108,23 +150,58 @@ function updateTodo(todoId) {
         },
         success: () => {
             getAllTodos();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Update Todo Success!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: (err) => {
             console.log(err.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to Update!',
+                text: `Error ${err.responseText.status}: ${err.responseText.message}`
+            })
         }
     });
 }
 
 function deleteTodo(todoId) {
-    $.ajax({
-        method: 'DELETE',
-        url: BASE_URL + '/todos/' + todoId,
-        headers: { token: localStorage.getItem('token') },
-        success: () => {
-            getAllTodos();
-        },
-        error: (err) => {
-            console.log(err.responseText);
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    })
+    .then((result) => {
+        if (result.value) {
+            $.ajax({
+                method: 'DELETE',
+                url: BASE_URL + '/todos/' + todoId,
+                headers: { token: localStorage.getItem('token') },
+                success: () => {
+                    getAllTodos();
+                    Swal.fire(
+                        'Deleted!',
+                        'The Todo Item Has Been Deleted.',
+                        'success'
+                    )
+                },
+                error: (err) => {
+                    console.log(err.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed to Delete!',
+                        text: `Error ${err.responseText.status}: ${err.responseText.message}`
+                    })
+                }
+            });
         }
-    });
+    })
 }

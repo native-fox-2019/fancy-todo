@@ -1,5 +1,5 @@
 function errorHandler(err, req, res, next) {
-    // console.log(err.name);
+    // console.log(err);
     // res.json(err);
     let errMsg = {};
     if (err.name === 'SequelizeValidationError') {
@@ -16,12 +16,13 @@ function errorHandler(err, req, res, next) {
         errMsg.message = 'Wrong Email / Password';
     } else if (err.name === 'NotFoundError' && err.message === 'ItemNotFound') {
         errMsg.status = 404;
-        errMsg.message = 'Specified todo item not found';
+        errMsg.message = 'Specified todo item is not found';
     } else if (err.name === 'ForbiddenError' && err.message === 'ItemNotOwned') {
         errMsg.status = 403;
-        errMsg.message = 'Specified todo item not yours';
+        errMsg.message = 'Specified todo item is not yours';
     } else {
-        res.status(500).json(err);
+        errMsg.status = 500;
+        errMsg.message = err;
     }
     res.status(errMsg.status).json(errMsg);
 }

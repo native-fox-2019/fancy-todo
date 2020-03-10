@@ -9,7 +9,6 @@ function refresh() {
         $('#logDiv').hide();
         $('#regDiv').hide();
         $('#todoDiv').show();
-        // $('#mainPageTitle').html(`Hello ${asd}`);
         getAllTodos();
     } else {
         $('#todoDiv').hide();
@@ -28,6 +27,13 @@ $('#logOut').click((event) => {
     $('#todoDiv').hide();
     $('#regDiv').hide();
     $('#logDiv').show();
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Log Out Success!',
+        showConfirmButton: false,
+        timer: 1500
+    })
 });
 
 $('#goToRegister').click((event) => {
@@ -44,17 +50,14 @@ $('#goToLogin').click((event) => {
 $('#regForm').submit((event) => {
     event.preventDefault();
     register();
-    refresh()
 });
 
 $('#logForm').submit((event) => {
     event.preventDefault();
     login();
-    refresh();
 });
 
 $('#addTodoForm').submit((event) => {
     event.preventDefault();
     addNewTodo();
-    refresh()
 });
