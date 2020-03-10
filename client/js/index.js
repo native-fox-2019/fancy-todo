@@ -1,3 +1,28 @@
+$(document).ready(function(){
+  var token = localStorage.getItem('token')
+  if(token){
+    console.log(token)
+    afterLogin()
+  }
+  else{
+    afterLogout();
+  }
+})
+
+function afterLogin(){
+  //$('#before-login').hide()
+  console.log('masukkkkkk');
+  $('#before-login').hide()
+
+  $('#list-todos').show()
+  $('.edit-todo').hide()
+  $('.add-todo').hide()
+}
+
+function afterLogout(){
+  $('#before-login').show()
+  $('#list-todos').hide()
+}
 
 //Login Action
 $("#login-form").submit(function(e) {
@@ -11,11 +36,13 @@ $("#login-form").submit(function(e) {
       }
     })
     .done(function(token){
-      alert('Login Success')
+      //alert('Login Success')
       localStorage.setItem('token', token)
-      $('.container').toggle()
+      // $('.container').toggle()
+      afterLogin();
     })
     .fail(function() {
+      afterLogout();
        alert( "Wrong username or password" );
     })
 
@@ -126,7 +153,7 @@ $('#button-logout').on("click", function(){
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-  $('.container').toggle()
+  afterLogout()
 })
 
 //add button action
@@ -163,7 +190,8 @@ function addTodo(){
       showTodos()
     })
     .fail(function(err) {
-       alert( "add todo failed" + JSON.stringify(err) );
+      console.log(JSON.stringify(err))
+      $('#error-notification').text(err.responseJSON)
     })
   })
 }
@@ -213,8 +241,9 @@ function editTodo(id){
       $('.list-todos').show()
       showTodos()
     })
-    .fail(function() {
-       alert( "edit todo failed" );
+    .fail(function(err) {
+      console.log(err)
+      alert( "edit todo failed" );
     })
   })
 }
@@ -242,39 +271,31 @@ function setPassword(password){
   $('#passwordRecomForm').empty()
 }
 
-if (auth2.isSignedIn.get()) {
-  var profile = auth2.currentUser.get().getBasicProfile();
-  console.log('ID: ' + profile.getId());
-  console.log('Full Name: ' + profile.getName());
-  console.log('Given Name: ' + profile.getGivenName());
-  console.log('Family Name: ' + profile.getFamilyName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
+
+
+function onSignIn(googleUser) {
+  var id_token = googleUser.getAuthResponse().id_token;
+  sendGoogleToken(id_token)
 }
 
-// gapi.load('auth2', function() {
-//   auth2 = gapi.auth2.init({
-//     client_id: 'CLIENT_ID.apps.googleusercontent.com',
-//     fetch_basic_profile: false,
-//     scope: 'profile'
-//   });
+function sendGoogleToken(idToken){
+  console.log(idToken)
+  $.ajax({
+    method: 'post',
+    url: 'http://localhost:3000/googleSignIn',
+    data: { token: idToken },
+    success: function(response) {
+      console.log(response)
+      localStorage.setItem('token', response.access_token)
+      afterLogin()
+    }
+  })
+}
 
-//   // Sign the user in, and then retrieve their ID.
-//   auth2.signIn().then(function() {
-//     console.log(auth2.currentUser.get().getId());
-//   });
-// });
 
-// function onSignIn(googleUser) {
-//   var id_token = googleUser.getAuthResponse().id_token;
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
-//   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-//   xhr.onload = function() {
-//     console.log('Signed in as: ' + xhr.responseText);
-//   };
-//   xhr.send('idtoken=' + id_token);
-//   $.ajax({
-    
-//   })
-// }
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }

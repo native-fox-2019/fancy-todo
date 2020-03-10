@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="google-signin-client_id" content="1007047137880-boslqrqe410t4fjk6q38r9h4n23u1em7.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="37897594321-dq4n9lta0tec89l6f7rj5jk3o9s9bpjn.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <title>Todos App</title>
 </head>
 <body>
   
-  <div class="container mt-5">
+  <div class="mt-5" id="before-login">
     <div class="row">
       <div class="col">
         <!-- login form -->
@@ -62,8 +62,8 @@
 
 
   <!-- Jika sudah login -->
-  <div class="container" style="display: none;" id="list-todos">
-    <div class="row mt- list-todos3">
+  <div id="list-todos">
+    <div class="row mt-3 list-todos">
       <div class="col">
         <button class="btn btn-danger  float-right" id="button-logout">Logout</button>
       </div>
@@ -93,7 +93,7 @@
     </div>
 
     <!-- Edit todo -->
-    <div class="row mt-3 edit-todo" style="display: none;">
+    <div class="row mt-3 edit-todo" >
       <div class="col">
         <form id="edit-form-todo">
           <h2 class="mb-5 text-center">Edit Todo</h2>
@@ -129,7 +129,7 @@
     </div>
 
     <!-- Add todo -->
-    <div class="row mt-3 add-todo" style="display: none;">
+    <div class="row mt-3 add-todo">
       <div class="col">
         <form id="add-form-todo">
           <h2 class="mb-5 text-center">Add Todo</h2>
@@ -161,6 +161,8 @@
           </div>
 
         </form>
+
+        <span id="error-notification" style="color: red;"></span>
       </div>
     </div>
   </div>
