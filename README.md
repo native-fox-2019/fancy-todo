@@ -35,9 +35,8 @@ PORT=3000
 
 ### Default Port
 
-    SERVER = http://localhost:3000
-    CLIENT = http://localhost:8080
-
+    SERVER = https://safe-dawn-98354.herokuapp.com/
+    CLIENT = https://fancy-to-do-267406.firebaseapp.com/
 ## Server
 
     Tools: NodeJS, Express, sequelize, postgresql
