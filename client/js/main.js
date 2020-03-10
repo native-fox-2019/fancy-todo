@@ -56,6 +56,7 @@ $(document).ready(() => {
             description,
             due_date
         }
+        console.log(due_date);
         createNewTodos(obj);
     });
 

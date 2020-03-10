@@ -32,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Due Date cannot be empty'
+        },
+        isDate: {
+          args: true,
+          msg: 'Please enter a valid date'
+        },
+        isAfter: {
+          args: new Date().toISOString().substring(0, 10),
+          msg: 'You cant enter a date before today'
         }
       }
     }
