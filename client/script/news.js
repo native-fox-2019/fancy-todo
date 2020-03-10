@@ -3,7 +3,7 @@ function news(){
         url: "http://localhost:3000/api/news",
         type: "GET",
         success: function(data) {
-            console.log(data.articles[2].title)
+            console.log(data)
             let berita= data.articles
             
 

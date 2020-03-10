@@ -21,6 +21,7 @@ router.get('/news', function (req, res){
     let tanggal = sekarang.getDate()
     let bulan = sekarang.getMonth()
     let tahun = sekarang.getFullYear()
+    console.log(process.env.APINEWS_KEY+"<<huhu")
     axios({
         method: 'get',
         url: `http://newsapi.org/v2/top-headlines?country=id&from=${tahun}-${bulan}-${tanggal}&sortBy=publishedAt&apiKey=${process.env.APINEWS_KEY}`,
