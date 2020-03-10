@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="675366732220-lkcjukg182iqse56rngbddob1qgsdm96.apps.googleusercontent.com">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="divlogin" class="container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="usr">Email:</label>
+                <input type="text" class="form-control" placeholder="Email" id="emaillogin" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="passwordlogin" placeholder="Password" name="password"
+                    required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+            <button id="tombolregister" class="btn btn-success">Register</button>
+        </div>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
+
+    <div id="divregister" class="container">
+        <h2>Register</h2>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="usr">Name:</label>
+                <input type="text" class="form-control" id="nameregister" name="name">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Email:</label>
+                <input type="text" class="form-control" id="emailregister" name="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="text" class="form-control" id="passwordregister" name="password">
+            </div>
+            <button id="tombolsubmitregister" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+            <button id="tombollogin" class="btn btn-success">Login</button>
+        </div>
+    </div>
+
+    <div id="divtodos" class="container">
+        <table class="table table-striped mt-5" id="tableTodo">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div>
+            <button id="tomboladd" class="btn btn-success">Add Todo</button>
+        </div>
+        <div>
+            <button id="tombollogout" class="btn btn-success">Logout</button>
+        </div>
+    </div>
+
+    <div id="divadd" class="container">
+        <h2>Add Todo</h2>
+        <form id="add-form">
+            <div class="form-group">
+                <label for="usr">Title:</label>
+                <input type="text" class="form-control" id="titleadd" name="name">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Description:</label>
+                <input type="text" class="form-control" id="descriptionadd" name="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Status:</label>
+                <input type="text" class="form-control" id="statusadd" name="password">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Due Date:</label>
+                <input type="text" class="form-control" id="duedateadd" name="password">
+            </div>
+            <button id="tombolsubmitadd" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div id="divedit" class="container">
+        <h2>Edit Todo</h2>
+        <form id="edit-form">
+            <div class="form-group">
+                <label for="usr">Title:</label>
+                <input type="text" class="form-control" id="titleedit" name="name" value="">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Description:</label>
+                <input type="text" class="form-control" id="descriptionedit" name="email" value="">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Status:</label>
+                <input type="text" class="form-control" id="statusedit" name="password" value="">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Due Date:</label>
+                <input type="text" class="form-control" id="duedateedit" name="password" value="">
+            </div>
+            <button id="tombolsubmitedit" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            if (localStorage.getItem("token")) {
+                getTodo()
+                $("#divtodos").show();
+            } else {
+                $("#divlogin").show();
+            }
+
+            $("#tombolregister").click(function (event) {
+                event.preventDefault()
+                $("#divlogin").hide();
+                $("#divregister").show()
+            });
+
+            $("#tombollogin").click(function (event) {
+                event.preventDefault()
+                $("#divregister").hide();
+                $("#divlogin").show()
+            });
+
+            $("#tomboladd").click(function (event) {
+                event.preventDefault()
+                $("#divadd").show()
+            });
+
+            $("#tombollogout").click(function (event) {
+                event.preventDefault()
+                localStorage.clear()
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+                $("#login-form")[0].reset()
+                $(".container").hide()
+                $("#divlogin").show()
+            });
+
+            $("#add-form").submit(function (event) {
+                event.preventDefault()
+                addTodo()
+            })
+
+            $("#edit-form").submit(function (event) {
+                event.preventDefault()
+                let idedit = $("#tombolsubmitedit").data('param')
+                $.ajax({
+                    url: `http://localhost:3000/todos/${idedit}`,
+                    type: "PUT",
+                    headers: { token: localStorage.getItem("token") },
+                    data: {
+                        title: $("#titleedit").val(),
+                        description: $("#descriptionedit").val(),
+                        status: $("#statusedit").val(),
+                        due_date: $("#duedateedit").val()
+                    },
+                    success: function (data) {
+                        $("#divedit").hide()
+                        getTodo()
+                    }
+                })
+            })
+
+            $("#register-form").submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: "http://localhost:3000/users/register",
+                    type: "POST",
+                    data: {
+                        name: $("#nameregister").val(),
+                        email: $("#emailregister").val(),
+                        password: $("#passwordregister").val()
+                    },
+                    success: function (data) {
+                        $("#divregister").hide();
+                        $("#divlogin").show()
+                    }
+                })
+            })
+
+            $("#login-form").submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: "http://localhost:3000/users/login",
+                    type: "POST",
+                    data: {
+                        email: $("#emaillogin").val(),
+                        password: $("#passwordlogin").val()
+                    },
+                    success: function (data) {
+                        localStorage.setItem("token", data.token)
+                        getTodo()
+                    }
+                })
+            })
+
+        });
+
+        function getTodo() {
+            $.ajax({
+                url: "http://localhost:3000/todos",
+                type: "GET",
+                data: {},
+                headers: { token: localStorage.getItem("token") },
+                success: function (data2) {
+                    // console.log(data2)
+                    $("#divlogin").hide()
+                    $("#divtodos").show()
+                    $("#tableTodo tbody").empty();
+                    data2.forEach(element => {
+                        // console.log(element)
+                        $('#tableTodo > tbody:last-child').append(
+                            `
+                                <tr> 
+                            <th scope="row">${element.id}</th> 
+                            <td>${element.title}</td> 
+                            <td>${element.description}</td>
+                            <td>${element.status}</td>
+                            <td>${element.due_date}</td>
+                            <td><a class="btn btn-primary" onclick=updateTodo(${element.id}) role="button">Edit</a> <a class="btn btn-danger" onclick=deleteTodo(${element.id}) role="button"> Delete </a> </td>
+                                </tr>`
+
+                        )
+                    });
+                }
+            })
+        }
+
+        function deleteTodo(id) {
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                type: "DELETE",
+                headers: { token: localStorage.getItem("token") },
+                success: function (data) {
+                    getTodo()
+                }
+            })
+        }
+
+        function addTodo() {
+            $.ajax({
+                url: `http://localhost:3000/todos/`,
+                type: "POST",
+                headers: { token: localStorage.getItem("token") },
+                data: {
+                    title: $("#titleadd").val(),
+                    description: $("#descriptionadd").val(),
+                    status: $("#statusadd").val(),
+                    due_date: $("#duedateadd").val(),
+                },
+                success: function (data) {
+                    $(".container").hide()
+                    getTodo()
+                }
+            })
+        }
+
+        function updateTodo(id) {
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                type: "GET",
+                headers: { token: localStorage.getItem("token") },
+                success: function (datasatu) {
+                    $("#titleedit").val(datasatu[0].title)
+                    $("#descriptionedit").val(datasatu[0].description)
+                    $("#statusedit").val(datasatu[0].status)
+                    $("#duedateedit").val(datasatu[0].due_date)
+                    $("#tombolsubmitedit").data('param', id)
+                    $("#divedit").show()
+
+                }
+            })
+        }
+
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                method: "POST",
+                url: `http://localhost:3000/users/googlelogin`,
+                data: {
+                    token: id_token
+                }
+            })
+                .done(data => {
+                    localStorage.setItem("token", data.token)
+                    getTodo()
+                    console.log(`ajax sudah masuk`)
+                })
+        }
+
+    </script>
+</body>
+
+</html>
