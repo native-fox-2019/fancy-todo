@@ -1,4 +1,4 @@
-const endpoint = `http://localhost:3000/`
+const endpoint = `https://tranquil-brushlands-57730.herokuapp.com/`
 
 function loginUser(obj) {
     $.ajax({
