@@ -45,6 +45,7 @@ $(`#btn-logout`).click(function(){
     $(`#error`).empty()
     $('#list-todos').empty()
     $(`#login-form`)[0].reset()
+    $(`#weather`).empty()
     $(`#todos`).hide()
     $(`#login`).show()
     var auth2 = gapi.auth2.getAuthInstance();
@@ -89,6 +90,7 @@ function onSignIn(googleUser) {
             $(`#login`).hide()
             $(`#todos`).show()
             listShow()
+            weather()
         }
     })
   }

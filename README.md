@@ -3,7 +3,7 @@
 The fancy-todo application is developed using express, posgresql, sequelize, and to be run by nodemon. The example is created in localhost
 
 This application is deployed in heroku for backend and firebase for frontend as following link:
-https://git.heroku.com/thawing-escarpment-77634.git
+<still not working>
 
 ------------
 Method & URL 
