@@ -1,8 +1,10 @@
 # Fancy-todo API
 
-This is the documentation for using FANCY TODO API. The base url for this API is http://localhost:3002
+This is the documentation for using FANCY TODO API. The base url for this API is `https://sheltered-taiga-06623.herokuapp.com`
 
 This API is using email validator API
+
+To use this app with user interface, kindly visit this link https://todo-fancy-1583330074366.firebaseapp.com/
 
 ### 1. Register (If you Already have an account, you can skip this part)
 
@@ -170,7 +172,7 @@ This API is using email validator API
   
   KEY:
 
-    * Token (the token you get after log-in)
+    * token (the token you get after log-in)
   
 
 * **SUCCESS RESPONSE**
@@ -252,7 +254,7 @@ This API is using email validator API
   
   KEY:
 
-    * Token (the token you get after log-in)
+    * token (the token you get after log-in)
   
 * **REQUEST BODY**
   
@@ -336,7 +338,7 @@ This API is using email validator API
   
   KEY:
 
-    * Token (the token you get after log-in)
+    * token (the token you get after log-in)
 
 * **SUCCESS RESPONSE**
   
@@ -398,7 +400,7 @@ This API is using email validator API
   
   KEY:
 
-    * Token (the token you get after log-in)
+    * token (the token you get after log-in)
   
 * **REQUEST BODY**
   
@@ -492,7 +494,7 @@ This API is using email validator API
   
   KEY:
 
-    * Token (the token you get after log-in)
+    * token (the token you get after log-in)
 
 * **SUCCESS RESPONSE**
   

@@ -69,7 +69,7 @@
         let $addTodo = $("#add-todo")
         let $todos = $(".todos")
         let $editTodo = $("#edit-todo")
-
+        let baseUrl = 'http://localhost:3002'
         // console.log(localStorage.token)
         if(localStorage.token){
             start()
@@ -104,7 +104,7 @@
         //===================================== function ==============================================
         function register(first_name, last_name, email, password){
             $.ajax({
-                url: "http://localhost:3002/user/register",
+                url: `${baseUrl}/user/register`,
                 method: "post",
                 contentType: "application/json",
                 data: JSON.stringify({
@@ -138,7 +138,7 @@
         }
         function login(email, password){
             $.ajax({
-                url: "http://localhost:3002/user/login",
+                url: `${baseUrl}/user/login`,
                 method: "post",
                 contentType: "application/json",
                 data: JSON.stringify({
@@ -147,6 +147,7 @@
                 }),
                 success: function(data2){
                     localStorage.setItem("token", data2.token)
+                    $("#login p").remove()
                     start()
                 },
                 error: (jqxhr, status, error)=>{
@@ -158,7 +159,7 @@
         function getTodos(){
             $(".todos .container").remove()
             $.ajax({
-                url: "http://localhost:3002/todos",
+                url: `${baseUrl}/todos`,
                 method: "get",
                 headers: {token: localStorage.token},
                 success: function(data){
@@ -197,7 +198,7 @@
             console.log('triggxerred')
 
             $.ajax({
-                url: "http://localhost:3002/todos",
+                url: `${baseUrl}/todos`,
                 method: "post",
                 contentType: "application/json",
                 headers: {token: localStorage.token},
@@ -227,7 +228,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: `http://localhost:3002/todos/${id}`,
+                        url: `${baseUrl}/todos/${id}`,
                         method: "delete",
                         headers: {token: localStorage.token},
                         success: (data) => {
@@ -246,7 +247,7 @@
         }
         function editForm(id){
             $.ajax({
-                url: `http://localhost:3002/todos/${id}`,
+                url: `${baseUrl}/todos/${id}`,
                 method: "get",
                 headers: {token: localStorage.token},
                 success: (data) => {
@@ -291,7 +292,7 @@
         }
         function editTodo(id, title, description, status, due_date){
             $.ajax({
-                url: `http://localhost:3002/todos/${id}`,
+                url: `${baseUrl}/todos/${id}`,
                 method: "put",
                 contentType: "application/json",
                 headers: {token: localStorage.token},
@@ -316,7 +317,7 @@
         function onSignIn(googleUser) {
             var id_token = googleUser.getAuthResponse().id_token;
             $.ajax({
-                url: `http://localhost:3002/user/googleLogin`,
+                url: `${baseUrl}/user/googleLogin`,
                 method: 'post',
                 contentType: "application/json",
                 data: JSON.stringify({
@@ -354,7 +355,13 @@
                 $("#submit-login")[0].reset()
                 signOut()
                 localStorage.removeItem('token')
-                location.reload()
+                // location.reload()
+                $("#login").show()
+                $(".navbar").show()
+                $(".todos").hide()
+                $(".logout").hide()
+                $("#button-add-todo").hide()
+
             })
             $("#button-add-todo").on("click", function(){
                 $addTodo.show(450)
