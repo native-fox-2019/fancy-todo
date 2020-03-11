@@ -9,7 +9,7 @@ $(`#register-form`).submit(function (event){
     } else {
         $.ajax({
             type: "POST", 
-            url: "https://intense-brook-20799.herokuapp.com/user/register", 
+            url: "http://localhost:3000/user/register", 
             data: {
                 email: email,
                 password: password
@@ -34,7 +34,7 @@ $(`#login-form`).submit(function (event){
     let password = $(`#password-login`).val()
         $.ajax({
             type: "POST", 
-            url: "https://intense-brook-20799.herokuapp.com/user/login", 
+            url: "http://localhost:3000/user/login", 
             data: {
                 email:email, 
                 password: password
@@ -64,7 +64,7 @@ $(`#add-form`).submit(function (event){
     }
     $.ajax({
         type: "POST", 
-        url: "https://intense-brook-20799.herokuapp.com/todos", 
+        url: "http://localhost:3000/todos", 
         data: newData,
         headers: {"token": localStorage.getItem('token')},
         success: function(result){
@@ -93,7 +93,7 @@ $(`#edit-form`).submit(function(event){
     }
     $.ajax({
         type: "PUT", 
-        url: "https://intense-brook-20799.herokuapp.com/todos/"+id, 
+        url: "http://localhost:3000/todos/"+id, 
         data: newData,
         headers: {"token": localStorage.getItem('token')},
         success: function(result){

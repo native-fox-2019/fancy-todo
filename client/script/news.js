@@ -1,6 +1,6 @@
 function news(){
     $.ajax({
-        url: "https://intense-brook-20799.herokuapp.com/api/news",
+        url: "http://localhost:3000/api/news",
         type: "GET",
         success: function(data) {
             console.log(data)

@@ -2,7 +2,7 @@ function deleteTodo(id){
     console.log(id)
     $.ajax({
         type: "DELETE", 
-        url: "https://intense-brook-20799.herokuapp.com/todos/"+id, 
+        url: "http://localhost:3000/todos/"+id, 
         headers: {"token": localStorage.getItem('token')},
         success: function(result){
             console.log("success")
