@@ -79,7 +79,7 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
         type:"POST",
-        url:"http://localhost:3000/user/googlelogin",
+        url:"https://intense-brook-20799.herokuapp.com/user/googlelogin",
         data:{
             id_token
         },

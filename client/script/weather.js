@@ -1,6 +1,6 @@
 function weather(){
     $.ajax({
-        url: "http://localhost:3000/api/current_weather_data",
+        url: "https://intense-brook-20799.herokuapp.com/api/current_weather_data",
         type: "GET",
         success: function(data) {
             let temp = (data.main.temp-273).toFixed(2)

@@ -1,7 +1,7 @@
 function listShow(){
     $.ajax({
         type: "GET", 
-        url: "http://localhost:3000/todos", 
+        url: "https://intense-brook-20799.herokuapp.com/todos", 
         headers: {"token": localStorage.getItem('token')},
         success: function(result){
                 $(`#todos`).show()

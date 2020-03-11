@@ -1,7 +1,7 @@
 function editTodo(id){
     $.ajax({
         type: "GET", 
-        url: "http://localhost:3000/todos/"+id, 
+        url: "https://intense-brook-20799.herokuapp.com/todos/"+id, 
         headers: {"token": localStorage.getItem('token')},
         success: function(result){
             $(`#title`).remove()
