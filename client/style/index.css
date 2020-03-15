@@ -1,0 +1,36 @@
+* {
+    background-color: black;
+    color: white;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+body {
+    background-color: black !important;
+}
+
+.flexbox {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+.regLogWidth {
+    max-width: 320px;
+}
+
+.todoTable {
+    min-width: 720px;
+}
+
+#todoList tr td textarea, #todoList tr td input {
+    border: none;
+    border-radius: 100px;
+}
+
+.swal2-popup {
+    background: #000 !important;
+    border: 1px solid #fff;
+}

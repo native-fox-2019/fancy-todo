@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="417245750214-tuclalcrcarlnemdnl4ntbfs13hbpid6.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style/index.css">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <h1 class="text-center my-5">Fancy Todo</h1>
+
+    <div class="container regLogWidth text-center flexbox" id="logDiv">
+        <h2 class="mb-5">Log In</h2>
+        <form class="container text-center" id="logForm">
+            <div class="form-group">
+                <input class="form-control text-center mb-3" type="email" id="logEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input class="form-control text-center mb-3" type="password" id="logPassword" placeholder="Password">
+
+            </div>
+            <div class="form-group">
+            <input class="form-control btn btn-primary mb-3" type="submit" id="logSubmit" value="Log In">
+            <p class="text-center mb-3">Don't have an account?</p>
+            <button class="form-control btn btn-primary mb-3" id="goToRegister">Go to Register</button><br>
+            <p class="text-center mb-3">Or</p>
+            <div class="g-signin2 mb-5 border border-primary rounded" data-width="255" data-height="40" data-longtitle="true" data-onsuccess="onSignIn"></div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container regLogWidth text-center flexbox" id="regDiv" style="display: none;">
+        <h2 class="mb-5">Register</h2>
+        <form class="container text-center" id="regForm">
+            <div class="form-group">
+                <input class="form-control text-center mb-3" type="email" id="regEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input class="form-control text-center mb-3" type="password" id="regPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+            <input class="form-control btn btn-primary mb-3" type="submit" id="regSubmit" value="Register">
+            <p class="text-center mb-3">Already have an account?</p>
+            <button class="form-control btn btn-primary mb-3" id="goToLogin">Go to Login</button><br>
+            </div>
+        </form>
+    </div>
+
+    <div class="container text-center" id="todoDiv" style="display: none;">
+        <div class="container text-center">
+            <h2 id="mainPageTitle">Your Todo List</h2>
+            <button class="btn btn-outline-primary my-5" id="logOut">Log Out</button>
+        </div>
+        <table class="table" id="todoTable">
+            <thead>
+                <tr>
+                    <th><h5 class="my-5">Title</h4></th>
+                    <th><h5 class="my-5">Description</h4></th>
+                    <th><h5 class="my-5">Status</h4></th>
+                    <th><h5 class="my-5">Due Date</h4></th>
+                    <th><h5 class="my-5">Options</h4></th>
+                </tr>
+                <tr>
+                    <form class="container text-center flexbox" id="addTodoForm">
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control border border-secondary rounded-lg" id="titleAdd" cols="20" rows="2" placeholder="What to do?"></textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control border border-secondary rounded-lg" id="descriptionAdd" cols="30" rows="5" placeholder="Describe your Plan"></textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control border border-secondary rounded-lg" id="statusAdd">
+                                    <option value="" hidden>---set status---</option>
+                                    <option value="Not Done Yet">Not Done Yet</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Finished">Finished</option>
+                                    <option value="Failed">Failed</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control border border-secondary rounded-lg" type="date" id="due_dateAdd">
+                            </div>
+                        </td>
+                        <td>
+                            <input class="btn btn-outline-success btn-block" type="submit" value="Add New Todo">
+                        </td>
+                    </form>
+                </tr>
+            </thead>
+
+            <tbody id="todoList">
+                <!-- Todo List Here -->
+            </tbody>
+
+        </table>
+    </div>
+
+    <p class="text-center my-5">&copy; 2020 Muhammad Ramadhan</p>
+
+    <!-- SCRIPTS -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script><script src="script/requests.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="script/index.js"></script>
+    <script src="script/google.js"></script>
+    <!-- END SCRIPTS -->
+</body>
+</html>
