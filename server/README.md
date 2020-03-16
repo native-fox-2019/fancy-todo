@@ -371,7 +371,7 @@ Content-Type :  application/x-www-form-urlencoded
 
 
 
-### 1. POST /user/login
+### 2. POST /user/login
 * Request Header :
 
 Content-Type :  application/x-www-form-urlencoded
