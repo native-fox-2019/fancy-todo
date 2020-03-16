@@ -8,6 +8,7 @@ fancy-Todo
 
 ### 1.  POST /todos
 * Request Header :
+        token : token
 
         Content-Type :  application/x-www-form-urlencoded
 ******
@@ -57,6 +58,9 @@ fancy-Todo
 <br></br>
 
 ### 2. GET /todos
+
+* Request Header :
+        token : token
 
 * Success response with status (200) :
 
@@ -124,6 +128,9 @@ fancy-Todo
 
 ### 3. GET /todos/:id
 
+* Request Header :
+        token : token
+
 
 
 * Success response with status (200) :
@@ -165,6 +172,7 @@ fancy-Todo
 ### 4. PUT /todos/:id
 
 * Request Header :
+token : token
 
 Content-Type :  application/x-www-form-urlencoded
 ******
@@ -227,10 +235,10 @@ Content-Type :  application/x-www-form-urlencoded
 
 <br></br>
 
-### 4. PATCH /todos/:id
+### 5. PATCH /todos/:id
 
 * Request Header :
-
+        token : token
 Content-Type :  application/x-www-form-urlencoded
 ******
 
@@ -279,7 +287,9 @@ Content-Type :  application/x-www-form-urlencoded
 
 <br></br>
 
-### 5. DELETE /todos/:id
+### 6. DELETE /todos/:id
+* Request Header :
+        token : token
 
 * Success response with status (200) :
 * Request req.params.id = 2
@@ -312,4 +322,95 @@ Content-Type :  application/x-www-form-urlencoded
              "message": "Internal server error!"
         }
 ******
+
+===========================USER SIDE==================================
+
+### 1. POST /user/register
+
+* Request Header :
+
+Content-Type :  application/x-www-form-urlencoded
+******
+
+* Request Body :
+
+        username : "gusti"
+
+        email : "gusti@gusti.com"
+
+        password : "123"
+
+******
+* Success response with status (200) :
+
+        {
+            "id": 2,
+            "username":gusti,
+            "email":"gusti@gusti.com",
+            "password":"edahhdjasfjdjbsfkjdaYJvvbyiVIYJHVUJYHVUZJCVujzgcT HGVYJH",
+            "createdAt": "2020-03-02T08:46:55.905Z",
+            "updatedAt": "2020-03-02T11:07:42.631Z"
+        }
+******
+
+* Data Not Found Resposnse (404) :
+
+        {
+            "message": "use name can not be empty!"
+        }
+*****
+
+* Internal Server Error response with status (500) :
+
+    Typo in server sample :
+
+        {
+             "message": "Internal server error!"
+        }
+******
+
+
+
+### 1. POST /user/login
+* Request Header :
+
+Content-Type :  application/x-www-form-urlencoded
+******
+
+* Request Body :
+
+        email : "gusti@gusti.com"
+
+        password : "123"
+
+******
+* Success response with status (200) :
+
+        {
+            "id": 2,
+            "email":"gusti@gusti.com",
+            "password":"edahhdjasfjdjbsfkjdaYJvvbyiVIYJHVUJYHVUZJCVujzgcT HGVYJH",
+            "createdAt": "2020-03-02T08:46:55.905Z",
+            "updatedAt": "2020-03-02T11:07:42.631Z"
+        }
+******
+
+* Data Not Found Resposnse (404) :
+
+        {
+            "message": "use name can not be empty!"
+        }
+*****
+
+* Internal Server Error response with status (500) :
+
+    Typo in server sample :
+
+        {
+             "message": "Internal server error!"
+        }
+******
+
+
+
 
