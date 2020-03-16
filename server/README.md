@@ -386,13 +386,11 @@ Content-Type :  application/x-www-form-urlencoded
 ******
 * Success response with status (200) :
 
-       {
-        "token":                                                                                                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJndXN0aUBndXN0aS5jb20iLCJpYXQiOjE1ODQzNTE3MjB9.jW9kUpIL0vLd1Eo7Re0          ncxhzidmK8kqIKctKqRkO800"
-        }
+      
 ******
 
 * Data Not Found Resposnse (404) :
-
+                                {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJndXN0aUBndXN0aS5jb20iLCJpYXQiOjE1ODQzNTE3MjB9.jW9kUpIL0vLd1Eo7Re0ncxhzidmK8kqIKctKqRkO800"}
         {
             "message": "use name can not be empty!"
         }
