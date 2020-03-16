@@ -386,12 +386,8 @@ Content-Type :  application/x-www-form-urlencoded
 ******
 * Success response with status (200) :
 
-        {
-            "id": 2,
-            "email":"gusti@gusti.com",
-            "password":"edahhdjasfjdjbsfkjdaYJvvbyiVIYJHVUJYHVUZJCVujzgcT HGVYJH",
-            "createdAt": "2020-03-02T08:46:55.905Z",
-            "updatedAt": "2020-03-02T11:07:42.631Z"
+       {
+        "token":                                                                                                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJndXN0aUBndXN0aS5jb20iLCJpYXQiOjE1ODQzNTE3MjB9.jW9kUpIL0vLd1Eo7Re0          ncxhzidmK8kqIKctKqRkO800"
         }
 ******
 
