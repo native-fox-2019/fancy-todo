@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id"
+    content="678508956941-07c4m62ngqkc0maqgf6s6h82i9trva9c.apps.googleusercontent.com">
+
+  <title>Fancy Todo</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <style>
+    .app {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- error -->
+  <div class="app" id="err"><h5><font color="red">Email or Password is not valid</font></h3></div>
+  <!-- error -->
+
+  <!-- error form -->
+  <div class="app" id="errForm"><h5><font color="red">Column must be filled or wrong input format</font></h3></div>
+  <!-- error form -->
+
+  <!-- login start -->
+  <div class="app" id="login">
+    <h1>Login</h1>
+    <button class="btn btn-primary logout">Log Out</button>
+    <button class="btn btn-primary float-right mb-3 mr-3" id='btn-register'>Register</button>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email-login" aria-describedby="emailHelp"
+          placeholder="input your email">
+        <small id="emailHelp" class="form-text text-muted">Please input your email correctly!</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password-login" placeholder="input your password">
+      </div>
+      <button type="submit" class="btn btn-primary mb-3 ml-3">Sign In</button>
+      <h6 class="or ml-5">or</h6>
+      <div class="g-signin2 mt-3 ml-3" data-onsuccess="onSignIn"></div>
+    </form>
+  </div>
+  <!-- login finish -->
+
+  <!-- register start -->
+  <div class="app" id="register">
+    <h1>Register</h1>
+    <button class="btn btn-primary float-right mb-3" id='btn-login'>Login</button>
+    <form id="register-form">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email-register" placeholder="input your email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password-register" placeholder="input your password">
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+  <!-- register finish -->
+
+  <!-- add ToDo -->
+  <div class="app" id="add">
+    <h1>Add Todo</h1>
+    <form id="add-form">
+      <div class="form-group">
+        <label for="title">Todo Title</label>
+        <input type="text" class="form-control" id="add-title" placeholder="Todo title">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="add-description" placeholder="description">
+      </div>
+      <div class="form-group">
+        <label for="Date">Due date</label>
+        <input type="date" class="form-control" id="add-date" placeholder="yyyy/mm/dd">
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+      <button class="btn btn-primary list" id='btn-list'>Back to List</button>
+      <button class="btn btn-primary logout">Log Out</button>
+    </form>
+  </div>
+  <!-- add ToDo finish -->
+
+  <!-- edit ToDo -->
+  <div class="app" id="edit">
+    <h1>Add Todo</h1>
+    <form id="edit-form">
+      <div class="form-group">
+        <label for="title">Todo Title</label>
+        <input type="text" class="form-control" id="edit-title">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="edit-description">
+      </div>
+      <div class="form-group">
+        <label for="Date">Due date</label>
+        <input type="text" class="form-control" id="edit-date">
+      </div>
+      <button type="submit" class="btn btn-primary" id="edit-submit">Submit</button>
+      <button class="btn btn-primary list" id='btn-list'>Back to List</button>
+      <button class="btn btn-primary logout">Log Out</button>
+    </form>
+  </div>
+  <!-- edit ToDo finish -->
+
+  <!-- ToDo list -->
+  <div class="app" id="list">
+    <h1><Center>Todo list</Center></h1>
+    <button class="btn btn-primary mb-3 mt-3 ml-3" id='btn-add'>Add Todo</button>
+    <button class="btn btn-primary logout float-right mt-3 ml-3 mr-3">Log out</button>
+    <button class="btn btn-primary float-right mt-3" id='btn-weather'>See Weather</button>
+    <table class="table" id="table-todo">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Todo Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+          <th scope="col">Due date</th>
+          <th scope="col">ToDo Checker</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- ToDo list finish -->
+
+  <div class="app" id="weather">
+    <h2><center>Weather forecast</center></h2>
+
+    <button class="btn btn-primary logout">Log out</button>
+    <button class="btn btn-primary list float-right" id='btn-list'>Back to List</button>
+    <table class="table" id="table-weather">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Time</th>
+          <th scope="col">Temperature(Cel. deg)</th>
+          <th scope="col">Humidity (%)</th>
+          <th scope="col">Weather</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <script src='assets/script/variable-declare.js'></script>
+  <script src='assets/script/request.js'></script>
+  <script src='assets/script/todo-list.js'></script>
+  <script src='assets/script/main.js'></script>
+  <script src='assets/script/unixTime.js'></script>
+  <script src='assets/script/weather.js'></script>
+</body>
+
+</html>
