@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="443973783927-00mgefo2556nqmiq7mq7foiontrlvhib.apps.googleusercontent.com">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <link rel = "stylesheet" type="text/css" href="style.css">
+    <title>Fancy-Todo</title> 
+</head>
+<body>
+    <div class = "header">
+        <div class = "navbar">
+            <ul>
+                <li id = "button-login">Sign In</li>
+                <li id = "button-register">Register</li>
+            </ul>
+        </div>
+        <div class="logout">
+            <ul>
+                <li id="button-logout">Logout</li>
+            </ul>
+        </div>
+    </div>
+    <div class ="title">
+        <h1>Fancy Todo</h1>
+    </div>
+    <div id="login">
+        <h3 style="margin: 10px auto; width: 300px; font-size: 30px;">Sign In</h3>
+        <form style="width: 300px; margin: 10px auto;" id="submit-login">
+            <input type="text" id="login-email" placeholder="Email"><br>
+            <input type="password" id="login-password" placeholder="Password"><br>
+            <div class="g-signin2" data-onsuccess="onSignIn" style="margin:10px auto; width: 100px;"></div>
+            <button type="submit">Sign in</button>
+        </form>
+    </div>
+    <div id="register" style="display: none;">
+        <h3 style="margin: 20px auto; width: 300px; font-size: 30px;">Register</h3>
+        <form style="width: 300px; margin: 10px auto;" id="submit-register">
+            <input type="text" id="register-first_name" placeholder="First Name"><br>
+            <input type="text" id="register-last_name" placeholder="Last Name"><br>
+            <input type="text" id="register-email" placeholder="Email"><br>
+            <input type="password" id="register-password" placeholder="Password"><br>
+            <button type="submit">Register</button>
+        </form> 
+    </div>
+    <button id="button-add-todo">Add Todo</button>
+    <div id="add-todo" style="display: none;">
+        <h3 style="margin: 20px auto; width: 300px; font-size: 30px;">Add Todo</h3>
+        <form style="width: 300px; margin: 10px auto;" id="submit-add-todo">
+            <input type="text" id="add-todo-title" placeholder="Title"><br>
+            <input type="text" id="add-todo-description" placeholder="Description"><br>
+            <label>Due Date:</label><br>
+            <input type="date" id="add-todo-due_date" placeholder="Due date">
+            <button type="submit">Add Todo</button><br>
+            <button id="button-cancel-add" class="cancel" >Cancel</button>
+        </form>
+    </div>
+    <div id="edit-todo" style="display: none;"></div>
+    <div class="todos" style="display: none;">
+        <h2>Your Todos</h1>
+    </div>
+    <script src= "https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        let $login = $("#login")
+        let $register = $("#register")
+        let $addTodo = $("#add-todo")
+        let $todos = $(".todos")
+        let $editTodo = $("#edit-todo")
+        let baseUrl = 'http://localhost:3002'
+        // console.log(localStorage.token)
+        if(localStorage.token){
+            start()
+        }else{
+            $("#button-add-todo").hide()
+            $(".logout").hide()
+            $("#button-login").on("click", function(){
+                $login.show(450)
+                $register.hide(200)
+            })
+            $("#button-register").on("click", function(){
+                $register.show(450)
+                $login.hide(200)
+            })
+            $("#submit-register").on("submit", function(event){
+                event.preventDefault();
+                let $first_name = $("#register-first_name")
+                let $last_name = $("#register-last_name")
+                let $email = $("#register-email")
+                let $password = $("#register-password")
+                register($first_name.val(), $last_name.val(), $email.val(), $password.val())
+            })
+            $("#submit-login").on("submit", function(event){
+                event.preventDefault();
+                let $email = $("#login-email")
+                let $password = $("#login-password")
+                login($email.val(), $password.val())
+            }) 
+        }
+
+
+        //===================================== function ==============================================
+        function register(first_name, last_name, email, password){
+            $.ajax({
+                url: `${baseUrl}/user/register`,
+                method: "post",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password
+                }),
+                success: function(data2){
+                    $register.hide(300)
+                    $login.show(450)
+                },
+                error: (jqxhr, status, error) => {
+                    $("#submit-register p").remove()
+                    let errors = jqxhr.responseJSON
+                    if(!errors.msg){
+                        let text = 'Please input your '
+                        for(i = 0; i < errors.error.length; i++){
+                            if(i === errors.error.length-1){
+                                text += `and ${errors.error[i].path}.`
+                            }else{
+                                text += `${errors.error[i].path}, `
+                            }
+                        }
+                        $("#submit-register").append(`<p style="color: red; font-size: 14px">${text}</p>`)
+                    }else{
+                        $("#submit-register").append(`<p style="color: red; font-size: 14px">${errors.msg}</p>`)
+                    }
+                }
+            })
+        }
+        function login(email, password){
+            $.ajax({
+                url: `${baseUrl}/user/login`,
+                method: "post",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                success: function(data2){
+                    localStorage.setItem("token", data2.token)
+                    $("#login p").remove()
+                    start()
+                },
+                error: (jqxhr, status, error)=>{
+                    $("#login p").remove()
+                    $("#login").append(`<p style="color: red">${jqxhr.responseJSON.msg}</p>`);                  
+                }
+            })
+        }
+        function getTodos(){
+            $(".todos .container").remove()
+            $.ajax({
+                url: `${baseUrl}/todos`,
+                method: "get",
+                headers: {token: localStorage.token},
+                success: function(data){
+                    data.forEach(element => {
+                        $(".todos").append(`
+                                <div class="container" id="todo-${element.id}">
+                                    <div class="content">
+                                        <div class="kiri" style="width: 50%;">
+                                            <h3>${element.title}</h3>
+                                            <p>${element.description}</p>
+                                            <div style="display: flex; flex-direction: row">
+                                                <div style="width: 150px">
+                                                    <span style="font-size: 15px">Status:</span><br>
+                                                    <span style="font-size: 18.5px; color: ${element.status === 'Uncomplete' ? 'rgb(255, 126, 126)' : 
+                                                    element.status === 'On progress' ? '#bac94a' : 'black'}">${element.status}</span>
+                                                </div>
+                                                <div>
+                                                    <span style="font-size: 15px">Due date:</span><br>
+                                                    <span style="color: #6c8cbf; font-size: 18.5px;">${new Date(element.due_date).toDateString()}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class ="action" >
+                                            <button id="button-edit" onclick="editForm(${element.id})" style="margin: 0 3px">Edit</button>
+                                            <button id="button-delete" onclick="todoDelete(${element.id})" style="margin: 0 3px; background-color: rgb(255, 126, 126); background-image: none;">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>    
+                                    `
+                        )
+                    });
+                }
+            })
+        }
+        function addTodo(title, description, due_date){
+            console.log('triggxerred')
+
+            $.ajax({
+                url: `${baseUrl}/todos`,
+                method: "post",
+                contentType: "application/json",
+                headers: {token: localStorage.token},
+                data: JSON.stringify({
+                    title: title,
+                    description: description,
+                    due_date: due_date
+                }),
+                success: (data) => {
+                    $("#submit-add-todo")[0].reset()
+                    $("#add-todo").hide(300)
+                    start()
+                },
+                error: (jqxhr, status, error) => {
+                    console.log(jqxhr.responseJSON)
+                }
+            })
+        }
+        function todoDelete(id){
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this todo!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: `${baseUrl}/todos/${id}`,
+                        method: "delete",
+                        headers: {token: localStorage.token},
+                        success: (data) => {
+                            $todos.hide(300)
+                            getTodos()
+                            $todos.show(450)
+                        },
+                        error: (jqxhr, status, error) => {
+                            console.log(jqxhr.responseJSON)
+                        }
+                    })         
+                } else {
+                    swal("Your todo is safe");
+                }
+            });
+        }
+        function editForm(id){
+            $.ajax({
+                url: `${baseUrl}/todos/${id}`,
+                method: "get",
+                headers: {token: localStorage.token},
+                success: (data) => {
+                    let today = new Date(data.due_date)
+                    let date = String(today.getDate()).padStart(2,'0')
+                    let month = String(today.getMonth()+1).padStart(2,'0')
+                    let year = today.getFullYear()
+                    let todayParsed = `${year}-${month}-${date}`
+                    $("#edit-todo").hide(300)
+                    $("#edit-todo h3, #edit-todo form").remove()
+                    $(`#edit-todo`).append(`<h3 style="margin: 20px auto; width: 300px; font-size: 30px;">Edit Todo</h3>
+                    <form style="width: 300px; margin: 10px auto;" id="submit-edit-todo">
+                        <input type="text" id="edit-todo-title" placeholder="Title" value="${data.title}"><br>
+                        <input type="text" id="edit-todo-description" placeholder="Description" value="${data.description}"><br>
+                        <label style="margin-top: 7.5px; margin-bottom: 7.5px; margin-right: 15px;">Status:</label>
+                        <select id="edit-todo-status" style="margin-top: 7.5px; margin-bottom: 7.5px;">
+                            <option ${data.status === 'Uncomplete' ? 'selected' : ''}>Uncomplete</option>
+                            <option ${data.status === 'On progress' ? 'selected' : ''}>On progress</option>
+                            <option ${data.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                        </select><br>
+                        <label style="margin: 20px 0">Due Date:</label><br>
+                        <input type="date" id="edit-todo-due_date" placeholder="Due date" value="${todayParsed}">
+                        <button type="submit">Edit Todo</button><br>
+                        <button id="button-cancel-edit" class="cancel" >Cancel</button>
+                    </form>`)
+                    $addTodo.hide(200)
+                    $editTodo.show(450)
+                    $("#button-cancel-edit").on("click", function(){
+                        $editTodo.hide(300)
+                        $(`#edit-todo h3, #edit-todo form`).remove()
+                    })
+                    $("#submit-edit-todo").on("submit", function(event){
+                        event.preventDefault();
+                        let $title = $("#edit-todo-title");
+                        let $description = $("#edit-todo-description");
+                        let $status = $("#edit-todo-status");
+                        let $due_date = $("#edit-todo-due_date")
+                        editTodo(id, $title.val(), $description.val(), $status.val(), $due_date.val())
+                    })
+                }
+            })
+        }
+        function editTodo(id, title, description, status, due_date){
+            $.ajax({
+                url: `${baseUrl}/todos/${id}`,
+                method: "put",
+                contentType: "application/json",
+                headers: {token: localStorage.token},
+                data: JSON.stringify({
+                    title: title,
+                    description: description,
+                    status: status,
+                    due_date: due_date
+                }),
+                success: (data) => {
+                    $editTodo.hide(300)
+                    $("#edit-todo h3, #edit-todo form").remove()
+                    $todos.hide(300)
+                    getTodos()
+                    $todos.show(450)
+                },
+                error: (jqxhr, status, error) => {
+                    console.log(jqxhr.responseJSON)
+                }
+            })
+        }
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url: `${baseUrl}/user/googleLogin`,
+                method: 'post',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id_token: id_token
+                }),
+                success: (data) => {
+                    localStorage.setItem("token", data.token)
+                    start()
+                }
+            })
+        }
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+
+        $("#submit-add-todo").on("submit", function(event){
+                event.preventDefault();
+                let $title = $("#add-todo-title");
+                let $description = $("#add-todo-description");
+                let $due_date = $("#add-todo-due_date")
+                addTodo($title.val(), $description.val(), $due_date.val())
+            }) 
+
+        function start(){
+            getTodos()
+            $(".todos").show(450)
+            $("#button-add-todo").show()
+            $("#login").hide()
+            $(".navbar").hide()
+            $(".logout").show()
+            $("#button-logout").on("click", function(){
+                $("#submit-login")[0].reset()
+                signOut()
+                localStorage.removeItem('token')
+                // location.reload()
+                $("#login").show()
+                $(".navbar").show()
+                $(".todos").hide()
+                $(".logout").hide()
+                $("#button-add-todo").hide()
+
+            })
+            $("#button-add-todo").on("click", function(){
+                $addTodo.show(450)
+                $editTodo.hide(200)
+            })
+            
+            $("#button-cancel-add").on("click", function(){
+                $addTodo.hide(300)
+            })
+        }
+    </script>
+</body>
+</html>
