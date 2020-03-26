@@ -5,7 +5,11 @@ const User = models.User;
 module.exports = (req, res, next) => {
     let decodedToken;
     try {
-        const token = req.headers.authorization;
+        let token = req.headers.authorization;
+        const split = token.split(' ');
+        if (split.length == 2) {
+            token = split[1];
+        }
         decodedToken = jwt.verify(token);
     } catch {
         next ({

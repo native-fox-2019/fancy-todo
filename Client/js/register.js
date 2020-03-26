@@ -1,7 +1,7 @@
 $("#register-submit").click(function() {
     const email = $("#register-email").val();
     const password = $("#register-password").val();
-    $.ajax("http://localhost:3000/user/register", {
+    $.ajax("http://localhost:3000/users/register", {
         type: "POST",
         data: {
             email,
@@ -13,7 +13,7 @@ $("#register-submit").click(function() {
         switchToLoggedIn();
         showPage("todos");
     })
-    .fail(message => console.log(message));
+    .fail(message => console.log(message, "masiukakk"));
 });
 
 $("#register-generate").click(function () {

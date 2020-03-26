@@ -20,6 +20,8 @@ module.exports = {
     },
     apis: [
         "./models/todo.js",
-        "./controllers/ToDoController.js"
+        "./models/user.js",
+        "./controllers/ToDoController.js",
+        "./controllers/UserController.js"
     ]
 };

@@ -40,28 +40,28 @@
 
     <div id="register-page" class="pt-3" style="display:none;">
       <h1>Register</h1>
-      <form>
+      <div>
         <label>Email:</label><br>
         <input id="register-email" type="text" name="email" value=""><br>
         <label>Password:</label><br>
         <input id="register-password" type="password" name="password" value="">
         <input type="button" id="register-generate" value="Generate passwords"/><br>
         <div id="register-passwords"></div><br><br>
-        <input id="register-submit" type="submit" value="Submit">
+        <button id="register-submit" type="button" value="Submit">Sumbit nih</button>
         <div class="g-signin2" style="width: 100px;" data-onsuccess="onSignIn"></div>
-      </form>
+      </div>
     </div>
 
     <div id="login-page" class="pt-3" style="display:none;">
       <h1>Login</h1>
-      <form>
+      <div>
         <label>Email:</label><br>
         <input id="login-email" type="text" name="email" value="rofandi3@gmail.com"><br>
         <label>Password:</label><br>
         <input id="login-password" type="password" name="description" value="123456"><br><br>
         <input id="login-submit" type="button" value="Submit">
         <div class="g-signin2" style="width: 100px;" data-onsuccess="onSignIn"></div>
-      </form>
+      </div>
     </div>
 
     <div id="todos-page" class="pt-3" style="display:none;">
@@ -72,7 +72,7 @@
 
     <div id="todosAdd-page" class="pt-3" style="display:none;">
       <h1>ADD TODO</h1>
-      <form>
+      <div>
         <label>Title:</label><br>
         <input id="todo-title" type="text" name="email" value=""><br>
         <label>Description:</label><br>
@@ -83,12 +83,12 @@
         <input id="todo-due_date" type="text" name="due_date" value=""><br><br>
         <input id="todosAdd-submit" type="button" value="submit">
         <input id="todosAdd-cancel" type="button" value="cancel">
-      </form>
+      </div>
     </div>
 
     <div id="todosEdit-page" class="pt-3" style="display:none;">
       <h1>EDIT TODO</h1>
-      <form>
+      <div>
         <input id="todoEdit-id" type="hidden" name="id" value=""/>
         <label>Title:</label><br>
         <input id="todoEdit-title" type="text" name="title" value=""><br>
@@ -100,12 +100,12 @@
         <input id="todoEdit-due_date" type="text" name="due_date" value=""><br><br>
         <input id="todosEdit-submit" type="button" value="submit">
         <input id="todosEdit-cancel" type="button" value="cancel">
-      </form>
+      </div>
     </div>
 
     <div id="todosDelete-page" class="pt-3" style="display:none;">
       <h1>DELETE TODO</h1>
-      <form>
+      <div>
         <input id="todoDelete-id" type="hidden" name="id" value=""/>
         <label>Title:</label><br>
         <input id="todoDelete-title" type="text" name="title" value="" readonly><br>
@@ -117,7 +117,7 @@
         <input id="todoDelete-due_date" type="text" name="due_date" value="" readonly><br><br>
         <input id="todosDelete-submit" type="button" value="delete">
         <input id="todosDelete-cancel" type="button" value="cancel">
-      </form>
+      </div>
     </div>
   </div>
 

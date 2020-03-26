@@ -1,7 +1,7 @@
 $("#login-submit").click(function() {
     const email = $("#login-email").val();
     const password = $("#login-password").val();
-    $.ajax("http://localhost:3000/user/login", {
+    $.ajax("http://localhost:3000/users/login", {
         type: "POST",
         data: {
             email,

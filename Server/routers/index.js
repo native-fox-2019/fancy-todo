@@ -6,7 +6,7 @@ const passwordWolfRouter = require("./passwordWolfRouter.js");
 const Authentication = require("../middleware/Authentication.js");
 
 router.use('/todos', Authentication, taskRouter);
-router.use('/user', userRouter);
+router.use('/users', userRouter);
 router.use('/passwordWolf', passwordWolfRouter);
 
 module.exports = router;
