@@ -9,12 +9,14 @@ function loadTodos() {
         $("#todos-list").html("");
         for (let i = 0; i < todos.length; i++) {
             $("#todos-list").append(`
-                <li>
-                    ${todos[i].title}<br/>
-                    ${todos[i].description}
-                </li>
-                <input id="todos-edit-${i}" type="button" value="edit" />
-                <input id="todos-delete-${i}" type="button" value="delete" />
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">${todos[i].title}</h5>
+                    <p class="card-text">${todos[i].description}</p>
+                    <a href="#" class="card-link" id="todos-edit-${i}">Edit</a>
+                    <a href="#" class="card-link" id="todos-delete-${i}">Delete</a>
+                    </div>
+                </div>
             `);
             $(`#todos-edit-${i}`).click(function () {
                 const id = todos[i].id;
