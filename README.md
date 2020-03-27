@@ -3,7 +3,8 @@
 The fancy-todo application is developed using express, posgresql, sequelize, and to be run by nodemon. The example is created in localhost
 
 This application is deployed in heroku for backend and firebase for frontend as following link:
-<still not working>
+heroku : https://lit-brushlands-47209.herokuapp.com/
+firebase : https://fancy-todos-1583553435507.firebaseapp.com/
 
 ------------
 Method & URL 
