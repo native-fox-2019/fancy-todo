@@ -43,11 +43,7 @@ function register() {
       $('#usernameReg').val("")
       $('#passwordReg').val("")
       $('#emailReg').val("")
-      // alert(data)
-      // console.log(data);
       localStorage.setItem('token', data)
-      // console.log(token);
-      // getData()
       Swal.fire({
         title: 'Register Success!',
         text: "You already Login. WELCOME! :).",
@@ -56,7 +52,6 @@ function register() {
       })
     })
     .catch(err => {
-      // alert("alerrtttt")
       console.log(err);
       Swal.fire({
         title: 'Register Error!',
@@ -76,7 +71,6 @@ function editOne(id) {
     contentType: 'application/json',
     headers: { token: token },
     success: data => {
-      // console.log(data);
       $('#editForm').append(
         `
         <h4>Edit Todo</h4>
@@ -105,10 +99,6 @@ function editOne(id) {
 $("#editForm").on('submit', function (e) {
   e.preventDefault()
   const id = Number($("#editId").val())
-  console.log(id, $('#titleEdit').val(),
-    $('#descriptionEdit').val(),
-    $('#due_dateEdit').val());
-  // alert(id)
   $.ajax({
     url: url + '/todos/' + id,
     method: "PUT",
@@ -153,7 +143,6 @@ function login() {
     })
   })
     .done((data) => {
-      // console.log(data);
       localStorage.setItem('token', data)
       token = localStorage.getItem('token')
       getData()
@@ -192,7 +181,6 @@ function getData() {
   })
     .done((data) => {
       $('#todosData').empty()
-      // console.log(data);
       data.forEach((el, index) => {
         if (el.status === "Sudah") {
           $('#todosData').append(
@@ -245,7 +233,6 @@ function getData() {
 }
 
 function updateDone(id) {
-  // alert(id)
   Swal.fire({
     title: 'Are you sure?',
     text: "You've done this task??",
@@ -257,7 +244,6 @@ function updateDone(id) {
   })
     .then((result) => {
       if (result.value) {
-        console.log(id);
         $.ajax({
           url: `${url}/todos/${id}`,
           method: 'PUT',
@@ -269,7 +255,6 @@ function updateDone(id) {
           }
         })
           .done((data) => {
-            console.log(data);
             getData()
             $(`#doneBtn${id}`).hide()
           })
@@ -316,10 +301,6 @@ function del(id) {
 }
 
 function addData() {
-  // e.preventDefault()
-  // console.log($("#titleAdd").val(),
-  //   $("#descriptionAdd").val(),
-  //   $("#due_dateAdd").val());
   $.ajax({
     url: `${url}/todos`,
     method: 'POST',
@@ -349,12 +330,10 @@ function addData() {
 $('#loginForm').on('submit', (e) => {
   e.preventDefault();
   login();
-  // getData();
 })
 
 $('#loginA').on('click', (e) => {
   e.preventDefault()
-  // alert('masukk??')
   $('#registerPage').hide()
   $("#todosTable").hide()
   $('#loginPage').show()
@@ -362,7 +341,6 @@ $('#loginA').on('click', (e) => {
 
 $('#registerA').on('click', (e) => {
   e.preventDefault()
-  // alert('masukk??')
   $('#registerPage').show()
   $("#todosTable").hide()
   $('#loginPage').hide()
@@ -370,10 +348,6 @@ $('#registerA').on('click', (e) => {
 
 $('#registerForm').on('submit', function (e) {
   e.preventDefault();
-  // alert('masukk')
-  // console.log($('#usernameReg').val(),
-  //   $('#passwordReg').val(),
-  //   $('#emailReg').val());
   register();
   getData();
 })
@@ -434,7 +408,6 @@ function onSignIn(googleUser) {
     })
   })
     .done((data) => {
-      // console.log(data);
       localStorage.setItem('token', data)
       token = localStorage.getItem('token')
       getData()
@@ -446,12 +419,6 @@ function onSignIn(googleUser) {
 
       $('#emailLog').val("")
       $('#passwordLog').val("")
-      // Swal.fire({
-      //   title: 'Login Success!',
-      //   text: 'Do you want to continue',
-      //   icon: 'success',
-      //   confirmButtonText: 'Continue!'
-      // })
     })
     .catch(err => {
       Swal.fire({

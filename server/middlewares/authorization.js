@@ -8,7 +8,6 @@ module.exports = (req, res, next) => {
       }
     })
     .then(result => {
-      // console.log(result.UserId);
       if (!result) {
         throw{
           status: 404,

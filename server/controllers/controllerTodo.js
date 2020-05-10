@@ -75,7 +75,6 @@ class ControllerTodo {
 
   static edit(req, res, next) {
     const { title, description, status, due_date } = req.body
-    console.log(title, description, status, due_date, req.params.id);  
     Todo
       .update({
         title,

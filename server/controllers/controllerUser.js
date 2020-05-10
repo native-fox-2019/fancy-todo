@@ -37,18 +37,15 @@ class controllerUser {
                 email: result.email
               }, process.env.secret)
               res.status(200).json(token)
-              // next()
             }
             res.send
           })
           .catch(err => {
             next(err)
           })
-        // res.status(201).json(result)
       })
       .catch(err => {
         next(err)
-        // console.log(JSON.stringify(err, null, 2));
       })
   }
   static login(req, res, next) {
@@ -61,7 +58,6 @@ class controllerUser {
       })
       .then(result => {
         const comparePassword = compare(password, result.password)
-        // res.send(comparePassword)
         if (comparePassword == true) {
           const token = jwt.sign({
             id: result.id,
@@ -69,17 +65,14 @@ class controllerUser {
             email: result.email
           }, process.env.secret)
           res.status(200).json(token)
-          // next()
         } else {
           throw {
             status: 400,
             msg: "Invalid username / email."
           }
         }
-        // res.status(200).json(result)
       })
       .catch(err => {
-        // console.log('masuk sini??');
         next({
           status: 400,
           msg: "Invalid email / password."
@@ -99,14 +92,12 @@ class controllerUser {
 
   static googleLogin(req, res, next) {
     const { id_token } = req.body;
-    // console.log(id_token);
     async function verify() {
       const ticket = await client.verifyIdToken({
         idToken: id_token,
         audience: "476504549399-atherlcqb2eflh6lr8v3b4a03a65pmum.apps.googleusercontent.com",
       });
       const payload = ticket.getPayload();
-      // console.log(payload.name);
       User
         .findOne({
           where: {
