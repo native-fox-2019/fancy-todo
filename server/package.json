@@ -1,0 +1,34 @@
+{
+  "name": "fancy-todo",
+  "version": "1.0.0",
+  "description": "fancy-todo-list-by-gusti",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustiPutraJarmana/fancy-todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GustiPutraJarmana/fancy-todo/issues"
+  },
+  "homepage": "https://github.com/GustiPutraJarmana/fancy-todo#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^6.5.4",
+    "bcrypt": "^4.0.1",
+    "bootstrap-sweetalert": "^1.0.1",
+    "bower": "^1.8.8",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "google-auth-library": "^5.10.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.5"
+  }
+}
