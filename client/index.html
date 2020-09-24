@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="678508956941-07c4m62ngqkc0maqgf6s6h82i9trva9c.apps.googleusercontent.com">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Fancy Todo</title>
+  </head>
+  <style>
+      .section {display : none}
+      .container {
+          width : 80%;
+          background-color: lightblue
+          }
+    h1 {text-align: center}
+  </style>
+
+  <body class="container">
+    <!--  Register FORM    -->
+    <div id="register" class="section">
+        <h1>Register Form</h1>
+        <form id="register-form">
+            <div class="form-group">
+              <label for="email-reg">Email address</label>
+              <input type="email" class="form-control" id="email-reg" placeholder="register your email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="password-reg">Password</label>
+              <input type="password" class="form-control" id="password-reg">
+            </div>
+            <div class="form-group">
+                <label for="repassword-reg">Re-enter Your Password</label>
+                <input type="password" class="form-control" id="repassword-reg">
+              </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-primary" id="btn-login">Back To Login</button>
+          </form>
+    </div>
+    <!--     Login FORM   -->
+    <div id="login" class="section">
+        <form id="login-form">
+            <h1>Login Form</h1>
+            <div class="form-group">
+              <label for="email-login">Email address</label>
+              <input type="email" class="form-control" id="email-login" placeholder="input your email">
+            </div>
+            <div class="form-group">
+              <label for="password-login">Password</label>
+              <input type="password" class="form-control" id="password-login">
+            </div>
+            <button type="submit" class="btn btn-primary mb-3">Login</button><br>
+            Please register if you have never been registered yet or using Google Sign In!
+            <button type="button" class="btn btn-primary" id="btn-register">Register</button>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </form>
+    </div>
+    <!--     Add FORM      -->
+    <div id="add" class="section">
+        <h1>Add Todo</h1>
+        <form id="add-form">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="input your Todo title ">
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" textarea rows="4" placeholder="input description of your todo">
+          </div>
+          <div>
+            <label for="status">Status</label>
+            <select class="custom-select" id="status">
+              <option selected>Select status of this todo</option>
+              <option>Not started</option>
+              <option>Ongoing</option>
+              <option>Done</option>
+            </select>
+          </div>
+          <div class="form-group">
+              <label for="due_date">Due Date</label>
+              <input type="date" class="form-control" name="due_date" id="due_date">
+            </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-primary" id="btn-cancel-add">Cancel</button>
+        </form>
+    </div>
+    <!--     Edit FORM    -->
+    <div id="edit" class="section">
+        <h1>Edit Todo</h1>
+        <form id="edit-form">
+            <div class="form-group" id="title-edit">
+              <label for="title">Title</label>
+              
+            </div>
+            <div class="form-group" id="desc-edit">
+              <label for="description">Description</label>
+              
+            </div>
+            <div id="status-edit">
+                <label for="status">Status</label>
+                
+            </div>
+            <div class="form-group" id="due_date-edit">
+                <label for="due_date">Due Date</label>
+                
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-primary" id="btn-cancel-edit">Cancel</button>
+        </div>
+
+        </form>
+    <!--    TODO LIST   -->
+    <div id="todos" class="section">
+        <h1>Todos List</h1>
+        <div style="background-color: greenyellow;">
+          <p id="weather" style="font-size: 12px;"></p>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-todo">Add Todo</button>
+        <button type="button" class="btn btn-primary" id="btn-news">Read News</button>
+        <button type="button" class="btn btn-primary float-right" id="btn-logout">Logout</button>
+        <table class="table table-bordered mt-4" id="table-todos">
+            <thead class="p-3 mb-2 bg-primary" style="text-align: center">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="list-todos">
+            
+            </tbody>
+        </table>
+    </div>
+
+    <!--    NEWS LIST   -->
+    <div id="news-page" class="section">
+      <h1>Indonesia Highlight Today</h1>
+      <button type="button" class="btn btn-primary" id="btn-news-out">Back To Todos</button>
+      <div id="news" style="background-color: greenyellow;">Today's news: </div>
+    </div>
+
+    <div id="error" style="color:red"></div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="script/main.js"></script>
+    <script src="script/request.js"></script>
+    <script src="script/listShow.js"></script>
+    <script src="script/edit.js"></script>
+    <script src="script/delete.js"></script>
+    <script src="script/weather.js"></script>
+    <script src="script/news.js"></script>
+  </body>
+</html>
