@@ -4,6 +4,11 @@
 ## File terkait:
 - SetDestinationLocation2.js
 
+## Navigasi:
+### SetDestinationLocation2.js
+- Confirm --> Services.js
+- Edit --> LocationDetail.js
+
 ## SetDestinationLocation2.js
 Merupakan Halaman awal delivery yang berisi list lokasi pengirim dan lokasi penerima.
 
@@ -45,8 +50,10 @@ checkMultitrip api calls yg mempunyai 4 parameter 1. Payload 2. Handler error si
 Depedency variables: receiverList, sender, itemSpecList, navigation.
 
 ### Child Component
-- <AnimatedRowItem />
+- AnimatedRowItem
+
 Digunakan untuk running text lokasi lengkap pengirim (terletak dalam component render method), dan lokasi lengkap penerima (terletak dalam component renderReceiverList method).
+
 Parameters:
 #### index
 #### name: string
