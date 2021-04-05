@@ -232,7 +232,7 @@ const selectFromSearchResult = (item) => {
     setSearchValue("");
   };
 ```
-Jika user memilih lokasi dari hasil pencarian, maka akan terjadi navigasi ke halaman LocationDetail.js, dan reset state komponen. Parameter dari navigasi itu sendiri terdiri dari getGeocode, inputData dan type. getGeocode merupakan param yg berupa objek dan dibutuhkan di halaman LocationDetail.js untuk melakukan reverse geocode api call yg akan mendapatkan data lengkap dari placeId item yg dipilih (didapatkan dari hasil autoComplete google). inputData merupakan optionalParam yg dibutuhkan di halaman LocationDetail.js untuk mengisi input data yg telah dilakukan oleh user.
+Jika user memilih lokasi dari hasil pencarian, maka akan terjadi navigasi ke halaman LocationDetail.js, dan reset state komponen. Parameter dari navigasi itu sendiri terdiri dari getGeocode, inputData dan type. getGeocode merupakan param yg berupa objek dan dibutuhkan di halaman LocationDetail.js untuk melakukan reverse geocode api call yg akan mendapatkan data lengkap dari placeId item yg dipilih (didapatkan dari hasil autoComplete google). inputData merupakan param yg dibutuhkan di halaman LocationDetail.js untuk mengisi input data yg telah dilakukan oleh user. type merupakan param yg berupa string yg berisi receiver/sender yg  dibutuhkan di halaman LocationDetail.js untuk menentukan komponen input field apa saja yg ditampilkan.
 
 
 
