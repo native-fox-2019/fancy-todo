@@ -125,25 +125,27 @@ Komponen yg menampilkan item. Dalam komponen ini, RowItem digunakan untuk menamp
 Parameters:
 
 (Parameter yg dipakai dalam komponen ini adalah type, isFirstItem, isLastItem, onPress2, item)
-#### isFirstItem: bool
-#### isLastItem: bool
-#### item: Obj
-#### type: string
-#### onPress1: func, desc: function that is called when user click on the item, for renderSearchResult method
-#### onPress2: func, desc: function that is called when user click on the item, for renderFavorite method
-#### icon: ReactComponent, desc: komponen icon (kiri) yg akan di tampilkan
-#### iconContainerStyle: StyleObject, desc: Style kontainer komponen icon (kiri) yg akan di tampilkan
-#### editMode: bool, desc: flag untuk menampilkan icon tertentu saat berada dalam flow edit
-#### iconEditMode: ReactComponent, desc: komponen icon (kanan) yg akan di tampilkan saat dalam flow edit
-#### withoutRightIcon: bool, desc: flag untuk menentukan apakah icon (kanan, renderFavorite) akan di tampilkan atau tidak
-#### itemLine: int, default: 1, desc: jumlah line dari deskripsi item
-#### additionalContent: string, desc: text tambahan dibawah deskripsi item
-#### noRightIcon: bool, desc: flag untuk menentukan apakah icon (kanan, renderSearchResult) akan di tampilkan atau tidak
-#### action: func, desc: function that is called when user click on the item
-#### infoButton: ReactComponent, desc: komponen icon info item
-#### titleStyle: Obj, desc: style dari title item
-#### fullWidthUnderline: bool, desc: flag untuk menentukan apakah underline mengisi seluruh lebar komponen atau tidak
+```javascript
+isFirstItem: Bool
+isLastItem: Bool
+item: Obj
+type: String
+onPress1: Func, desc: function that is called when user click on the item, for renderSearchResult method
+onPress2: Function, desc: function that is called when user click on the item, for renderFavorite method
+icon: ReactComponent, desc: komponen icon (kiri) yg akan di tampilkan
+iconContainerStyle: StyleObject, desc: Style kontainer komponen icon (kiri) yg akan di tampilkan
+editMode: bool, desc: flag untuk menampilkan icon tertentu saat berada dalam flow edit
+iconEditMode: ReactComponent, desc: komponen icon (kanan) yg akan di tampilkan saat dalam flow edit
+withoutRightIcon: bool, desc: flag untuk menentukan apakah icon (kanan, renderFavorite) akan di tampilkan atau tidak
+itemLine: int, default: 1, desc: jumlah line dari deskripsi item
+additionalContent: string, desc: text tambahan dibawah deskripsi item
+noRightIcon: bool, desc: flag untuk menentukan apakah icon (kanan, renderSearchResult) akan di tampilkan atau tidak
+action: func, desc: function that is called when user click on the item
+infoButton: ReactComponent, desc: komponen icon info item
+titleStyle: Obj, desc: style dari title item
+fullWidthUnderline: bool, desc: flag untuk menentukan apakah underline mengisi seluruh lebar komponen atau tidak
 (Required Parameters: type, item, onPress1/onPress2, icon(hanya untuk renderSearchResult))
+```
 
 ### Actions
 - On Change Text
