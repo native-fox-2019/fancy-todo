@@ -1,5 +1,18 @@
 # Fancy TODO
 
+## How to setup database
+
+1. Install PostgreSQL
+2. Create new database named FancyToDo
+3. Create `.env` file:
+
+    ```
+    DB_USER=yourpostgresusername
+    DB_PASSWORD=yourpassword
+    ```
+
+4. Execute: `npx sequelize-cli db:migrate`
+
 ## How to run Server
 
 ```
